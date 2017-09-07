@@ -1,15 +1,16 @@
 <template>
-  <div class="hello">
+  <div class="mainView">
     <h1>{{ msg }}</h1>
+    <a href="#/edit">Edit</a>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'hello',
+  name: 'mainView',
   data () {
     return {
-      msg: 'Tus bragas son mias, mariconsón'
+      msg: 'This is the MAIN view'
     }
   }
 }
