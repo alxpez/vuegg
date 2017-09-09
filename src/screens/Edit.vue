@@ -1,5 +1,5 @@
 <template>
-  <div class="editView">
+  <div>
     <h1>{{ msg }}</h1>
     <a href="#/">Back to main</a>
   </div>
@@ -7,7 +7,6 @@
 
 <script>
 export default {
-  name: 'editView',
   data () {
     return {
       msg: 'This is the EDIT view'
