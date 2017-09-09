@@ -15,11 +15,8 @@
         </md-button>
         <h2 class="md-title">vuexample</h2>
       </md-toolbar>
-      <md-list>
-        <md-list-item>
-          <md-icon>settings</md-icon> <span>Settings</span>
-        </md-list-item>
-      </md-list>
+
+      <components-menu></components-menu>
     </md-sidenav>
 
     <router-view></router-view>
@@ -27,8 +24,11 @@
 </template>
 
 <script>
+import ComponentsMenu from '@/components/ComponentsMenu'
+
 export default {
-  name: 'app'
+  name: 'app',
+  components: { ComponentsMenu }
 }
 </script>
 
