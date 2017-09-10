@@ -3,7 +3,7 @@ const MockData = {
     {
       'id': 1,
       'name': 'button',
-      'code': '<md-button>Button</md-button>',
+      'type': 'md-button',
       'x': 100,
       'y': 150,
       'width': 200,
@@ -11,7 +11,7 @@ const MockData = {
     }, {
       'id': 2,
       'name': 'input',
-      'code': '<md-input></md-input>',
+      'type': 'md-input',
       'x': 100,
       'y': 150,
       'width': 200,

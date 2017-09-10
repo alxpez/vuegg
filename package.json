@@ -14,6 +14,7 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "uuid": "^3.1.0",
     "vue": "^2.4.2",
     "vue-draggable-resizable": "^1.2.7",
     "vue-material": "^0.7.3",
