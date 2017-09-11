@@ -1,19 +1,21 @@
 <template>
   <div class="canvas">
     <h1>Build shit with this components</h1>
-    <vue-draggable-resizable v-for="el in elements" :key="el.id"
-      :w="el.width" :h="el.height" :x="el.x" :y="el.y" :parent="true"
+    <!-- TODO: move the below logic to a component -->
+    <vue-draggable-resizable v-for="el in elements" :key="el.id" :parent="true"
+      :w="el.width" :minw="el.minWidth" :h="el.height" :minh="el.minHeight" :x="el.x" :y="el.y"
       @resizestop="(x, y, width, height)=>RESIZE_ELEMENT({id:el.id, x, y, width, height})"
       @dragstop="(x, y)=>MOVE_ELEMENT({id:el.id, x, y})">
-      <component v-if="el.parent" class="dnd" :is="el.parent.type" v-bind="el.parent.props">
-        <component class="dnd" :is="el.type" v-bind="el.props">
+      <component v-if="el.parent" class="dnd":class="[el.colorClass, el.depthClass, el.shapeClass]" :is="el.parent.type" v-bind="el.parent.props">
+        <component class="dnd" :class="[el.colorClass, el.depthClass, el.shapeClass]" :is="el.type" v-bind="el.props">
           {{ el.name }}
         </component>
       </component>
-      <component v-else class="dnd" :is="el.type">
+      <component v-else class="dnd" :class="[el.colorClass, el.depthClass, el.shapeClass]" :is="el.type">
         {{ el.name }}
       </component>
     </vue-draggable-resizable>
+    <!-- END :TODO -->
     <a href="#/edit">Edit</a>
   </div>
 </template>
@@ -38,6 +40,8 @@ export default {
 }
 
 .dnd {
+  margin: 0;
+  padding: 0;
   width: 100%;
   height: 100%;
 }

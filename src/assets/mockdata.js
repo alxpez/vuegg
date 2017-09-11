@@ -7,11 +7,23 @@ const MockData = {
       'x': 100,
       'y': 150,
       'width': 200,
+      'minWidth': 88,
       'height': 50,
-      'colorClass': '',
-      'colorClassesOpt': ['', 'md-primary', 'md-accent', 'md-warn'],
-      'depthClass': '',
-      'depthClassesOpt': ['', 'md-raised']
+      'minHeight': 32,
+      'colorClass': {
+        'md-primary': true,
+        'md-accent': false,
+        'md-warn': false
+      },
+      'depthClass': {
+        'md-raised': true
+      },
+      'shapeClass': {
+        'md-dense': true
+      },
+      'props': {
+        'disabled': false
+      }
     }, {
       'id': 2,
       'name': 'input',
@@ -29,7 +41,8 @@ const MockData = {
         }
       },
       'props': {
-        'placeholder': 'Input'
+        'placeholder': 'Input',
+        'disabled': true
       }
     }
   ]
