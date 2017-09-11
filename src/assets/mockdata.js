@@ -1,7 +1,7 @@
 const MockData = {
   'components': [
     {
-      'id': 1,
+      'id': 0,
       'name': 'button',
       'type': 'md-button',
       'x': 100,
@@ -23,27 +23,46 @@ const MockData = {
       },
       'props': {
         'disabled': false
-      }
+      },
+      'children': [
+        {
+          'id': 0,
+          'text': 'Button'
+        }
+      ]
     }, {
-      'id': 2,
+      'id': 1,
       'name': 'input',
       'type': 'md-input',
       'x': 100,
       'y': 150,
       'width': 200,
       'height': 50,
+      'props': {
+        'value': 'Input data',
+        'placeholder': 'Input prompt',
+        'disabled': false
+      },
       'parent': {
         'type': 'md-input-container',
         'props': {
           'md-inline': false,
-          'md-has-password': true,
+          'md-has-password': false,
           'md-clearable': false
         }
       },
-      'props': {
-        'placeholder': 'Input',
-        'disabled': true
-      }
+      'sibilings': [
+        {
+          'id': 0,
+          'type': 'label',
+          'children': [
+            {
+              'id': 0,
+              'text': 'Material placeholder'
+            }
+          ]
+        }
+      ]
     }
   ]
 }
