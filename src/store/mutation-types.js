@@ -2,3 +2,12 @@ export const ADD_ELEMENT = 'ADD_ELEMENT'
 export const REMOVE_ELEMENT = 'REMOVE_ELEMENT'
 export const RESIZE_ELEMENT = 'RESIZE_ELEMENT'
 export const MOVE_ELEMENT = 'MOVE_ELEMENT'
+
+const types = {
+  ADD_ELEMENT,
+  REMOVE_ELEMENT,
+  RESIZE_ELEMENT,
+  MOVE_ELEMENT
+}
+
+export default types

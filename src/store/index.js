@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import uuid4 from 'uuid/v4'
-import { ADD_ELEMENT, MOVE_ELEMENT, RESIZE_ELEMENT } from './mutation-types'
+import types from '@/store/mutation-types'
 
 Vue.use(Vuex)
 
@@ -10,11 +10,11 @@ export default new Vuex.Store({
     elements: []
   },
   mutations: {
-    [ADD_ELEMENT] (state, element) {
+    [types.ADD_ELEMENT] (state, element) {
       element = {...element, id: uuid4()}
       state.elements = [...state.elements, element]
     },
-    [MOVE_ELEMENT] (state, payload) {
+    [types.MOVE_ELEMENT] (state, payload) {
       let index = state.elements.findIndex(el => el.id === payload.id)
       state.elements[index] = {
         ...state.elements[index],
@@ -22,7 +22,7 @@ export default new Vuex.Store({
         y: payload.y
       }
     },
-    [RESIZE_ELEMENT] (state, payload) {
+    [types.RESIZE_ELEMENT] (state, payload) {
       let index = state.elements.findIndex(el => el.id === payload.id)
       state.elements[index] = {
         ...state.elements[index],

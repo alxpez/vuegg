@@ -9,7 +9,7 @@
 
 <script>
 import { mapMutations } from 'vuex'
-import { ADD_ELEMENT } from '../mutation-types'
+import { ADD_ELEMENT } from '@/store/mutation-types'
 import MockData from '@/assets/mockdata'
 
 export default {
