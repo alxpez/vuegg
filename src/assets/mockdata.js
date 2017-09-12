@@ -72,7 +72,6 @@ const MockData = {
           'type': 'md-input',
           'props': {
             'value': 'Input data',
-            'placeholder': 'Placeholder',
             'disabled': false
           },
           'classes': [
