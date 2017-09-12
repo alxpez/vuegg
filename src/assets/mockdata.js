@@ -6,24 +6,26 @@ const MockData = {
       'type': 'md-button',
       'x': 100,
       'y': 150,
-      'width': 200,
+      'width': 150,
       'minWidth': 88,
-      'height': 50,
+      'height': 36,
       'minHeight': 32,
-      'colorClass': {
-        'md-primary': true,
-        'md-accent': false,
-        'md-warn': false
-      },
-      'depthClass': {
-        'md-raised': true
-      },
-      'shapeClass': {
-        'md-dense': true
-      },
       'props': {
         'disabled': false
       },
+      'classes': [
+        {
+          'yolk': true
+        }, {
+          'md-primary': true,
+          'md-accent': false,
+          'md-warn': false
+        }, {
+          'md-raised': true
+        }, {
+          'md-dense': true
+        }
+      ],
       'children': [
         {
           'id': 0,
@@ -33,32 +35,69 @@ const MockData = {
     }, {
       'id': 1,
       'name': 'input',
-      'type': 'md-input',
+      'type': 'md-input-container',
       'x': 100,
       'y': 150,
-      'width': 200,
-      'height': 50,
+      'width': 150,
+      'minWidth': 110,
+      'height': 48,
+      'minHeight': 48,
       'props': {
-        'value': 'Input data',
-        'placeholder': 'Input prompt',
-        'disabled': false
+        'md-inline': false,
+        'md-has-password': false,
+        'md-clearable': false
       },
-      'parent': {
-        'type': 'md-input-container',
-        'props': {
-          'md-inline': false,
-          'md-has-password': false,
-          'md-clearable': false
-        }
-      },
-      'sibilings': [
+      'classes': [
         {
-          'id': 0,
+          'yolk': true
+        }
+      ],
+      'children': [
+        {
+          'id': 1,
           'type': 'label',
+          'classes': [
+            {
+              'yolk': false
+            }
+          ],
           'children': [
             {
               'id': 0,
-              'text': 'Material placeholder'
+              'text': 'Placeholder'
+            }
+          ]
+        }, {
+          'id': 0,
+          'type': 'md-input',
+          'props': {
+            'value': 'Input data',
+            'placeholder': 'Placeholder',
+            'disabled': false
+          },
+          'classes': [
+            {
+              'yolk': true
+            }
+          ]
+        }
+      ]
+    }, {
+      'id': 2,
+      'name': 'div',
+      'type': 'div',
+      'classes': [
+        {
+          'yolk': true
+        }
+      ],
+      'children': [
+        {
+          'id': 0,
+          'type': 'button',
+          'classes': [
+            {
+              'yolk': true
             }
           ]
         }
