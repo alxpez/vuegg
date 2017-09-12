@@ -6,8 +6,21 @@ import types from '@/store/mutation-types'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  // TODO: Incoming implementation of the store including pages.
   state: {
-    elements: []
+    id: 0,
+    name: 'Home',
+    path: '/',
+    elements: [],
+    children: [
+      // {
+      //   id: 0,
+      //   name: 'Page 1',
+      //   path: 'page1',
+      //   elements: [],
+      //   children: []
+      // }
+    ]
   },
   mutations: {
     [types.ADD_ELEMENT] (state, element) {

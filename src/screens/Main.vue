@@ -1,7 +1,6 @@
 <template>
-  <div>
-    <h1>Build shit with this components</h1>
-    <a href="#/edit">Edit</a>
+  <div class="pageContainer">
+    <router-link tag="md-button" to="/edit" class="md-accent">Go to edit</router-link>
 
     <!-- TODO: Add pages/routes to mockdata and implement for each on canvas -->
     <page></page>
@@ -19,6 +18,10 @@ export default {
 
 
 <style scoped>
+.pageContainer {
+  align-content: center;
+}
+
 h1, h2 {
   font-weight: normal;
 }

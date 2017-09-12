@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+
+    <!-- TODO: Refactor toolbar and sidenav in components -->
     <md-toolbar>
       <md-button class="md-icon-button" @click="$refs.sidebar.toggle()">
         <md-icon>menu</md-icon>
