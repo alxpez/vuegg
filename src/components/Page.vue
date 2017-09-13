@@ -1,7 +1,7 @@
 <template>
-  <div class="page">
+  <md-whiteframe class="page">
     <egglement v-for="el in elements" :key="el.id" :egg="el"></egglement>
-  </div>
+  </md-whiteframe>
 </template>
 
 
@@ -19,9 +19,11 @@ export default {
 
 <style scoped>
 .page {
-  border: solid;
-  border-width: thin;
   width: 1024px;
   height: 1000px;
+  /* width and height should be assigned dynamicly */
+  position: relative;
+  margin: auto;
+  background-color: #fff;
 }
 </style>

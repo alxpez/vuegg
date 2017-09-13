@@ -1,9 +1,7 @@
 <template>
   <div class="pageContainer">
-    <router-link tag="md-button" to="/edit" class="md-accent">Go to edit</router-link>
-
     <!-- TODO: Add pages/routes to mockdata and implement for each on canvas -->
-    <page></page>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -12,6 +10,7 @@
 import Page from '@/components/Page'
 
 export default {
+  name: 'main-container',
   components: { Page }
 }
 </script>
@@ -19,7 +18,7 @@ export default {
 
 <style scoped>
 .pageContainer {
-  align-content: center;
+  margin-top: 15px;
 }
 
 h1, h2 {
