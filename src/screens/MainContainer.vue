@@ -7,11 +7,8 @@
 
 
 <script>
-import Page from '@/components/Page'
-
 export default {
-  name: 'main-container',
-  components: { Page }
+  name: 'main-container'
 }
 </script>
 
