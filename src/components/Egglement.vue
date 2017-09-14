@@ -7,8 +7,8 @@
     :minw="egg.minWidth"
     :h="egg.height"
     :minh="egg.minHeight"
-    @dragstop="(x, y)=>MOVE_ELEMENT({id:egg.id, x, y})"
-    @resizestop="(x, y, width, height)=>RESIZE_ELEMENT({id:egg.id, x, y, width, height})"
+    @dragstop="(x, y)=>MOVE_ELEMENT({elId:egg.id, pageIndex, x, y})"
+    @resizestop="(x, y, width, height)=>RESIZE_ELEMENT({elId:egg.id, pageIndex, x, y, width, height})"
   >
     <yolk :yolk="egg"></yolk>
   </vue-draggable-resizable>
@@ -16,7 +16,7 @@
 
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapGetters } from 'vuex'
 import types from '@/store/mutation-types'
 import Yolk from '@/components/Yolk'
 
@@ -24,6 +24,12 @@ export default {
   name: 'egglement',
   props: ['egg'],
   components: { Yolk },
-  methods: mapMutations([types.RESIZE_ELEMENT, types.MOVE_ELEMENT])
+  methods: mapMutations([types.RESIZE_ELEMENT, types.MOVE_ELEMENT]),
+  computed: {
+    pageIndex () {
+      return this.getPageIndexById(this.$route.query.page)
+    },
+    ...mapGetters(['getPageIndexById'])
+  }
 }
 </script>

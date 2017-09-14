@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Page from '@/components/Page'
+import MainContainer from '@/screens/MainContainer'
 
 Vue.use(Router)
 
@@ -8,8 +8,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Home',
-      component: Page
+      name: 'main',
+      component: MainContainer
     }
   ]
 })
