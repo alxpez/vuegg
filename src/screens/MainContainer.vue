@@ -9,11 +9,12 @@
 <script>
 import { mapGetters } from 'vuex'
 import Page from '@/components/Page'
+import { pageExists } from '@/store/types'
 
 export default {
   name: 'main-container',
   components: { Page },
-  computed: mapGetters(['pageExists']),
+  computed: mapGetters([pageExists]),
   mounted () {
     this.$router.replace({query: {page: 'home'}})
   },

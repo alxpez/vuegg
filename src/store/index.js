@@ -1,89 +1,110 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import uuid4 from 'uuid/v4'
-import types from '@/store/mutation-types'
+import types from '@/store/types'
 
 Vue.use(Vuex)
 
-/*
-  TODO: Have in mind that this is just a brief representation
-  of what the state might contain, in th future, menu's states (open/closed),
-  or any other parameter of the vuegg functionality (outside of the pages),
-  could be managed by the state tree as well.
-*/
-export default new Vuex.Store({
-  state: {
-    app: {
-      sidebar: {
-        isOpen: false,
-        mini: false
-      }
+const state = {
+  app: {
+    sidebar: {
+      isOpen: false,
+      mini: false
     },
-    pages: [
-      {
-        id: 'home',
-        name: 'Home',
-        path: '/',
-        elements: []
-      }, {
-        id: 'caca',
-        name: 'Caca',
-        path: '/ww',
-        elements: []
-      }
+    newPageDialog: {
+      isOpen: false
+    }
+  },
+  pages: [
+    {
+      id: 'home',
+      name: 'Home',
+      path: '/',
+      elements: []
+    }
+  ]
+}
+
+const getters = {
+  [types.getPageIndexById]: (state) => (id) => {
+    return state.pages.findIndex(page => page.id === id)
+  },
+  [types.getPageById]: (state, getters) => (id) => {
+    let pageIndex = getters.getPageIndexById(id)
+    return state.pages[pageIndex]
+  },
+  [types.pageExists]: (state, getters) => (id) => {
+    let pageIndex = getters.getPageIndexById(id)
+    return (pageIndex > -1)
+  },
+  [types.pathInUse]: (state) => (path) => {
+    let pageIndex = state.pages.findIndex(page => page.path === path)
+    return (pageIndex > -1)
+  }
+}
+
+/*
+  TODO: Since mutations are getting fat, implement code on getters
+  These will be called by actions and these will commit the mutations.
+
+  And remove getters from the components.
+*/
+const actions = {
+  [types.saveNewPageAndClose] ({ dispatch, commit }, payload) {
+    let page = {...payload, id: uuid4()}
+    commit(types.addPage, page)
+    dispatch(types.discardNewPageAndClose, payload)
+  },
+  [types.discardNewPageAndClose] ({ commit }, payload) {
+    payload.name = ''
+    payload.path = ''
+    commit(types.closeNewPageDialog)
+  }
+}
+
+const mutations = {
+  [types.toggleSidebar] (state) {
+    state.app.sidebar.isOpen = !state.app.sidebar.isOpen
+  },
+  [types.openNewPageDialog] (state) {
+    state.app.newPageDialog.isOpen = true
+  },
+  [types.closeNewPageDialog] (state) {
+    state.app.newPageDialog.isOpen = false
+  },
+  [types.addPage] (state, page) {
+    state.pages = [...state.pages, page]
+  },
+  [types.addEgglement] (state, payload) {
+    let element = {...payload.el, id: uuid4()}
+    state.pages[payload.pageIndex].elements = [
+      ...state.pages[payload.pageIndex].elements,
+      element
     ]
   },
-  getters: {
-    getPageIndexById: (state) => (id) => {
-      return state.pages.findIndex(page => page.id === id)
-    },
-    getPageById: (state, getters) => (id) => {
-      let pageIndex = getters.getPageIndexById(id)
-      return state.pages[pageIndex]
-    },
-    pageExists: (state, getters) => (id) => {
-      let pageIndex = getters.getPageIndexById(id)
-      return (pageIndex > -1)
-    },
-    pathInUse: (state) => (path) => {
-      let pageIndex = state.pages.findIndex(page => page.path === path)
-      return (pageIndex > -1)
+  [types.moveEgglement] (state, payload) {
+    let index = state.pages[payload.pageIndex].elements.findIndex(el => el.id === payload.elId)
+    state.pages[payload.pageIndex].elements[index] = {
+      ...state.pages[payload.pageIndex].elements[index],
+      x: payload.x,
+      y: payload.y
     }
   },
-  /*
-    TODO: Since mutations are getting fat, implement code on getters
-    These will be called by actions and these will commit the mutations.
-
-    And remove getters from the components.
-  */
-  mutations: {
-    [types.TOGGLE_SIDEBAR] (state) {
-      state.app.sidebar.isOpen = !state.app.sidebar.isOpen
-    },
-    [types.ADD_ELEMENT] (state, payload) {
-      let element = {...payload.el, id: uuid4()}
-      state.pages[payload.pageIndex].elements = [
-        ...state.pages[payload.pageIndex].elements,
-        element
-      ]
-    },
-    [types.MOVE_ELEMENT] (state, payload) {
-      let index = state.pages[payload.pageIndex].elements.findIndex(el => el.id === payload.elId)
-      state.pages[payload.pageIndex].elements[index] = {
-        ...state.pages[payload.pageIndex].elements[index],
-        x: payload.x,
-        y: payload.y
-      }
-    },
-    [types.RESIZE_ELEMENT] (state, payload) {
-      let index = state.pages[payload.pageIndex].elements.findIndex(el => el.id === payload.elId)
-      state.pages[payload.pageIndex].elements[index] = {
-        ...state.pages[payload.pageIndex].elements[index],
-        x: payload.x,
-        y: payload.y,
-        height: payload.height,
-        width: payload.width
-      }
+  [types.resizeEgglement] (state, payload) {
+    let index = state.pages[payload.pageIndex].elements.findIndex(el => el.id === payload.elId)
+    state.pages[payload.pageIndex].elements[index] = {
+      ...state.pages[payload.pageIndex].elements[index],
+      x: payload.x,
+      y: payload.y,
+      height: payload.height,
+      width: payload.width
     }
   }
+}
+
+export default new Vuex.Store({
+  state,
+  getters,
+  actions,
+  mutations
 })

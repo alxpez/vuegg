@@ -2,7 +2,7 @@
   <v-list>
       <v-list-tile
         v-for="component in components" :key="component.id"
-        @click="ADD_ELEMENT({pageIndex, el: component})"
+        @click="addEgglement({pageIndex, el: component})"
       >
         <v-list-tile-content>
           <v-list-tile-title v-html="component.name"></v-list-tile-title>
@@ -14,17 +14,17 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
-import { ADD_ELEMENT } from '@/store/mutation-types'
+import { addEgglement, getPageIndexById } from '@/store/types'
 import MockData from '@/assets/mockdata'
 
 export default {
   name: 'components-menu',
-  methods: mapMutations([ADD_ELEMENT]),
+  methods: mapMutations([addEgglement]),
   computed: {
     pageIndex () {
       return this.getPageIndexById(this.$route.query.page)
     },
-    ...mapGetters(['getPageIndexById'])
+    ...mapGetters([getPageIndexById])
   },
   data () {
     return {

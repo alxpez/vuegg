@@ -7,6 +7,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { getPageById } from '@/store/types'
 import Egglement from '@/components/Egglement'
 
 export default {
@@ -16,7 +17,7 @@ export default {
       let activePage = this.getPageById(this.$route.query.page)
       return (activePage ? activePage.elements : [])
     },
-    ...mapGetters(['getPageById'])
+    ...mapGetters([getPageById])
   },
   components: { Egglement }
 }
