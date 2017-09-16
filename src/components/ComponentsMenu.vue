@@ -1,6 +1,9 @@
 <template>
   <md-list>
-    <md-list-item v-for="component in components" :key="component.id" href="#/" @click="ADD_ELEMENT(component)">
+    <md-list-item
+      v-for="component in components" :key="component.id"
+      @click="ADD_ELEMENT({pageIndex, el: component})"
+    >
       <md-icon>settings</md-icon> <span>{{ component.name }}</span>
     </md-list-item>
   </md-list>
@@ -8,13 +11,20 @@
 
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import { ADD_ELEMENT } from '@/store/mutation-types'
 import MockData from '@/assets/mockdata'
 
 export default {
+  name: 'components-menu',
   methods: mapMutations([ADD_ELEMENT]),
-  data: function () {
+  computed: {
+    pageIndex () {
+      return this.getPageIndexById(this.$route.query.page)
+    },
+    ...mapGetters(['getPageIndexById'])
+  },
+  data () {
     return {
       components: MockData.components
     }

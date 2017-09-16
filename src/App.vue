@@ -23,17 +23,16 @@
     </md-sidenav>
     <!-- END SideBar -->
 
-    <main-container></main-container>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 import ComponentsMenu from '@/components/ComponentsMenu'
-import MainContainer from '@/screens/MainContainer'
 
 export default {
   name: 'app',
-  components: { MainContainer, ComponentsMenu }
+  components: { ComponentsMenu }
 }
 </script>
 

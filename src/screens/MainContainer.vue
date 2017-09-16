@@ -1,17 +1,25 @@
 <template>
   <div class="pageContainer">
     <!-- TODO: Add pages/routes to mockdata and implement for each on canvas -->
-    <router-view></router-view>
+    <page></page>
   </div>
 </template>
 
 
 <script>
+import { mapGetters } from 'vuex'
 import Page from '@/components/Page'
 
 export default {
   name: 'main-container',
-  components: { Page }
+  components: { Page },
+  computed: mapGetters(['pageExists']),
+  mounted () {
+    this.$router.replace({query: {page: 'home'}})
+  },
+  beforeRouteUpdate (to, from, next) {
+    this.pageExists(to.query.page) ? next() : next(false)
+  }
 }
 </script>
 

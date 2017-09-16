@@ -6,12 +6,18 @@
 
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import Egglement from '@/components/Egglement'
 
 export default {
   name: 'page',
-  computed: mapState(['elements']),
+  computed: {
+    elements () {
+      let activePage = this.getPageById(this.$route.query.page)
+      return (activePage ? activePage.elements : [])
+    },
+    ...mapGetters(['getPageById'])
+  },
   components: { Egglement }
 }
 </script>
