@@ -3,9 +3,7 @@
     <v-toolbar-side-icon @click.stop="TOGGLE_SIDEBAR"></v-toolbar-side-icon>
     <v-toolbar-title>vuexample</v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-toolbar-items>
-      <routes-menu></routes-menu>
-    </v-toolbar-items>
+    <routes-menu></routes-menu>
   </v-toolbar>
 </template>
 

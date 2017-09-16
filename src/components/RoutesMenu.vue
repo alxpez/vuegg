@@ -1,13 +1,16 @@
 <template>
-  <v-flex xs12>
+  <v-flex xs3>
     <v-select
       :items="pages"
       v-model="activePage"
-      item-text="path"
+      item-text="name"
       item-value="id"
+      append-icon="insert_drive_file"
       single-line
-      prepend-icon="insert_drive_file"
       hide-details
+      return-object
+      persistent-hint
+      :hint="activePage.path"
       @input="changeHandler"
     ></v-select>
   </v-flex>
@@ -27,8 +30,11 @@ export default {
   },
   data () {
     return {
-      activePage: 'home'
+      activePage: {}
     }
+  },
+  mounted () {
+    this.activePage = this.pages[0]
   }
 }
 </script>

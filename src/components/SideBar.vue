@@ -5,7 +5,8 @@
     disable-route-watcher
     hide-overlay
     persistent
-    clipped>
+    clipped
+  >
     <components-menu></components-menu>
   </v-navigation-drawer>
 </template>
