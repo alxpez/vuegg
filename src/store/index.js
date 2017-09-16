@@ -13,6 +13,12 @@ Vue.use(Vuex)
 */
 export default new Vuex.Store({
   state: {
+    app: {
+      sidebar: {
+        isOpen: false,
+        mini: false
+      }
+    },
     pages: [
       {
         id: 'home',
@@ -51,6 +57,9 @@ export default new Vuex.Store({
     And remove getters from the components.
   */
   mutations: {
+    [types.TOGGLE_SIDEBAR] (state) {
+      state.app.sidebar.isOpen = !state.app.sidebar.isOpen
+    },
     [types.ADD_ELEMENT] (state, payload) {
       let element = {...payload.el, id: uuid4()}
       state.pages[payload.pageIndex].elements = [

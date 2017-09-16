@@ -1,7 +1,7 @@
 <template>
-  <md-whiteframe class="page">
+  <div class="page">
     <egglement v-for="el in elements" :key="el.id" :egg="el"></egglement>
-  </md-whiteframe>
+  </div>
 </template>
 
 
@@ -31,5 +31,11 @@ export default {
   position: relative;
   margin: auto;
   background-color: #fff;
+
+  /* for paper style */
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.2),
+    0 1px 1px rgba(0, 0, 0, 0.14),
+    0 2px 1px -1px rgba(0, 0, 0, 0.12);
 }
 </style>

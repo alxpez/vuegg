@@ -19,6 +19,7 @@
     "vue-draggable-resizable": "^1.2.7",
     "vue-material": "^0.7.3",
     "vue-router": "^2.7.0",
+    "vuetify": "^0.15.7",
     "vuex": "^2.4.0"
   },
   "devDependencies": {
