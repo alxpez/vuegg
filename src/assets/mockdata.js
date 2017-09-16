@@ -3,7 +3,7 @@ const MockData = {
     {
       'id': 0,
       'name': 'button',
-      'type': 'md-button',
+      'type': 'v-btn',
       'x': 100,
       'y': 150,
       'width': 150,
@@ -17,13 +17,12 @@ const MockData = {
         {
           'yolk': true
         }, {
-          'md-primary': true,
-          'md-accent': false,
-          'md-warn': false
+          'primary': true,
+          'secondary': false
         }, {
-          'md-raised': true
+          'raised': true
         }, {
-          'md-dense': true
+          'dense': true
         }
       ],
       'children': [
@@ -82,23 +81,23 @@ const MockData = {
         }
       ]
     }, {
-      'id': 2,
-      'name': 'div',
-      'type': 'div',
+      'id': 0,
+      'name': 'text field',
+      'type': 'v-text-field',
+      'x': 100,
+      'y': 150,
+      'width': 150,
+      'minWidth': 90,
+      'height': 50,
+      'minHeight': 50,
+      'props': {
+        'label': 'Placeholder',
+        'value': 'Value'
+      },
       'classes': [
         {
-          'yolk': true
-        }
-      ],
-      'children': [
-        {
-          'id': 0,
-          'type': 'button',
-          'classes': [
-            {
-              'yolk': true
-            }
-          ]
+          'yolk': true,
+          'light': true
         }
       ]
     }

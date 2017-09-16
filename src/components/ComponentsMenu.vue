@@ -1,12 +1,14 @@
 <template>
-  <md-list>
-    <md-list-item
-      v-for="component in components" :key="component.id"
-      @click="ADD_ELEMENT({pageIndex, el: component})"
-    >
-      <md-icon>settings</md-icon> <span>{{ component.name }}</span>
-    </md-list-item>
-  </md-list>
+  <v-list>
+      <v-list-tile
+        v-for="component in components" :key="component.id"
+        @click="ADD_ELEMENT({pageIndex, el: component})"
+      >
+        <v-list-tile-content>
+          <v-list-tile-title v-html="component.name"></v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
+  </v-list>
 </template>
 
 
