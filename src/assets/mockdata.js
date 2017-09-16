@@ -92,12 +92,12 @@ const MockData = {
       'minHeight': 50,
       'props': {
         'label': 'Placeholder',
-        'value': 'Value'
+        'value': 'Value',
+        'light': true
       },
       'classes': [
         {
-          'yolk': true,
-          'light': true
+          'yolk': true
         }
       ]
     }
