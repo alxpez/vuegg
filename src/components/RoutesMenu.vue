@@ -1,7 +1,7 @@
 <template>
   <v-layout row>
     <v-spacer></v-spacer>
-    <new-page-dialog></new-page-dialog>
+    <page-dialog></page-dialog>
     <v-btn icon @click.native.stop="openNewPageDialog" v-tooltip:left="{html: 'New page'}">
       <v-icon>add</v-icon>
     </v-btn>
@@ -27,11 +27,11 @@
 <script>
 import { mapState, mapMutations } from 'vuex'
 import { openNewPageDialog } from '@/store/types'
-import NewPageDialog from '@/components/NewPageDialog'
+import PageDialog from '@/components/PageDialog'
 
 export default {
   name: 'routes-menu',
-  components: { NewPageDialog },
+  components: { PageDialog },
   computed: mapState(['pages']),
   methods: {
     changeActivePage (value) {

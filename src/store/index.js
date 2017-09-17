@@ -11,7 +11,7 @@ const state = {
       isOpen: false,
       mini: false
     },
-    newPageDialog: {
+    pageDialog: {
       isOpen: false
     }
   },
@@ -50,12 +50,12 @@ const getters = {
   And remove getters from the components.
 */
 const actions = {
-  [types.saveNewPageAndClose] ({ dispatch, commit }, payload) {
-    let page = {...payload, id: uuid4()}
+  [types.savePageAndClose] ({ dispatch, commit }, payload) {
+    let page = {...payload, id: uuid4(), path: payload.path.toLowerCase()}
     commit(types.addPage, page)
-    dispatch(types.discardNewPageAndClose, payload)
+    dispatch(types.discardPageAndClose, payload)
   },
-  [types.discardNewPageAndClose] ({ commit }, payload) {
+  [types.discardPageAndClose] ({ commit }, payload) {
     payload.name = ''
     payload.path = ''
     commit(types.closeNewPageDialog)
@@ -67,10 +67,10 @@ const mutations = {
     state.app.sidebar.isOpen = !state.app.sidebar.isOpen
   },
   [types.openNewPageDialog] (state) {
-    state.app.newPageDialog.isOpen = true
+    state.app.pageDialog.isOpen = true
   },
   [types.closeNewPageDialog] (state) {
-    state.app.newPageDialog.isOpen = false
+    state.app.pageDialog.isOpen = false
   },
   [types.addPage] (state, page) {
     state.pages = [...state.pages, page]

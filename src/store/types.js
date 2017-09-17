@@ -11,8 +11,8 @@ export const addPage = 'addPage'
 export const removePage = 'removePage'
 export const editPage = 'editPage'
 
-export const discardNewPageAndClose = 'discardNewPageAndClose'
-export const saveNewPageAndClose = 'saveNewPageAndClose'
+export const discardPageAndClose = 'discardPageAndClose'
+export const savePageAndClose = 'savePageAndClose'
 
 export const getPageIndexById = 'getPageIndexById'
 export const getPageById = 'getPageById'
@@ -26,8 +26,8 @@ const types = {
   pageExists,
   pathInUse,
   // ACTIONS
-  saveNewPageAndClose,
-  discardNewPageAndClose,
+  savePageAndClose,
+  discardPageAndClose,
   // MUTATIONS
   toggleSidebar,
   openNewPageDialog,
