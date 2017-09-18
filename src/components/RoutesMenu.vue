@@ -2,16 +2,55 @@
   <v-layout row>
     <v-spacer></v-spacer>
     <page-dialog></page-dialog>
-    <v-btn icon @click.native.stop="openNewPageDialog" v-tooltip:left="{html: 'New page'}">
-      <v-icon>add</v-icon>
-    </v-btn>
-    <v-flex xs3>
+
+    <v-speed-dial :transition="'slide-x-reverse-transition'"
+      :direction="'left'"
+      :hover="true"
+      :right="true"
+      :top="true"
+      v-model="speedD"
+      class="mb-2"
+    >
+      <v-btn v-tooltip:bottom="{html: 'Page options'}"
+        slot="activator"
+        v-model="speedD"
+        small
+        hover
+        fab
+      >
+        <v-icon>insert_drive_file</v-icon>
+        <v-icon>close</v-icon>
+      </v-btn>
+
+      <v-btn v-tooltip:bottom="{html: 'New page'}"
+        @click.native.stop="openNewPageDialog"
+        small
+        icon
+      >
+        <v-icon>note_add</v-icon>
+      </v-btn>
+      <v-btn v-tooltip:bottom="{html: 'Edit page'}"
+        @click.native.stop="openNewPageDialog"
+        small
+        icon
+      >
+        <v-icon>edit</v-icon>
+      </v-btn>
+      <v-btn v-tooltip:bottom="{html: 'Delete page'}"
+        @click.native.stop=""
+        small
+        icon
+      >
+        <v-icon>delete</v-icon>
+      </v-btn>
+    </v-speed-dial>
+
+    <v-flex xs3 class="mr-2 ml-1">
       <v-select
         :items="pages"
         v-model="activePage"
         item-text="name"
         item-value="id"
-        append-icon="insert_drive_file"
         single-line
         hide-details
         return-object
@@ -41,6 +80,7 @@ export default {
   },
   data () {
     return {
+      speedD: false,
       activePage: {}
     }
   },
