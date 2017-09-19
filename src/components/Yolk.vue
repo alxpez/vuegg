@@ -1,6 +1,6 @@
 <template>
     <span v-if="typeless">{{yolk.text}}</span>
-    <component v-else :class="yolk.classes" v-bind="yolk.props" :is="yolk.type">
+    <component v-else :class="yolk.classes" :style="yolk.styles" v-bind="yolk.props" :is="yolk.type">
       <yolk
         v-if="hasChildren"
         v-for="child in yolk.children"
@@ -30,7 +30,6 @@ export default {
 <style scoped>
 .yolk {
   margin: 0;
-  /*padding: 0;*/
   width: 100%;
   height: 100%;
 }

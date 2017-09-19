@@ -1,9 +1,83 @@
 const MockData = {
   'components': [
     {
+      'id': 10,
+      'name': 'Toolbar',
+      'type': 'md-toolbar',
+      'x': 0,
+      'y': 0,
+      'width': 600,
+      'minWidth': 400,
+      'height': 64,
+      'minHeight': 48,
+      'props': {},
+      'classes': [
+        {
+          'yolk': true
+        }, {
+          'md-dense': true
+        }
+      ],
+      'children': [
+        {
+          'id': 0,
+          'type': 'md-button',
+          'classes': [
+            {
+              'md-icon-button': true
+            }
+          ],
+          'children': [
+            {
+              'id': 0,
+              'type': 'md-icon',
+              'children': [
+                {
+                  'id': 0,
+                  'text': 'menu'
+                }
+              ]
+            }
+          ]
+        }, {
+          'id': 1,
+          'type': 'h2',
+          'styles': {
+            'flex': 1
+          },
+          'classes': [
+            {
+              'md-title': true
+            }
+          ],
+          'children': [
+            {
+              'id': 0,
+              'text': 'Title'
+            }
+          ]
+        }
+      ]
+    },
+    {
+      'id': 11,
+      'name': 'whiteframe',
+      'type': 'md-whiteframe',
+      'width': 150,
+      'minWidth': 32,
+      'height': 150,
+      'minHeight': 32,
+      'props': {},
+      'classes': [
+        {
+          'yolk': true
+        }
+      ]
+    },
+    {
       'id': 0,
-      'name': 'button',
-      'type': 'v-btn',
+      'name': 'Button',
+      'type': 'md-button',
       'x': 100,
       'y': 150,
       'width': 150,
@@ -17,12 +91,12 @@ const MockData = {
         {
           'yolk': true
         }, {
-          'primary': true,
-          'secondary': false
+          'md-primary': true,
+          'md-secondary': false
         }, {
-          'raised': true
+          'md-raised': true
         }, {
-          'dense': true
+          'md-dense': true
         }
       ],
       'children': [
@@ -33,7 +107,7 @@ const MockData = {
       ]
     }, {
       'id': 1,
-      'name': 'input',
+      'name': 'Input',
       'type': 'md-input-container',
       'x': 100,
       'y': 150,
@@ -81,8 +155,22 @@ const MockData = {
         }
       ]
     }, {
+      'id': 12,
+      'name': '(Vuetify) Button',
+      'type': 'v-btn',
+      'width': 150,
+      'minWidth': 88,
+      'height': 36,
+      'minHeight': 32,
+      'props': {},
+      'classes': [
+        {
+          'yolk': true
+        }
+      ]
+    }, {
       'id': 0,
-      'name': 'text field',
+      'name': '(Vuetify) Input',
       'type': 'v-text-field',
       'x': 100,
       'y': 150,

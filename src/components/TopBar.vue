@@ -1,6 +1,6 @@
 <template>
   <v-toolbar>
-    <v-toolbar-side-icon @click.stop="toggleSidebar"></v-toolbar-side-icon>
+    <v-toolbar-side-icon class="ml-3" @click.stop="toggleSidebar"></v-toolbar-side-icon>
     <v-toolbar-title>vuexample</v-toolbar-title>
     <routes-menu></routes-menu>
   </v-toolbar>
