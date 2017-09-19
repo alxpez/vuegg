@@ -1,6 +1,7 @@
 export const toggleSidebar = 'toggleSidebar'
-export const openNewPageDialog = 'openNewPageDialog'
-export const closeNewPageDialog = 'closeNewPageDialog'
+export const toggleMiniSidebar = 'toggleMiniSidebar'
+export const openPageDialog = 'openPageDialog'
+export const closePageDialog = 'closePageDialog'
 
 export const addEgglement = 'addEgglement'
 export const removeEgglement = 'removeEgglement'
@@ -11,7 +12,6 @@ export const addPage = 'addPage'
 export const removePage = 'removePage'
 export const editPage = 'editPage'
 
-export const discardPageAndClose = 'discardPageAndClose'
 export const savePageAndClose = 'savePageAndClose'
 
 export const getPageIndexById = 'getPageIndexById'
@@ -27,11 +27,11 @@ const types = {
   pathInUse,
   // ACTIONS
   savePageAndClose,
-  discardPageAndClose,
   // MUTATIONS
   toggleSidebar,
-  openNewPageDialog,
-  closeNewPageDialog,
+  toggleMiniSidebar,
+  openPageDialog,
+  closePageDialog,
   addEgglement,
   removeEgglement,
   resizeEgglement,

@@ -9,7 +9,7 @@ const state = {
   app: {
     sidebar: {
       isOpen: false,
-      mini: false
+      isMini: false
     },
     pageDialog: {
       isOpen: false
@@ -51,14 +51,9 @@ const getters = {
 */
 const actions = {
   [types.savePageAndClose] ({ dispatch, commit }, payload) {
-    let page = {...payload, id: uuid4(), path: payload.path.toLowerCase()}
+    let page = {...payload, id: uuid4(), path: payload.path.toLowerCase(), elements: []}
+    commit(types.closePageDialog)
     commit(types.addPage, page)
-    dispatch(types.discardPageAndClose, payload)
-  },
-  [types.discardPageAndClose] ({ commit }, payload) {
-    payload.name = ''
-    payload.path = ''
-    commit(types.closeNewPageDialog)
   }
 }
 
@@ -66,10 +61,13 @@ const mutations = {
   [types.toggleSidebar] (state) {
     state.app.sidebar.isOpen = !state.app.sidebar.isOpen
   },
-  [types.openNewPageDialog] (state) {
+  [types.toggleMiniSidebar] (state) {
+    state.app.sidebar.isMini = !state.app.sidebar.isMini
+  },
+  [types.openPageDialog] (state) {
     state.app.pageDialog.isOpen = true
   },
-  [types.closeNewPageDialog] (state) {
+  [types.closePageDialog] (state) {
     state.app.pageDialog.isOpen = false
   },
   [types.addPage] (state, page) {

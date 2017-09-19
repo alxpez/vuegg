@@ -23,14 +23,14 @@
       </v-btn>
 
       <v-btn v-tooltip:bottom="{html: 'New page'}"
-        @click.native.stop="openNewPageDialog"
+        @click.native.stop="openPageDialog"
         small
         icon
       >
         <v-icon>note_add</v-icon>
       </v-btn>
       <v-btn v-tooltip:bottom="{html: 'Edit page'}"
-        @click.native.stop="openNewPageDialog"
+        @click.native.stop="openPageDialog"
         small
         icon
       >
@@ -65,7 +65,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import { openNewPageDialog } from '@/store/types'
+import { openPageDialog } from '@/store/types'
 import PageDialog from '@/components/PageDialog'
 
 export default {
@@ -76,7 +76,7 @@ export default {
     changeActivePage (value) {
       this.$router.replace({query: {page: value.id}})
     },
-    ...mapMutations([openNewPageDialog])
+    ...mapMutations([openPageDialog])
   },
   data () {
     return {

@@ -1,34 +1,28 @@
 <template>
   <v-layout row justify-center>
-    <v-dialog v-model="app.pageDialog.isOpen" width="25%">
+    <v-dialog v-model="app.pageDialog.isOpen">
       <v-card>
         <v-card-title>
           <span class="headline">Add a new page</span>
         </v-card-title>
         <v-card-text>
-          <v-container grid-list-md>
-            <v-layout wrap>
-              <v-flex xs12>
-                <v-text-field  required
-                  label="Name"
-                  v-model="newPage.name"
-                  :rules="[ () => !!newPage.name || 'Choose a name for your page' ]"
-                ></v-text-field>
-              </v-flex>
-              <v-flex xs12>
-                <v-text-field required
-                  label="Page path"
-                  v-model="newPage.path"
-                  :rules="[ this.checkPathFormat ]"
-                ></v-text-field>
-              </v-flex>
-            </v-layout>
-          </v-container>
+          <v-form v-model="valid" ref="form">
+            <v-text-field  required
+              label="Name"
+              v-model="name"
+              :rules="[ () => !!name || 'Choose a name for your page' ]"
+            ></v-text-field>
+            <v-text-field required
+              label="Page path"
+              v-model="path"
+              :rules="[ this.checkPathFormat ]"
+            ></v-text-field>
+          </v-form>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn flat @click="discardPageAndClose(newPage)">Cancel</v-btn>
-          <v-btn flat @click="savePageAndClose(newPage)">Save</v-btn>
+          <v-btn flat @click="submitAction('cancel')">Cancel</v-btn>
+          <v-btn flat @click="submitAction('save')">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -37,33 +31,36 @@
 
 
 <script>
-import { mapState, mapActions } from 'vuex'
-import { savePageAndClose, discardPageAndClose } from '@/store/types'
+import { mapState, mapActions, mapMutations } from 'vuex'
+import { savePageAndClose, closePageDialog } from '@/store/types'
 
 export default {
   name: 'page-dialog',
   computed: mapState(['app']),
   methods: {
-    // TODO: Improve REGEX for path format
     checkPathFormat () {
-      if (!this.newPage.path) {
+      if (!this.path) {
         return 'Choose the page\'s path'
-      } else if (this.newPage.path[0] !== '/') {
+      } else if (this.path[0] !== '/') {
         return 'The path must start with \'/\''
-      } else if (!this.newPage.path.match(/(\/\w+)\b/g)) {
+      } else if (!this.path.match(/^\/([A-Za-z0-9/_-])+$/g)) {
         return 'Invalid path'
       }
       return true
     },
-    ...mapActions([savePageAndClose, discardPageAndClose])
+    submitAction (action) {
+      let newPage = { name: this.name, path: this.path }
+      this.$refs.form.reset()
+      action === 'save' ? this.savePageAndClose(newPage) : this.closePageDialog()
+    },
+    ...mapActions([savePageAndClose]),
+    ...mapMutations([closePageDialog])
   },
   data () {
     return {
-      newPage: {
-        name: '',
-        path: '',
-        elements: []
-      }
+      valid: false,
+      name: '',
+      path: ''
     }
   }
 }
