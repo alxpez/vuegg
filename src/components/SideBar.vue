@@ -8,9 +8,9 @@
     clipped
   >
     <components-menu></components-menu>
-    <v-btn icon small @click="toggleMiniSidebar">
+    <!-- <v-btn icon small @click="toggleMiniSidebar">
       <v-icon>add</v-icon>
-    </v-btn>
+    </v-btn> -->
   </v-navigation-drawer>
 </template>
 
