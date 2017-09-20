@@ -17,22 +17,19 @@
 
 <script>
 import { mapMutations, mapGetters } from 'vuex'
-import types from '@/store/types'
+import { resizeEgglement, moveEgglement, getPageIndexById } from '@/store/types'
 import Yolk from '@/components/Yolk'
 
 export default {
   name: 'egglement',
   props: ['egg'],
   components: { Yolk },
-  methods: mapMutations([
-    types.resizeEgglement,
-    types.moveEgglement
-  ]),
+  methods: mapMutations([resizeEgglement, moveEgglement]),
   computed: {
     pageIndex () {
       return this.getPageIndexById(this.$route.query.page)
     },
-    ...mapGetters([types.getPageIndexById])
+    ...mapGetters([getPageIndexById])
   }
 }
 </script>

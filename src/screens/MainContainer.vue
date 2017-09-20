@@ -27,7 +27,7 @@ export default {
 
 <style scoped>
 .pageContainer {
-  margin-top: 5px;
+  margin-top: 65px;
 }
 
 h1, h2 {

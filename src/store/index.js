@@ -12,6 +12,7 @@ const state = {
       isMini: false
     },
     pageDialog: {
+      isNew: true,
       isOpen: false
     }
   },
@@ -64,12 +65,14 @@ const mutations = {
   [types.toggleMiniSidebar] (state) {
     state.app.sidebar.isMini = !state.app.sidebar.isMini
   },
-  [types.openPageDialog] (state) {
+  [types.openPageDialog] (state, isNew) {
+    state.app.pageDialog.isNew = isNew
     state.app.pageDialog.isOpen = true
   },
   [types.closePageDialog] (state) {
     state.app.pageDialog.isOpen = false
   },
+  // TODO: Handle saving edited pages (currently add a new one)
   [types.addPage] (state, page) {
     state.pages = [...state.pages, page]
   },

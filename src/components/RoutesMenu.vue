@@ -23,14 +23,14 @@
       </v-btn>
 
       <v-btn v-tooltip:bottom="{html: 'New page'}"
-        @click.native.stop="openPageDialog"
+        @click.native.stop="openPageDialog(true)"
         small
         icon
       >
         <v-icon>note_add</v-icon>
       </v-btn>
       <v-btn v-tooltip:bottom="{html: 'Edit page'}"
-        @click.native.stop="openPageDialog"
+        @click.native.stop="openPageDialog(false)"
         small
         icon
       >

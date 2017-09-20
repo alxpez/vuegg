@@ -18,18 +18,20 @@
         </v-list-tile-action>
       </v-list-tile>
     </v-list> -->
-    <v-expansion-panel>
+    <v-expansion-panel expand>
       <v-expansion-panel-content>
         <div slot="header">
-          <v-icon>dashboard</v-icon>Components
+          <v-icon>dashboard</v-icon>
+          <span>Components</span>
         </div>
         <components-menu></components-menu>
       </v-expansion-panel-content>
       <v-expansion-panel-content>
         <div slot="header">
-          <v-icon>settings</v-icon>Properties
+          <v-icon>settings</v-icon>
+          <span>Properties</span>
         </div>
-        <components-menu></components-menu>
+        <properties-menu></properties-menu>
       </v-expansion-panel-content>
     </v-expansion-panel>
   </v-navigation-drawer>
@@ -39,10 +41,11 @@
 import { mapState, mapMutations } from 'vuex'
 import { toggleMiniSidebar } from '@/store/types'
 import ComponentsMenu from '@/components/ComponentsMenu'
+import PropertiesMenu from '@/components/PropertiesMenu'
 
 export default {
   name: 'side-bar',
-  components: { ComponentsMenu },
+  components: { ComponentsMenu, PropertiesMenu },
   computed: {
     ...mapState(['app']),
     ...mapMutations([toggleMiniSidebar])

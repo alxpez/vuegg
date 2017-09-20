@@ -12,14 +12,14 @@ import Egglement from '@/components/Egglement'
 
 export default {
   name: 'page',
+  components: { Egglement },
   computed: {
     elements () {
       let activePage = this.getPageById(this.$route.query.page)
       return (activePage ? activePage.elements : [])
     },
     ...mapGetters([getPageById])
-  },
-  components: { Egglement }
+  }
 }
 </script>
 
