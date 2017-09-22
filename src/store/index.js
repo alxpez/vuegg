@@ -38,8 +38,12 @@ const getters = {
     let pageIndex = getters.getPageIndexById(id)
     return (pageIndex > -1)
   },
-  [types.pathInUse]: (state) => (path) => {
-    let pageIndex = state.pages.findIndex(page => page.path === path)
+  [types.pathInUse]: (state) => (pagePath) => {
+    let pageIndex = state.pages.findIndex(page => page.path === pagePath)
+    return (pageIndex > -1)
+  },
+  [types.nameInUse]: (state) => (pageName) => {
+    let pageIndex = state.pages.findIndex(page => page.name === pageName)
     return (pageIndex > -1)
   }
 }
@@ -51,14 +55,31 @@ const getters = {
   And remove getters from the components.
 */
 const actions = {
-  [types.savePageAndClose] ({ dispatch, commit }, payload) {
-    let page = {...payload, id: uuid4(), path: payload.path.toLowerCase(), elements: []}
+  [types.savePageAndClose] ({ dispatch, commit, getters }, payload) {
+    if (!payload.id) {
+      let page = {
+        id: uuid4(),
+        name: payload.name,
+        path: payload.path.toLowerCase(),
+        elements: []
+      }
+      console.log(page)
+      commit(types.addPage, page)
+    } else {
+      let pagePayload = {
+        pageIndex: getters.getPageIndexById(payload.id),
+        name: payload.name,
+        path: payload.path
+      }
+      console.log(pagePayload)
+      commit(types.updatePage, pagePayload)
+    }
     commit(types.closePageDialog)
-    commit(types.addPage, page)
   }
 }
 
 const mutations = {
+  // App mutations
   [types.toggleSidebar] (state) {
     state.app.sidebar.isOpen = !state.app.sidebar.isOpen
   },
@@ -72,10 +93,18 @@ const mutations = {
   [types.closePageDialog] (state) {
     state.app.pageDialog.isOpen = false
   },
-  // TODO: Handle saving edited pages (currently add a new one)
+  // Page mutations
   [types.addPage] (state, page) {
     state.pages = [...state.pages, page]
   },
+  [types.updatePage] (state, payload) {
+    state.pages[payload.pageIndex] = {
+      ...state.pages[payload.pageIndex],
+      name: payload.name,
+      path: payload.path
+    }
+  },
+  // Egglement mutations
   [types.addEgglement] (state, payload) {
     let element = {...payload.el, id: uuid4()}
     state.pages[payload.pageIndex].elements = [

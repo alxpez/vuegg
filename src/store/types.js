@@ -9,8 +9,8 @@ export const resizeEgglement = 'resizeEgglement'
 export const moveEgglement = 'moveEgglement'
 
 export const addPage = 'addPage'
+export const updatePage = 'updatePage'
 export const removePage = 'removePage'
-export const editPage = 'editPage'
 
 export const savePageAndClose = 'savePageAndClose'
 
@@ -18,6 +18,7 @@ export const getPageIndexById = 'getPageIndexById'
 export const getPageById = 'getPageById'
 export const pageExists = 'pageExists'
 export const pathInUse = 'pathInUse'
+export const nameInUse = 'nameInUse'
 
 const types = {
   // GETTERS
@@ -25,6 +26,7 @@ const types = {
   getPageById,
   pageExists,
   pathInUse,
+  nameInUse,
   // ACTIONS
   savePageAndClose,
   // MUTATIONS
@@ -37,8 +39,8 @@ const types = {
   resizeEgglement,
   moveEgglement,
   addPage,
-  removePage,
-  editPage
+  updatePage,
+  removePage
 }
 
 export default types

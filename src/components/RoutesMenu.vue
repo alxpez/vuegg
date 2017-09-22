@@ -62,6 +62,7 @@
   </v-layout>
 </template>
 
+<!-- TODO: Select item does not refresh data after edit page -->
 
 <script>
 import { mapState, mapMutations } from 'vuex'
