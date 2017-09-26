@@ -65,8 +65,8 @@
 <!-- TODO: Select item does not refresh data after edit page -->
 
 <script>
-import { mapState, mapMutations } from 'vuex'
-import { openPageDialog } from '@/store/types'
+import { mapState, mapGetters, mapMutations } from 'vuex'
+import { getPageById, openPageDialog } from '@/store/types'
 import PageDialog from '@/components/PageDialog'
 
 export default {
@@ -76,7 +76,9 @@ export default {
   methods: {
     changeActivePage (value) {
       this.$router.replace({query: {page: value.id}})
+      // this.activePage = this.getPageById(value.id)
     },
+    ...mapGetters([getPageById]),
     ...mapMutations([openPageDialog])
   },
   data () {

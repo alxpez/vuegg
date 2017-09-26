@@ -1,5 +1,5 @@
 <template>
-  <vue-draggable-resizable
+  <mr-egg
     :parent="true"
     :x="egg.x"
     :y="egg.y"
@@ -7,6 +7,7 @@
     :h="egg.height"
     :minw="egg.minWidth"
     :minh="egg.minHeight"
+    @dragging="onDragging"
     @dragstop="(x, y)=>moveEgglement({elId:egg.id, pageIndex, x, y})"
     @resizestop="(x, y, width, height)=>resizeEgglement({elId:egg.id, pageIndex, x, y, width, height})"
   >
@@ -21,17 +22,19 @@
         {{ child.text }}
       </component>
     </component>
-  </vue-draggable-resizable>
+  </mr-egg>
 </template>
 
 
 <script>
 import { mapMutations, mapGetters } from 'vuex'
 import { resizeEgglement, moveEgglement, getPageIndexById } from '@/store/types'
+import MrEgg from '@/components/MrEgg'
 
 export default {
   name: 'egglement',
   props: ['egg'],
+  components: { MrEgg },
   computed: {
     pageIndex () {
       return this.getPageIndexById(this.$route.query.page)
@@ -47,6 +50,9 @@ export default {
     },
     childProps (child) {
       return child.egg ? { egg: child } : [child.props, {style: child.styles}, {class: child.classes}]
+    },
+    onDragging (top, left) {
+      // console.log(document.elementsFromPoint(top, left))
     },
     ...mapMutations([resizeEgglement, moveEgglement])
   }

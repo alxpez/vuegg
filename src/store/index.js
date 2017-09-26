@@ -63,7 +63,6 @@ const actions = {
         path: payload.path.toLowerCase(),
         elements: []
       }
-      console.log(page)
       commit(types.addPage, page)
     } else {
       let pagePayload = {
@@ -71,7 +70,6 @@ const actions = {
         name: payload.name,
         path: payload.path
       }
-      console.log(pagePayload)
       commit(types.updatePage, pagePayload)
     }
     commit(types.closePageDialog)

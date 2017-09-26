@@ -7,15 +7,15 @@ import 'vuetify/dist/vuetify.min.css'
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.css'
 
-import VueDraggableResizable from 'vue-draggable-resizable'
-
 import App from './App'
 import router from '@/router/'
 import store from '@/store/'
 
+// import VueDraggableResizable from 'vue-draggable-resizable'
+// Vue.component('vue-draggable-resizable', VueDraggableResizable)
+
 Vue.use(Vuetify)
 Vue.use(VueMaterial)
-Vue.component('vue-draggable-resizable', VueDraggableResizable)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
