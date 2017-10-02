@@ -1,18 +1,20 @@
 export const toggleSidebar = 'toggleSidebar'
 export const toggleMiniSidebar = 'toggleMiniSidebar'
-export const openPageDialog = 'openPageDialog'
-export const closePageDialog = 'closePageDialog'
+export const togglePageDialog = 'togglePageDialog'
 
 export const addEgglement = 'addEgglement'
+export const updateEgglement = 'updateEgglement'
 export const removeEgglement = 'removeEgglement'
-export const resizeEgglement = 'resizeEgglement'
-export const moveEgglement = 'moveEgglement'
 
 export const addPage = 'addPage'
 export const updatePage = 'updatePage'
 export const removePage = 'removePage'
 
 export const savePageAndClose = 'savePageAndClose'
+export const registerAndAddEgglement = 'registerAndAddEgglement'
+export const resizeEgglement = 'resizeEgglement'
+export const moveEgglement = 'moveEgglement'
+export const changeEgglementParent = 'changeEgglementParent'
 
 export const getPageIndexById = 'getPageIndexById'
 export const getPageById = 'getPageById'
@@ -29,15 +31,17 @@ const types = {
   nameInUse,
   // ACTIONS
   savePageAndClose,
+  registerAndAddEgglement,
+  resizeEgglement,
+  moveEgglement,
+  changeEgglementParent,
   // MUTATIONS
   toggleSidebar,
   toggleMiniSidebar,
-  openPageDialog,
-  closePageDialog,
+  togglePageDialog,
   addEgglement,
+  updateEgglement,
   removeEgglement,
-  resizeEgglement,
-  moveEgglement,
   addPage,
   updatePage,
   removePage

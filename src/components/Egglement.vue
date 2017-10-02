@@ -7,13 +7,19 @@
     :h="egg.height"
     :minw="egg.minWidth"
     :minh="egg.minHeight"
-    @dragging="onDragging"
-    @dragstop="(x, y)=>moveEgglement({elId:egg.id, pageIndex, x, y})"
-    @resizestop="(x, y, width, height)=>resizeEgglement({elId:egg.id, pageIndex, x, y, width, height})"
+    @dragstop="onEgglementDropped"
+    @resizestop="(x, y, width, height)=>resizeEgglement({elId:egg.id, pageId, x, y, width, height})"
   >
-    <component :class="[egg.classes, {egglement: egg.egg}]" :style="egg.styles" v-bind="egg.props" :is="egg.type">
+    <component
+      :id="egg.id"
+      :class="[egg.classes, {egglement: egg.egg}]"
+      :style="egg.styles"
+      v-bind="egg.props"
+      :is="egg.type"
+    >
       {{ egg.text }}
       <component v-if="hasChildren"
+        :id="child.id"
         v-for="child in egg.children"
         :key="child.id"
         v-bind="childProps(child)"
@@ -27,8 +33,8 @@
 
 
 <script>
-import { mapMutations, mapGetters } from 'vuex'
-import { resizeEgglement, moveEgglement, getPageIndexById } from '@/store/types'
+import { mapActions } from 'vuex'
+import { resizeEgglement, moveEgglement } from '@/store/types'
 import MrEgg from '@/components/MrEgg'
 
 export default {
@@ -36,13 +42,12 @@ export default {
   props: ['egg'],
   components: { MrEgg },
   computed: {
-    pageIndex () {
-      return this.getPageIndexById(this.$route.query.page)
+    pageId () {
+      return this.$route.query.page
     },
     hasChildren () {
       return (this.egg.children && this.egg.children.length > 0)
-    },
-    ...mapGetters([getPageIndexById])
+    }
   },
   methods: {
     childType (child) {
@@ -51,10 +56,44 @@ export default {
     childProps (child) {
       return child.egg ? { egg: child } : [child.props, {style: child.styles}, {class: child.classes}]
     },
-    onDragging (top, left) {
-      // console.log(document.elementsFromPoint(top, left))
+    containeggsOnPoint (x, y) {
+      let thisEgglement = null
+      let containeggs = []
+      let elementsOnPoint = document.elementsFromPoint(x, y)
+
+      for (let element of elementsOnPoint) {
+        if (element.classList.contains('egglement')) {
+          if (!thisEgglement) {
+            thisEgglement = element
+          }
+          // TODO: If parent container is found, stop adding the grandparents (see problem with canvas)
+          let parentId = thisEgglement.id.substring(0, thisEgglement.id.lastIndexOf('.'))
+          if (!element.isEqualNode(thisEgglement) && element.id !== parentId) {
+            if (element.classList.contains('containegg')) {
+              containeggs.push(element)
+            }
+          }
+        }
+      }
+      return containeggs
     },
-    ...mapMutations([resizeEgglement, moveEgglement])
+    onEgglementDropped (EggLeft, EggTop, mouseX, mouseY) {
+      let payload = {
+        pageId: this.pageId,
+        parentId: null,
+        elId: this.egg.id,
+        x: EggLeft,
+        y: EggTop
+      }
+
+      let containeggs = this.containeggsOnPoint(mouseX, mouseY)
+      if (containeggs.length > 0) {
+        payload.parentId = containeggs[0].id
+      }
+
+      this.moveEgglement(payload)
+    },
+    ...mapActions([resizeEgglement, moveEgglement])
   }
 }
 </script>
@@ -66,4 +105,8 @@ export default {
   width: 100%;
   height: 100%;
 }
+
+/*.containegg:hover {
+  cursor: copy;
+}*/
 </style>

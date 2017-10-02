@@ -130,6 +130,11 @@ export default {
     document.documentElement.addEventListener('mousedown', this.deselect, true)
     document.documentElement.addEventListener('mouseup', this.handleUp, true)
 
+    this.elmX = parseInt(this.$el.style.left)
+    this.elmY = parseInt(this.$el.style.top)
+    this.elmW = this.$el.offsetWidth || this.$el.clientWidth
+    this.elmH = this.$el.offsetHeight || this.$el.clientHeight
+
     this.reviewDimensions()
   },
   beforeDestroy: function () {
@@ -170,6 +175,9 @@ export default {
         if ((this.x + this.w) > this.parentW) this.width = parentW - this.x
 
         if ((this.y + this.h) > this.parentH) this.height = parentH - this.y
+
+        this.elmW = this.width
+        this.elmH = this.height
       }
 
       this.$emit('resizing', this.left, this.top, this.width, this.height)
@@ -186,11 +194,6 @@ export default {
           this.$emit('update:active', true)
         }
 
-        this.elmX = parseInt(this.$el.style.left)
-        this.elmY = parseInt(this.$el.style.top)
-        this.elmW = this.$el.offsetWidth || this.$el.clientWidth
-        this.elmH = this.$el.offsetHeight || this.$el.clientHeight
-
         if (this.draggable) {
           this.dragging = true
         }
@@ -200,7 +203,9 @@ export default {
       const target = e.target || e.srcElement
       const regex = new RegExp('handle-([trmbl]{2})', '')
 
-      if (!this.$el.contains(target) && !regex.test(target.className)) {
+      // TODO: TEMPORARY/POSSIBLE FIX? (this.$el.id !== target.id)
+      // if (!this.$el.contains(target) && !regex.test(target.className)) {
+      if ((this.$el.id !== target.id) && !regex.test(target.className)) {
         if (this.enabled) {
           this.enabled = false
 
@@ -283,7 +288,7 @@ export default {
           this.top = (Math.round(this.elmY / this.grid[1]) * this.grid[1])
         }
 
-        this.$emit('dragging', this.left, this.top)
+        this.$emit('dragging', this.left, this.top, this.mouseX, this.mouseY)
       }
     },
     handleUp: function (e) {
@@ -293,8 +298,11 @@ export default {
         this.$emit('resizestop', this.left, this.top, this.width, this.height)
       }
       if (this.dragging) {
+        this.mouseX = e.pageX || e.clientX + document.documentElement.scrollLeft
+        this.mouseY = e.pageY || e.clientY + document.documentElement.scrollTop
+
         this.dragging = false
-        this.$emit('dragstop', this.left, this.top)
+        this.$emit('dragstop', this.left, this.top, this.mouseX, this.mouseY)
       }
 
       this.elmX = this.left

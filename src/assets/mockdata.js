@@ -1,10 +1,10 @@
+// TODO: change x, y props for left, top (to be more accurate on location)... or not, think about it
 const MockData = {
   'components': [
     {
       'id': 10,
       'name': 'Toolbar',
       'type': 'md-toolbar',
-      'container': true,
       'egg': true,
       'x': 0,
       'y': 0,
@@ -15,6 +15,8 @@ const MockData = {
       'props': {},
       'classes': [
         {
+          'containegg': true
+        }, {
           'md-dense': true
         }
       ],
@@ -67,17 +69,83 @@ const MockData = {
       'id': 11,
       'name': 'whiteframe',
       'type': 'md-whiteframe',
-      'container': true,
       'egg': true,
-      'width': 150,
+      'width': 300,
       'minWidth': 32,
-      'height': 150,
+      'height': 300,
       'minHeight': 32,
       'props': {},
       'styles': {
         'zIndex': 'auto'
       },
-      'classes': []
+      'classes': [
+        {
+          'containegg': true
+        }
+      ],
+      'children': [
+        {
+          'id': 11,
+          'type': 'md-whiteframe',
+          'egg': true,
+          'width': 200,
+          'minWidth': 32,
+          'height': 200,
+          'minHeight': 32,
+          'props': {},
+          'styles': {
+            'zIndex': 'auto'
+          },
+          'classes': [
+            {
+              'containegg': true
+            }
+          ],
+          'children': [
+            {
+              'id': 11,
+              'type': 'md-whiteframe',
+              'egg': true,
+              'width': 150,
+              'minWidth': 32,
+              'height': 150,
+              'minHeight': 32,
+              'props': {},
+              'styles': {
+                'zIndex': 'auto'
+              },
+              'classes': [
+                {
+                  'containegg': true
+                }
+              ],
+              'children': [
+                {
+                  'id': 0,
+                  'name': 'Button',
+                  'type': 'md-button',
+                  'text': 'Button',
+                  'egg': true,
+                  'width': 150,
+                  'minWidth': 88,
+                  'height': 36,
+                  'minHeight': 32,
+                  'props': {},
+                  'classes': [
+                    {
+                      'md-primary': true
+                    }, {
+                      'md-raised': true
+                    }, {
+                      'md-dense': true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
       'id': 0,

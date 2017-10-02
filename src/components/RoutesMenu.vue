@@ -23,21 +23,21 @@
       </v-btn>
 
       <v-btn v-tooltip:bottom="{html: 'New page'}"
-        @click.native.stop="openPageDialog(true)"
+        @click.native.stop="togglePageDialog({isOpen: true, isNew: true})"
         small
         icon
       >
         <v-icon>note_add</v-icon>
       </v-btn>
       <v-btn v-tooltip:bottom="{html: 'Edit page'}"
-        @click.native.stop="openPageDialog(false)"
+        @click.native.stop="togglePageDialog({isOpen: true, isNew: false})"
         small
         icon
       >
         <v-icon>edit</v-icon>
       </v-btn>
       <v-btn v-tooltip:bottom="{html: 'Delete page'}"
-        @click.native.stop=""
+        @click.native.stop="removePage(pageIndex)"
         small
         icon
       >
@@ -63,23 +63,34 @@
 </template>
 
 <!-- TODO: Select item does not refresh data after edit page -->
+<!-- TODO: Think of changing this component completely... v-select SUCKS! -->
 
 <script>
 import { mapState, mapGetters, mapMutations } from 'vuex'
-import { getPageById, openPageDialog } from '@/store/types'
+import { getPageById, getPageIndexById, removePage, togglePageDialog } from '@/store/types'
 import PageDialog from '@/components/PageDialog'
 
 export default {
   name: 'routes-menu',
   components: { PageDialog },
-  computed: mapState(['pages']),
+  computed: {
+    pageIndex () {
+      console.log(this.$route.query.page)
+      // TODO: Seems to be returning -1 so deletes always the first index
+      // let res = this.getPageIndexById(this.$route.query.page)
+      let res = this.pages.findIndex(page => page.id === this.$route.query.page)
+      console.log(res)
+      return res
+    },
+    ...mapState(['pages'])
+  },
   methods: {
     changeActivePage (value) {
+      console.log('yoyo')
       this.$router.replace({query: {page: value.id}})
-      // this.activePage = this.getPageById(value.id)
     },
-    ...mapGetters([getPageById]),
-    ...mapMutations([openPageDialog])
+    ...mapGetters([getPageById, getPageIndexById]),
+    ...mapMutations([togglePageDialog, removePage])
   },
   data () {
     return {
@@ -88,7 +99,11 @@ export default {
     }
   },
   mounted () {
-    this.activePage = this.pages[0]
+    this.activePage = {
+      id: this.pages[0].id,
+      name: this.pages[0].name,
+      path: this.pages[0].path
+    }
   }
 }
 </script>

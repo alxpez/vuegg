@@ -1,6 +1,6 @@
 <template>
   <v-navigation-drawer
-    v-model="app.sidebar.isOpen"
+    v-model="drawerStatus"
     :mini-variant="app.sidebar.isMini"
     disable-route-watcher
     hide-overlay
@@ -8,7 +8,7 @@
     clipped
   >
     <!-- Uncaught TypeError: _vm.toggleMiniSidebar is not a function -->
-    <!-- <v-list>
+    <v-list>
       <v-list-tile>
         <v-list-tile-action>
           <v-btn icon @click.native.stop="toggleMiniSidebar">
@@ -17,7 +17,7 @@
           </v-btn>
         </v-list-tile-action>
       </v-list-tile>
-    </v-list> -->
+    </v-list>
     <v-expansion-panel expand>
       <v-expansion-panel-content>
         <div slot="header">
@@ -39,7 +39,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import { toggleMiniSidebar } from '@/store/types'
+import { toggleSidebar, toggleMiniSidebar } from '@/store/types'
 import ComponentsMenu from '@/components/ComponentsMenu'
 import PropertiesMenu from '@/components/PropertiesMenu'
 
@@ -47,8 +47,16 @@ export default {
   name: 'side-bar',
   components: { ComponentsMenu, PropertiesMenu },
   computed: {
-    ...mapState(['app']),
-    ...mapMutations([toggleMiniSidebar])
-  }
+    drawerStatus: {
+      get () {
+        return this.app.sidebar.isOpen
+      },
+      set (status) {
+        this.toggleSidebar(status)
+      }
+    },
+    ...mapState(['app'])
+  },
+  methods: mapMutations([toggleMiniSidebar, toggleSidebar])
 }
 </script>
