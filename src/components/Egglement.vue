@@ -19,9 +19,9 @@
     >
       {{ egg.text }}
       <component v-if="hasChildren"
-        :id="child.id"
         v-for="child in egg.children"
         :key="child.id"
+        :id="child.id"
         v-bind="childProps(child)"
         :is="childType(child)"
       >
@@ -56,6 +56,8 @@ export default {
     childProps (child) {
       return child.egg ? { egg: child } : [child.props, {style: child.styles}, {class: child.classes}]
     },
+
+    // TODO: Returns the first containegg found (if this is not 'family')
     containeggsOnPoint (x, y) {
       let thisEgglement = null
       let containeggs = []
@@ -66,11 +68,14 @@ export default {
           if (!thisEgglement) {
             thisEgglement = element
           }
-          // TODO: If parent container is found, stop adding the grandparents (see problem with canvas)
           let parentId = thisEgglement.id.substring(0, thisEgglement.id.lastIndexOf('.'))
-          if (!element.isEqualNode(thisEgglement) && element.id !== parentId) {
-            if (element.classList.contains('containegg')) {
-              containeggs.push(element)
+          if (!element.isEqualNode(thisEgglement)) {
+            if (element.id !== parentId) {
+              if (element.classList.contains('containegg')) {
+                containeggs.push(element)
+              }
+            } else {
+              return containeggs
             }
           }
         }
@@ -87,6 +92,7 @@ export default {
       }
 
       let containeggs = this.containeggsOnPoint(mouseX, mouseY)
+      console.log(containeggs)
       if (containeggs.length > 0) {
         payload.parentId = containeggs[0].id
       }

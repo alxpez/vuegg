@@ -68,7 +68,7 @@ const actions = {
 
     let newParent = getChildNode(newRootEgg, payload.parentId, newFamilyIds)
 
-    ai.childEgg = registerEgglement({...ai.childEgg}, payload.parentId)
+    ai.childEgg = registerEgglement(ai.childEgg, payload.parentId)
     commit(types.addEgglement, {parent: newParent, egglement: ai.childEgg})
 
     // TODO: Improve positioning of child when parent change
@@ -108,19 +108,16 @@ function prepareActionItems (pageId, elId) {
 
 function registerEgglement (egglement, parentId) {
   let eggId = uuid4()
-  if (parentId) {
-    eggId = parentId.concat('.', eggId)
-  }
-  egglement = {...egglement, id: eggId}
+  if (parentId) eggId = parentId.concat('.', eggId)
+
+  let newEgglement = {...egglement, id: eggId, children: []}
+
   if (egglement.children && egglement.children.length > 0) {
-    for (let i = 0; i < egglement.children.length; i++) {
-      let child = egglement.children[i]
-      if (child.egg) {
-        egglement.children[i] = registerEgglement(child, eggId)
-      }
+    for (let childEgg of egglement.children) {
+      newEgglement.children.push(registerEgglement(childEgg, eggId))
     }
   }
-  return egglement
+  return newEgglement
 }
 
 function getChildNode (currentNode, targetId, familyIds) {
