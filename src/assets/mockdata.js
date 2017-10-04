@@ -1,10 +1,9 @@
+// TODO: change x, y props for left, top (to be more accurate on location)... or not, think about it
 const MockData = {
   'components': [
     {
-      'id': 10,
       'name': 'Toolbar',
       'type': 'md-toolbar',
-      'container': true,
       'egg': true,
       'x': 0,
       'y': 0,
@@ -15,12 +14,13 @@ const MockData = {
       'props': {},
       'classes': [
         {
+          'containegg': true
+        }, {
           'md-dense': true
         }
       ],
       'children': [
         {
-          'id': 0,
           'type': 'md-button',
           'egg': true,
           'x': 10,
@@ -36,13 +36,11 @@ const MockData = {
           ],
           'children': [
             {
-              'id': 0,
               'type': 'md-icon',
               'text': 'menu'
             }
           ]
         }, {
-          'id': 1,
           'type': 'h2',
           'egg': true,
           'text': 'Title',
@@ -62,25 +60,102 @@ const MockData = {
           ]
         }
       ]
-    },
-    {
-      'id': 11,
+    }, {
       'name': 'whiteframe',
       'type': 'md-whiteframe',
-      'container': true,
       'egg': true,
-      'width': 150,
+      'width': 300,
       'minWidth': 32,
-      'height': 150,
+      'height': 300,
       'minHeight': 32,
       'props': {},
       'styles': {
         'zIndex': 'auto'
       },
-      'classes': []
-    },
-    {
-      'id': 0,
+      'classes': [
+        {
+          'containegg': true
+        }
+      ],
+      'children': [
+        {
+          'type': 'md-whiteframe',
+          'egg': true,
+          'width': 200,
+          'minWidth': 32,
+          'height': 200,
+          'minHeight': 32,
+          'props': {},
+          'styles': {
+            'zIndex': 'auto'
+          },
+          'classes': [
+            {
+              'containegg': true
+            }
+          ],
+          'children': [
+            {
+              'type': 'md-whiteframe',
+              'egg': true,
+              'width': 150,
+              'minWidth': 32,
+              'height': 150,
+              'minHeight': 32,
+              'props': {},
+              'styles': {
+                'zIndex': 'auto'
+              },
+              'classes': [
+                {
+                  'containegg': true
+                }
+              ],
+              'children': [
+                {
+                  'name': 'Button',
+                  'type': 'md-button',
+                  'text': 'Button',
+                  'egg': true,
+                  'width': 150,
+                  'minWidth': 88,
+                  'height': 36,
+                  'minHeight': 32,
+                  'props': {},
+                  'classes': [
+                    {
+                      'md-primary': true
+                    }, {
+                      'md-raised': true
+                    }, {
+                      'md-dense': true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }, {
+      'name': 'whiteframe-clean',
+      'type': 'md-whiteframe',
+      'egg': true,
+      'width': 300,
+      'minWidth': 32,
+      'height': 300,
+      'minHeight': 32,
+      'props': {},
+      'styles': {
+        'zIndex': 'auto'
+      },
+      'classes': [
+        {
+          'containegg': true
+        }
+      ],
+      'children': []
+    }, {
       'name': 'Button',
       'type': 'md-button',
       'text': 'Button',
@@ -102,7 +177,6 @@ const MockData = {
         }
       ]
     }, {
-      'id': 1,
       'name': 'Input',
       'type': 'md-input-container',
       'egg': true,
@@ -116,12 +190,10 @@ const MockData = {
       'classes': [],
       'children': [
         {
-          'id': 1,
           'type': 'label',
           'text': 'Placeholder',
           'classes': []
         }, {
-          'id': 0,
           'type': 'md-input',
           'props': {
             'value': 'Input'
@@ -130,7 +202,6 @@ const MockData = {
         }
       ]
     }, {
-      'id': 12,
       'name': '(Vuetify) Button',
       'type': 'v-btn',
       'text': 'V Button',
@@ -142,7 +213,6 @@ const MockData = {
       'props': {},
       'classes': []
     }, {
-      'id': 0,
       'name': '(Vuetify) Input',
       'type': 'v-text-field',
       'egg': true,

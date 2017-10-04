@@ -1,6 +1,6 @@
 <template>
-  <div class="page">
-    <egglement v-for="el in elements" :key="el.id" :egg="el"></egglement>
+  <div class="eggStage">
+    <egglement v-for="el in egglements" :key="el.id" :egg="el"></egglement>
   </div>
 </template>
 
@@ -11,12 +11,12 @@ import { getPageById } from '@/store/types'
 import Egglement from '@/components/Egglement'
 
 export default {
-  name: 'page',
+  name: 'egg-stage',
   components: { Egglement },
   computed: {
-    elements () {
+    egglements () {
       let activePage = this.getPageById(this.$route.query.page)
-      return (activePage ? activePage.elements : [])
+      return (activePage ? activePage.children : [])
     },
     ...mapGetters([getPageById])
   }
@@ -25,7 +25,7 @@ export default {
 
 
 <style scoped>
-.page {
+.eggStage {
   width: 1024px;
   height: 1000px;
   /* width and height should be assigned dynamicly */

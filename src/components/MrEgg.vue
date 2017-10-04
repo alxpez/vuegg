@@ -2,6 +2,7 @@
   <div class="vdr" @mousedown.stop="elmDown" :style="style"
     :class="{ draggable: draggable, resizable: resizable, active: enabled, dragging: dragging, resizing: resizing }"
   >
+    <slot></slot>
     <div
       class="handle"
       v-if="resizable"
@@ -10,7 +11,6 @@
       :style="{ display: enabled ? 'block' : 'none'}"
       @mousedown.stop.prevent="handleDown(handle, $event)"
     ></div>
-    <slot></slot>
   </div>
 </template>
 
@@ -81,7 +81,7 @@ export default {
     handles: {
       type: Array,
       default: function () {
-        return ['tl', 'tm', 'tr', 'mr', 'br', 'bm', 'bl', 'ml']
+        return ['tm', 'mr', 'bm', 'ml', 'tl', 'tr', 'br', 'bl']
       }
     },
     axis: {
@@ -130,6 +130,11 @@ export default {
     document.documentElement.addEventListener('mousedown', this.deselect, true)
     document.documentElement.addEventListener('mouseup', this.handleUp, true)
 
+    this.elmX = parseInt(this.$el.style.left)
+    this.elmY = parseInt(this.$el.style.top)
+    this.elmW = this.$el.offsetWidth || this.$el.clientWidth
+    this.elmH = this.$el.offsetHeight || this.$el.clientHeight
+
     this.reviewDimensions()
   },
   beforeDestroy: function () {
@@ -170,6 +175,9 @@ export default {
         if ((this.x + this.w) > this.parentW) this.width = parentW - this.x
 
         if ((this.y + this.h) > this.parentH) this.height = parentH - this.y
+
+        this.elmW = this.width
+        this.elmH = this.height
       }
 
       this.$emit('resizing', this.left, this.top, this.width, this.height)
@@ -186,11 +194,6 @@ export default {
           this.$emit('update:active', true)
         }
 
-        this.elmX = parseInt(this.$el.style.left)
-        this.elmY = parseInt(this.$el.style.top)
-        this.elmW = this.$el.offsetWidth || this.$el.clientWidth
-        this.elmH = this.$el.offsetHeight || this.$el.clientHeight
-
         if (this.draggable) {
           this.dragging = true
         }
@@ -200,7 +203,9 @@ export default {
       const target = e.target || e.srcElement
       const regex = new RegExp('handle-([trmbl]{2})', '')
 
-      if (!this.$el.contains(target) && !regex.test(target.className)) {
+      // TODO: TEMPORARY/POSSIBLE FIX? (this.$el.id !== target.id)
+      // if (!this.$el.contains(target) && !regex.test(target.className)) {
+      if ((this.$el.id !== target.id) && !regex.test(target.className)) {
         if (this.enabled) {
           this.enabled = false
 
@@ -283,7 +288,7 @@ export default {
           this.top = (Math.round(this.elmY / this.grid[1]) * this.grid[1])
         }
 
-        this.$emit('dragging', this.left, this.top)
+        this.$emit('dragging', this.left, this.top, this.mouseX, this.mouseY)
       }
     },
     handleUp: function (e) {
@@ -293,8 +298,11 @@ export default {
         this.$emit('resizestop', this.left, this.top, this.width, this.height)
       }
       if (this.dragging) {
+        this.mouseX = e.pageX || e.clientX + document.documentElement.scrollLeft
+        this.mouseY = e.pageY || e.clientY + document.documentElement.scrollTop
+
         this.dragging = false
-        this.$emit('dragstop', this.left, this.top)
+        this.$emit('dragstop', this.left, this.top, this.mouseX, this.mouseY)
       }
 
       this.elmX = this.left
@@ -361,55 +369,59 @@ export default {
     box-sizing: border-box;
     display: none;
     position: absolute;
-    width: 10px;
-    height: 10px;
+    width: 6px;
+    height: 6px;
     font-size: 1px;
     border: 1px solid rgba(170, 170, 170, 0.8);
-    background: rgba(221, 221, 221, 0.8);
-    border-radius: 50%;
   }
   .handle-tl {
-    top: -10px;
-    left: -10px;
+    top: 0;
+    left: 0;
     cursor: nwse-resize;
+    background: rgba(221, 221, 221, 0.5);
   }
   .handle-tm {
-    top: -10px;
-    left: 50%;
-    margin-left: -5px;
+    top: 0;
+    width: 100%;
+    border-style: dashed none none none;
     cursor: ns-resize;
   }
   .handle-tr {
-    top: -10px;
-    right: -10px;
+    top: 0;
+    right: 0;
     cursor: nesw-resize;
-  }
-  .handle-ml {
-    top: 50%;
-    margin-top: -5px;
-    left: -10px;
-    cursor: ew-resize;
+    background: rgba(221, 221, 221, 0.5);
   }
   .handle-mr {
-    top: 50%;
-    margin-top: -5px;
-    right: -10px;
+    top: 0;
+    right: 0;
+    height: 100%;
+    border-style: none dashed none none;
     cursor: ew-resize;
   }
-  .handle-bl {
-    bottom: -10px;
-    left: -10px;
-    cursor: nesw-resize;
+  .handle-br {
+    bottom: 0;
+    right: 0;
+    cursor: nwse-resize;
+    background: rgba(221, 221, 221, 0.5);
   }
   .handle-bm {
-    bottom: -10px;
-    left: 50%;
-    margin-left: -5px;
+    bottom: 0;
+    width: 100%;
+    border-style: none none dashed none;
     cursor: ns-resize;
   }
-  .handle-br {
-    bottom: -10px;
-    right: -10px;
-    cursor: nwse-resize;
+  .handle-bl {
+    bottom: 0;
+    left: 0;
+    cursor: nesw-resize;
+    background: rgba(221, 221, 221, 0.5);
+  }
+  .handle-ml {
+    top: 0;
+    left: 0;
+    height: 100%;
+    border-style: none none none dashed;
+    cursor: ew-resize;
   }
 </style>

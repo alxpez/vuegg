@@ -1,24 +1,24 @@
 <template>
   <div class="pageContainer">
-    <!-- TODO: Add pages/routes to mockdata and implement for each on canvas -->
-    <page></page>
+    <egg-stage></egg-stage>
   </div>
 </template>
 
 
 <script>
 import { mapGetters } from 'vuex'
-import Page from '@/components/Page'
+import EggStage from '@/components/EggStage'
 import { pageExists } from '@/store/types'
 
 export default {
   name: 'main-container',
-  components: { Page },
+  components: { EggStage },
   computed: mapGetters([pageExists]),
   mounted () {
     this.$router.replace({query: {page: 'home'}})
   },
   beforeRouteUpdate (to, from, next) {
+    // Cancels navigation if page is unexistent
     this.pageExists(to.query.page) ? next() : next(false)
   }
 }

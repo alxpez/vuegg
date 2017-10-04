@@ -1,8 +1,8 @@
 <template>
   <v-list>
       <v-list-tile
-        v-for="component in components" :key="component.id"
-        @click="addEgglement({pageIndex, el: component})"
+        v-for="component in components" :key="componentKey"
+        @click="registerAndAddEgglement({parentId: pageId, el: component})"
       >
         <v-list-tile-content>
           <v-list-tile-title v-html="component.name"></v-list-tile-title>
@@ -13,18 +13,21 @@
 
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
-import { addEgglement, getPageIndexById } from '@/store/types'
+import uuid4 from 'uuid/v4'
+import { mapActions } from 'vuex'
+import { registerAndAddEgglement } from '@/store/types'
 import MockData from '@/assets/mockdata'
 
 export default {
   name: 'components-menu',
-  methods: mapMutations([addEgglement]),
+  methods: mapActions([registerAndAddEgglement]),
   computed: {
-    pageIndex () {
-      return this.getPageIndexById(this.$route.query.page)
+    componentKey () {
+      return uuid4()
     },
-    ...mapGetters([getPageIndexById])
+    pageId () {
+      return this.$route.query.page
+    }
   },
   data () {
     return {
