@@ -86,7 +86,6 @@ export default {
   },
   methods: {
     changeActivePage (value) {
-      console.log('yoyo')
       this.$router.replace({query: {page: value.id}})
     },
     ...mapGetters([getPageById, getPageIndexById]),

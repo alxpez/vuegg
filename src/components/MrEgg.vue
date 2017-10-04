@@ -2,6 +2,7 @@
   <div class="vdr" @mousedown.stop="elmDown" :style="style"
     :class="{ draggable: draggable, resizable: resizable, active: enabled, dragging: dragging, resizing: resizing }"
   >
+    <slot></slot>
     <div
       class="handle"
       v-if="resizable"
@@ -10,7 +11,6 @@
       :style="{ display: enabled ? 'block' : 'none'}"
       @mousedown.stop.prevent="handleDown(handle, $event)"
     ></div>
-    <slot></slot>
   </div>
 </template>
 
@@ -81,7 +81,7 @@ export default {
     handles: {
       type: Array,
       default: function () {
-        return ['tl', 'tm', 'tr', 'mr', 'br', 'bm', 'bl', 'ml']
+        return ['tm', 'mr', 'bm', 'ml', 'tl', 'tr', 'br', 'bl']
       }
     },
     axis: {
@@ -369,55 +369,59 @@ export default {
     box-sizing: border-box;
     display: none;
     position: absolute;
-    width: 10px;
-    height: 10px;
+    width: 6px;
+    height: 6px;
     font-size: 1px;
     border: 1px solid rgba(170, 170, 170, 0.8);
-    background: rgba(221, 221, 221, 0.8);
-    border-radius: 50%;
   }
   .handle-tl {
-    top: -10px;
-    left: -10px;
+    top: 0;
+    left: 0;
     cursor: nwse-resize;
+    background: rgba(221, 221, 221, 0.5);
   }
   .handle-tm {
-    top: -10px;
-    left: 50%;
-    margin-left: -5px;
+    top: 0;
+    width: 100%;
+    border-style: dashed none none none;
     cursor: ns-resize;
   }
   .handle-tr {
-    top: -10px;
-    right: -10px;
+    top: 0;
+    right: 0;
     cursor: nesw-resize;
-  }
-  .handle-ml {
-    top: 50%;
-    margin-top: -5px;
-    left: -10px;
-    cursor: ew-resize;
+    background: rgba(221, 221, 221, 0.5);
   }
   .handle-mr {
-    top: 50%;
-    margin-top: -5px;
-    right: -10px;
+    top: 0;
+    right: 0;
+    height: 100%;
+    border-style: none dashed none none;
     cursor: ew-resize;
   }
-  .handle-bl {
-    bottom: -10px;
-    left: -10px;
-    cursor: nesw-resize;
+  .handle-br {
+    bottom: 0;
+    right: 0;
+    cursor: nwse-resize;
+    background: rgba(221, 221, 221, 0.5);
   }
   .handle-bm {
-    bottom: -10px;
-    left: 50%;
-    margin-left: -5px;
+    bottom: 0;
+    width: 100%;
+    border-style: none none dashed none;
     cursor: ns-resize;
   }
-  .handle-br {
-    bottom: -10px;
-    right: -10px;
-    cursor: nwse-resize;
+  .handle-bl {
+    bottom: 0;
+    left: 0;
+    cursor: nesw-resize;
+    background: rgba(221, 221, 221, 0.5);
+  }
+  .handle-ml {
+    top: 0;
+    left: 0;
+    height: 100%;
+    border-style: none none none dashed;
+    cursor: ew-resize;
   }
 </style>
