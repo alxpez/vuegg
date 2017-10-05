@@ -1,5 +1,5 @@
 <template>
-  <div class="vdr" @mousedown.stop="elmDown" :style="style"
+  <div class="vdr" @mousedown.stop="eggDown" :style="style"
     :class="{ draggable: draggable, resizable: resizable, active: enabled, dragging: dragging, resizing: resizing }"
   >
     <slot></slot>
@@ -9,7 +9,7 @@
       v-for="handle in handles"
       :class="'handle-' + handle"
       :style="{ display: enabled ? 'block' : 'none'}"
-      @mousedown.stop.prevent="handleDown(handle, $event)"
+      @mousedown.stop.prevent="mrControlDown(handle, $event)"
     ></div>
   </div>
 </template>
@@ -182,7 +182,7 @@ export default {
 
       this.$emit('resizing', this.left, this.top, this.width, this.height)
     },
-    elmDown: function (e) {
+    eggDown: function (e) {
       const target = e.target || e.srcElement
 
       if (this.$el.contains(target)) {
@@ -205,7 +205,7 @@ export default {
 
       // TODO: TEMPORARY/POSSIBLE FIX? (this.$el.id !== target.id)
       // if (!this.$el.contains(target) && !regex.test(target.className)) {
-      if ((this.$el.id !== target.id) && !regex.test(target.className)) {
+      if (((this.$el.id !== target.id) || !this.$el.contains(target)) && !regex.test(target.className)) {
         if (this.enabled) {
           this.enabled = false
 
@@ -214,7 +214,7 @@ export default {
         }
       }
     },
-    handleDown: function (handle, e) {
+    mrControlDown: function (handle, e) {
       this.handle = handle
 
       if (e.stopPropagation) e.stopPropagation()

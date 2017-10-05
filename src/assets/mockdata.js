@@ -2,13 +2,70 @@
 const MockData = {
   'components': [
     {
-      'name': 'Toolbar',
+      'name': 'Div',
+      'type': 'div',
+      'egg': true,
+      'classes': [
+        {
+          'containegg': true
+        }
+      ],
+      'children': []
+    }, {
+      'name': 'Input',
+      'type': 'input',
+      'egg': true,
+      'width': 300,
+      'minWidth': 32,
+      'height': 40,
+      'minHeight': 32,
+      'props': {
+        'placeholder': 'Input prompt'
+      },
+      'styles': {
+        'border-style': 'inset',
+        'background-color': 'white',
+        'color': 'initial'
+      },
+      'classes': []
+    }, {
+      'name': 'Button',
+      'type': 'button',
+      'text': 'Button',
+      'egg': true,
+      'width': 200,
+      'minWidth': 32,
+      'height': 40,
+      'minHeight': 32,
+      'props': {},
+      'styles': {},
+      'classes': []
+    }, {
+      'name': '(VM) Whiteframe',
+      'type': 'md-whiteframe',
+      'egg': true,
+      'width': 300,
+      'minWidth': 32,
+      'height': 300,
+      'minHeight': 32,
+      'props': {},
+      'styles': {
+        'zIndex': 'auto'
+      },
+      'classes': [
+        {
+          'containegg': true
+        }
+      ],
+      'children': []
+    }, {
+      'name': '(VM) Toolbar',
       'type': 'md-toolbar',
       'egg': true,
       'x': 0,
       'y': 0,
       'width': 1024,
-      'minWidth': 600,
+      'minWidth': 150,
       'height': 48,
       'minHeight': 48,
       'props': {},
@@ -61,7 +118,67 @@ const MockData = {
         }
       ]
     }, {
-      'name': 'whiteframe',
+      'name': '(VM) Button',
+      'type': 'md-button',
+      'text': 'Button',
+      'egg': true,
+      'x': 100,
+      'y': 150,
+      'width': 150,
+      'minWidth': 88,
+      'height': 36,
+      'minHeight': 32,
+      'props': {},
+      'classes': [
+        {
+          'md-primary': true
+        }, {
+          'md-raised': true
+        }, {
+          'md-dense': true
+        }
+      ]
+    }, {
+      'name': '(VM) Input',
+      'type': 'md-input-container',
+      'egg': true,
+      'x': 100,
+      'y': 150,
+      'width': 150,
+      'minWidth': 110,
+      'height': 48,
+      'minHeight': 48,
+      'props': {},
+      'classes': [],
+      'children': [
+        {
+          'type': 'label',
+          'text': 'Placeholder',
+          'classes': []
+        }, {
+          'type': 'md-input',
+          'props': {
+            'value': 'Input'
+          },
+          'classes': []
+        }
+      ]
+    }, {
+      'name': '(VM) Chip',
+      'type': 'md-chip',
+      'egg': true,
+      'text': 'Single chip',
+      'width': 150,
+      'minWidth': 32,
+      'height': 32,
+      'minHeight': 32,
+      'props': {
+        'md-deletable': true
+      },
+      'styles': {},
+      'classes': []
+    }, {
+      'name': 'TEST whiteframe',
       'type': 'md-whiteframe',
       'egg': true,
       'width': 300,
@@ -138,71 +255,7 @@ const MockData = {
         }
       ]
     }, {
-      'name': 'whiteframe-clean',
-      'type': 'md-whiteframe',
-      'egg': true,
-      'width': 300,
-      'minWidth': 32,
-      'height': 300,
-      'minHeight': 32,
-      'props': {},
-      'styles': {
-        'zIndex': 'auto'
-      },
-      'classes': [
-        {
-          'containegg': true
-        }
-      ],
-      'children': []
-    }, {
-      'name': 'Button',
-      'type': 'md-button',
-      'text': 'Button',
-      'egg': true,
-      'x': 100,
-      'y': 150,
-      'width': 150,
-      'minWidth': 88,
-      'height': 36,
-      'minHeight': 32,
-      'props': {},
-      'classes': [
-        {
-          'md-primary': true
-        }, {
-          'md-raised': true
-        }, {
-          'md-dense': true
-        }
-      ]
-    }, {
-      'name': 'Input',
-      'type': 'md-input-container',
-      'egg': true,
-      'x': 100,
-      'y': 150,
-      'width': 150,
-      'minWidth': 110,
-      'height': 48,
-      'minHeight': 48,
-      'props': {},
-      'classes': [],
-      'children': [
-        {
-          'type': 'label',
-          'text': 'Placeholder',
-          'classes': []
-        }, {
-          'type': 'md-input',
-          'props': {
-            'value': 'Input'
-          },
-          'classes': []
-        }
-      ]
-    }, {
-      'name': '(Vuetify) Button',
+      'name': '(VTF) Button',
       'type': 'v-btn',
       'text': 'V Button',
       'egg': true,
@@ -213,7 +266,7 @@ const MockData = {
       'props': {},
       'classes': []
     }, {
-      'name': '(Vuetify) Input',
+      'name': '(VTF) Input',
       'type': 'v-text-field',
       'egg': true,
       'x': 100,
