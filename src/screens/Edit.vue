@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  data () {
+  data: function{
     return {
       msg: 'This is the EDIT view'
     }

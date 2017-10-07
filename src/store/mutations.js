@@ -15,7 +15,7 @@ const mutations = {
     state.app.pageDialog.isOpen = payload.isOpen
   },
   // Page mutations
-  [types.addPage] (state, page) {
+  [types.createPage] (state, page) {
     state.pages.push(page)
   },
   [types.updatePage] (state, payload) {
@@ -25,11 +25,11 @@ const mutations = {
       path: payload.path
     })
   },
-  [types.removePage] (state, payload) {
+  [types.deletePage] (state, payload) {
     state.pages.splice(payload.pageIndex, 1)
   },
   // Egglement mutations
-  [types.addEgglement] (state, payload) {
+  [types.createEgglement] (state, payload) {
     payload.parent.children.push(payload.egglement)
   },
   [types.updateEgglement] (state, payload) {
@@ -38,7 +38,7 @@ const mutations = {
     if (payload.height) payload.egglement.height = payload.height
     if (payload.width) payload.egglement.width = payload.width
   },
-  [types.removeEgglement] (state, payload) {
+  [types.deleteEgglement] (state, payload) {
     payload.parent.children.splice(payload.eggIndex, 1)
   }
 }

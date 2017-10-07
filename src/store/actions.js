@@ -16,7 +16,7 @@ const actions = {
         path: payload.path.toLowerCase(),
         children: []
       }
-      commit(types.addPage, page)
+      commit(types.createPage, page)
     } else {
       // Updates existing page
       let pagePayload = {
@@ -29,10 +29,10 @@ const actions = {
     commit(types.togglePageDialog, {isOpen: false, isNew})
   },
 
-  [types.registerAndAddEgglement] ({ commit, getters }, payload) {
+  [types.registerAndSaveEgglement] ({ commit, getters }, payload) {
     let parent = getters.getPageById(payload.parentId)
     let egglement = registerEgglement(payload.el)
-    commit(types.addEgglement, {parent, egglement})
+    commit(types.createEgglement, {parent, egglement})
   },
 
   [types.moveEgglement] ({ dispatch, commit }, payload) {
@@ -55,9 +55,9 @@ const actions = {
     if (oldParentId !== '') {
       let oldParent = getChildNode(ai.rootEgg, oldParentId, ai.familyIds)
       let childEggIndex = oldParent.children.findIndex(egg => egg.id === ai.childEgg.id)
-      commit(types.removeEgglement, {parent: oldParent, eggIndex: childEggIndex})
+      commit(types.deleteEgglement, {parent: oldParent, eggIndex: childEggIndex})
     } else {
-      commit(types.removeEgglement, {parent: ai.page, eggIndex: ai.rootEggIndex})
+      commit(types.deleteEgglement, {parent: ai.page, eggIndex: ai.rootEggIndex})
     }
 
     // ----- NEW FAMILY business
@@ -69,7 +69,7 @@ const actions = {
     let newParent = getChildNode(newRootEgg, payload.parentId, newFamilyIds)
 
     ai.childEgg = registerEgglement(ai.childEgg, payload.parentId)
-    commit(types.addEgglement, {parent: newParent, egglement: ai.childEgg})
+    commit(types.createEgglement, {parent: newParent, egglement: ai.childEgg})
 
     // TODO: Improve positioning of child when parent change
     let x = 0

@@ -32,6 +32,15 @@ import { getPageById, pathInUse, nameInUse, savePageAndClose, togglePageDialog }
 
 export default {
   name: 'page-dialog',
+  data: function () {
+    return {
+      valid: false,
+      activePage: {},
+      id: null,
+      name: '',
+      path: ''
+    }
+  },
   computed: {
     dialogState: {
       get () {
@@ -91,15 +100,6 @@ export default {
         this.name = this.activePage.name
         this.path = this.activePage.path
       }
-    }
-  },
-  data () {
-    return {
-      valid: false,
-      activePage: {},
-      id: null,
-      name: '',
-      path: ''
     }
   }
 }

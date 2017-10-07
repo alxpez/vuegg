@@ -1,6 +1,12 @@
 <template>
-  <div class="vdr" @mousedown.stop="eggDown" :style="style"
-    :class="{ draggable: draggable, resizable: resizable, active: enabled, dragging: dragging, resizing: resizing }"
+  <div class="mrEgg" @mousedown.stop="onEggDown" :style="style"
+    :class="{
+      draggable: draggable,
+      resizable: resizable,
+      active: enabled,
+      dragging: dragging,
+      resizing: resizing
+    }"
   >
     <slot></slot>
     <div
@@ -9,7 +15,7 @@
       v-for="handle in handles"
       :class="'handle-' + handle"
       :style="{ display: enabled ? 'block' : 'none'}"
-      @mousedown.stop.prevent="mrControlDown(handle, $event)"
+      @mousedown.stop.prevent="onControlDown(handle, $event)"
     ></div>
   </div>
 </template>
@@ -44,14 +50,14 @@ export default {
     },
     minw: {
       type: Number,
-      default: 50,
+      default: 20,
       validator: function (val) {
         return val > 0
       }
     },
     minh: {
       type: Number,
-      default: 50,
+      default: 20,
       validator: function (val) {
         return val > 0
       }
@@ -104,6 +110,19 @@ export default {
       type: Boolean, default: false
     }
   },
+  data: function () {
+    return {
+      top: this.y,
+      left: this.x,
+      width: this.w,
+      height: this.h,
+      resizing: false,
+      dragging: false,
+      enabled: this.active,
+      handle: null,
+      zIndex: this.z
+    }
+  },
   created: function () {
     this.parentX = 0
     this.parentW = 9999
@@ -126,9 +145,9 @@ export default {
     this.elmH = 0
   },
   mounted: function () {
-    document.documentElement.addEventListener('mousemove', this.handleMove, true)
-    document.documentElement.addEventListener('mousedown', this.deselect, true)
-    document.documentElement.addEventListener('mouseup', this.handleUp, true)
+    document.documentElement.addEventListener('mousemove', this.onMouseMove, true)
+    document.documentElement.addEventListener('mousedown', this.deactivate, true)
+    document.documentElement.addEventListener('mouseup', this.onMouseUp, true)
 
     this.elmX = parseInt(this.$el.style.left)
     this.elmY = parseInt(this.$el.style.top)
@@ -138,22 +157,9 @@ export default {
     this.reviewDimensions()
   },
   beforeDestroy: function () {
-    document.documentElement.removeEventListener('mousemove', this.handleMove, true)
-    document.documentElement.removeEventListener('mousedown', this.deselect, true)
-    document.documentElement.removeEventListener('mouseup', this.handleUp, true)
-  },
-  data: function () {
-    return {
-      top: this.y,
-      left: this.x,
-      width: this.w,
-      height: this.h,
-      resizing: false,
-      dragging: false,
-      enabled: this.active,
-      handle: null,
-      zIndex: this.z
-    }
+    document.documentElement.removeEventListener('mousemove', this.onMouseMove, true)
+    document.documentElement.removeEventListener('mousedown', this.deactivate, true)
+    document.documentElement.removeEventListener('mouseup', this.onMouseUp, true)
   },
   methods: {
     reviewDimensions: function () {
@@ -182,7 +188,7 @@ export default {
 
       this.$emit('resizing', this.left, this.top, this.width, this.height)
     },
-    eggDown: function (e) {
+    onEggDown: function (e) {
       const target = e.target || e.srcElement
 
       if (this.$el.contains(target)) {
@@ -199,7 +205,7 @@ export default {
         }
       }
     },
-    deselect: function (e) {
+    deactivate: function (e) {
       const target = e.target || e.srcElement
       const regex = new RegExp('handle-([trmbl]{2})', '')
 
@@ -214,15 +220,15 @@ export default {
         }
       }
     },
-    mrControlDown: function (handle, e) {
-      this.handle = handle
+    onControlDown: function (control, e) {
+      this.handle = control
 
       if (e.stopPropagation) e.stopPropagation()
       if (e.preventDefault) e.preventDefault()
 
       this.resizing = true
     },
-    handleMove: function (e) {
+    onMouseMove: function (e) {
       this.mouseX = e.pageX || e.clientX + document.documentElement.scrollLeft
       this.mouseY = e.pageY || e.clientY + document.documentElement.scrollTop
 
@@ -291,7 +297,7 @@ export default {
         this.$emit('dragging', this.left, this.top, this.mouseX, this.mouseY)
       }
     },
-    handleUp: function (e) {
+    onMouseUp: function (e) {
       this.handle = null
       if (this.resizing) {
         this.resizing = false
@@ -358,7 +364,7 @@ export default {
 </script>
 
 <style scoped>
-  .vdr {
+  .mrEgg {
     position: absolute;
     box-sizing: border-box;
   }
