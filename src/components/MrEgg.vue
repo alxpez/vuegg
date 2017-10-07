@@ -23,7 +23,7 @@ SOFTWARE.
 -->
 
 <template>
-  <div class="mrEgg" @mousedown.stop="activate" :style="style"
+  <div class="mrEgg" @mousedown.stop="activategg" :style="style"
     :class="{
       draggable: draggable,
       resizable: resizable,
@@ -50,7 +50,7 @@ export default {
   name: 'mr-egg',
   props: {
     active: {
-      type: Boolean, default: false
+      type: Boolean, default: true
     },
     draggable: {
       type: Boolean, default: true
@@ -170,7 +170,7 @@ export default {
   },
   mounted: function () {
     document.documentElement.addEventListener('mousemove', this.onMouseMove, true)
-    document.documentElement.addEventListener('mousedown', this.deactivate, true)
+    document.documentElement.addEventListener('mousedown', this.deactivategg, true)
     document.documentElement.addEventListener('mouseup', this.onMouseUp, true)
 
     this.elmX = parseInt(this.$el.style.left)
@@ -182,7 +182,7 @@ export default {
   },
   beforeDestroy: function () {
     document.documentElement.removeEventListener('mousemove', this.onMouseMove, true)
-    document.documentElement.removeEventListener('mousedown', this.deactivate, true)
+    document.documentElement.removeEventListener('mousedown', this.deactivategg, true)
     document.documentElement.removeEventListener('mouseup', this.onMouseUp, true)
   },
   methods: {
@@ -212,7 +212,7 @@ export default {
 
       this.$emit('resizing', this.left, this.top, this.width, this.height)
     },
-    activate: function (e) {
+    activategg: function (e) {
       const target = e.target || e.srcElement
 
       if (this.$el.contains(target)) {
@@ -229,7 +229,7 @@ export default {
         }
       }
     },
-    deactivate: function (e) {
+    deactivategg: function (e) {
       const target = e.target || e.srcElement
       const regex = new RegExp('handle-([trmbl]{2})', '')
 
