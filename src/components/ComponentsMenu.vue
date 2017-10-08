@@ -2,7 +2,7 @@
   <v-list>
       <v-list-tile
         v-for="component in components" :key="componentKey"
-        @click="registerAndSaveEgglement({parentId: pageId, el: component})"
+        @click="registerAndSaveEgglement({pageId, el: component})"
       >
         <v-list-tile-content>
           <v-list-tile-title v-html="component.name"></v-list-tile-title>

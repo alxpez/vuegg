@@ -9,7 +9,7 @@
     :minh="egg.minHeight"
     @dragging="onDragging"
     @dragstop="onDragStop"
-    @resizestop="(x, y, width, height)=>resizeEgglement({elId:egg.id, pageId, x, y, width, height})"
+    @resizestop="(x, y, width, height)=>resizeEgglement({elId:egg.id, pageId, left: x, top: y, width, height})"
   >
     <component
       :id="egg.id"
@@ -80,24 +80,25 @@ export default {
           return element
         }
       }
-      console.log(null)
       return null
     },
     onDragging (eggLeft, eggTop, mouseX, mouseY) {
       let containegg = this.getContaineggOnPoint(mouseX, mouseY)
-      this.toggleDroppableCursor(containegg !== null && typeof containegg !== 'undefined')
+      this.toggleDroppableCursor(containegg && typeof containegg !== 'undefined')
     },
-    onDragStop (EggLeft, EggTop, mouseX, mouseY) {
+    onDragStop (eggLeft, eggTop, mouseX, mouseY) {
       let payload = {
         pageId: this.pageId,
         parentId: null,
         elId: this.egg.id,
-        x: EggLeft,
-        y: EggTop
+        left: eggLeft,
+        top: eggTop,
+        mouseX,
+        mouseY
       }
 
       let containegg = this.getContaineggOnPoint(mouseX, mouseY)
-      if (containegg !== null && typeof containegg !== 'undefined') {
+      if (containegg && typeof containegg !== 'undefined') {
         payload.parentId = containegg.id
       }
       this.moveEgglement(payload)
