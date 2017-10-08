@@ -5,7 +5,7 @@ import state from '@/store/state'
 // TODO: Refactor actions and divide them by context
 
 const actions = {
-  [types.savePageAndClose] ({ commit, getters }, payload) {
+  [types.savePageAndClose]: function ({ commit, getters }, payload) {
     let isNew = false
     if (!payload.id) {
       // Saves new page
@@ -29,61 +29,53 @@ const actions = {
     commit(types.togglePageDialog, {isOpen: false, isNew})
   },
 
-  [types.registerAndSaveEgglement] ({ commit, getters }, payload) {
+  [types.registerAndSaveEgglement]: function ({ commit, getters }, payload) {
     let parent = getters.getPageById(payload.parentId)
-    let egglement = registerEgglement(payload.el)
+    let egglement = registerEgglement(payload.el, payload.parentId)
     commit(types.createEgglement, {parent, egglement})
   },
 
-  [types.moveEgglement] ({ dispatch, commit }, payload) {
+  [types.moveEgglement]: function ({ dispatch, commit }, payload) {
     // payload = {pageId, elId, parentId=null(if dropped on a containegg), x, y}
     if (payload.parentId) {
       dispatch(types.changeEgglementParent, {elId: payload.elId, parentId: payload.parentId, pageId: payload.pageId})
     } else {
-      let ai = prepareActionItems(payload.pageId, payload.elId)
-      commit(types.updateEgglement, {egglement: ai.childEgg, x: payload.x, y: payload.y})
+      let family = getFamilyItems(payload.pageId, payload.elId)
+      commit(types.updateEgglement, {egglement: family.childEgg, x: payload.x, y: payload.y})
     }
   },
 
-  [types.changeEgglementParent] ({ commit }, payload) {
+  [types.changeEgglementParent]: function ({ commit }, payload) {
     // payload = { newParentId, elId, pageId }
-    let ai = prepareActionItems(payload.pageId, payload.elId)
+    let family = getFamilyItems(payload.pageId, payload.elId)
 
     // ----- OLD FAMILY business
     let oldParentId = payload.elId.substring(0, payload.elId.lastIndexOf('.'))
 
-    if (oldParentId !== '') {
-      let oldParent = getChildNode(ai.rootEgg, oldParentId, ai.familyIds)
-      let childEggIndex = oldParent.children.findIndex(egg => egg.id === ai.childEgg.id)
-      commit(types.deleteEgglement, {parent: oldParent, eggIndex: childEggIndex})
-    } else {
-      commit(types.deleteEgglement, {parent: ai.page, eggIndex: ai.rootEggIndex})
-    }
+    let oldParent = getChildNode(family.rootNode, oldParentId, family.familyIds)
+    let childEggIndex = oldParent.children.findIndex(egg => egg.id === family.childEgg.id)
+    commit(types.deleteEgglement, {parent: oldParent, eggIndex: childEggIndex})
 
     // ----- NEW FAMILY business
-    let newFamilyIds = payload.parentId.split('.')
+    let newFamily = getFamilyItems(payload.pageId, payload.parentId)
+    let newParent = newFamily.childEgg
 
-    let newRootEggIndex = ai.page.children.findIndex(ch => ch.id === newFamilyIds[0])
-    let newRootEgg = ai.page.children[newRootEggIndex]
-
-    let newParent = getChildNode(newRootEgg, payload.parentId, newFamilyIds)
-
-    ai.childEgg = registerEgglement(ai.childEgg, payload.parentId)
-    commit(types.createEgglement, {parent: newParent, egglement: ai.childEgg})
+    family.childEgg = registerEgglement(family.childEgg, payload.parentId)
+    commit(types.createEgglement, {parent: newParent, egglement: family.childEgg})
 
     // TODO: Improve positioning of child when parent change
     let x = 0
     let y = 0
 
-    commit(types.updateEgglement, {egglement: ai.childEgg, x, y})
+    commit(types.updateEgglement, {egglement: family.childEgg, x, y})
   },
 
-  [types.resizeEgglement] ({ getters, commit }, payload) {
+  [types.resizeEgglement]: function ({ getters, commit }, payload) {
     // payload = {pageId, elId, x, y, height, width}
-    let ai = prepareActionItems(payload.pageId, payload.elId)
+    let family = getFamilyItems(payload.pageId, payload.elId)
 
     commit(types.updateEgglement, {
-      egglement: ai.childEgg,
+      egglement: family.childEgg,
       x: payload.x,
       y: payload.y,
       height: payload.height,
@@ -94,16 +86,22 @@ const actions = {
 
 // ----- HELPER METHODS ----- //
 
-function prepareActionItems (pageId, elId) {
+function getFamilyItems (pageId, elId) {
   let pageIndex = state.pages.findIndex(p => p.id === pageId)
   let page = state.pages[pageIndex]
 
   let familyIds = elId.split('.')
-  let rootEggIndex = page.children.findIndex(ch => ch.id === familyIds[0])
-  let rootEgg = page.children[rootEggIndex]
 
-  let childEgg = getChildNode(rootEgg, elId, familyIds)
-  return { familyIds, page, pageIndex, rootEgg, rootEggIndex, childEgg }
+  let rootNodeIndex = pageIndex
+  let rootNode = page
+
+  if (familyIds[0] !== pageId) {
+    rootNodeIndex = page.children.findIndex(ch => ch.id === familyIds[0])
+    rootNode = page.children[rootNodeIndex]
+  }
+
+  let childEgg = getChildNode(rootNode, elId, familyIds)
+  return { familyIds, page, pageIndex, rootNode, rootNodeIndex, childEgg }
 }
 
 function registerEgglement (egglement, parentId) {

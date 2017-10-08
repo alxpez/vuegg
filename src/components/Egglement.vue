@@ -69,14 +69,18 @@ export default {
 
       for (let element of elementsOnPoint) {
         if (element.id === parentId) return null
-        if (
-          element.classList.contains('egglement') &&
-          element.classList.contains('containegg') &&
-          !element.id.includes(thisEgg.id)
+
+        if (element.classList.contains('eggStage') ||
+          (
+            !element.id.includes(thisEgg.id) &&
+            element.classList.contains('egglement') &&
+            element.classList.contains('containegg')
+          )
         ) {
           return element
         }
       }
+      console.log(null)
       return null
     },
     onDragging (eggLeft, eggTop, mouseX, mouseY) {
