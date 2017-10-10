@@ -13,14 +13,14 @@ import { pageExists } from '@/store/types'
 export default {
   name: 'main-container',
   components: { EggStage },
-  computed: mapGetters([pageExists]),
-  mounted () {
+  mounted: function () {
     this.$router.replace({query: {page: 'home'}})
   },
-  beforeRouteUpdate (to, from, next) {
+  beforeRouteUpdate: function (to, from, next) {
     // Cancels navigation if page is unexistent
     this.pageExists(to.query.page) ? next() : next(false)
-  }
+  },
+  computed: mapGetters([pageExists])
 }
 </script>
 

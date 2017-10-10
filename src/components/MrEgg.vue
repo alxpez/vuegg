@@ -1,6 +1,36 @@
+<!--
+MIT License
+
+Copyright (c) 2017 Maurizio Bonani
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+
 <template>
-  <div class="vdr" @mousedown.stop="elmDown" :style="style"
-    :class="{ draggable: draggable, resizable: resizable, active: enabled, dragging: dragging, resizing: resizing }"
+  <div class="mrEgg" @mousedown.stop.prevent="activategg" :style="style"
+    :class="{
+      draggable: draggable,
+      resizable: resizable,
+      active: enabled,
+      /*dragging: dragging,
+      resizing: resizing*/
+    }"
   >
     <slot></slot>
     <div
@@ -9,7 +39,7 @@
       v-for="handle in handles"
       :class="'handle-' + handle"
       :style="{ display: enabled ? 'block' : 'none'}"
-      @mousedown.stop.prevent="handleDown(handle, $event)"
+      @mousedown.stop.prevent="onControlDown(handle, $event)"
     ></div>
   </div>
 </template>
@@ -20,7 +50,7 @@ export default {
   name: 'mr-egg',
   props: {
     active: {
-      type: Boolean, default: false
+      type: Boolean, default: true
     },
     draggable: {
       type: Boolean, default: true
@@ -44,14 +74,14 @@ export default {
     },
     minw: {
       type: Number,
-      default: 50,
+      default: 20,
       validator: function (val) {
         return val > 0
       }
     },
     minh: {
       type: Number,
-      default: 50,
+      default: 20,
       validator: function (val) {
         return val > 0
       }
@@ -60,14 +90,16 @@ export default {
       type: Number,
       default: 0,
       validator: function (val) {
-        return val >= 0
+        // return val >= 0
+        return typeof val === 'number'
       }
     },
     y: {
       type: Number,
       default: 0,
       validator: function (val) {
-        return val >= 0
+        // return val >= 0
+        return typeof val === 'number'
       }
     },
     z: {
@@ -104,6 +136,19 @@ export default {
       type: Boolean, default: false
     }
   },
+  data: function () {
+    return {
+      top: this.y,
+      left: this.x,
+      width: this.w,
+      height: this.h,
+      resizing: false,
+      dragging: false,
+      enabled: this.active,
+      handle: null,
+      zIndex: this.z
+    }
+  },
   created: function () {
     this.parentX = 0
     this.parentW = 9999
@@ -126,71 +171,55 @@ export default {
     this.elmH = 0
   },
   mounted: function () {
-    document.documentElement.addEventListener('mousemove', this.handleMove, true)
-    document.documentElement.addEventListener('mousedown', this.deselect, true)
-    document.documentElement.addEventListener('mouseup', this.handleUp, true)
-
-    this.elmX = parseInt(this.$el.style.left)
-    this.elmY = parseInt(this.$el.style.top)
-    this.elmW = this.$el.offsetWidth || this.$el.clientWidth
-    this.elmH = this.$el.offsetHeight || this.$el.clientHeight
+    document.documentElement.addEventListener('mousemove', this.onMouseMove, true)
+    document.documentElement.addEventListener('mousedown', this.deactivategg, true)
+    document.documentElement.addEventListener('mouseup', this.onMouseUp, true)
 
     this.reviewDimensions()
   },
   beforeDestroy: function () {
-    document.documentElement.removeEventListener('mousemove', this.handleMove, true)
-    document.documentElement.removeEventListener('mousedown', this.deselect, true)
-    document.documentElement.removeEventListener('mouseup', this.handleUp, true)
-  },
-  data: function () {
-    return {
-      top: this.y,
-      left: this.x,
-      width: this.w,
-      height: this.h,
-      resizing: false,
-      dragging: false,
-      enabled: this.active,
-      handle: null,
-      zIndex: this.z
-    }
+    document.documentElement.removeEventListener('mousemove', this.onMouseMove, true)
+    document.documentElement.removeEventListener('mousedown', this.deactivategg, true)
+    document.documentElement.removeEventListener('mouseup', this.onMouseUp, true)
   },
   methods: {
     reviewDimensions: function () {
       if (this.minw > this.w) this.width = this.minw
-
       if (this.minh > this.h) this.height = this.minh
 
       if (this.parent) {
-        const parentW = parseInt(this.$el.parentNode.clientWidth, 10)
-        const parentH = parseInt(this.$el.parentNode.clientHeight, 10)
+        let parentW = parseInt(this.$el.parentNode.clientWidth, 10)
+        let parentH = parseInt(this.$el.parentNode.clientHeight, 10)
 
         this.parentW = parentW
         this.parentH = parentH
 
         if (this.w > this.parentW) this.width = parentW
-
         if (this.h > this.parentH) this.height = parentH
 
         if ((this.x + this.w) > this.parentW) this.width = parentW - this.x
-
         if ((this.y + this.h) > this.parentH) this.height = parentH - this.y
-
-        this.elmW = this.width
-        this.elmH = this.height
       }
 
-      this.$emit('resizing', this.left, this.top, this.width, this.height)
+      this.elmX = parseInt(this.$el.style.left)
+      this.elmY = parseInt(this.$el.style.top)
+
+      this.elmW = this.width
+      this.elmH = this.height
+
+      this.$emit('resizestop', this.left, this.top, this.width, this.height)
     },
-    elmDown: function (e) {
-      const target = e.target || e.srcElement
+    activategg: function (e) {
+      let target = e.target || e.srcElement
+
+      this.lastMouseX = e.pageX || e.clientX + document.documentElement.scrollLeft
+      this.lastMouseY = e.pageY || e.clientY + document.documentElement.scrollTop
 
       if (this.$el.contains(target)) {
-        this.reviewDimensions()
         if (!this.enabled) {
           this.enabled = true
 
-          this.$emit('activated')
+          // this.$emit('activated')
           this.$emit('update:active', true)
         }
 
@@ -199,30 +228,28 @@ export default {
         }
       }
     },
-    deselect: function (e) {
-      const target = e.target || e.srcElement
-      const regex = new RegExp('handle-([trmbl]{2})', '')
+    deactivategg: function (e) {
+      let target = e.target || e.srcElement
+      let regex = new RegExp('handle-([trmbl]{2})', '')
 
-      // TODO: TEMPORARY/POSSIBLE FIX? (this.$el.id !== target.id)
-      // if (!this.$el.contains(target) && !regex.test(target.className)) {
-      if ((this.$el.id !== target.id) && !regex.test(target.className)) {
+      if ((this.$el.id !== target.id || !this.$el.contains(target)) && !regex.test(target.className)) {
         if (this.enabled) {
           this.enabled = false
 
-          this.$emit('deactivated')
+          // this.$emit('deactivated')
           this.$emit('update:active', false)
         }
       }
     },
-    handleDown: function (handle, e) {
-      this.handle = handle
+    onControlDown: function (control, e) {
+      this.handle = control
 
       if (e.stopPropagation) e.stopPropagation()
       if (e.preventDefault) e.preventDefault()
 
       this.resizing = true
     },
-    handleMove: function (e) {
+    onMouseMove: function (e) {
       this.mouseX = e.pageX || e.clientX + document.documentElement.scrollLeft
       this.mouseY = e.pageY || e.clientY + document.documentElement.scrollTop
 
@@ -270,7 +297,7 @@ export default {
         this.width = (Math.round(this.elmW / this.grid[0]) * this.grid[0])
         this.height = (Math.round(this.elmH / this.grid[1]) * this.grid[1])
 
-        this.$emit('resizing', this.left, this.top, this.width, this.height)
+        // this.$emit('resizing', this.left, this.top, this.width, this.height)
       } else if (this.dragging) {
         if (this.elmX + dX < this.parentX) this.mouseOffX = (dX - (diffX = this.parentX - this.elmX))
         else if (this.elmX + this.elmW + dX > this.parentW) this.mouseOffX = (dX - (diffX = this.parentW - this.elmX - this.elmW))
@@ -291,22 +318,16 @@ export default {
         this.$emit('dragging', this.left, this.top, this.mouseX, this.mouseY)
       }
     },
-    handleUp: function (e) {
+    onMouseUp: function (e) {
       this.handle = null
       if (this.resizing) {
         this.resizing = false
         this.$emit('resizestop', this.left, this.top, this.width, this.height)
       }
       if (this.dragging) {
-        this.mouseX = e.pageX || e.clientX + document.documentElement.scrollLeft
-        this.mouseY = e.pageY || e.clientY + document.documentElement.scrollTop
-
         this.dragging = false
         this.$emit('dragstop', this.left, this.top, this.mouseX, this.mouseY)
       }
-
-      this.elmX = this.left
-      this.elmY = this.top
     }
   },
   computed: {
@@ -328,25 +349,25 @@ export default {
       if ((this.elmX + val >= this.parentX) && (val + this.elmW <= this.parentW)) {
         this.left = (Math.round(val / this.grid[0]) * this.grid[0])
       }
-      this.$emit('resizing', this.left, this.top, this.width, this.height)
+      this.$emit('resizestop', this.left, this.top, this.width, this.height)
     },
     y: function (val) {
       if ((this.elmY + val >= this.parentY) && (val + this.elmH <= this.parentH)) {
         this.top = (Math.round(val / this.grid[1]) * this.grid[1])
       }
-      this.$emit('resizing', this.left, this.top, this.width, this.height)
+      this.$emit('resizestop', this.left, this.top, this.width, this.height)
     },
     w: function (val) {
       if (val > 0 && this.elmX + val <= this.parentW) {
         this.width = (Math.round(val / this.grid[0]) * this.grid[0])
       }
-      this.$emit('resizing', this.left, this.top, this.width, this.height)
+      this.$emit('resizestop', this.left, this.top, this.width, this.height)
     },
     h: function (val) {
       if (val > 0 && this.elmY + val <= this.parentH) {
         this.height = (Math.round(val / this.grid[1]) * this.grid[1])
       }
-      this.$emit('resizing', this.left, this.top, this.width, this.height)
+      this.$emit('resizestop', this.left, this.top, this.width, this.height)
     },
     z: function (val) {
       if (val >= 0 || val === 'auto') {
@@ -358,7 +379,7 @@ export default {
 </script>
 
 <style scoped>
-  .vdr {
+  .mrEgg {
     position: absolute;
     box-sizing: border-box;
   }

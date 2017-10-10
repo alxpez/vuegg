@@ -7,8 +7,9 @@
     :h="egg.height"
     :minw="egg.minWidth"
     :minh="egg.minHeight"
-    @dragstop="onEgglementDropped"
-    @resizestop="(x, y, width, height)=>resizeEgglement({elId:egg.id, pageId, x, y, width, height})"
+    @dragging="onDragging"
+    @dragstop="onDragStop"
+    @resizestop="(x, y, width, height)=>resizeEgglement({elId:egg.id, pageId, left: x, top: y, width, height})"
   >
     <component
       :id="egg.id"
@@ -41,6 +42,11 @@ export default {
   name: 'egglement',
   props: ['egg'],
   components: { MrEgg },
+  data: function () {
+    return {
+      isDroppable: false
+    }
+  },
   computed: {
     pageId () {
       return this.$route.query.page
@@ -56,48 +62,58 @@ export default {
     childProps (child) {
       return child.egg ? { egg: child } : [child.props, {style: child.styles}, {class: child.classes}]
     },
-
-    // TODO: Returns the first containegg found (if this is not 'family')
-    containeggsOnPoint (x, y) {
-      let thisEgglement = null
-      let containeggs = []
+    getContaineggOnPoint (x, y) {
+      let thisEgg = this.$el.children[0]
+      let parentId = thisEgg.id.substring(0, thisEgg.id.lastIndexOf('.'))
       let elementsOnPoint = document.elementsFromPoint(x, y)
 
       for (let element of elementsOnPoint) {
-        if (element.classList.contains('egglement')) {
-          if (!thisEgglement) {
-            thisEgglement = element
-          }
-          let parentId = thisEgglement.id.substring(0, thisEgglement.id.lastIndexOf('.'))
-          if (!element.isEqualNode(thisEgglement)) {
-            if (element.id !== parentId) {
-              if (element.classList.contains('containegg')) {
-                containeggs.push(element)
-              }
-            } else {
-              return containeggs
-            }
-          }
+        if (element.id === parentId) return null
+
+        if (element.classList.contains('eggStage') ||
+          (
+            !element.id.includes(thisEgg.id) &&
+            element.classList.contains('egglement') &&
+            element.classList.contains('containegg')
+          )
+        ) {
+          return element
         }
       }
-      return containeggs
+      return null
     },
-    onEgglementDropped (EggLeft, EggTop, mouseX, mouseY) {
+    onDragging (eggLeft, eggTop, mouseX, mouseY) {
+      let absMouseX = mouseX - document.documentElement.scrollLeft
+      let absMouseY = mouseY - document.documentElement.scrollTop
+      let containegg = this.getContaineggOnPoint(absMouseX, absMouseY)
+
+      this.toggleDroppableCursor(containegg && typeof containegg !== 'undefined')
+    },
+    onDragStop (eggLeft, eggTop, mouseX, mouseY) {
       let payload = {
         pageId: this.pageId,
         parentId: null,
         elId: this.egg.id,
-        x: EggLeft,
-        y: EggTop
+        left: eggLeft,
+        top: eggTop,
+        mouseX,
+        mouseY
       }
 
-      let containeggs = this.containeggsOnPoint(mouseX, mouseY)
-      console.log(containeggs)
-      if (containeggs.length > 0) {
-        payload.parentId = containeggs[0].id
-      }
+      let absMouseX = mouseX - document.documentElement.scrollLeft
+      let absMouseY = mouseY - document.documentElement.scrollTop
+      let containegg = this.getContaineggOnPoint(absMouseX, absMouseY)
 
+      if (containegg && typeof containegg !== 'undefined') {
+        payload.parentId = containegg.id
+      }
       this.moveEgglement(payload)
+      this.toggleDroppableCursor(false)
+    },
+    toggleDroppableCursor (isDroppable) {
+      isDroppable
+      ? document.documentElement.classList.add('droppable')
+      : document.documentElement.classList.remove('droppable')
     },
     ...mapActions([resizeEgglement, moveEgglement])
   }
@@ -112,8 +128,11 @@ export default {
   height: 100%;
   overflow: hidden;
 }
+</style>
 
-/*.containegg:hover {
-  cursor: copy;
-}*/
+<style>
+html.droppable,
+html.droppable * {
+  cursor: copy !important;
+}
 </style>

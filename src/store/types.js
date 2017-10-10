@@ -1,26 +1,27 @@
-export const toggleSidebar = 'toggleSidebar'
-export const toggleMiniSidebar = 'toggleMiniSidebar'
-export const togglePageDialog = 'togglePageDialog'
-
-export const addEgglement = 'addEgglement'
-export const updateEgglement = 'updateEgglement'
-export const removeEgglement = 'removeEgglement'
-
-export const addPage = 'addPage'
-export const updatePage = 'updatePage'
-export const removePage = 'removePage'
-
-export const savePageAndClose = 'savePageAndClose'
-export const registerAndAddEgglement = 'registerAndAddEgglement'
-export const resizeEgglement = 'resizeEgglement'
-export const moveEgglement = 'moveEgglement'
-export const changeEgglementParent = 'changeEgglementParent'
-
+// GETTERS
 export const getPageIndexById = 'getPageIndexById'
 export const getPageById = 'getPageById'
 export const pageExists = 'pageExists'
 export const pathInUse = 'pathInUse'
 export const nameInUse = 'nameInUse'
+
+// ACTIONS
+export const savePageAndClose = 'savePageAndClose'
+export const registerAndSaveEgglement = 'registerAndSaveEgglement'
+export const resizeEgglement = 'resizeEgglement'
+export const moveEgglement = 'moveEgglement'
+export const changeEgglementParent = 'changeEgglementParent'
+
+// MUTATIONS
+export const toggleSidebar = 'toggleSidebar'
+export const toggleMiniSidebar = 'toggleMiniSidebar'
+export const togglePageDialog = 'togglePageDialog'
+export const createPage = 'createPage'
+export const updatePage = 'updatePage'
+export const deletePage = 'deletePage'
+export const createEgglement = 'createEgglement'
+export const updateEgglement = 'updateEgglement'
+export const deleteEgglement = 'deleteEgglement'
 
 const types = {
   // GETTERS
@@ -31,7 +32,7 @@ const types = {
   nameInUse,
   // ACTIONS
   savePageAndClose,
-  registerAndAddEgglement,
+  registerAndSaveEgglement,
   resizeEgglement,
   moveEgglement,
   changeEgglementParent,
@@ -39,12 +40,12 @@ const types = {
   toggleSidebar,
   toggleMiniSidebar,
   togglePageDialog,
-  addEgglement,
-  updateEgglement,
-  removeEgglement,
-  addPage,
+  createPage,
   updatePage,
-  removePage
+  deletePage,
+  createEgglement,
+  updateEgglement,
+  deleteEgglement
 }
 
 export default types

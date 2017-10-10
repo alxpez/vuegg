@@ -37,7 +37,7 @@
         <v-icon>edit</v-icon>
       </v-btn>
       <v-btn v-tooltip:bottom="{html: 'Delete page'}"
-        @click.native.stop="removePage(pageIndex)"
+        @click.native.stop="deletePage(pageIndex)"
         small
         icon
       >
@@ -67,20 +67,28 @@
 
 <script>
 import { mapState, mapGetters, mapMutations } from 'vuex'
-import { getPageById, getPageIndexById, removePage, togglePageDialog } from '@/store/types'
+import { getPageById, getPageIndexById, deletePage, togglePageDialog } from '@/store/types'
 import PageDialog from '@/components/PageDialog'
 
 export default {
   name: 'routes-menu',
   components: { PageDialog },
+  data: function () {
+    return {
+      speedD: false,
+      activePage: {}
+    }
+  },
+  mounted: function () {
+    this.activePage = {
+      id: this.pages[0].id,
+      name: this.pages[0].name,
+      path: this.pages[0].path
+    }
+  },
   computed: {
     pageIndex () {
-      console.log(this.$route.query.page)
-      // TODO: Seems to be returning -1 so deletes always the first index
-      // let res = this.getPageIndexById(this.$route.query.page)
-      let res = this.pages.findIndex(page => page.id === this.$route.query.page)
-      console.log(res)
-      return res
+      return this.getPageIndexById(this.$route.query.page)
     },
     ...mapState(['pages'])
   },
@@ -89,20 +97,7 @@ export default {
       this.$router.replace({query: {page: value.id}})
     },
     ...mapGetters([getPageById, getPageIndexById]),
-    ...mapMutations([togglePageDialog, removePage])
-  },
-  data () {
-    return {
-      speedD: false,
-      activePage: {}
-    }
-  },
-  mounted () {
-    this.activePage = {
-      id: this.pages[0].id,
-      name: this.pages[0].name,
-      path: this.pages[0].path
-    }
+    ...mapMutations([togglePageDialog, deletePage])
   }
 }
 </script>

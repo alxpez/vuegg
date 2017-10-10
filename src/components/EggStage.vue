@@ -1,5 +1,5 @@
 <template>
-  <div class="eggStage">
+  <div class="eggStage" :id="$route.query.page">
     <egglement v-for="el in egglements" :key="el.id" :egg="el"></egglement>
   </div>
 </template>
@@ -28,6 +28,7 @@ export default {
 .eggStage {
   width: 1024px;
   height: 1000px;
+  overflow: hidden;
   /* width and height should be assigned dynamicly */
   position: relative;
   margin: auto;
