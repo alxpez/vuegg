@@ -83,7 +83,10 @@ export default {
       return null
     },
     onDragging (eggLeft, eggTop, mouseX, mouseY) {
-      let containegg = this.getContaineggOnPoint(mouseX, mouseY)
+      let absMouseX = mouseX - document.documentElement.scrollLeft
+      let absMouseY = mouseY - document.documentElement.scrollTop
+      let containegg = this.getContaineggOnPoint(absMouseX, absMouseY)
+
       this.toggleDroppableCursor(containegg && typeof containegg !== 'undefined')
     },
     onDragStop (eggLeft, eggTop, mouseX, mouseY) {
@@ -97,7 +100,10 @@ export default {
         mouseY
       }
 
-      let containegg = this.getContaineggOnPoint(mouseX, mouseY)
+      let absMouseX = mouseX - document.documentElement.scrollLeft
+      let absMouseY = mouseY - document.documentElement.scrollTop
+      let containegg = this.getContaineggOnPoint(absMouseX, absMouseY)
+
       if (containegg && typeof containegg !== 'undefined') {
         payload.parentId = containegg.id
       }
