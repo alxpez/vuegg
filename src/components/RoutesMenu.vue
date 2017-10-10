@@ -88,12 +88,7 @@ export default {
   },
   computed: {
     pageIndex () {
-      console.log(this.$route.query.page)
-      // TODO: Seems to be returning -1 so deletes always the first index
-      // let res = this.getPageIndexById(this.$route.query.page)
-      let res = this.pages.findIndex(page => page.id === this.$route.query.page)
-      console.log(res)
-      return res
+      return this.getPageIndexById(this.$route.query.page)
     },
     ...mapState(['pages'])
   },
