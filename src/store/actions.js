@@ -63,8 +63,8 @@ const actions = {
 
     commit(types.updateEgglement, {
       egglement,
-      x: payload.x,
-      y: payload.y,
+      x: payload.left,
+      y: payload.top,
       height: payload.height,
       width: payload.width
     })
@@ -88,12 +88,13 @@ const actions = {
    * @see [types.changeEgglementParent]
    */
   [types.moveEgglement]: function ({ getters, dispatch, commit }, payload) {
+    let page = getters.getPageById(payload.pageId)
+    let egglement = getChildNode(page, payload.elId)
+
     if (payload.parentId) {
-      dispatch(types.changeEgglementParent, {...payload})
+      dispatch(types.changeEgglementParent, {...payload, page, egglement})
     } else {
-      let page = getters.getPageById(payload.pageId)
-      let egglement = getChildNode(page, payload.elId)
-      commit(types.updateEgglement, {egglement, x: payload.x, y: payload.y})
+      commit(types.updateEgglement, {egglement, x: payload.left, y: payload.top})
     }
   },
 
@@ -109,28 +110,27 @@ const actions = {
    * @param { String } payload.parentId : Id of the container where the element has been dropped
    */
   [types.changeEgglementParent]: function ({ getters, commit }, payload) {
-    let page = getters.getPageById(payload.pageId)
-    let childEgg = getChildNode(page, payload.elId)
-
     // OLD FAMILY business
     let oldParentId = payload.elId.substring(0, payload.elId.lastIndexOf('.'))
-    let oldParent = getChildNode(page, oldParentId)
-    let childEggIndex = oldParent.children.findIndex(egg => egg.id === childEgg.id)
+    let oldParent = getChildNode(payload.page, oldParentId)
+    let childEggIndex = oldParent.children.findIndex(egg => egg.id === payload.egglement.id)
 
     commit(types.deleteEgglement, {parent: oldParent, eggIndex: childEggIndex})
 
     // NEW FAMILY business
-    let newParent = getChildNode(page, payload.parentId)
-    childEgg = registerEgglement(childEgg, payload.parentId)
+    let newParent = getChildNode(payload.page, payload.parentId)
+    payload.egglement = registerEgglement(payload.egglement, payload.parentId)
 
-    commit(types.createEgglement, {parent: newParent, egglement: childEgg})
+    commit(types.createEgglement, {parent: newParent, egglement: payload.egglement})
 
-    // TODO: Improve positioning of child when parent change
-    // getRelativePoint()
-    let x = 0
-    let y = 0
+    // Update relative position of the element, minus the EggStage offset position
+    let relPoint = getRelativePoint(payload.page, payload.egglement.id, payload.mouseX, payload.mouseY)
+    let pageEl = document.getElementById(payload.pageId)
 
-    commit(types.updateEgglement, {egglement: childEgg, x, y})
+    let x = relPoint.x - pageEl.offsetLeft - (payload.egglement.width / 2)
+    let y = relPoint.y - pageEl.offsetTop - (payload.egglement.height / 2)
+
+    commit(types.updateEgglement, {egglement: payload.egglement, x, y})
   }
 }
 
@@ -177,8 +177,18 @@ function getChildNode (currentNode, targetId) {
   }
 }
 
-// TODO: implement this method
-// function getRelativePoint () {
-// }
+function getRelativePoint (currentNode, targetId, currentX, currentY) {
+  if (currentNode.id === targetId) return {x: currentX, y: currentY}
+
+  if (currentNode.x && currentNode.y) {
+    currentX -= currentNode.x
+    currentY -= currentNode.y
+  }
+  for (let child of currentNode.children) {
+    if (targetId.indexOf(child.id) !== -1) {
+      return getRelativePoint(child, targetId, currentX, currentY)
+    }
+  }
+}
 
 export default actions
