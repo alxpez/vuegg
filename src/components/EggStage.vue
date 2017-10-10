@@ -28,6 +28,7 @@ export default {
 .eggStage {
   width: 1024px;
   height: 1000px;
+  overflow: hidden;
   /* width and height should be assigned dynamicly */
   position: relative;
   margin: auto;
