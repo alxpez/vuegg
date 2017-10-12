@@ -1,3 +1,8 @@
+<!--
+  TODO: Change all this "brut" recursion going on here to something more elegant
+  (ie. substitute vue-templating for js-document.createElement way)
+ -->
+
 <template>
   <mr-egg
     :parent="true"

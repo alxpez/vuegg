@@ -13,7 +13,7 @@ const getters = {
   /**
    * Finds a page's index by a given pageId
    *
-   * @param {string} id : PageId
+   * @param {string} id : Page's id
    * @return {number} : Page's index
    */
   [types.getPageIndexById]: (state) => (id) => {
@@ -23,7 +23,7 @@ const getters = {
   /**
    * Finds a page by a given pageId
    *
-   * @param {string} id : PageId
+   * @param {string} id : Page's id
    * @return {object} : Page identified by id param
    *
    * @see {@link [types.getPageIndexById]}
@@ -36,7 +36,7 @@ const getters = {
   /**
    * Returns a boolean value based on the existence of the identified page
    *
-   * @param {string} id : PageId
+   * @param {string} id : Page's id
    * @return {boolean} : Whether the page already exists or not
    *
    * @see {@link [types.getPageIndexById]}
@@ -49,7 +49,7 @@ const getters = {
   /**
    * Returns a boolean value as result of checking if the page's path is in use
    *
-   * @param {string} id : pagePath
+   * @param {string} pagePath : Page's path
    * @return {boolean} : Whether the given pagePath already exists or not
    */
   [types.pathInUse]: (state) => (pagePath) => {
@@ -60,7 +60,7 @@ const getters = {
   /**
    * Returns a boolean value as result of checking if the page's name is in use
    *
-   * @param {string} id : pageName
+   * @param {string} id : Page's name
    * @return {boolean} : Whether the given pageName already exists or not
    */
   [types.nameInUse]: (state) => (pageName) => {
