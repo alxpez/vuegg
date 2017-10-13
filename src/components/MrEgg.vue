@@ -217,6 +217,7 @@ export default {
 
       if (this.$el.contains(target)) {
         if (!this.enabled) {
+          this.reviewDimensions()
           this.enabled = true
 
           // this.$emit('activated')
