@@ -27,7 +27,7 @@ SOFTWARE.
     :class="{
       draggable: draggable,
       resizable: resizable,
-      active: enabled
+      active: enabled,
       dragging: dragging,
       resizing: resizing
     }"
