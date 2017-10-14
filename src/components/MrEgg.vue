@@ -141,11 +141,11 @@ export default {
       left: this.x,
       width: this.w,
       height: this.h,
+      zIndex: this.z,
+      enabled: this.active,
       resizing: false,
       dragging: false,
-      enabled: this.active,
-      handle: null,
-      zIndex: this.z
+      handle: null
     }
   },
   created: function () {
@@ -162,12 +162,6 @@ export default {
 
     this.mouseOffX = 0
     this.mouseOffY = 0
-
-    this.elmX = 0
-    this.elmY = 0
-
-    this.elmW = 0
-    this.elmH = 0
   },
   mounted: function () {
     if (this.active) this.activategg()
