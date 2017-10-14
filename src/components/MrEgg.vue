@@ -23,7 +23,8 @@ SOFTWARE.
 -->
 
 <template>
-  <div class="mrEgg" @mousedown.stop.prevent="onEggDown" :style="style"
+  <div class="mrEgg" @mousedown.stop.prevent="onEggDown"
+    :style="style"
     :class="{
       draggable: draggable,
       resizable: resizable,
@@ -33,12 +34,11 @@ SOFTWARE.
     }"
   >
     <slot></slot>
-    <div class="handle"
+    <div class="handle" @mousedown.stop.prevent="onControlDown(handle, $event)"
       v-if="resizable"
       v-for="handle in handles"
       :class="'handle-' + handle"
       :style="{ display: enabled ? 'block' : 'none'}"
-      @mousedown.stop.prevent="onControlDown(handle, $event)"
     ></div>
   </div>
 </template>
@@ -49,6 +49,10 @@ export default {
   replace: true,
   name: 'mr-egg',
   props: {
+    parent: {
+      type: Boolean,
+      default: false
+    },
     active: {
       type: Boolean,
       default: true
@@ -131,12 +135,6 @@ export default {
       default: function () {
         return [1, 1]
       }
-    },
-    parent: {
-      type: Boolean, default: false
-    },
-    maximize: {
-      type: Boolean, default: false
     }
   },
   data: function () {
@@ -178,6 +176,8 @@ export default {
 
     document.documentElement.addEventListener('mousedown', this.onMouseDown, true)
     document.documentElement.addEventListener('mouseup', this.onMouseUp, true)
+
+    this.reviewDimensions()
   },
   beforeDestroy: function () {
     this.deactivategg()
@@ -212,40 +212,41 @@ export default {
 
       this.$emit('resizestop', this.left, this.top, this.width, this.height)
     },
+
     activategg: function () {
       this.enabled = true
-      // this.$emit('activated')
+      this.$emit('activated')
       this.$emit('update:active', true)
       document.documentElement.addEventListener('mousemove', this.onMouseMove, true)
     },
+
     deactivategg: function (e) {
       this.enabled = false
-      // this.$emit('deactivated')
+      this.$emit('deactivated')
       this.$emit('update:active', false)
       document.documentElement.removeEventListener('mousemove', this.onMouseMove, true)
     },
+
     onEggDown: function (e) {
       let target = e.target || e.srcElement
 
       if (this.$el.contains(target)) {
-        if (!this.enabled) this.activategg()
-
-        this.lastMouseX = e.pageX || e.clientX + document.documentElement.scrollLeft
-        this.lastMouseY = e.pageY || e.clientY + document.documentElement.scrollTop
+        this.onMouseMove(e)
 
         this.reviewDimensions()
-
         this.dragging = this.draggable
+
+        if (!this.enabled) {
+          this.activategg()
+        }
       }
     },
+
     onControlDown: function (control, e) {
       this.handle = control
-
-      if (e.stopPropagation) e.stopPropagation()
-      if (e.preventDefault) e.preventDefault()
-
       this.resizing = true
     },
+
     onMouseMove: function (e) {
       this.mouseX = e.pageX || e.clientX + document.documentElement.scrollLeft
       this.mouseY = e.pageY || e.clientY + document.documentElement.scrollTop
@@ -294,7 +295,7 @@ export default {
         this.width = (Math.round(this.elmW / this.grid[0]) * this.grid[0])
         this.height = (Math.round(this.elmH / this.grid[1]) * this.grid[1])
 
-        // this.$emit('resizing', this.left, this.top, this.width, this.height)
+        this.$emit('resizing', this.left, this.top, this.width, this.height)
       } else if (this.dragging) {
         if (this.elmX + dX < this.parentX) this.mouseOffX = (dX - (diffX = this.parentX - this.elmX))
         else if (this.elmX + this.elmW + dX > this.parentW) this.mouseOffX = (dX - (diffX = this.parentW - this.elmX - this.elmW))
@@ -315,6 +316,7 @@ export default {
         this.$emit('dragging', this.left, this.top, this.mouseX, this.mouseY)
       }
     },
+
     onMouseUp: function (e) {
       this.handle = null
       if (this.resizing) {
@@ -326,6 +328,7 @@ export default {
         this.$emit('dragstop', this.left, this.top, this.mouseX, this.mouseY)
       }
     },
+
     onMouseDown: function (e) {
       if (this.enabled) {
         let target = e.target || e.srcElement
