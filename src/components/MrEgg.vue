@@ -23,18 +23,17 @@ SOFTWARE.
 -->
 
 <template>
-  <div class="mrEgg" @mousedown.stop.prevent="activategg" :style="style"
+  <div class="mrEgg" @mousedown.stop.prevent="onEggDown" :style="style"
     :class="{
       draggable: draggable,
       resizable: resizable,
-      active: enabled,
-      /*dragging: dragging,
-      resizing: resizing*/
+      active: enabled
+      dragging: dragging,
+      resizing: resizing
     }"
   >
     <slot></slot>
-    <div
-      class="handle"
+    <div class="handle"
       v-if="resizable"
       v-for="handle in handles"
       :class="'handle-' + handle"
@@ -44,19 +43,23 @@ SOFTWARE.
   </div>
 </template>
 
+
 <script>
 export default {
   replace: true,
   name: 'mr-egg',
   props: {
     active: {
-      type: Boolean, default: true
+      type: Boolean,
+      default: true
     },
     draggable: {
-      type: Boolean, default: true
+      type: Boolean,
+      default: true
     },
     resizable: {
-      type: Boolean, default: true
+      type: Boolean,
+      default: true
     },
     w: {
       type: Number,
@@ -171,15 +174,15 @@ export default {
     this.elmH = 0
   },
   mounted: function () {
-    document.documentElement.addEventListener('mousemove', this.onMouseMove, true)
-    document.documentElement.addEventListener('mousedown', this.deactivategg, true)
-    document.documentElement.addEventListener('mouseup', this.onMouseUp, true)
+    if (this.active) this.activategg()
 
-    this.reviewDimensions()
+    document.documentElement.addEventListener('mousedown', this.onMouseDown, true)
+    document.documentElement.addEventListener('mouseup', this.onMouseUp, true)
   },
   beforeDestroy: function () {
-    document.documentElement.removeEventListener('mousemove', this.onMouseMove, true)
-    document.documentElement.removeEventListener('mousedown', this.deactivategg, true)
+    this.deactivategg()
+
+    document.documentElement.removeEventListener('mousedown', this.onMouseDown, true)
     document.documentElement.removeEventListener('mouseup', this.onMouseUp, true)
   },
   methods: {
@@ -209,36 +212,30 @@ export default {
 
       this.$emit('resizestop', this.left, this.top, this.width, this.height)
     },
-    activategg: function (e) {
-      let target = e.target || e.srcElement
-
-      this.lastMouseX = e.pageX || e.clientX + document.documentElement.scrollLeft
-      this.lastMouseY = e.pageY || e.clientY + document.documentElement.scrollTop
-
-      if (this.$el.contains(target)) {
-        if (!this.enabled) {
-          this.enabled = true
-
-          // this.$emit('activated')
-          this.$emit('update:active', true)
-        }
-
-        if (this.draggable) {
-          this.dragging = true
-        }
-      }
+    activategg: function () {
+      this.enabled = true
+      // this.$emit('activated')
+      this.$emit('update:active', true)
+      document.documentElement.addEventListener('mousemove', this.onMouseMove, true)
     },
     deactivategg: function (e) {
+      this.enabled = false
+      // this.$emit('deactivated')
+      this.$emit('update:active', false)
+      document.documentElement.removeEventListener('mousemove', this.onMouseMove, true)
+    },
+    onEggDown: function (e) {
       let target = e.target || e.srcElement
-      let regex = new RegExp('handle-([trmbl]{2})', '')
 
-      if ((this.$el.id !== target.id || !this.$el.contains(target)) && !regex.test(target.className)) {
-        if (this.enabled) {
-          this.enabled = false
+      if (this.$el.contains(target)) {
+        if (!this.enabled) this.activategg()
 
-          // this.$emit('deactivated')
-          this.$emit('update:active', false)
-        }
+        this.lastMouseX = e.pageX || e.clientX + document.documentElement.scrollLeft
+        this.lastMouseY = e.pageY || e.clientY + document.documentElement.scrollTop
+
+        this.reviewDimensions()
+
+        this.dragging = this.draggable
       }
     },
     onControlDown: function (control, e) {
@@ -328,6 +325,16 @@ export default {
         this.dragging = false
         this.$emit('dragstop', this.left, this.top, this.mouseX, this.mouseY)
       }
+    },
+    onMouseDown: function (e) {
+      if (this.enabled) {
+        let target = e.target || e.srcElement
+        let regex = new RegExp('handle-([trmbl]{2})', '')
+
+        if ((this.$el.id !== target.id || !this.$el.contains(target)) && !regex.test(target.className)) {
+          this.deactivategg()
+        }
+      }
     }
   },
   computed: {
@@ -377,6 +384,7 @@ export default {
   }
 }
 </script>
+
 
 <style scoped>
   .mrEgg {
