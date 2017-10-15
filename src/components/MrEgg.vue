@@ -153,15 +153,6 @@ export default {
     this.parentW = 9999
     this.parentY = 0
     this.parentH = 9999
-
-    this.mouseX = 0
-    this.mouseY = 0
-
-    this.lastMouseX = 0
-    this.lastMouseY = 0
-
-    this.mouseOffX = 0
-    this.mouseOffY = 0
   },
   mounted: function () {
     if (this.active) this.activategg()
@@ -182,25 +173,16 @@ export default {
       if (this.minw > this.w) this.width = this.minw
       if (this.minh > this.h) this.height = this.minh
 
-      if (this.parent) {
-        let parentW = parseInt(this.$el.parentNode.clientWidth, 10)
-        let parentH = parseInt(this.$el.parentNode.clientHeight, 10)
-
-        this.parentW = parentW
-        this.parentH = parentH
-
-        if (this.w > this.parentW) this.width = parentW
-        if (this.h > this.parentH) this.height = parentH
-
-        if ((this.x + this.w) > this.parentW) this.width = parentW - this.x
-        if ((this.y + this.h) > this.parentH) this.height = parentH - this.y
-      }
+      this.elmW = this.width
+      this.elmH = this.height
 
       this.elmX = parseInt(this.$el.style.left)
       this.elmY = parseInt(this.$el.style.top)
 
-      this.elmW = this.width
-      this.elmH = this.height
+      if (this.parent) {
+        this.parentW = parseInt(this.$el.parentNode.clientWidth, 10)
+        this.parentH = parseInt(this.$el.parentNode.clientHeight, 10)
+      }
 
       this.$emit('resizestop', this.left, this.top, this.width, this.height)
     },
@@ -223,7 +205,10 @@ export default {
       let target = e.target || e.srcElement
 
       if (this.$el.contains(target)) {
-        this.onMouseMove(e)
+        this.lastMouseX = this.mouseX = e.pageX || e.clientX + document.documentElement.scrollLeft
+        this.lastMouseY = this.mouseY = e.pageY || e.clientY + document.documentElement.scrollTop
+
+        this.mouseOffX = this.mouseOffY = 0
 
         this.reviewDimensions()
         this.dragging = this.draggable
