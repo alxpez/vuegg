@@ -170,6 +170,8 @@ export default {
   },
   methods: {
     reviewDimensions: function () {
+      // TODO: get height and width from the element contained on the mrEgg
+
       if (this.minw > this.w) this.width = this.minw
       if (this.minh > this.h) this.height = this.minh
 

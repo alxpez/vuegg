@@ -1,6 +1,6 @@
 // TODO: change x, y props for left, top (to be more accurate on location)... or not, think about it
 const MockData = {
-  'components': [
+  'elements': [
     {
       'name': 'Div',
       'type': 'div',
@@ -11,6 +11,22 @@ const MockData = {
         }
       ],
       'children': []
+    }, {
+      'name': 'Link',
+      'type': 'a',
+      'text': 'Link',
+      'egg': true,
+      'width': 200,
+      'minWidth': 32,
+      'height': 40,
+      'minHeight': 32,
+      'props': {},
+      'styles': {
+        'color': 'inherited',
+        'text-decoration': 'underline',
+        'cursor': 'auto'
+      },
+      'classes': []
     }, {
       'name': 'Input',
       'type': 'input',
@@ -40,7 +56,10 @@ const MockData = {
       'props': {},
       'styles': {},
       'classes': []
-    }, {
+    }
+  ],
+  'components': [
+    {
       'name': '(VM) Whiteframe',
       'type': 'md-whiteframe',
       'egg': true,
