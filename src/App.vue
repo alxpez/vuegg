@@ -11,13 +11,12 @@
 </template>
 
 <script>
-import ComponentsMenu from '@/components/ComponentsMenu'
 import TopBar from '@/components/TopBar'
 import SideBar from '@/components/SideBar'
 
 export default {
   name: 'app',
-  components: { ComponentsMenu, TopBar, SideBar }
+  components: { TopBar, SideBar }
 }
 </script>
 
