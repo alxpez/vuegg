@@ -1,32 +1,50 @@
 <template>
-  <md-list>
-    <md-list-item
-      v-for="component in components" :key="component.id"
-      @click="ADD_ELEMENT({pageIndex, el: component})"
-    >
-      <md-icon>settings</md-icon> <span>{{ component.name }}</span>
-    </md-list-item>
-  </md-list>
+  <div>
+    <v-list>
+        <v-list-tile
+          v-for="element in elements" :key="componentKey"
+          @click="registerAndSaveEgglement({pageId, el: element})"
+        >
+          <v-list-tile-content>
+            <v-list-tile-title v-html="element.name"></v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+    </v-list>
+    <v-list>
+        <v-list-tile
+          v-for="component in components" :key="componentKey"
+          @click="registerAndSaveEgglement({pageId, el: component})"
+        >
+          <v-list-tile-content>
+            <v-list-tile-title v-html="component.name"></v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+    </v-list>
+  </div>
 </template>
 
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
-import { ADD_ELEMENT } from '@/store/mutation-types'
+import uuid4 from 'uuid/v4'
+import { mapActions } from 'vuex'
+import { registerAndSaveEgglement } from '@/store/types'
 import MockData from '@/assets/mockdata'
 
 export default {
   name: 'components-menu',
-  methods: mapMutations([ADD_ELEMENT]),
-  computed: {
-    pageIndex () {
-      return this.getPageIndexById(this.$route.query.page)
-    },
-    ...mapGetters(['getPageIndexById'])
-  },
-  data () {
+  methods: mapActions([registerAndSaveEgglement]),
+  data: function () {
     return {
-      components: MockData.components
+      components: MockData.components,
+      elements: MockData.elements
+    }
+  },
+  computed: {
+    componentKey () {
+      return uuid4()
+    },
+    pageId () {
+      return this.$route.query.page
     }
   }
 }

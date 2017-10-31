@@ -1,35 +1,143 @@
+<!--
+  TODO: Change all this "brut" recursion going on here to something more elegant
+  (ie. substitute vue-templating for js-document.createElement way)
+ -->
+
 <template>
-  <vue-draggable-resizable
+  <mr-egg
     :parent="true"
     :x="egg.x"
     :y="egg.y"
     :w="egg.width"
-    :minw="egg.minWidth"
     :h="egg.height"
+    :minw="egg.minWidth"
     :minh="egg.minHeight"
-    @dragstop="(x, y)=>MOVE_ELEMENT({elId:egg.id, pageIndex, x, y})"
-    @resizestop="(x, y, width, height)=>RESIZE_ELEMENT({elId:egg.id, pageIndex, x, y, width, height})"
+    @dragging="onDragging"
+    @dragstop="onDragStop"
+    @resizestop="(x, y, width, height)=>resizeEgglement({elId:egg.id, pageId, left: x, top: y, width, height})"
   >
-    <yolk :yolk="egg"></yolk>
-  </vue-draggable-resizable>
+    <component
+      :id="egg.id"
+      :is="egg.type"
+      :style="egg.styles"
+      :class="[egg.classes, {egglement: egg.egg}]"
+      v-bind="egg.props"
+    >
+      {{ egg.text }}
+      <component v-if="hasChildren"
+        v-for="child in egg.children"
+        :key="child.id"
+        :id="child.id"
+        :is="childType(child)"
+        v-bind="childProps(child)"
+      >
+        {{ child.text }}
+      </component>
+    </component>
+  </mr-egg>
 </template>
 
 
 <script>
-import { mapMutations, mapGetters } from 'vuex'
-import types from '@/store/mutation-types'
-import Yolk from '@/components/Yolk'
+import { mapActions } from 'vuex'
+import { resizeEgglement, moveEgglement } from '@/store/types'
+import MrEgg from '@/components/MrEgg'
 
 export default {
   name: 'egglement',
   props: ['egg'],
-  components: { Yolk },
-  methods: mapMutations([types.RESIZE_ELEMENT, types.MOVE_ELEMENT]),
+  components: { MrEgg },
+  data: function () {
+    return {
+      isDroppable: false
+    }
+  },
   computed: {
-    pageIndex () {
-      return this.getPageIndexById(this.$route.query.page)
+    pageId () {
+      return this.$route.query.page
     },
-    ...mapGetters(['getPageIndexById'])
+    hasChildren () {
+      return (this.egg.children && this.egg.children.length > 0)
+    }
+  },
+  methods: {
+    childType (child) {
+      return child.egg ? 'egglement' : child.type
+    },
+    childProps (child) {
+      return child.egg ? { egg: child } : [child.props, {style: child.styles}, {class: child.classes}]
+    },
+    getContaineggOnPoint (x, y) {
+      let thisEgg = this.$el.children[0]
+      let parentId = thisEgg.id.substring(0, thisEgg.id.lastIndexOf('.'))
+      let elementsOnPoint = document.elementsFromPoint(x, y)
+
+      for (let element of elementsOnPoint) {
+        if (element.id === parentId) return null
+
+        if (element.classList.contains('eggStage') ||
+          (
+            !element.id.includes(thisEgg.id) &&
+            element.classList.contains('egglement') &&
+            element.classList.contains('containegg')
+          )
+        ) {
+          return element
+        }
+      }
+      return null
+    },
+    onDragging (eggLeft, eggTop, mouseX, mouseY) {
+      let absMouseX = mouseX - document.documentElement.scrollLeft
+      let absMouseY = mouseY - document.documentElement.scrollTop
+      let containegg = this.getContaineggOnPoint(absMouseX, absMouseY)
+
+      this.toggleDroppableCursor(containegg && typeof containegg !== 'undefined')
+    },
+    onDragStop (eggLeft, eggTop, mouseX, mouseY) {
+      let payload = {
+        pageId: this.pageId,
+        parentId: null,
+        elId: this.egg.id,
+        left: eggLeft,
+        top: eggTop,
+        mouseX,
+        mouseY
+      }
+
+      let absMouseX = mouseX - document.documentElement.scrollLeft
+      let absMouseY = mouseY - document.documentElement.scrollTop
+      let containegg = this.getContaineggOnPoint(absMouseX, absMouseY)
+
+      if (containegg && typeof containegg !== 'undefined') {
+        payload.parentId = containegg.id
+      }
+      this.moveEgglement(payload)
+      this.toggleDroppableCursor(false)
+    },
+    toggleDroppableCursor (isDroppable) {
+      isDroppable
+      ? document.documentElement.classList.add('droppable')
+      : document.documentElement.classList.remove('droppable')
+    },
+    ...mapActions([resizeEgglement, moveEgglement])
   }
 }
 </script>
+
+
+<style scoped>
+.egglement {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+</style>
+
+<style>
+html.droppable,
+html.droppable * {
+  cursor: copy !important;
+}
+</style>
