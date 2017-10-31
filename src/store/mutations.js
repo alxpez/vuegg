@@ -51,7 +51,7 @@ const mutations = {
   },
 
   /**
-   * Updates the page under the especify index with the new passed values
+   * Updates the page under the specify index with the new passed values
    *
    * @param {number} payload.pageIndex : Page's index
    * @param {string} payload.name : New page's name
@@ -66,7 +66,7 @@ const mutations = {
   },
 
   /**
-   * Removes the page under the especified index from the state.pages array
+   * Removes the page under the specified index from the state.pages array
    *
    * @param {number} pageIndex : Page's index
    */
@@ -103,7 +103,7 @@ const mutations = {
   },
 
   /**
-   * Removes the egglement under the especified index
+   * Removes the egglement under the specified index
    * from the passed parent egglement (or page)
    *
    * @param {object} payload.parent : Parent container (egglement or page)

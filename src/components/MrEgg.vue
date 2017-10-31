@@ -23,40 +23,47 @@ SOFTWARE.
 -->
 
 <template>
-  <div class="mrEgg" @mousedown.stop.prevent="activategg" :style="style"
+  <div class="mrEgg" @mousedown.stop.prevent="onEggDown"
+    :style="style"
     :class="{
       draggable: draggable,
       resizable: resizable,
       active: enabled,
-      /*dragging: dragging,
-      resizing: resizing*/
+      dragging: dragging,
+      resizing: resizing
     }"
   >
     <slot></slot>
-    <div
-      class="handle"
+    <div class="handle" @mousedown.stop.prevent="onControlDown(handle, $event)"
       v-if="resizable"
       v-for="handle in handles"
       :class="'handle-' + handle"
       :style="{ display: enabled ? 'block' : 'none'}"
-      @mousedown.stop.prevent="onControlDown(handle, $event)"
     ></div>
   </div>
 </template>
+
 
 <script>
 export default {
   replace: true,
   name: 'mr-egg',
   props: {
+    parent: {
+      type: Boolean,
+      default: false
+    },
     active: {
-      type: Boolean, default: true
+      type: Boolean,
+      default: true
     },
     draggable: {
-      type: Boolean, default: true
+      type: Boolean,
+      default: true
     },
     resizable: {
-      type: Boolean, default: true
+      type: Boolean,
+      default: true
     },
     w: {
       type: Number,
@@ -90,7 +97,6 @@ export default {
       type: Number,
       default: 0,
       validator: function (val) {
-        // return val >= 0
         return typeof val === 'number'
       }
     },
@@ -98,7 +104,6 @@ export default {
       type: Number,
       default: 0,
       validator: function (val) {
-        // return val >= 0
         return typeof val === 'number'
       }
     },
@@ -128,12 +133,6 @@ export default {
       default: function () {
         return [1, 1]
       }
-    },
-    parent: {
-      type: Boolean, default: false
-    },
-    maximize: {
-      type: Boolean, default: false
     }
   },
   data: function () {
@@ -142,11 +141,11 @@ export default {
       left: this.x,
       width: this.w,
       height: this.h,
+      zIndex: this.z,
+      enabled: this.active,
       resizing: false,
       dragging: false,
-      enabled: this.active,
-      handle: null,
-      zIndex: this.z
+      handle: null
     }
   },
   created: function () {
@@ -154,101 +153,79 @@ export default {
     this.parentW = 9999
     this.parentY = 0
     this.parentH = 9999
-
-    this.mouseX = 0
-    this.mouseY = 0
-
-    this.lastMouseX = 0
-    this.lastMouseY = 0
-
-    this.mouseOffX = 0
-    this.mouseOffY = 0
-
-    this.elmX = 0
-    this.elmY = 0
-
-    this.elmW = 0
-    this.elmH = 0
   },
   mounted: function () {
-    document.documentElement.addEventListener('mousemove', this.onMouseMove, true)
-    document.documentElement.addEventListener('mousedown', this.deactivategg, true)
+    if (this.active) this.activategg()
+
+    document.documentElement.addEventListener('mousedown', this.onMouseDown, true)
     document.documentElement.addEventListener('mouseup', this.onMouseUp, true)
 
     this.reviewDimensions()
   },
   beforeDestroy: function () {
-    document.documentElement.removeEventListener('mousemove', this.onMouseMove, true)
-    document.documentElement.removeEventListener('mousedown', this.deactivategg, true)
+    this.deactivategg()
+
+    document.documentElement.removeEventListener('mousedown', this.onMouseDown, true)
     document.documentElement.removeEventListener('mouseup', this.onMouseUp, true)
   },
   methods: {
     reviewDimensions: function () {
+      // TODO: get height and width from the element contained on the mrEgg
+
       if (this.minw > this.w) this.width = this.minw
       if (this.minh > this.h) this.height = this.minh
-
-      if (this.parent) {
-        let parentW = parseInt(this.$el.parentNode.clientWidth, 10)
-        let parentH = parseInt(this.$el.parentNode.clientHeight, 10)
-
-        this.parentW = parentW
-        this.parentH = parentH
-
-        if (this.w > this.parentW) this.width = parentW
-        if (this.h > this.parentH) this.height = parentH
-
-        if ((this.x + this.w) > this.parentW) this.width = parentW - this.x
-        if ((this.y + this.h) > this.parentH) this.height = parentH - this.y
-      }
-
-      this.elmX = parseInt(this.$el.style.left)
-      this.elmY = parseInt(this.$el.style.top)
 
       this.elmW = this.width
       this.elmH = this.height
 
+      this.elmX = parseInt(this.$el.style.left)
+      this.elmY = parseInt(this.$el.style.top)
+
+      if (this.parent) {
+        this.parentW = parseInt(this.$el.parentNode.clientWidth, 10)
+        this.parentH = parseInt(this.$el.parentNode.clientHeight, 10)
+      }
+
       this.$emit('resizestop', this.left, this.top, this.width, this.height)
     },
-    activategg: function (e) {
-      let target = e.target || e.srcElement
 
-      this.lastMouseX = e.pageX || e.clientX + document.documentElement.scrollLeft
-      this.lastMouseY = e.pageY || e.clientY + document.documentElement.scrollTop
+    activategg: function () {
+      this.enabled = true
+      this.$emit('activated')
+      this.$emit('update:active', true)
+      document.documentElement.addEventListener('mousemove', this.onMouseMove, true)
+    },
+
+    deactivategg: function (e) {
+      this.enabled = false
+      this.$emit('deactivated')
+      this.$emit('update:active', false)
+      document.documentElement.removeEventListener('mousemove', this.onMouseMove, true)
+    },
+
+    onEggDown: function (e) {
+      let target = e.target || e.srcElement
 
       if (this.$el.contains(target)) {
+        this.lastMouseX = this.mouseX = e.pageX || e.clientX + document.documentElement.scrollLeft
+        this.lastMouseY = this.mouseY = e.pageY || e.clientY + document.documentElement.scrollTop
+
+        this.mouseOffX = this.mouseOffY = 0
+
+        this.reviewDimensions()
+        this.dragging = this.draggable
+
         if (!this.enabled) {
-          this.enabled = true
-
-          // this.$emit('activated')
-          this.$emit('update:active', true)
-        }
-
-        if (this.draggable) {
-          this.dragging = true
+          this.activategg()
         }
       }
     },
-    deactivategg: function (e) {
-      let target = e.target || e.srcElement
-      let regex = new RegExp('handle-([trmbl]{2})', '')
 
-      if ((this.$el.id !== target.id || !this.$el.contains(target)) && !regex.test(target.className)) {
-        if (this.enabled) {
-          this.enabled = false
-
-          // this.$emit('deactivated')
-          this.$emit('update:active', false)
-        }
-      }
-    },
     onControlDown: function (control, e) {
       this.handle = control
-
-      if (e.stopPropagation) e.stopPropagation()
-      if (e.preventDefault) e.preventDefault()
-
       this.resizing = true
     },
+
     onMouseMove: function (e) {
       this.mouseX = e.pageX || e.clientX + document.documentElement.scrollLeft
       this.mouseY = e.pageY || e.clientY + document.documentElement.scrollTop
@@ -297,7 +274,7 @@ export default {
         this.width = (Math.round(this.elmW / this.grid[0]) * this.grid[0])
         this.height = (Math.round(this.elmH / this.grid[1]) * this.grid[1])
 
-        // this.$emit('resizing', this.left, this.top, this.width, this.height)
+        this.$emit('resizing', this.left, this.top, this.width, this.height)
       } else if (this.dragging) {
         if (this.elmX + dX < this.parentX) this.mouseOffX = (dX - (diffX = this.parentX - this.elmX))
         else if (this.elmX + this.elmW + dX > this.parentW) this.mouseOffX = (dX - (diffX = this.parentW - this.elmX - this.elmW))
@@ -318,6 +295,7 @@ export default {
         this.$emit('dragging', this.left, this.top, this.mouseX, this.mouseY)
       }
     },
+
     onMouseUp: function (e) {
       this.handle = null
       if (this.resizing) {
@@ -327,6 +305,17 @@ export default {
       if (this.dragging) {
         this.dragging = false
         this.$emit('dragstop', this.left, this.top, this.mouseX, this.mouseY)
+      }
+    },
+
+    onMouseDown: function (e) {
+      if (this.enabled) {
+        let target = e.target || e.srcElement
+        let regex = new RegExp('handle-([trmbl]{2})', '')
+
+        if ((this.$el.id !== target.id || !this.$el.contains(target)) && !regex.test(target.className)) {
+          this.deactivategg()
+        }
       }
     }
   },
@@ -377,6 +366,7 @@ export default {
   }
 }
 </script>
+
 
 <style scoped>
   .mrEgg {

@@ -1,3 +1,8 @@
+<!--
+  TODO: Change all this "brut" recursion going on here to something more elegant
+  (ie. substitute vue-templating for js-document.createElement way)
+ -->
+
 <template>
   <mr-egg
     :parent="true"
@@ -13,18 +18,18 @@
   >
     <component
       :id="egg.id"
-      :class="[egg.classes, {egglement: egg.egg}]"
-      :style="egg.styles"
-      v-bind="egg.props"
       :is="egg.type"
+      :style="egg.styles"
+      :class="[egg.classes, {egglement: egg.egg}]"
+      v-bind="egg.props"
     >
       {{ egg.text }}
       <component v-if="hasChildren"
         v-for="child in egg.children"
         :key="child.id"
         :id="child.id"
-        v-bind="childProps(child)"
         :is="childType(child)"
+        v-bind="childProps(child)"
       >
         {{ child.text }}
       </component>
