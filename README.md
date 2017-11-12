@@ -1,4 +1,4 @@
-# vuexample
+# vuegg
 
 > A Vue.js project
 
