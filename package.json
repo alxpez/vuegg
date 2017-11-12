@@ -1,11 +1,10 @@
 {
   "name": "vuexample",
   "version": "1.0.0",
-  "description": "A Vue.js project",
+  "description": "vue sandbox",
   "author": "alxpez",
   "private": true,
   "scripts": {
-    "backend": "node server/index.js",
     "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",
     "build": "node build/build.js",
@@ -16,11 +15,6 @@
   },
   "dependencies": {
     "axios": "^0.17.0",
-    "koa": "^2.4.1",
-    "koa-body": "^2.5.0",
-    "koa-logger": "^3.1.0",
-    "koa-router": "^7.2.1",
-    "nodegit": "^0.20.3",
     "uuid": "^3.1.0",
     "vue": "^2.5.3",
     "vue-draggable-resizable": "^1.5.2",
@@ -94,6 +88,14 @@
     "webpack-hot-middleware": "^2.20.0",
     "webpack-merge": "^4.1.1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/alxpez/vuegg.git"
+  },
+  "bugs": {
+    "url": "https://gitlab.com/alxpez/vuegg/issues"
+  },
+  "homepage": "https://gitlab.com/alxpez/vuegg#README",
   "engines": {
     "node": ">= 4.0.0",
     "npm": ">= 3.0.0"
