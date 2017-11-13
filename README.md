@@ -1,6 +1,6 @@
 # vuegg
 
-> A Vue.js project
+> A Vue.js project... of Vue.js projects
 
 ## Build Setup
 
