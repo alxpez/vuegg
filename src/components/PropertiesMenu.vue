@@ -13,7 +13,8 @@ export default {
     async generate () {
       try {
         await axios.post('/api/generate', {
-          body: this.pages
+          projectTitle: 'Test Project',
+          pages: this.pages
         })
         console.log('OK')
         console.log(this.pages)
