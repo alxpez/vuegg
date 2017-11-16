@@ -1,4 +1,4 @@
-import uuid4 from 'uuid/v4'
+import shortid from 'shortid'
 import types from '@/store/types'
 
 // TODO: Refactor actions and divide them by context
@@ -17,7 +17,7 @@ const actions = {
    *
    * @param {string} payload.name : Page's name
    * @param {string} payload.path : Page's path with a preceding '/'
-   * @param {string|null} [payload.id] : Page's id (uuid v4, randomly generated)
+   * @param {string|null} [payload.id] : Page's id (shortid, randomly generated)
    *
    * @see {@link [types.getPageIndexById]}
    * @see {@link [types.createPage]}
@@ -27,7 +27,7 @@ const actions = {
   [types.savePageAndClose]: function ({ getters, commit }, payload) {
     if (!payload.id) {
       let page = {
-        id: uuid4(),
+        id: shortid.generate(),
         name: payload.name,
         path: payload.path.toLowerCase(),
         children: []
@@ -169,7 +169,7 @@ const actions = {
  * @return {object} : New element (cloned from egglement) with newly assigned ids
  */
 function registerEgglement (egglement, parentId) {
-  let eggId = uuid4()
+  let eggId = shortid.generate()
   if (parentId) eggId = parentId.concat('.', eggId)
 
   let newEgglement = {...egglement, id: eggId, children: []}

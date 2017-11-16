@@ -5,6 +5,7 @@
 <script>
 import { mapState } from 'vuex'
 import axios from 'axios'
+import shortid from 'shortid'
 
 export default {
   name: 'properties-menu',
@@ -13,7 +14,8 @@ export default {
     async generate () {
       try {
         await axios.post('/api/generate', {
-          projectTitle: 'Test Project',
+          id: shortid.generate(),
+          title: 'Test Project',
           pages: this.pages
         })
         console.log('OK')

@@ -25,7 +25,7 @@
 
 
 <script>
-import uuid4 from 'uuid/v4'
+import shortid from 'shortid'
 import { mapActions } from 'vuex'
 import { registerAndSaveEgglement } from '@/store/types'
 import MockData from '@/assets/mockdata'
@@ -41,7 +41,7 @@ export default {
   },
   computed: {
     componentKey () {
-      return uuid4()
+      return shortid.generate()
     },
     pageId () {
       return this.$route.query.page
