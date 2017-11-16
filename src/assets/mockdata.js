@@ -63,6 +63,7 @@ const MockData = {
       'name': '(VM) Whiteframe',
       'type': 'md-whiteframe',
       'egg': true,
+      'componegg': true,
       'width': 300,
       'minWidth': 32,
       'height': 300,
@@ -199,6 +200,7 @@ const MockData = {
     }, {
       'name': 'TEST whiteframe',
       'type': 'md-whiteframe',
+      'componegg': true,
       'egg': true,
       'width': 300,
       'minWidth': 32,
