@@ -5,21 +5,16 @@
 <script>
 import { mapState } from 'vuex'
 import axios from 'axios'
-import shortid from 'shortid'
 
 export default {
   name: 'properties-menu',
-  computed: mapState(['pages']),
+  computed: mapState(['project']),
   methods: {
     async generate () {
       try {
-        await axios.post('/api/generate', {
-          id: shortid.generate(),
-          title: 'Test Project',
-          pages: this.pages
-        })
+        await axios.post('/api/generate', this.project)
         console.log('OK')
-        console.log(this.pages)
+        console.log(this.project)
       } catch (error) {
         console.error('CHECK IF THE BACKEND SERVER IS UP AND RUNNING')
         console.error(error)

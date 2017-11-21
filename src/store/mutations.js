@@ -42,12 +42,12 @@ const mutations = {
   // ----- PAGE MUTATIONS ----- //
 
   /**
-   * Adds the passed page to the state.pages array
+   * Adds the passed page to the state.project.pages array
    *
    * @param {object} page : New page to save
    */
   [types.createPage] (state, page) {
-    state.pages.push(page)
+    state.project.pages.push(page)
   },
 
   /**
@@ -58,20 +58,20 @@ const mutations = {
    * @param {string} payload.path : New page's path
    */
   [types.updatePage] (state, payload) {
-    state.pages.splice(payload.pageIndex, 1, {
-      ...state.pages[payload.pageIndex],
+    state.project.pages.splice(payload.pageIndex, 1, {
+      ...state.project.pages[payload.pageIndex],
       name: payload.name,
       path: payload.path
     })
   },
 
   /**
-   * Removes the page under the specified index from the state.pages array
+   * Removes the page under the specified index from the state.project.pages array
    *
    * @param {number} pageIndex : Page's index
    */
   [types.deletePage] (state, pageIndex) {
-    state.pages.splice(pageIndex, 1)
+    state.project.pages.splice(pageIndex, 1)
   },
 
   // ----- EGGLEMENT MUTATIONS ----- //
