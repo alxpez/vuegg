@@ -47,7 +47,7 @@
 
     <v-flex xs3 class="mr-2 ml-1">
       <v-select
-        :items="pages"
+        :items="project.pages"
         v-model="activePage"
         item-text="name"
         item-value="id"
@@ -81,16 +81,16 @@ export default {
   },
   mounted: function () {
     this.activePage = {
-      id: this.pages[0].id,
-      name: this.pages[0].name,
-      path: this.pages[0].path
+      id: this.project.pages[0].id,
+      name: this.project.pages[0].name,
+      path: this.project.pages[0].path
     }
   },
   computed: {
     pageIndex () {
       return this.getPageIndexById(this.$route.query.page)
     },
-    ...mapState(['pages'])
+    ...mapState(['project'])
   },
   methods: {
     changeActivePage (value) {

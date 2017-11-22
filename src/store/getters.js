@@ -17,7 +17,7 @@ const getters = {
    * @return {number} : Page's index
    */
   [types.getPageIndexById]: (state) => (id) => {
-    return state.pages.findIndex(page => page.id === id)
+    return state.project.pages.findIndex(page => page.id === id)
   },
 
   /**
@@ -30,7 +30,7 @@ const getters = {
    */
   [types.getPageById]: (state, getters) => (id) => {
     let pageIndex = getters.getPageIndexById(id)
-    return state.pages[pageIndex]
+    return state.project.pages[pageIndex]
   },
 
   /**
@@ -53,7 +53,7 @@ const getters = {
    * @return {boolean} : Whether the given pagePath already exists or not
    */
   [types.pathInUse]: (state) => (pagePath) => {
-    let pageIndex = state.pages.findIndex(page => page.path === pagePath)
+    let pageIndex = state.project.pages.findIndex(page => page.path === pagePath)
     return (pageIndex > -1)
   },
 
@@ -64,7 +64,7 @@ const getters = {
    * @return {boolean} : Whether the given pageName already exists or not
    */
   [types.nameInUse]: (state) => (pageName) => {
-    let pageIndex = state.pages.findIndex(page => page.name === pageName)
+    let pageIndex = state.project.pages.findIndex(page => page.name === pageName)
     return (pageIndex > -1)
   }
 }

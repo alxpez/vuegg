@@ -1,4 +1,3 @@
-// TODO: change x, y props for left, top (to be more accurate on location)... or not, think about it
 const MockData = {
   'elements': [
     {
@@ -60,154 +59,12 @@ const MockData = {
   ],
   'components': [
     {
-      'name': '(VM) Whiteframe',
-      'type': 'md-whiteframe',
+      'name': 'Comp1',
+      'type': 'div',
       'egg': true,
-      'width': 300,
-      'minWidth': 32,
+      'componegg': true,
+      'width': 400,
       'height': 300,
-      'minHeight': 32,
-      'props': {},
-      'styles': {
-        'zIndex': 'auto'
-      },
-      'classes': [
-        {
-          'containegg': true
-        }
-      ],
-      'children': []
-    }, {
-      'name': '(VM) Toolbar',
-      'type': 'md-toolbar',
-      'egg': true,
-      'x': 0,
-      'y': 0,
-      'width': 1024,
-      'minWidth': 150,
-      'height': 48,
-      'minHeight': 48,
-      'props': {},
-      'classes': [
-        {
-          'containegg': true
-        }, {
-          'md-dense': true
-        }
-      ],
-      'children': [
-        {
-          'type': 'md-button',
-          'egg': true,
-          'x': 10,
-          'y': 2,
-          'width': 40,
-          'minWidth': 40,
-          'height': 40,
-          'minHeight': 40,
-          'classes': [
-            {
-              'md-icon-button': true
-            }
-          ],
-          'children': [
-            {
-              'type': 'md-icon',
-              'text': 'menu'
-            }
-          ]
-        }, {
-          'type': 'h2',
-          'egg': true,
-          'text': 'Title',
-          'x': 60,
-          'y': 12,
-          'width': 60,
-          'minWidth': 60,
-          'height': 24,
-          'minHeight': 24,
-          'styles': {
-            'flex': 1
-          },
-          'classes': [
-            {
-              'md-title': true
-            }
-          ]
-        }
-      ]
-    }, {
-      'name': '(VM) Button',
-      'type': 'md-button',
-      'text': 'Button',
-      'egg': true,
-      'x': 100,
-      'y': 150,
-      'width': 150,
-      'minWidth': 88,
-      'height': 36,
-      'minHeight': 32,
-      'props': {},
-      'classes': [
-        {
-          'md-primary': true
-        }, {
-          'md-raised': true
-        }, {
-          'md-dense': true
-        }
-      ]
-    }, {
-      'name': '(VM) Input',
-      'type': 'md-input-container',
-      'egg': true,
-      'x': 100,
-      'y': 150,
-      'width': 150,
-      'minWidth': 110,
-      'height': 48,
-      'minHeight': 48,
-      'props': {},
-      'classes': [],
-      'children': [
-        {
-          'type': 'label',
-          'text': 'Placeholder',
-          'classes': []
-        }, {
-          'type': 'md-input',
-          'props': {
-            'value': 'Input'
-          },
-          'classes': []
-        }
-      ]
-    }, {
-      'name': '(VM) Chip',
-      'type': 'md-chip',
-      'egg': true,
-      'text': 'Single chip',
-      'width': 150,
-      'minWidth': 32,
-      'height': 32,
-      'minHeight': 32,
-      'props': {
-        'md-deletable': true
-      },
-      'styles': {},
-      'classes': []
-    }, {
-      'name': 'TEST whiteframe',
-      'type': 'md-whiteframe',
-      'egg': true,
-      'width': 300,
-      'minWidth': 32,
-      'height': 300,
-      'minHeight': 32,
-      'props': {},
-      'styles': {
-        'zIndex': 'auto'
-      },
       'classes': [
         {
           'containegg': true
@@ -215,16 +72,64 @@ const MockData = {
       ],
       'children': [
         {
-          'type': 'md-whiteframe',
+          'type': 'button',
+          'text': 'Un boton cualquiera',
           'egg': true,
+          'x': 50,
+          'y': 100,
           'width': 200,
           'minWidth': 32,
-          'height': 200,
+          'height': 40,
           'minHeight': 32,
           'props': {},
-          'styles': {
-            'zIndex': 'auto'
+          'styles': {},
+          'classes': []
+        }
+      ]
+    }, {
+      'name': 'CompComp',
+      'type': 'div',
+      'egg': true,
+      'componegg': true,
+      'width': 500,
+      'height': 400,
+      'styles': {
+        'border-style': 'dashed',
+        'background-color': 'blue'
+      },
+      'classes': [
+        {
+          'containegg': true
+        }
+      ],
+      'children': [
+        {
+          'type': 'input',
+          'egg': true,
+          'x': 10,
+          'y': 20,
+          'width': 150,
+          'minWidth': 32,
+          'height': 40,
+          'minHeight': 32,
+          'props': {
+            'placeholder': 'Input prompt'
           },
+          'styles': {
+            'border-style': 'inset',
+            'background-color': 'white',
+            'color': 'initial'
+          },
+          'classes': []
+        }, {
+          'name': 'Comp1',
+          'type': 'div',
+          'egg': true,
+          'componegg': true,
+          'x': 20,
+          'y': 60,
+          'width': 300,
+          'height': 100,
           'classes': [
             {
               'containegg': true
@@ -232,74 +137,26 @@ const MockData = {
           ],
           'children': [
             {
-              'type': 'md-whiteframe',
+              'type': 'button',
+              'text': 'Un boton cualquiera',
               'egg': true,
-              'width': 150,
+              'x': 50,
+              'y': 50,
+              'width': 55,
               'minWidth': 32,
-              'height': 150,
+              'height': 40,
               'minHeight': 32,
               'props': {},
               'styles': {
-                'zIndex': 'auto'
+                'border-style': 'solid',
+                'background-color': 'green',
+                'color': 'black'
               },
-              'classes': [
-                {
-                  'containegg': true
-                }
-              ],
-              'children': [
-                {
-                  'name': 'Button',
-                  'type': 'md-button',
-                  'text': 'Button',
-                  'egg': true,
-                  'width': 150,
-                  'minWidth': 88,
-                  'height': 36,
-                  'minHeight': 32,
-                  'props': {},
-                  'classes': [
-                    {
-                      'md-primary': true
-                    }, {
-                      'md-raised': true
-                    }, {
-                      'md-dense': true
-                    }
-                  ]
-                }
-              ]
+              'classes': []
             }
           ]
         }
       ]
-    }, {
-      'name': '(VTF) Button',
-      'type': 'v-btn',
-      'text': 'V Button',
-      'egg': true,
-      'width': 150,
-      'minWidth': 88,
-      'height': 36,
-      'minHeight': 32,
-      'props': {},
-      'classes': []
-    }, {
-      'name': '(VTF) Input',
-      'type': 'v-text-field',
-      'egg': true,
-      'x': 100,
-      'y': 150,
-      'width': 150,
-      'minWidth': 90,
-      'height': 50,
-      'minHeight': 50,
-      'props': {
-        'label': 'Placeholder',
-        'value': 'V Input',
-        'light': true
-      },
-      'classes': []
     }
   ]
 }

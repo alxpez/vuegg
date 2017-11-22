@@ -1,3 +1,5 @@
+import shortid from 'shortid'
+
 /**
  * Vuex Store State
  * (aka. Single State Tree or "single source of truth")
@@ -19,14 +21,19 @@ const state = {
       isOpen: false
     }
   },
-  pages: [
-    {
-      id: 'home',
-      name: 'Home',
-      path: '/',
-      children: []
-    }
-  ]
+  project: {
+    id: shortid.generate(),
+    title: 'Vuegg Project',
+    pages: [
+      {
+        id: 'home',
+        name: 'Home',
+        path: '/',
+        children: []
+      }
+    ],
+    componeggs: []
+  }
 }
 
 export default state
