@@ -31,7 +31,8 @@ const state = {
         path: '/',
         children: []
       }
-    ]
+    ],
+    componeggs: []
   }
 }
 

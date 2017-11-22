@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "axios": "^0.17.0",
+    "downloadjs": "^1.4.7",
     "shortid": "^2.2.8",
     "vue": "^2.5.3",
     "vue-draggable-resizable": "^1.5.2",
