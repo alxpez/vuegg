@@ -1,6 +1,8 @@
 import shortid from 'shortid'
 import types from '@/store/types'
 
+import newPage from '@/helpers/page'
+
 // TODO: Refactor actions and divide them by context
 
 /**
@@ -26,12 +28,7 @@ const actions = {
    */
   [types.savePageAndClose]: function ({ getters, commit }, payload) {
     if (!payload.id) {
-      let page = {
-        id: shortid.generate(),
-        name: payload.name,
-        path: payload.path.toLowerCase(),
-        children: []
-      }
+      let page = newPage(payload.name, payload.path.toLowerCase())
       commit(types.createPage, page)
     } else {
       let pagePayload = {

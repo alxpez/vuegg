@@ -1,6 +1,9 @@
 <template>
-  <div class="eggStage" :id="$route.query.page">
-    <egglement v-for="el in egglements" :key="el.id" :egg="el"></egglement>
+  <div :id="activePage.id"
+    :style="activePage.styles"
+    :class="[activePage.classes, {eggStage: true}]"
+  >
+    <egglement v-for="el in activePage.children" :key="el.id" :egg="el"></egglement>
   </div>
 </template>
 
@@ -14,9 +17,9 @@ export default {
   name: 'egg-stage',
   components: { Egglement },
   computed: {
-    egglements () {
-      let activePage = this.getPageById(this.$route.query.page)
-      return (activePage ? activePage.children : [])
+    activePage () {
+      console.log(this.getPageById(this.$route.query.page))
+      return this.getPageById(this.$route.query.page)
     },
     ...mapGetters([getPageById])
   }
@@ -26,14 +29,6 @@ export default {
 
 <style scoped>
 .eggStage {
-  width: 1024px;
-  height: 1000px;
-  overflow: hidden;
-  /* width and height should be assigned dynamicly */
-  position: relative;
-  margin: auto;
-  background-color: #fff;
-
   /* for paper style */
   box-shadow:
     0 1px 3px rgba(0, 0, 0, 0.2),
