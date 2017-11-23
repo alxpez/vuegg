@@ -1,4 +1,4 @@
-import shortid from 'shortid'
+import newProject from '@/helpers/project'
 
 /**
  * Vuex Store State
@@ -21,19 +21,7 @@ const state = {
       isOpen: false
     }
   },
-  project: {
-    id: shortid.generate(),
-    title: 'Vuegg Project',
-    pages: [
-      {
-        id: 'home',
-        name: 'Home',
-        path: '/',
-        children: []
-      }
-    ],
-    componeggs: []
-  }
+  project: newProject('Vuegg Project')
 }
 
 export default state
