@@ -11,14 +11,13 @@
 <script>
 import { mapGetters } from 'vuex'
 import { getPageById } from '@/store/types'
-import Egglement from '@/components/Egglement'
+import Egglement from './Egglement'
 
 export default {
   name: 'egg-stage',
   components: { Egglement },
   computed: {
     activePage () {
-      console.log(this.getPageById(this.$route.query.page))
       return this.getPageById(this.$route.query.page)
     },
     ...mapGetters([getPageById])

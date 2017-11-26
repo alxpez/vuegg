@@ -9,7 +9,7 @@
 <script>
 import { mapState, mapMutations } from 'vuex'
 import { toggleSidebar } from '@/store/types'
-import RoutesMenu from '@/components/RoutesMenu'
+import RoutesMenu from './RoutesMenu'
 
 export default {
   name: 'top-bar',

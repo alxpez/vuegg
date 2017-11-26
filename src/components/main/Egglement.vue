@@ -41,7 +41,7 @@
 <script>
 import { mapActions } from 'vuex'
 import { resizeEgglement, moveEgglement } from '@/store/types'
-import MrEgg from '@/components/MrEgg'
+import MrEgg from './MrEgg'
 
 export default {
   name: 'egglement',

@@ -40,8 +40,8 @@
 <script>
 import { mapState, mapMutations } from 'vuex'
 import { toggleSidebar, toggleMiniSidebar } from '@/store/types'
-import ComponentsMenu from '@/components/ComponentsMenu'
-import PropertiesMenu from '@/components/PropertiesMenu'
+import ComponentsMenu from './ComponentsMenu'
+import PropertiesMenu from './PropertiesMenu'
 
 export default {
   name: 'side-bar',

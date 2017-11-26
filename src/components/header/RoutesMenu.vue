@@ -68,7 +68,7 @@
 <script>
 import { mapState, mapGetters, mapMutations } from 'vuex'
 import { getPageById, getPageIndexById, deletePage, togglePageDialog } from '@/store/types'
-import PageDialog from '@/components/PageDialog'
+import PageDialog from './PageDialog'
 
 export default {
   name: 'routes-menu',

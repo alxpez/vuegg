@@ -7,7 +7,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import EggStage from '@/components/EggStage'
+import EggStage from './EggStage'
 import { pageExists } from '@/store/types'
 
 export default {

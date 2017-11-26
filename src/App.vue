@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import TopBar from '@/components/TopBar'
-import SideBar from '@/components/SideBar'
+import TopBar from '@/components/header'
+import SideBar from '@/components/side'
 
 export default {
   name: 'app',
