@@ -1,9 +1,9 @@
 import shortid from 'shortid'
 
 // TODO: width and height should come dynamically
-function newPage (name, path) {
+function newPage (id, name, path) {
   return {
-    id: shortid.generate(),
+    id: id || shortid.generate(),
     name: name,
     path: path,
     styles: {

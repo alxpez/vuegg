@@ -15,13 +15,11 @@
   },
   "dependencies": {
     "axios": "^0.17.0",
+    "bootstrap": "^4.0.0-beta.2",
     "downloadjs": "^1.4.7",
     "shortid": "^2.2.8",
     "vue": "^2.5.3",
-    "vue-draggable-resizable": "^1.5.2",
-    "vue-material": "^0.7.5",
     "vue-router": "^2.8.1",
-    "vuetify": "^0.15.7",
     "vuex": "^2.5.0"
   },
   "devDependencies": {

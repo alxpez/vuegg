@@ -1,13 +1,11 @@
 <template>
-  <v-app id="app" dark>
+  <div id="app" class="container-fluid">
     <top-bar></top-bar>
-    <side-bar></side-bar>
-    <main>
-      <v-container fluid>
-        <router-view></router-view>
-      </v-container>
-    </main>
-  </v-app>
+    <div class="row">
+      <side-bar></side-bar>
+      <router-view></router-view>
+    </div>
+  </div>
 </template>
 
 <script>

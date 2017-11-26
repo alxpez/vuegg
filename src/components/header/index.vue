@@ -1,20 +1,24 @@
 <template>
-  <v-toolbar fixed>
-    <v-toolbar-side-icon class="ml-3" @click.stop="toggleSidebar(!app.sidebar.isOpen)"></v-toolbar-side-icon>
-    <v-toolbar-title>vuexample</v-toolbar-title>
-    <routes-menu></routes-menu>
-  </v-toolbar>
+  <div id="topBar" class="row">
+    <button class="ml-3" @click.stop="toggleSidebar(!app.sidebar.isOpen)"></button>
+    <label>vuegg</label>
+    <input placeholder="Vuegg project"></input>
+  </div>
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex'
 import { toggleSidebar } from '@/store/types'
-import RoutesMenu from './RoutesMenu'
 
 export default {
   name: 'top-bar',
-  components: { RoutesMenu },
   computed: mapState(['app']),
   methods: mapMutations([toggleSidebar])
 }
 </script>
+
+<style scoped>
+#topBar {
+  width: 100%;
+}
+</style>

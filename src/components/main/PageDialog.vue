@@ -1,5 +1,8 @@
 <template>
-  <v-layout row justify-center>
+  <div>
+
+  </div>
+  <!-- <v-layout row justify-center>
     <v-dialog v-model="dialogState">
       <v-card>
         <v-card-title>
@@ -22,7 +25,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </v-layout>
+  </v-layout> -->
 </template>
 
 

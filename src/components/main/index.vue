@@ -1,5 +1,6 @@
 <template>
-  <div class="pageContainer">
+  <div id="mainContainer" class="col-12">
+    <routes-menu></routes-menu>
     <egg-stage></egg-stage>
   </div>
 </template>
@@ -7,12 +8,14 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import EggStage from './EggStage'
 import { pageExists } from '@/store/types'
+
+import EggStage from './EggStage'
+import RoutesMenu from './RoutesMenu'
 
 export default {
   name: 'main-container',
-  components: { EggStage },
+  components: { EggStage, RoutesMenu },
   mounted: function () {
     this.$router.replace({query: {page: 'home'}})
   },
@@ -26,7 +29,7 @@ export default {
 
 
 <style scoped>
-.pageContainer {
-  margin-top: 65px;
+#mainContainer {
+  height: auto;
 }
 </style>
