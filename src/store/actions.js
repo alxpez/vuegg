@@ -147,6 +147,9 @@ const actions = {
     // Update relative position of the element, minus the EggStage offset position
     let relPoint = getRelativePoint(payload.page, payload.egglement.id, payload.mouseX, payload.mouseY)
     let pageEl = document.getElementById(payload.pageId)
+    console.log(pageEl.offsetLeft)
+    console.log(pageEl.offsetTop)
+    // TODO: review this above
 
     let x = relPoint.x - pageEl.offsetLeft - (payload.egglement.width / 2)
     let y = relPoint.y - pageEl.offsetTop - (payload.egglement.height / 2)

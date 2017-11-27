@@ -1,7 +1,7 @@
 <template>
   <div id="elMenu" class="list-group">
-    <a href="#"
-      v-for="element in elements" :key="elKey"
+    <a id="el" :key="elKey"
+      v-for="element in elements"
       @click="registerAndSaveEgglement({pageId, el: element})"
       class="list-group-item list-group-item-action"
     >
@@ -35,3 +35,15 @@ export default {
   }
 }
 </script>
+
+
+<style scoped>
+#elMenu {
+  width: 100%;
+  height: 100%;
+}
+
+#el {
+  cursor: pointer;
+}
+</style>

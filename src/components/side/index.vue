@@ -1,14 +1,14 @@
 <template>
-  <div id="sideBar" class="container">
-    <div class="row">
+  <div id="sideBar" class="col">
+    <div>
       <EgglementsMenu></EgglementsMenu>
       <ComponeggsMenu></ComponeggsMenu>
       <properties-menu></properties-menu>
     </div>
-    <div class="row">
-      <button>E</button>
-      <button>C</button>
-      <button>P</button>
+    <div>
+      <button class="col">E</button>
+      <button class="col">C</button>
+      <button class="col">P</button>
     </div>
   </div>
 </template>
@@ -41,7 +41,8 @@ export default {
 
 <style scoped>
 #sideBar {
-  width: 150px;
+  width: 50px;
+  padding: 0px;
 }
 
 .mini {

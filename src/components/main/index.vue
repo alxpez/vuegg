@@ -1,5 +1,5 @@
 <template>
-  <div id="mainContainer" class="col-12">
+  <div id="mainContainer" class="col">
     <routes-menu></routes-menu>
     <egg-stage></egg-stage>
   </div>
@@ -30,6 +30,5 @@ export default {
 
 <style scoped>
 #mainContainer {
-  height: auto;
 }
 </style>

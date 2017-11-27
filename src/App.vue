@@ -18,6 +18,11 @@ export default {
 }
 </script>
 
+
+<style lang="scss">
+@import "./styles/eggstrap.scss";
+</style>
+
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

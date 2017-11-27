@@ -1,7 +1,7 @@
 <template>
   <div id="compMenu" class="list-group">
-    <a href="#"
-      v-for="component in components" :key="compKey"
+    <a id="comp" :key="compKey"
+      v-for="component in components"
       @click="registerAndSaveEgglement({pageId, el: component})"
       class="list-group-item list-group-item-action"
     >
@@ -35,3 +35,15 @@ export default {
   }
 }
 </script>
+
+
+<style scoped>
+#compMenu {
+  width: 100%;
+  height: 100%;
+}
+
+#comp {
+  cursor: pointer;
+}
+</style>

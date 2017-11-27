@@ -1,8 +1,8 @@
 <template>
-  <div id="topBar" class="row">
-    <button class="ml-3" @click.stop="toggleSidebar(!app.sidebar.isOpen)"></button>
-    <label>vuegg</label>
-    <input placeholder="Vuegg project"></input>
+  <div id="topBar" class="mb-2 row d-flex align-items-center bg-dark">
+    <a id="menuButton" class="btn m-2 text-light" @click.stop="toggleSidebar(!app.sidebar.isOpen)">O</a>
+    <h3 class="text-light">vuegg</h3>
+    <input class="ml-auto mr-3" placeholder="Vuegg project"></input>
   </div>
 </template>
 
@@ -19,6 +19,13 @@ export default {
 
 <style scoped>
 #topBar {
-  width: 100%;
+  height: 48px;
+}
+
+#menuButton {
+  height: 40px;
+  width: 40px;
+  text-decoration: none;
+  cursor:pointer;
 }
 </style>
