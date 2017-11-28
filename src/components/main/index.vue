@@ -1,5 +1,5 @@
 <template>
-  <div id="mainContainer" class="col">
+  <div id="mainContainer" class="col mt-2 mb-3">
     <routes-menu></routes-menu>
     <egg-stage></egg-stage>
   </div>

@@ -1,9 +1,15 @@
 <template>
-  <div class="row">
+  <div>
     <page-dialog></page-dialog>
-    <a href="#" @click.native.stop="togglePageDialog({isOpen: true, isNew: true})">NEW</a>
-    <a href="#" @click.native.stop="deletePage(pageIndex)">EDIT</a>
-    <a href="#" @click.native.stop="deletePage(pageIndex)">DEL</a>
+    <a id="addPageBtn" @click.native.stop="togglePageDialog({isOpen: true, isNew: true})">
+      <i class="material-icons md-48">add_circle</i>
+    </a>
+    <a id="editPageBtn" @click.native.stop="togglePageDialog({isOpen: true, isNew: false})">
+      <i class="material-icons md-48">mode_edit</i>
+    </a>
+    <a id="deletePageBtn" @click.native.stop="deletePage(pageIndex)">
+      <i class="material-icons md-48">remove_circle</i>
+    </a>
   </div>
 </template>
 
@@ -46,3 +52,17 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+#addPageBtn {
+  cursor: pointer;
+}
+
+#editPageBtn {
+  cursor: pointer;
+}
+
+#deletePageBtn {
+  cursor: pointer;
+}
+</style>

@@ -1,14 +1,19 @@
 <template>
-  <div id="sideBar" class="col">
+  <div id="sideBar" class="bg-secondary pt-2">
     <div>
-      <EgglementsMenu></EgglementsMenu>
-      <ComponeggsMenu></ComponeggsMenu>
-      <properties-menu></properties-menu>
+      <a :class="{'d-none': !propsMenu}" class="text-light" @click="propsMenu=false">
+        <i class="material-icons">select_all</i>
+      </a>
+      <a :class="{'d-none': propsMenu}" class="text-light" @click="propsMenu=true">
+        <i class="material-icons">settings_applications</i>
+      </a>
     </div>
     <div>
-      <button class="col">E</button>
-      <button class="col">C</button>
-      <button class="col">P</button>
+      <div :class="{'d-none': propsMenu}">
+        <EgglementsMenu></EgglementsMenu>
+        <ComponeggsMenu></ComponeggsMenu>
+      </div>
+      <properties-menu :class="{'d-none': !propsMenu}"></properties-menu>
     </div>
   </div>
 </template>
@@ -35,14 +40,23 @@ export default {
     },
     ...mapState(['app'])
   },
-  methods: mapMutations([toggleMiniSidebar, toggleSidebar])
+  methods: mapMutations([toggleMiniSidebar, toggleSidebar]),
+  data: function () {
+    return {
+      propsMenu: false
+    }
+  }
 }
 </script>
 
 <style scoped>
 #sideBar {
-  width: 50px;
+  width: 200px;
   padding: 0px;
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.2),
+    0 1px 1px rgba(0, 0, 0, 0.14),
+    0 2px 1px -1px rgba(0, 0, 0, 0.12);
 }
 
 .mini {
