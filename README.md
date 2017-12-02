@@ -1,6 +1,6 @@
 # vuegg
 
-> **V**ue **G**UI **G**enerator
+> **Vue** **G**UI **G**enerator
 
 ## Build Setup
 
