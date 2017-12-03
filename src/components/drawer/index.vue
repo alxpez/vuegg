@@ -1,21 +1,30 @@
 <template>
-  <div id="sideBar" class="bg-secondary pt-2">
-    <div>
-      <a :class="{'d-none': !propsMenu}" class="text-light" @click="propsMenu=false">
-        <i class="material-icons">select_all</i>
-      </a>
-      <a :class="{'d-none': propsMenu}" class="text-light" @click="propsMenu=true">
-        <i class="material-icons">settings_applications</i>
-      </a>
-    </div>
-    <div>
-      <div :class="{'d-none': propsMenu}">
-        <EgglementsMenu></EgglementsMenu>
-        <ComponeggsMenu></ComponeggsMenu>
+    <nav class="mdl-navigation">
+      <div class="mdl-tabs mdl-js-tabs">
+        <div class="mdl-tabs__tab-bar">
+          <a href="#elements" class="mdl-tabs__tab is-active">
+            <i class="material-icons">select_all</i>
+          </a>
+          <a href="#settings" class="mdl-tabs__tab">
+            <i class="material-icons">settings_applications</i>
+          </a>
+          <a href="#pages" class="mdl-tabs__tab">
+            <i class="material-icons">insert_drive_file</i>
+          </a>
+        </div>
+
+        <div class="mdl-tabs__panel is-active" id="elements">
+          <EgglementsMenu></EgglementsMenu>
+          <ComponeggsMenu></ComponeggsMenu>
+        </div>
+        <div class="mdl-tabs__panel" id="settings">
+          <properties-menu></properties-menu>
+        </div>
+        <div class="mdl-tabs__panel" id="pages">
+
+        </div>
       </div>
-      <properties-menu :class="{'d-none': !propsMenu}"></properties-menu>
-    </div>
-  </div>
+    </nav>
 </template>
 
 <script>
