@@ -1,11 +1,11 @@
 <template>
-  <div id="compMenu" class="list-group">
-    <a id="comp" :key="compKey"
-      v-for="component in components"
-      @click="registerAndSaveEgglement({pageId, el: component})"
+  <div id="elMenu" class="list-group">
+    <a id="el" :key="elKey"
+      v-for="element in elements"
+      @click="registerAndSaveEgglement({pageId, el: element})"
       class="list-group-item list-group-item-action"
     >
-      {{component.name}}
+      {{element.name}}
     </a>
   </div>
 </template>
@@ -18,15 +18,15 @@ import { registerAndSaveEgglement } from '@/store/types'
 import MockData from '@/assets/mockdata'
 
 export default {
-  name: 'componeggs-menu',
+  name: 'elements-menu',
   methods: mapActions([registerAndSaveEgglement]),
   data: function () {
     return {
-      components: MockData.components
+      elements: MockData.elements
     }
   },
   computed: {
-    compKey () {
+    elKey () {
       return shortid.generate()
     },
     pageId () {
@@ -38,12 +38,12 @@ export default {
 
 
 <style scoped>
-#compMenu {
+#elMenu {
   width: 100%;
   height: 100%;
 }
 
-#comp {
+#el {
   cursor: pointer;
 }
 </style>

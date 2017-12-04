@@ -10,11 +10,10 @@ import { mapGetters } from 'vuex'
 import { pageExists } from '@/store/types'
 
 import EggStage from './EggStage'
-import RoutesMenu from './RoutesMenu'
 
 export default {
   name: 'mainegg',
-  components: { EggStage, RoutesMenu },
+  components: { EggStage },
   mounted: function () {
     this.$router.replace({query: {page: 'home'}})
   },

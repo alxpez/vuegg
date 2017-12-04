@@ -10,9 +10,7 @@
 
     <div class="mdl-layout-spacer"></div>
     <div id="tt1" class="icon material-icons">add</div>
-    <div class="mdl-tooltip" data-mdl-for="tt1">
-    Follow
-    </div>
+    <div class="mdl-tooltip" data-mdl-for="tt1">Follow</div>
   </div>
 </template>
 
@@ -32,7 +30,7 @@ export default {
   height: 64px;
   background: #eeeeee;
   color: rgba(0,0,0,0.66);
-  padding: 0 40px 0 40px;
+  padding: 0 25px 0 25px;
 }
 
 @media screen and (max-width: 1024px) {
@@ -44,7 +42,7 @@ export default {
 }
 
 #homeBtn {
-  margin-right: 15px;
+  margin-right: 25px;
 }
 
 #inputTitle {

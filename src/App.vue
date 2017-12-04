@@ -51,7 +51,6 @@ export default {
   margin-right: 240px;
 }
 
-
 .mdl-layout__drawer {
   right: 0;
   left: auto;

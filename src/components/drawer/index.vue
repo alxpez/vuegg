@@ -14,13 +14,14 @@
         </div>
 
         <div class="mdl-tabs__panel is-active" id="elements">
-          <EgglementsMenu></EgglementsMenu>
-          <ComponeggsMenu></ComponeggsMenu>
+          <ElementsMenu></ElementsMenu>
+          <ComponentsMenu></ComponentsMenu>
         </div>
         <div class="mdl-tabs__panel" id="settings">
           <properties-menu></properties-menu>
         </div>
         <div class="mdl-tabs__panel" id="pages">
+          <pages-menu></pages-menu>
         </div>
       </div>
     </nav>
@@ -30,13 +31,14 @@
 import { mapState, mapMutations } from 'vuex'
 import { toggleSidebar, toggleMiniSidebar } from '@/store/types'
 
-import EgglementsMenu from './EgglementsMenu'
-import ComponeggsMenu from './ComponeggsMenu'
+import ElementsMenu from './ElementsMenu'
+import ComponentsMenu from './ComponentsMenu'
 import PropertiesMenu from './PropertiesMenu'
+import PagesMenu from './PagesMenu'
 
 export default {
   name: 'drawegg',
-  components: { EgglementsMenu, ComponeggsMenu, PropertiesMenu },
+  components: { ElementsMenu, ComponentsMenu, PropertiesMenu, PagesMenu },
   computed: {
     drawerStatus: {
       get () {
