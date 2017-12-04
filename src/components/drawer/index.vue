@@ -2,13 +2,13 @@
     <nav class="mdl-navigation">
       <div class="mdl-tabs mdl-js-tabs">
         <div class="mdl-tabs__tab-bar">
-          <a href="#elements" class="mdl-tabs__tab is-active">
-            <i class="material-icons">select_all</i>
+          <a href="#elements" title="Elements" class="mdl-tabs__tab is-active">
+            <i class="material-icons">widgets</i>
           </a>
-          <a href="#settings" class="mdl-tabs__tab">
-            <i class="material-icons">settings_applications</i>
+          <a href="#settings" title="Properties" class="mdl-tabs__tab">
+            <i class="material-icons">settings</i>
           </a>
-          <a href="#pages" class="mdl-tabs__tab">
+          <a href="#pages" title="Pages" class="mdl-tabs__tab">
             <i class="material-icons">insert_drive_file</i>
           </a>
         </div>
@@ -21,7 +21,6 @@
           <properties-menu></properties-menu>
         </div>
         <div class="mdl-tabs__panel" id="pages">
-
         </div>
       </div>
     </nav>
@@ -36,7 +35,7 @@ import ComponeggsMenu from './ComponeggsMenu'
 import PropertiesMenu from './PropertiesMenu'
 
 export default {
-  name: 'side-bar',
+  name: 'drawegg',
   components: { EgglementsMenu, ComponeggsMenu, PropertiesMenu },
   computed: {
     drawerStatus: {
@@ -59,16 +58,18 @@ export default {
 </script>
 
 <style scoped>
-#sideBar {
-  width: 200px;
-  padding: 0px;
-  box-shadow:
-    0 1px 3px rgba(0, 0, 0, 0.2),
-    0 1px 1px rgba(0, 0, 0, 0.14),
-    0 2px 1px -1px rgba(0, 0, 0, 0.12);
+.mdl-navigation {
+    padding-top: 16px;
 }
 
-.mini {
-  width: 50px;
+@media screen and (max-width: 1024px) {
+  .mdl-navigation {
+      padding-top: 8px;
+  }
+}
+
+.mdl-tabs.is-upgraded .mdl-tabs__tab.is-active:after {
+  -webkit-animation: border-expand .4s cubic-bezier(.4,0,.4,1).01s alternate backwards;
+  animation: border-expand .4s cubic-bezier(.4,0,.4,1).01s alternate backwards;
 }
 </style>

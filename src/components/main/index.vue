@@ -1,6 +1,5 @@
 <template>
-  <div id="mainContainer" class="col mt-2 mb-3">
-    <routes-menu></routes-menu>
+  <div id="mainegg" class="col mt-2 mb-3">
     <egg-stage></egg-stage>
   </div>
 </template>
@@ -14,7 +13,7 @@ import EggStage from './EggStage'
 import RoutesMenu from './RoutesMenu'
 
 export default {
-  name: 'main-container',
+  name: 'mainegg',
   components: { EggStage, RoutesMenu },
   mounted: function () {
     this.$router.replace({query: {page: 'home'}})
@@ -29,6 +28,6 @@ export default {
 
 
 <style scoped>
-#mainContainer {
+#mainegg {
 }
 </style>
