@@ -320,7 +320,7 @@ export default {
     }
   },
   computed: {
-    style: function () {
+    style () {
       return {
         top: this.top + 'px',
         left: this.left + 'px',

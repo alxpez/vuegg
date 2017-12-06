@@ -1,6 +1,7 @@
 <template>
   <div id="headegg" class="mdl-layout__header-row">
     <button id="homeBtn" class="mdl-button mdl-js-button mdl-button--icon">
+      <!-- Subtitue for vuegg logo -->
       <i class="material-icons">cloud_circle</i>
     </button>
     <div id="inputTitle" class="mdl-textfield mdl-js-textfield">

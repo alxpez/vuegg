@@ -1,27 +1,31 @@
 <template>
-  <!-- Drawer always open in large screens. Header is always shown -->
   <div id="app" class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
-    <header v-mdl class="mdl-layout__header yo">
+    <header v-mdl class="mdl-layout__header">
       <headegg></headegg>
     </header>
+
     <div v-mdl class="mdl-layout__drawer">
       <drawegg></drawegg>
     </div>
+
     <main v-mdl class="mdl-layout__content">
       <div class="page-content">
         <router-view></router-view>
       </div>
     </main>
+
+    <page-dialog></page-dialog>
   </div>
 </template>
 
 <script>
 import Headegg from '@/components/header'
 import Drawegg from '@/components/drawer'
+import PageDialog from '@/components/drawer/PageDialog'
 
 export default {
   name: 'app',
-  components: { Headegg, Drawegg }
+  components: { Headegg, Drawegg, PageDialog }
 }
 </script>
 
@@ -30,7 +34,7 @@ export default {
   font-family: 'Roboto', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  /*text-align: center;*/
   background-color: #eeeeee;
 }
 

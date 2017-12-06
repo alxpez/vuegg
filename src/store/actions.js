@@ -28,7 +28,7 @@ const actions = {
    */
   [types.savePageAndClose]: function ({ getters, commit }, payload) {
     if (!payload.id) {
-      let page = newPage(payload.name, payload.path.toLowerCase())
+      let page = newPage(payload.id, payload.name, payload.path.toLowerCase())
       commit(types.createPage, page)
     } else {
       let pagePayload = {

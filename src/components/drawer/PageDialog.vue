@@ -1,37 +1,35 @@
 <template>
-  <div>
-
-  </div>
-  <!-- <v-layout row justify-center>
-    <v-dialog v-model="dialogState">
-      <v-card>
-        <v-card-title>
-          <span class="headline">{{ dialogTitle }}</span>
-        </v-card-title>
-        <v-card-text>
-          <v-form v-model="valid" ref="form">
-            <v-text-field required label="Name" v-model="name"
-              :rules="[ checkName ]"
-            ></v-text-field>
-            <v-text-field required label="Page path" v-model="path"
-              :rules="[ checkPathFormat ]"
-            ></v-text-field>
-          </v-form>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn flat @click="togglePageDialog({isOpen: false, isNew: app.pageDialog.isNew})">Cancel</v-btn>
-          <v-btn flat @click="savePageAndClose({ name, path, id })" :disabled="!valid">Save</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-layout> -->
+  <dialog class="mdl-dialog">
+    <p class="mdl-dialog__title">{{dialogTitle}}</p>
+    <div class="mdl-dialog__content">
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" :class="{'is-invalid': nameError !== ''}">
+        <input class="mdl-textfield__input" type="text" @input="checkName" v-model="name" id="pageName">
+        <label class="mdl-textfield__label" for="pageName">Name</label>
+        <span class="mdl-textfield__error">{{nameError}}</span>
+      </div>
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" :class="{'is-invalid': pathError !== ''}">
+        <input class="mdl-textfield__input" type="text" @input="checkPathFormat" v-model="path" id="pagePath">
+        <label class="mdl-textfield__label" for="pagePath">Path</label>
+        <span class="mdl-textfield__error">{{pathError}}</span>
+      </div>
+    </div>
+    <div class="mdl-dialog__actions">
+      <button type="button" class="mdl-button"
+        @click="savePageAndClose({ id, name, path})" :disabled="!valid"
+      >Save</button>
+      <button type="button" class="mdl-button close"
+        @click="togglePageDialog({isOpen: false, isNew: app.pageDialog.isNew})"
+      >Cancel</button>
+    </div>
+  </dialog>
 </template>
 
 
 <script>
 import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 import { getPageById, pathInUse, nameInUse, savePageAndClose, togglePageDialog } from '@/store/types'
+
+import dialogPolyfill from 'dialog-polyfill/dialog-polyfill'
 
 export default {
   name: 'page-dialog',
@@ -41,18 +39,12 @@ export default {
       activePage: {},
       id: null,
       name: '',
-      path: ''
+      nameError: '',
+      path: '',
+      pathError: ''
     }
   },
   computed: {
-    dialogState: {
-      get () {
-        return this.app.pageDialog.isOpen
-      },
-      set (isOpen) {
-        this.togglePageDialog({isOpen, isNew: this.app.pageDialog.isNew})
-      }
-    },
     dialogTitle () {
       return this.app.pageDialog.isNew ? 'Add a new page' : 'Editing: ' + this.activePage.name
     },
@@ -61,49 +53,77 @@ export default {
   },
   methods: {
     checkName () {
+      this.nameError = ''
+
       if (!this.app.pageDialog.isNew && (this.name === this.activePage.name)) {
-        return true
+        this.nameError = ''
       } else if (!this.name) {
-        return 'Choose a name for your page'
+        this.nameError = 'Choose a name for your page'
       } else if (this.nameInUse(this.name)) {
-        return 'There\'s already a page with that name'
+        this.nameError = 'There\'s already a page with that name'
       }
-      return true
+
+      this.valid = (this.nameError === '' && this.pathError === '' && this.name !== '' && this.path !== '')
     },
     checkPathFormat () {
+      this.pathError = ''
+
       if (!this.app.pageDialog.isNew && (this.path === this.activePage.path)) {
-        return true
+        this.pathError = ''
       } else if (!this.path) {
-        return 'Choose the page\'s path'
+        this.pathError = 'Choose the page\'s path'
       } else if (this.path[0] !== '/') {
-        return 'The path must start with \'/\''
+        this.pathError = 'The path must start with \'/\''
       } else if (!this.path.match(/^\/([A-Za-z0-9/_-])+$/g)) {
-        return 'Invalid path'
+        this.pathError = 'Invalid path'
       } else if (this.pathInUse(this.path)) {
-        return 'This path already exists'
+        this.pathError = 'This path already exists'
       }
-      return true
+
+      this.valid = (this.nameError === '' && this.pathError === '' && this.name !== '' && this.path !== '')
     },
     resetDialog () {
+      this.activePage = {}
       this.id = null
-      this.$refs.form.reset()
+      this.name = ''
+      this.nameError = ''
+      this.path = ''
+      this.pathError = ''
+    },
+    setEditDialog (activePage) {
+      this.activePage = activePage
+      this.id = activePage.id
+      this.name = activePage.name
+      this.path = activePage.path
     },
     ...mapActions([savePageAndClose]),
     ...mapMutations([togglePageDialog])
   },
   watch: {
     'app.pageDialog.isOpen': function (val) {
+      let dialog = this.$el
+
       if (!val) {
-        // Close dialog
         this.resetDialog()
-      } else if (!this.app.pageDialog.isNew) {
-        // Open dialog on edit mode
-        this.activePage = this.getPageById(this.$route.query.page)
-        this.id = this.activePage.id
-        this.name = this.activePage.name
-        this.path = this.activePage.path
+        dialog.close()
+      } else {
+        if (!dialog.showModal) {
+          dialogPolyfill.registerDialog(dialog)
+        }
+        dialog.showModal()
+
+        if (!this.app.pageDialog.isNew) {
+          this.setEditDialog(this.getPageById(this.$route.query.page))
+        }
       }
     }
   }
 }
 </script>
+
+<style scoped>
+.mdl-dialog__title {
+    font-size: 24px;
+    font-weight: 500;
+}
+</style>

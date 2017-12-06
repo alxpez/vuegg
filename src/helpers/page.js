@@ -7,7 +7,7 @@ function newPage (id, name, path) {
     name: name,
     path: path,
     styles: {
-      'width': '1024px',
+      'width': '960px',
       'height': '1000px',
       'overflow': 'hidden',
       'position': 'relative',

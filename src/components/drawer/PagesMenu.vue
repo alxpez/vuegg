@@ -1,27 +1,28 @@
 <template>
   <div id="pagesMenu">
-    <ul class="mdl-list">
-      <li v-for="page in project.pages" class="mdl-list__item">
-        <span class="mdl-list__item-primary-content">
-          <i class="material-icons mdl-list__item-icon">insert_drive_file</i>
-          {{page.name}}
-        </span>
+    <mdc-list class="pageList">
+      <div v-for="(page, pageIndex) in project.pages" :key="page.id"
+          :class="{active: (pageIndex === activePageIndex)}" @click="changeActivePage(page.id)"
+        >
+        <mdc-list-item class="pageItem">
+          <i v-if="pageIndex === 0" slot="start-detail" class="material-icons">home</i>
+          <i v-else slot="start-detail" class="material-icons">insert_drive_file</i>
+          <span>{{page.name}}</span>
+          <span slot="secondary">{{page.path}}</span>
+          <mdc-menu-anchor slot="end-detail">
+            <i class="material-icons" @click="showOptsMenu(page.id)">more_vert</i>
+            <mdc-menu :ref="'menu-'+page.id" @select="(selected)=>onSelect(selected, pageIndex)" @cancel="onCancel">
+              <mdc-menu-item>Rename page</mdc-menu-item>
+              <mdc-menu-item>Duplicate page</mdc-menu-item>
+              <mdc-menu-divider></mdc-menu-divider>
+              <mdc-menu-item :disabled="(project.pages.length === 1)">Delete page</mdc-menu-item>
+            </mdc-menu>
+          </mdc-menu-anchor>
+        </mdc-list-item>
+      </div>
+    </mdc-list>
 
-        <span class="mdl-list__item-secondary-action">
-          <button id="pageOpts" class="mdl-button mdl-js-button mdl-button--icon">
-            <i class="material-icons">more_vert</i>
-          </button>
-          <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="pageOpts">
-            <li class="mdl-menu__item" @click.native.stop="togglePageDialog({isOpen: true, isNew: false})">Rename page</li>
-            <li class="mdl-menu__item">Duplicate page</li>
-            <li class="mdl-menu__item" @click.native.stop="deletePage(pageIndex)">Delete page</li>
-          </ul>
-        </span>
-      </li>
-    </ul>
-    <button class="mdl-button mdl-js-button mdl-button--fab" @click.native.stop="togglePageDialog({isOpen: true, isNew: true})">
-      <i class="material-icons">add</i>
-    </button>
+    <mdc-fab icon="note_add" class="newPageBtn" @click="togglePageDialog({isOpen: true, isNew: true})"></mdc-fab>
   </div>
 </template>
 
@@ -33,14 +34,40 @@ import { getPageById, getPageIndexById, deletePage, togglePageDialog } from '@/s
 export default {
   name: 'pages-menu',
   computed: {
-    pageIndex () {
-      return this.getPageIndexById(this.$route.query.page)
+    activePageIndex () {
+      // Getters return function when passing args -> getter()(arg)
+      return this.getPageIndexById()(this.$route.query.page)
     },
     ...mapState(['project'])
   },
   methods: {
     changeActivePage (value) {
-      this.$router.replace({query: {page: value.id}})
+      this.$router.replace({query: {page: value}})
+    },
+    showOptsMenu (pageId) {
+      this.changeActivePage(pageId)
+      this.$refs['menu-' + pageId][0].show()
+    },
+    onSelect (selected, pageIndex) {
+      switch (selected.index) {
+        // Edit page
+        case 0:
+          this.togglePageDialog({isOpen: true, isNew: false})
+          break
+        // Duplicate page
+        case 1:
+          break
+        // Delete page
+        case 2:
+          let fallbackPage = this.project.pages[(pageIndex > 0) ? 0 : 1]
+          this.changeActivePage(fallbackPage.id)
+
+          this.deletePage(pageIndex)
+          break
+      }
+    },
+    onCancel () {
+      console.log('menu cancelled')
     },
     ...mapGetters([getPageById, getPageIndexById]),
     ...mapMutations([togglePageDialog, deletePage])
@@ -62,30 +89,33 @@ export default {
   flex-wrap: nowrap;
   height: 90%;
   width: 100%;
-  max-height: 90%;
   position: absolute;
   overflow: visible;
   overflow-y: auto;
 }
 
-.mdl-list {
-  margin: 0;
-  padding: 0 0 0 8px;
+.newPageBtn {
+  position: fixed;
+  right: 92px;
+  bottom: 32px;
 }
 
-.mdl-list__item .mdl-list__item-primary-content {
+.pageList {
+  /*margin-bottom: auto;*/
+  padding: 0;
+}
+
+.active {
+  background-color: #fff;
+}
+
+.pageItem{
+  padding: 8px 16px;
+  overflow: inherit;
   cursor: pointer;
 }
 
-.mdl-list__item .mdl-list__item-primary-content .mdl-list__item-icon {
-    margin-right: 16px;
-}
-
-#pageOptMenu {
-  right: 30px;
-}
-
-.mdl-button--fab {
-  margin: auto auto 5px;
+.mdc-menu-anchor {
+  cursor: pointer;
 }
 </style>
