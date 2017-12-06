@@ -8,8 +8,8 @@
           <i v-if="pageIndex === 0" slot="start-detail" class="material-icons">home</i>
           <i v-else slot="start-detail" class="material-icons">insert_drive_file</i>
           <span>{{page.name}}</span>
-          <span slot="secondary">{{page.path}}</span>
-          <mdc-menu-anchor slot="end-detail">
+          <span v-show="(pageIndex === activePageIndex)" slot="secondary">{{page.path}}</span>
+          <mdc-menu-anchor slot="end-detail" v-show="(pageIndex === activePageIndex)">
             <i class="material-icons" @click="showOptsMenu(page.id)">more_vert</i>
             <mdc-menu :ref="'menu-'+page.id" @select="(selected)=>onSelect(selected, pageIndex)" @cancel="onCancel">
               <mdc-menu-item>Rename page</mdc-menu-item>
@@ -110,7 +110,7 @@ export default {
 }
 
 .pageItem{
-  padding: 8px 16px;
+  padding: 4px 16px;
   overflow: inherit;
   cursor: pointer;
 }
