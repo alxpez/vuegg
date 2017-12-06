@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueMDCAdapter from 'vue-mdc-adapter'
 import 'vue-mdc-adapter/dist/vue-mdc-adapter.css'
 
-// Get rid of these ones
+// Get rid of these ones (if you can)
 import 'material-design-lite/material.min'
 import 'material-design-lite/material.min.css'
 
