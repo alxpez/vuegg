@@ -1,14 +1,14 @@
 <template>
   <div id="app" class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
-    <header v-mdl class="mdl-layout__header">
+    <header class="mdl-layout__header">
       <headegg></headegg>
     </header>
 
-    <div v-mdl class="mdl-layout__drawer">
+    <div class="mdl-layout__drawer">
       <drawegg></drawegg>
     </div>
 
-    <main v-mdl class="mdl-layout__content">
+    <main class="mdl-layout__content">
       <div class="page-content">
         <router-view></router-view>
       </div>
@@ -19,13 +19,19 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
 import Headegg from '@/components/header'
 import Drawegg from '@/components/drawer'
 import PageDialog from '@/components/drawer/PageDialog'
 
 export default {
   name: 'app',
-  components: { Headegg, Drawegg, PageDialog }
+  components: { Headegg, Drawegg, PageDialog },
+  methods: mapMutations(['initializeState']),
+  mounted: function () {
+    this.initializeState()
+  }
 }
 </script>
 
@@ -34,7 +40,6 @@ export default {
   font-family: 'Roboto', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /*text-align: center;*/
   background-color: #eeeeee;
 }
 

@@ -1,7 +1,7 @@
 <template>
   <div id="pagesMenu">
     <mdc-list class="pageList">
-      <div v-for="(page, pageIndex) in project.pages" :key="page.id"
+      <div v-for="(page, pageIndex) in projectPages" :key="page.id"
           :class="{active: (pageIndex === activePageIndex)}" @click="changeActivePage(page.id)"
         >
         <mdc-list-item class="pageItem">
@@ -15,7 +15,7 @@
               <mdc-menu-item>Rename page</mdc-menu-item>
               <mdc-menu-item>Duplicate page</mdc-menu-item>
               <mdc-menu-divider></mdc-menu-divider>
-              <mdc-menu-item :disabled="(project.pages.length === 1)">Delete page</mdc-menu-item>
+              <mdc-menu-item :disabled="(projectPages.length === 1)">Delete page</mdc-menu-item>
             </mdc-menu>
           </mdc-menu-anchor>
         </mdc-list-item>
@@ -38,7 +38,9 @@ export default {
       // Getters return function when passing args -> getter()(arg)
       return this.getPageIndexById()(this.$route.query.page)
     },
-    ...mapState(['project'])
+    ...mapState({
+      projectPages: state => state ? state.project.pages : []
+    })
   },
   methods: {
     changeActivePage (value) {
@@ -59,9 +61,8 @@ export default {
           break
         // Delete page
         case 2:
-          let fallbackPage = this.project.pages[(pageIndex > 0) ? 0 : 1]
+          let fallbackPage = this.projectPages[(pageIndex > 0) ? 0 : 1]
           this.changeActivePage(fallbackPage.id)
-
           this.deletePage(pageIndex)
           break
       }

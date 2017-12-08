@@ -59,6 +59,7 @@ export default {
 }
 </script>
 
+
 <style scoped>
 .mdl-navigation {
     padding-top: 16px;
