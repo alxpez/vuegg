@@ -1,4 +1,4 @@
-import types from '@/store/types'
+import types from './types'
 
 // TODO: Refactor mutations and divide them by context
 
@@ -10,6 +10,14 @@ import types from '@/store/types'
  * @see {@link https://vuex.vuejs.org/en/mutations.html|Vuex Mutations}
  */
 const mutations = {
+
+  /**
+   * Saves the initial state for the redo/undo functionality
+   */
+  initializeState: function (state) {
+    console.debug('State initialized')
+  },
+
   // ----- APP MUTATIONS ----- //
 
   /**
@@ -37,6 +45,15 @@ const mutations = {
   [types.togglePageDialog]: function (state, payload) {
     state.app.pageDialog.isNew = payload.isNew
     state.app.pageDialog.isOpen = payload.isOpen
+  },
+
+  /**
+   * Updates the project data
+   *
+   * @param {string} payload.title : Project title
+   */
+  [types.updateProject]: function (state, payload) {
+    state.project.title = payload.title
   },
 
   // ----- PAGE MUTATIONS ----- //

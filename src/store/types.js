@@ -16,6 +16,7 @@ export const changeEgglementParent = 'changeEgglementParent'
 export const toggleSidebar = 'toggleSidebar'
 export const toggleMiniSidebar = 'toggleMiniSidebar'
 export const togglePageDialog = 'togglePageDialog'
+export const updateProject = 'updateProject'
 export const createPage = 'createPage'
 export const updatePage = 'updatePage'
 export const deletePage = 'deletePage'
@@ -40,6 +41,7 @@ const types = {
   toggleSidebar,
   toggleMiniSidebar,
   togglePageDialog,
+  updateProject,
   createPage,
   updatePage,
   deletePage,

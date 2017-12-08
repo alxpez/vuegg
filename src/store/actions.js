@@ -1,6 +1,5 @@
 import shortid from 'shortid'
-import types from '@/store/types'
-
+import types from './types'
 import newPage from '@/helpers/page'
 
 // TODO: Refactor actions and divide them by context
