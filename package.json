@@ -15,12 +15,13 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "clone-deep": "^2.0.1",
     "dialog-polyfill": "^0.4.9",
     "downloadjs": "^1.4.7",
     "material-design-lite": "^1.3.0",
     "shortid": "^2.2.8",
     "vue": "^2.5.9",
-    "vue-mdc-adapter": "^0.6.0",
+    "vue-mdc-adapter": "^0.6.3",
     "vue-router": "^2.8.1",
     "vuex": "^2.5.0"
   },
