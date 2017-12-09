@@ -12,14 +12,16 @@ import newProject from '@/helpers/project'
  */
 const state = {
   app: {
-    // sidebar: {
-    //   isOpen: false,
-    //   isMini: false
-    // },
+    sidebar: {
+      isOpen: false,
+      isMini: false
+    },
     pageDialog: {
       isNew: true,
       isOpen: false
-    }
+    },
+    selectedPage: null,
+    selectedEggs: []
   },
   project: newProject('Vuegg Project')
 }

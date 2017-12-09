@@ -9,19 +9,15 @@
 
 
 <script>
-import { mapGetters } from 'vuex'
-import { getPageById } from '@/store/types'
+import { mapState } from 'vuex'
 import Egglement from './Egglement'
 
 export default {
   name: 'egg-stage',
   components: { Egglement },
-  computed: {
-    activePage () {
-      return this.getPageById(this.$route.query.page)
-    },
-    ...mapGetters([getPageById])
-  }
+  computed: mapState({
+    activePage: state => state.app.selectedPage
+  })
 }
 </script>
 

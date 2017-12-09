@@ -32,7 +32,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import { toggleSidebar, updateProject } from '@/store/types'
+import { _toggleSidebar, updateProject } from '@/store/types'
 
 import * as download from 'downloadjs'
 import axios from 'axios'
@@ -65,7 +65,7 @@ export default {
         this.tmpProjectTitle = this.projectTitle
       }
     },
-    ...mapMutations([toggleSidebar, updateProject])
+    ...mapMutations([_toggleSidebar, updateProject])
   },
   created: function () {
     this.tmpProjectTitle = this.projectTitle

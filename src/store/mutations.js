@@ -25,14 +25,14 @@ const mutations = {
    *
    * @param {boolean} status : Status of the sidebar
    */
-  [types.toggleSidebar]: function (state, status) {
+  [types._toggleSidebar]: function (state, status) {
     state.app.sidebar.isOpen = status
   },
 
   /**
    * Toggles the Sidebar mini-mode state
    */
-  [types.toggleMiniSidebar]: function (state) {
+  [types._toggleMiniSidebar]: function (state) {
     state.app.sidebar.isMini = !state.app.sidebar.isMini
   },
 
@@ -42,9 +42,27 @@ const mutations = {
    * @param {boolean} payload.isOpen : Status of the PageDialog
    * @param {boolean} payload.isNew : Dialog mode (New/Edit)
    */
-  [types.togglePageDialog]: function (state, payload) {
+  [types._togglePageDialog]: function (state, payload) {
     state.app.pageDialog.isNew = payload.isNew
     state.app.pageDialog.isOpen = payload.isOpen
+  },
+
+  /**
+   * Adds the passed page to the state.app.selectedPage
+   *
+   * @param {object} page : The page currently selected
+   */
+  [types._changeActivePage]: function (state, page) {
+    state.app.selectedPage = page
+  },
+
+  /**
+   * Replaces the page on the specified index with the current selectedPage
+   *
+   * @param {object} pageIndex : Index of the page to get "rebased"
+   */
+  [types._rebaseActivePage]: function (state, pageIndex) {
+    state.project.pages.splice(pageIndex, 1, state.app.selectedPage)
   },
 
   /**

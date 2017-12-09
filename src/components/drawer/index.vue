@@ -28,8 +28,8 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
-import { toggleSidebar, toggleMiniSidebar } from '@/store/types'
+import { mapMutations } from 'vuex'
+import { _toggleSidebar, _toggleMiniSidebar } from '@/store/types'
 
 import ElementsMenu from './ElementsMenu'
 import ComponentsMenu from './ComponentsMenu'
@@ -39,18 +39,7 @@ import PagesMenu from './PagesMenu'
 export default {
   name: 'drawegg',
   components: { ElementsMenu, ComponentsMenu, PropertiesMenu, PagesMenu },
-  computed: {
-    drawerStatus: {
-      get () {
-        return this.app.sidebar.isOpen
-      },
-      set (status) {
-        this.toggleSidebar(status)
-      }
-    },
-    ...mapState(['app'])
-  },
-  methods: mapMutations([toggleMiniSidebar, toggleSidebar]),
+  methods: mapMutations([_toggleMiniSidebar, _toggleSidebar]),
   data: function () {
     return {
       propsMenu: false

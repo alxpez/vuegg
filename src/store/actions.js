@@ -23,12 +23,15 @@ const actions = {
    * @see {@link [types.getPageIndexById]}
    * @see {@link [types.createPage]}
    * @see {@link [types.updatePage]}
-   * @see {@link [types.togglePageDialog]}
+   * @see {@link [types._togglePageDialog]}
    */
   [types.savePageAndClose]: function ({ getters, commit }, payload) {
+    commit(types._togglePageDialog, {isOpen: false, isNew: !payload.id})
+
     if (!payload.id) {
-      let page = newPage(payload.id, payload.name, payload.path.toLowerCase())
+      let page = newPage(payload.name, payload.path.toLowerCase())
       commit(types.createPage, page)
+      commit(types._changeActivePage, page)
     } else {
       let pagePayload = {
         pageIndex: getters.getPageIndexById(payload.id),
@@ -37,7 +40,6 @@ const actions = {
       }
       commit(types.updatePage, pagePayload)
     }
-    commit(types.togglePageDialog, {isOpen: false, isNew: !payload.id})
   },
 
   /**

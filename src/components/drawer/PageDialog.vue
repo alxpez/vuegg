@@ -12,7 +12,7 @@
     </div>
     <div class="mdl-dialog__actions">
       <mdc-button @click="savePageAndClose({id, name, path})" :disabled="!valid">Save</mdc-button>
-      <mdc-button @click="togglePageDialog({isOpen: false, isNew: pageDialog.isNew})">Cancel</mdc-button>
+      <mdc-button @click="_togglePageDialog({isOpen: false, isNew: pageDialog.isNew})">Cancel</mdc-button>
     </div>
   </dialog>
 </template>
@@ -20,7 +20,7 @@
 
 <script>
 import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
-import { getPageById, pathInUse, nameInUse, savePageAndClose, togglePageDialog } from '@/store/types'
+import { pathInUse, nameInUse, savePageAndClose, _togglePageDialog } from '@/store/types'
 import dialogPolyfill from 'dialog-polyfill/dialog-polyfill'
 
 export default {
@@ -28,7 +28,6 @@ export default {
   data: function () {
     return {
       valid: false,
-      activePage: {},
       id: null,
       name: '',
       nameError: '',
@@ -41,9 +40,10 @@ export default {
       return this.pageDialog.isNew ? 'Add a new page' : 'Editing: ' + this.activePage.name
     },
     ...mapState({
+      activePage: state => state.app.selectedPage,
       pageDialog: state => state ? state.app.pageDialog : {isNew: true, isOpen: false}
     }),
-    ...mapGetters([getPageById, pathInUse, nameInUse])
+    ...mapGetters([pathInUse, nameInUse])
   },
   methods: {
     checkName () {
@@ -78,7 +78,6 @@ export default {
     },
     resetDialog () {
       this.valid = false
-      this.activePage = {}
       this.id = null
       this.name = ''
       this.nameError = ''
@@ -86,13 +85,12 @@ export default {
       this.pathError = ''
     },
     setEditDialog (activePage) {
-      this.activePage = activePage
       this.id = activePage.id
       this.name = activePage.name
       this.path = activePage.path
     },
     ...mapActions([savePageAndClose]),
-    ...mapMutations([togglePageDialog])
+    ...mapMutations([_togglePageDialog])
   },
   watch: {
     'pageDialog.isOpen': function (val) {
@@ -108,7 +106,7 @@ export default {
         dialog.showModal()
 
         if (!this.pageDialog.isNew) {
-          this.setEditDialog(this.getPageById(this.$route.query.page))
+          this.setEditDialog(this.activePage)
         }
       }
     }

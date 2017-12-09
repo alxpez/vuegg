@@ -13,9 +13,12 @@ export const moveEgglement = 'moveEgglement'
 export const changeEgglementParent = 'changeEgglementParent'
 
 // MUTATIONS
-export const toggleSidebar = 'toggleSidebar'
-export const toggleMiniSidebar = 'toggleMiniSidebar'
-export const togglePageDialog = 'togglePageDialog'
+export const _toggleSidebar = '_toggleSidebar'
+export const _toggleMiniSidebar = '_toggleMiniSidebar'
+export const _togglePageDialog = '_togglePageDialog'
+export const _changeActivePage = '_changeActivePage'
+export const _rebaseActivePage = '_rebaseActivePage'
+
 export const updateProject = 'updateProject'
 export const createPage = 'createPage'
 export const updatePage = 'updatePage'
@@ -38,9 +41,12 @@ const types = {
   moveEgglement,
   changeEgglementParent,
   // MUTATIONS
-  toggleSidebar,
-  toggleMiniSidebar,
-  togglePageDialog,
+  _toggleSidebar,
+  _toggleMiniSidebar,
+  _togglePageDialog,
+  _changeActivePage,
+  _rebaseActivePage,
+
   updateProject,
   createPage,
   updatePage,

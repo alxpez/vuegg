@@ -2,7 +2,7 @@
   <div id="compMenu" class="list-group">
     <a id="comp" :key="compKey"
       v-for="component in components"
-      @click="registerAndSaveEgglement({pageId, el: component})"
+      @click="registerAndSaveEgglement({pageId: activePage.id, el: component})"
       class="list-group-item list-group-item-action"
     >
       {{component.name}}
@@ -13,7 +13,7 @@
 
 <script>
 import shortid from 'shortid'
-import { mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import { registerAndSaveEgglement } from '@/store/types'
 import MockData from '@/assets/mockdata'
 
@@ -29,9 +29,9 @@ export default {
     compKey () {
       return shortid.generate()
     },
-    pageId () {
-      return this.$route.query.page
-    }
+    ...mapState({
+      activePage: state => state.app.selectedPage
+    })
   }
 }
 </script>

@@ -1,30 +1,35 @@
 <template>
-  <div id="mainegg" class="col mt-2 mb-3">
-    <egg-stage v-if="pages.length"></egg-stage>
+  <div id="mainegg">
+    <egg-stage v-if="selectedPage"></egg-stage>
   </div>
 </template>
 
 
 <script>
-import { mapState, mapGetters } from 'vuex'
-import { pageExists } from '@/store/types'
+import { mapState, mapGetters, mapMutations } from 'vuex'
+import { _changeActivePage, _rebaseActivePage, getPageIndexById } from '@/store/types'
 import EggStage from './EggStage'
 
 export default {
   name: 'mainegg',
   components: { EggStage },
   created: function () {
-    this.$router.replace({query: {page: 'home'}})
-  },
-  beforeRouteUpdate: function (to, from, next) {
-    // Cancels navigation if page is unexistent
-    this.pageExists(to.query.page) ? next() : next(false)
+    if (!this.selectedPage && this.pages.length) {
+      this._changeActivePage(this.pages[0])
+    }
   },
   computed: {
     ...mapState({
+      selectedPage: state => state.app.selectedPage,
       pages: state => state ? state.project.pages : []
     }),
-    ...mapGetters([pageExists])
+    ...mapGetters([getPageIndexById])
+  },
+  methods: mapMutations([_changeActivePage, _rebaseActivePage]),
+  watch: {
+    selectedPage: function (val) {
+      this._rebaseActivePage(this.getPageIndexById(val.id))
+    }
   }
 }
 </script>
