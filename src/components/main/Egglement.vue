@@ -1,8 +1,3 @@
-<!--
-  TODO: Change all this "brut" recursion going on here to something more elegant
-  (ie. substitute vue-templating for js-document.createElement way)
- -->
-
 <template>
   <mr-egg
     :parent="true"
@@ -14,7 +9,7 @@
     :minh="egg.minHeight"
     @dragging="onDragging"
     @dragstop="onDragStop"
-    @resizestop="(x, y, width, height)=>resizeEgglement({elId:egg.id, pageId, left: x, top: y, width, height})"
+    @resizestop="(x, y, width, height)=>resizeEgglement({elId:egg.id, pageId: activePageId, left: x, top: y, width, height})"
   >
     <component
       :id="egg.id"
@@ -39,9 +34,9 @@
 
 
 <script>
-import { mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import { resizeEgglement, moveEgglement } from '@/store/types'
-import MrEgg from '@/components/MrEgg'
+import MrEgg from './MrEgg'
 
 export default {
   name: 'egglement',
@@ -53,12 +48,12 @@ export default {
     }
   },
   computed: {
-    pageId () {
-      return this.$route.query.page
-    },
     hasChildren () {
       return (this.egg.children && this.egg.children.length > 0)
-    }
+    },
+    ...mapState({
+      activePageId: state => state.app.selectedPage.id
+    })
   },
   methods: {
     childType (child) {
@@ -96,7 +91,7 @@ export default {
     },
     onDragStop (eggLeft, eggTop, mouseX, mouseY) {
       let payload = {
-        pageId: this.pageId,
+        pageId: this.activePageId,
         parentId: null,
         elId: this.egg.id,
         left: eggLeft,

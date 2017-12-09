@@ -19,7 +19,9 @@ const state = {
     pageDialog: {
       isNew: true,
       isOpen: false
-    }
+    },
+    selectedPage: null,
+    selectedEggs: []
   },
   project: newProject('Vuegg Project')
 }

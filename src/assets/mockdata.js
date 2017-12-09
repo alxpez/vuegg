@@ -20,11 +20,7 @@ const MockData = {
       'height': 40,
       'minHeight': 32,
       'props': {},
-      'styles': {
-        'color': 'inherited',
-        'text-decoration': 'underline',
-        'cursor': 'auto'
-      },
+      'styles': {},
       'classes': []
     }, {
       'name': 'Input',
@@ -37,11 +33,7 @@ const MockData = {
       'props': {
         'placeholder': 'Input prompt'
       },
-      'styles': {
-        'border-style': 'inset',
-        'background-color': 'white',
-        'color': 'initial'
-      },
+      'styles': {},
       'classes': []
     }, {
       'name': 'Button',
