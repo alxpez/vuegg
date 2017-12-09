@@ -1,6 +1,6 @@
 # vuegg
 
-> A Vue.js project... of Vue.js projects
+> **Vue** **G**UI **G**enerator
 
 ## Build Setup
 

@@ -171,6 +171,10 @@ export default {
   methods: {
     reviewDimensions: function () {
       // TODO: get height and width from the element contained on the mrEgg
+      const initLeft = this.left
+      const initTop = this.top
+      const initHeight = this.height
+      const initWidth = this.width
 
       if (this.minw > this.w) this.width = this.minw
       if (this.minh > this.h) this.height = this.minh
@@ -186,7 +190,10 @@ export default {
         this.parentH = parseInt(this.$el.parentNode.clientHeight, 10)
       }
 
-      this.$emit('resizestop', this.left, this.top, this.width, this.height)
+      if (initLeft !== this.left || initTop !== this.top ||
+        initHeight !== this.height || initWidth !== this.width) {
+        this.$emit('resizestop', this.left, this.top, this.width, this.height)
+      }
     },
 
     activategg: function () {
@@ -320,7 +327,7 @@ export default {
     }
   },
   computed: {
-    style: function () {
+    style () {
       return {
         top: this.top + 'px',
         left: this.left + 'px',
@@ -338,25 +345,25 @@ export default {
       if ((this.elmX + val >= this.parentX) && (val + this.elmW <= this.parentW)) {
         this.left = (Math.round(val / this.grid[0]) * this.grid[0])
       }
-      this.$emit('resizestop', this.left, this.top, this.width, this.height)
+      // this.$emit('resizestop', this.left, this.top, this.width, this.height)
     },
     y: function (val) {
       if ((this.elmY + val >= this.parentY) && (val + this.elmH <= this.parentH)) {
         this.top = (Math.round(val / this.grid[1]) * this.grid[1])
       }
-      this.$emit('resizestop', this.left, this.top, this.width, this.height)
+      // this.$emit('resizestop', this.left, this.top, this.width, this.height)
     },
     w: function (val) {
       if (val > 0 && this.elmX + val <= this.parentW) {
         this.width = (Math.round(val / this.grid[0]) * this.grid[0])
       }
-      this.$emit('resizestop', this.left, this.top, this.width, this.height)
+      // this.$emit('resizestop', this.left, this.top, this.width, this.height)
     },
     h: function (val) {
       if (val > 0 && this.elmY + val <= this.parentH) {
         this.height = (Math.round(val / this.grid[1]) * this.grid[1])
       }
-      this.$emit('resizestop', this.left, this.top, this.width, this.height)
+      // this.$emit('resizestop', this.left, this.top, this.width, this.height)
     },
     z: function (val) {
       if (val >= 0 || val === 'auto') {

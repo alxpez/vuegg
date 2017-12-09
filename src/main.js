@@ -1,21 +1,26 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 
-import Vuetify from 'vuetify'
-import 'vuetify/dist/vuetify.min.css'
-import VueMaterial from 'vue-material'
-import 'vue-material/dist/vue-material.css'
-
 import App from './App'
-import router from '@/router/'
-import store from '@/store/'
+import router from './router/'
+import store from './store/'
 
-// import VueDraggableResizable from 'vue-draggable-resizable'
-// Vue.component('vue-draggable-resizable', VueDraggableResizable)
+import redoundo from './mixins/redoundo'
 
-Vue.use(Vuetify)
-Vue.use(VueMaterial)
+import VueMDCAdapter from 'vue-mdc-adapter'
+import 'vue-mdc-adapter/dist/vue-mdc-adapter.css'
+
+// Get rid of these ones (if you can)
+import mdl from './directives/mdl'
+import 'material-design-lite/material.min'
+import 'material-design-lite/material.min.css'
+
+import 'dialog-polyfill/dialog-polyfill.css'
+// Get rid of these ones
+
+Vue.use(redoundo)
+Vue.use(VueMDCAdapter)
+Vue.use(mdl)
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

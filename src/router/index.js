@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import MainContainer from '@/screens/MainContainer'
+import Mainegg from '@/components/main'
 
 Vue.use(Router)
 
@@ -9,7 +9,7 @@ export default new Router({
     {
       path: '/',
       name: 'main',
-      component: MainContainer
+      component: Mainegg
     }
   ]
 })

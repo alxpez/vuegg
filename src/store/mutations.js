@@ -1,4 +1,4 @@
-import types from '@/store/types'
+import types from './types'
 
 // TODO: Refactor mutations and divide them by context
 
@@ -10,6 +10,14 @@ import types from '@/store/types'
  * @see {@link https://vuex.vuejs.org/en/mutations.html|Vuex Mutations}
  */
 const mutations = {
+
+  /**
+   * Saves the initial state for the redo/undo functionality
+   */
+  initializeState: function (state) {
+    console.debug('State initialized')
+  },
+
   // ----- APP MUTATIONS ----- //
 
   /**
@@ -17,14 +25,14 @@ const mutations = {
    *
    * @param {boolean} status : Status of the sidebar
    */
-  [types.toggleSidebar] (state, status) {
+  [types._toggleSidebar]: function (state, status) {
     state.app.sidebar.isOpen = status
   },
 
   /**
    * Toggles the Sidebar mini-mode state
    */
-  [types.toggleMiniSidebar] (state) {
+  [types._toggleMiniSidebar]: function (state) {
     state.app.sidebar.isMini = !state.app.sidebar.isMini
   },
 
@@ -34,9 +42,36 @@ const mutations = {
    * @param {boolean} payload.isOpen : Status of the PageDialog
    * @param {boolean} payload.isNew : Dialog mode (New/Edit)
    */
-  [types.togglePageDialog] (state, payload) {
+  [types._togglePageDialog]: function (state, payload) {
     state.app.pageDialog.isNew = payload.isNew
     state.app.pageDialog.isOpen = payload.isOpen
+  },
+
+  /**
+   * Adds the passed page to the state.app.selectedPage
+   *
+   * @param {object} page : The page currently selected
+   */
+  [types._changeActivePage]: function (state, page) {
+    state.app.selectedPage = page
+  },
+
+  /**
+   * Replaces the page on the specified index with the current selectedPage
+   *
+   * @param {object} pageIndex : Index of the page to get "rebased"
+   */
+  [types._rebaseActivePage]: function (state, pageIndex) {
+    state.project.pages.splice(pageIndex, 1, state.app.selectedPage)
+  },
+
+  /**
+   * Updates the project data
+   *
+   * @param {string} payload.title : Project title
+   */
+  [types.updateProject]: function (state, payload) {
+    state.project.title = payload.title
   },
 
   // ----- PAGE MUTATIONS ----- //
@@ -46,7 +81,7 @@ const mutations = {
    *
    * @param {object} page : New page to save
    */
-  [types.createPage] (state, page) {
+  [types.createPage]: function (state, page) {
     state.project.pages.push(page)
   },
 
@@ -57,7 +92,7 @@ const mutations = {
    * @param {string} payload.name : New page's name
    * @param {string} payload.path : New page's path
    */
-  [types.updatePage] (state, payload) {
+  [types.updatePage]: function (state, payload) {
     state.project.pages.splice(payload.pageIndex, 1, {
       ...state.project.pages[payload.pageIndex],
       name: payload.name,
@@ -70,7 +105,7 @@ const mutations = {
    *
    * @param {number} pageIndex : Page's index
    */
-  [types.deletePage] (state, pageIndex) {
+  [types.deletePage]: function (state, pageIndex) {
     state.project.pages.splice(pageIndex, 1)
   },
 
@@ -82,7 +117,7 @@ const mutations = {
    * @param {object} payload.parent : Parent of the new egglement
    * @param {object} payload.egglement : New egglement to save
    */
-  [types.createEgglement] (state, payload) {
+  [types.createEgglement]: function (state, payload) {
     payload.parent.children.push(payload.egglement)
   },
 
@@ -95,7 +130,7 @@ const mutations = {
    * @param {object|null} [payload.height] : New egglement's height
    * @param {object|null} [payload.width] : New egglement's width
    */
-  [types.updateEgglement] (state, payload) {
+  [types.updateEgglement]: function (state, payload) {
     payload.egglement.x = payload.x
     payload.egglement.y = payload.y
     if (payload.height) payload.egglement.height = payload.height
@@ -109,7 +144,7 @@ const mutations = {
    * @param {object} payload.parent : Parent container (egglement or page)
    * @param {number} payload.eggIndex : Egglement's index
    */
-  [types.deleteEgglement] (state, payload) {
+  [types.deleteEgglement]: function (state, payload) {
     payload.parent.children.splice(payload.eggIndex, 1)
   }
 }

@@ -1,6 +1,5 @@
 import shortid from 'shortid'
-import types from '@/store/types'
-
+import types from './types'
 import newPage from '@/helpers/page'
 
 // TODO: Refactor actions and divide them by context
@@ -24,12 +23,15 @@ const actions = {
    * @see {@link [types.getPageIndexById]}
    * @see {@link [types.createPage]}
    * @see {@link [types.updatePage]}
-   * @see {@link [types.togglePageDialog]}
+   * @see {@link [types._togglePageDialog]}
    */
   [types.savePageAndClose]: function ({ getters, commit }, payload) {
+    commit(types._togglePageDialog, {isOpen: false, isNew: !payload.id})
+
     if (!payload.id) {
       let page = newPage(payload.name, payload.path.toLowerCase())
       commit(types.createPage, page)
+      commit(types._changeActivePage, page)
     } else {
       let pagePayload = {
         pageIndex: getters.getPageIndexById(payload.id),
@@ -38,7 +40,6 @@ const actions = {
       }
       commit(types.updatePage, pagePayload)
     }
-    commit(types.togglePageDialog, {isOpen: false, isNew: !payload.id})
   },
 
   /**
@@ -147,6 +148,9 @@ const actions = {
     // Update relative position of the element, minus the EggStage offset position
     let relPoint = getRelativePoint(payload.page, payload.egglement.id, payload.mouseX, payload.mouseY)
     let pageEl = document.getElementById(payload.pageId)
+    console.log(pageEl.offsetLeft)
+    console.log(pageEl.offsetTop)
+    // TODO: review this above
 
     let x = relPoint.x - pageEl.offsetLeft - (payload.egglement.width / 2)
     let y = relPoint.y - pageEl.offsetTop - (payload.egglement.height / 2)
