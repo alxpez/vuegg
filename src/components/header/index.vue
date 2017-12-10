@@ -30,6 +30,7 @@
   </div>
 </template>
 
+
 <script>
 import { mapState, mapMutations } from 'vuex'
 import { _toggleSidebar, updateProject } from '@/store/types'

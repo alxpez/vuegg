@@ -4,6 +4,7 @@
   </div>
 </template>
 
+
 <script>
 export default {
   name: 'properties-menu'

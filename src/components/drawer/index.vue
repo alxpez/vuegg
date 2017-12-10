@@ -27,6 +27,7 @@
     </nav>
 </template>
 
+
 <script>
 import { mapMutations } from 'vuex'
 import { _toggleSidebar, _toggleMiniSidebar } from '@/store/types'
