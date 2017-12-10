@@ -387,59 +387,72 @@ export default {
     box-sizing: border-box;
     display: none;
     position: absolute;
-    width: 6px;
-    height: 6px;
+    width: 10px;
+    height: 10px;
     font-size: 1px;
-    border: 1px solid rgba(170, 170, 170, 0.8);
+    border-radius: 50%;
+    border: 1px solid #fff;
   }
   .handle-tl {
-    top: 0;
-    left: 0;
+    top: -3px;
+    left: -3px;
     cursor: nwse-resize;
-    background: rgba(221, 221, 221, 0.5);
+    background: #03a9f4;
   }
   .handle-tm {
     top: 0;
     width: 100%;
-    border-style: dashed none none none;
+    border-radius: 0;
+    border-width: 2px;
+    border-color: #03a9f4;
+    border-style: solid none none none;
     cursor: ns-resize;
   }
   .handle-tr {
-    top: 0;
-    right: 0;
+    top: -3px;
+    right: -3px;
     cursor: nesw-resize;
-    background: rgba(221, 221, 221, 0.5);
+    background: #03a9f4;
   }
   .handle-mr {
     top: 0;
     right: 0;
     height: 100%;
-    border-style: none dashed none none;
+    border-radius: 0;
+    border-width: 2px;
+    border-color: #03a9f4;
+    border-style: none solid none none;
     cursor: ew-resize;
   }
   .handle-br {
-    bottom: 0;
-    right: 0;
+    bottom: -3px;
+    right: -3px;
     cursor: nwse-resize;
-    background: rgba(221, 221, 221, 0.5);
+    background: #03a9f4;
   }
   .handle-bm {
     bottom: 0;
     width: 100%;
-    border-style: none none dashed none;
+    border-radius: 0;
+    border-width: 2px;
+    border-color: #03a9f4;
+    border-style: none none solid none;
     cursor: ns-resize;
   }
   .handle-bl {
-    bottom: 0;
-    left: 0;
+    bottom: -3px;
+    left: -3px;
     cursor: nesw-resize;
-    background: rgba(221, 221, 221, 0.5);
+    background: #03a9f4;
   }
   .handle-ml {
     top: 0;
     left: 0;
     height: 100%;
-    border-style: none none none dashed;
+    border-radius: 0;
+    border-width: 2px;
+    border-color: #03a9f4;
+    border-style: none none none solid;
     cursor: ew-resize;
   }
 </style>

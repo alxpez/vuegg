@@ -62,6 +62,7 @@ export default {
     childProps (child) {
       return child.egg ? { egg: child } : [child.props, {style: child.styles}, {class: child.classes}]
     },
+    // TODO: this method seems to take too long, improve!
     getContaineggOnPoint (x, y) {
       let thisEgg = this.$el.children[0]
       let parentId = thisEgg.id.substring(0, thisEgg.id.lastIndexOf('.'))
@@ -83,10 +84,7 @@ export default {
       return null
     },
     onDragging (eggLeft, eggTop, mouseX, mouseY) {
-      let absMouseX = mouseX - document.documentElement.scrollLeft
-      let absMouseY = mouseY - document.documentElement.scrollTop
-      let containegg = this.getContaineggOnPoint(absMouseX, absMouseY)
-
+      let containegg = this.getContaineggOnPoint(mouseX, mouseY)
       this.toggleDroppableCursor(containegg && typeof containegg !== 'undefined')
     },
     onDragStop (eggLeft, eggTop, mouseX, mouseY) {
@@ -100,10 +98,7 @@ export default {
         mouseY
       }
 
-      let absMouseX = mouseX - document.documentElement.scrollLeft
-      let absMouseY = mouseY - document.documentElement.scrollTop
-      let containegg = this.getContaineggOnPoint(absMouseX, absMouseY)
-
+      let containegg = this.getContaineggOnPoint(mouseX, mouseY)
       if (containegg && typeof containegg !== 'undefined') {
         payload.parentId = containegg.id
       }
