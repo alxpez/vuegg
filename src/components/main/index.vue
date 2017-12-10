@@ -1,5 +1,5 @@
 <template>
-  <div id="mainegg">
+  <div class="mainegg">
     <egg-stage v-if="selectedPage"></egg-stage>
   </div>
 </template>
@@ -34,8 +34,9 @@ export default {
 }
 </script>
 
-
 <style scoped>
-#mainegg {
+.mainegg {
+  margin-top: 10px;
+  margin-bottom: 35px;
 }
 </style>
