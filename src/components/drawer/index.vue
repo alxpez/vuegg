@@ -29,9 +29,6 @@
 
 
 <script>
-import { mapMutations } from 'vuex'
-import { _toggleSidebar, _toggleMiniSidebar } from '@/store/types'
-
 import ElementsMenu from './ElementsMenu'
 import ComponentsMenu from './ComponentsMenu'
 import PropertiesMenu from './PropertiesMenu'
@@ -39,13 +36,7 @@ import PagesMenu from './PagesMenu'
 
 export default {
   name: 'drawegg',
-  components: { ElementsMenu, ComponentsMenu, PropertiesMenu, PagesMenu },
-  methods: mapMutations([_toggleMiniSidebar, _toggleSidebar]),
-  data: function () {
-    return {
-      propsMenu: false
-    }
-  }
+  components: { ElementsMenu, ComponentsMenu, PropertiesMenu, PagesMenu }
 }
 </script>
 
