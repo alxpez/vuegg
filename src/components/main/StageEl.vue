@@ -1,30 +1,29 @@
 <script>
-import { mapState, mapActions } from 'vuex'
-import { resizeEgglement, moveEgglement } from '@/store/types'
+import { mapState, mapActions, mapMutations } from 'vuex'
+import { _clearSelectedElements, _addSelectedElement, resizeEgglement, moveEgglement } from '@/store/types'
 
-import MrEgg from './MrEgg'
+import MrEl from '@/components/mr-vue/MrEl'
 import StageEl from './StageEl'
 
 export default {
   name: 'stage-el',
   props: ['elem', 'isPlain'],
-  components: { MrEgg },
+  components: { MrEl },
   render: function (createElement) {
     let stageElem
 
     let plainElStyle = {
       position: 'absolute',
-      left: this.elem.x + 'px',
-      top: this.elem.y + 'px',
+      left: this.elem.left + 'px',
+      top: this.elem.top + 'px',
       width: this.elem.width + 'px',
       height: this.elem.height + 'px'
     }
 
     let data = {
-      'props': { id: this.elem.id },
       'class': (this.elem.egglement && !this.isPlain) ? {...this.elem.classes, egglement: true} : this.elem.classes,
       'style': this.isPlain ? {...plainElStyle, ...this.elem.styles} : this.elem.styles,
-      'attrs': this.elem.attrs
+      'attrs': {...this.elem.attrs, id: this.elem.id}
     }
 
     let children = []
@@ -46,18 +45,17 @@ export default {
     if (this.isPlain) {
       stageElem = plainElem
     } else {
-      stageElem = createElement(MrEgg, {
+      // active prop: Computed / watcher to check if element is in the selectedEggs array
+      stageElem = createElement(MrEl, {
         'props': {
-          parent: true,
-          x: this.elem.x,
-          y: this.elem.y,
-          w: this.elem.width,
-          h: this.elem.height
+          active: this.isActive,
+          left: this.elem.left,
+          top: this.elem.top,
+          width: this.elem.width,
+          height: this.elem.height
         },
         'on': {
-          dragging: this.onDragging,
-          dragstop: this.onDragStop,
-          resizestop: this.onResizeStop
+          activated: this.activateEl
         }
       }, [plainElem])
     }
@@ -66,16 +64,26 @@ export default {
   },
   data: function () {
     return {
+      isActive: false,
       isDroppable: false
     }
   },
   computed: mapState({
-    activePageId: state => state.app.selectedPage.id
+    activePageId: state => state.app.selectedPage.id,
+    selectedElements: state => state.app.selectedElements
   }),
   methods: {
+    activateEl (e) {
+      if (!e.shiftKey) {
+        this._clearSelectedElements()
+        this._addSelectedElement(this.elem)
+      } else if (!this.isActive) {
+        this._addSelectedElement(this.elem)
+      }
+    },
+
     getContaineggOnPoint (x, y) {
       let thisEgg = this.$el.children[0]
-      console.log(thisEgg)
       let parentId = thisEgg.id.substring(0, thisEgg.id.lastIndexOf('.'))
       let elementsOnPoint = document.elementsFromPoint(x, y)
 
@@ -110,6 +118,7 @@ export default {
       }
 
       let containegg = this.getContaineggOnPoint(mouseX, mouseY)
+      console.log(containegg)
       if (containegg && typeof containegg !== 'undefined') {
         payload.parentId = containegg.id
       }
@@ -121,18 +130,24 @@ export default {
         ? document.documentElement.classList.add('droppable')
         : document.documentElement.classList.remove('droppable')
     },
-    onResizeStop (x, y, width, height) {
+    onResizeStop (left, top, width, height) {
       const payload = {
         elId: this.elem.id,
         pageId: this.activePageId,
-        left: x,
-        top: y,
+        left: left,
+        top: top,
         width,
         height
       }
       this.resizeEgglement(payload)
     },
-    ...mapActions([resizeEgglement, moveEgglement])
+    ...mapActions([resizeEgglement, moveEgglement]),
+    ...mapMutations([_clearSelectedElements, _addSelectedElement])
+  },
+  watch: {
+    selectedElements: function (val) {
+      this.isActive = (val.findIndex(el => el.id === this.elem.id) !== -1)
+    }
   }
 }
 </script>

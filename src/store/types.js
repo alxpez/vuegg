@@ -18,6 +18,9 @@ export const _toggleMiniSidebar = '_toggleMiniSidebar'
 export const _togglePageDialog = '_togglePageDialog'
 export const _changeActivePage = '_changeActivePage'
 export const _rebaseActivePage = '_rebaseActivePage'
+export const _clearSelectedElements = '_clearSelectedElements'
+export const _addSelectedElement = '_addSelectedElement'
+export const _removeSelectedElement = '_removeSelectedElement'
 
 export const updateProject = 'updateProject'
 export const createPage = 'createPage'
@@ -46,6 +49,9 @@ const types = {
   _togglePageDialog,
   _changeActivePage,
   _rebaseActivePage,
+  _clearSelectedElements,
+  _addSelectedElement,
+  _removeSelectedElement,
 
   updateProject,
   createPage,

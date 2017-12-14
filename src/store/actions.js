@@ -64,8 +64,8 @@ const actions = {
    *
    * @param {string} payload.pageId : Id of the page where the element reside
    * @param {string} payload.elId : Id of the element to be updated
-   * @param {number} payload.left : New value for the element's X prop
-   * @param {number} payload.top : New value for the element's Y prop
+   * @param {number} payload.left : New value for the element's left prop
+   * @param {number} payload.top : New value for the element's top prop
    * @param {number} payload.height : New value for the element's height
    * @param {number} payload.width : New value for the element's width
    *
@@ -77,8 +77,8 @@ const actions = {
 
     commit(types.updateEgglement, {
       egglement,
-      x: payload.left,
-      y: payload.top,
+      left: payload.left,
+      top: payload.top,
       height: payload.height,
       width: payload.width
     })
@@ -93,10 +93,10 @@ const actions = {
    *
    * @param {string} payload.pageId : Id of the page where the element exits
    * @param {string} payload.elId : Id of the element to be updated
-   * @param {number} payload.left : New value for the element's X prop
-   * @param {number} payload.top : New value for the element's Y prop
-   * @param {number} payload.mouseX : Global mouse position for X axis
-   * @param {number} payload.mouseY : Global mouse position for Y axis
+   * @param {number} payload.left : New value for the element's left prop
+   * @param {number} payload.top : New value for the element's top prop
+   * @param {number} payload.mouseX : Global mouse position for left axis
+   * @param {number} payload.mouseY : Global mouse position for top axis
    * @param {string|null} [payload.parentId] : Id of the container where the element has been dropped
    *
    * @see {@link [types.changeEgglementParent]}
@@ -109,7 +109,7 @@ const actions = {
     if (payload.parentId) {
       dispatch(types.changeEgglementParent, {...payload, page, egglement})
     } else {
-      commit(types.updateEgglement, {egglement, x: payload.left, y: payload.top})
+      commit(types.updateEgglement, {egglement, left: payload.left, top: payload.top})
     }
   },
 
@@ -121,10 +121,10 @@ const actions = {
    *
    * @param {string} payload.pageId : Id of the page where the element exist
    * @param {string} payload.elId : Id of the element to be updated
-   * @param {number} payload.left : New value for the element's X prop
-   * @param {number} payload.top : New value for the element's Y prop
-   * @param {number} payload.mouseX : Global mouse position for X axis
-   * @param {number} payload.mouseY : Global mouse position for Y axis
+   * @param {number} payload.left : New value for the element's left prop
+   * @param {number} payload.top : New value for the element's top prop
+   * @param {number} payload.mouseX : Global mouse position for left axis
+   * @param {number} payload.mouseY : Global mouse position for top axis
    * @param {string} payload.parentId : Id of the container where the element has been dropped
    *
    * @see {@link [types.deleteEgglement]}
@@ -154,10 +154,10 @@ const actions = {
     const offsetX = mainContainer.scrollLeft - pageEl.offsetLeft
     const offsetY = mainContainer.scrollTop - pageEl.offsetTop
 
-    const x = relPoint.x + offsetX - (payload.egglement.width / 2)
-    const y = relPoint.y + offsetY - (payload.egglement.height / 2)
+    const left = relPoint.left + offsetX - (payload.egglement.width / 2)
+    const top = relPoint.top + offsetY - (payload.egglement.height / 2)
 
-    commit(types.updateEgglement, {egglement: payload.egglement, x, y})
+    commit(types.updateEgglement, {egglement: payload.egglement, left, top})
   }
 }
 
@@ -207,21 +207,21 @@ function getChildNode (currentNode, targetId) {
 /**
  * Returns the element (identified by targetId) position,
  * relative to its parent (and full family depth) position
- * and the current X/Y position.
+ * and the current left/top position.
  *
  * @param {object} currentNode : The element being inspected
  * @param {string} targetId : The id of the element expected
- * @param {number} currentX : Current relative X position
- * @param {number} currentY : Current relative Y position
+ * @param {number} currentX : Current relative left position
+ * @param {number} currentY : Current relative top position
  *
  * @return {object} : Relative point obtained from the currentX, currentY
  */
 function getRelativePoint (currentNode, targetId, currentX, currentY) {
-  if (currentNode.id === targetId) return {x: currentX, y: currentY}
+  if (currentNode.id === targetId) return {left: currentX, top: currentY}
 
-  if (currentNode.x && currentNode.y) {
-    currentX -= currentNode.x
-    currentY -= currentNode.y
+  if (currentNode.left && currentNode.top) {
+    currentX -= currentNode.left
+    currentY -= currentNode.top
   }
   for (let child of currentNode.children) {
     if (targetId.indexOf(child.id) !== -1) {

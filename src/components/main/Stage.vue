@@ -2,7 +2,8 @@
   <mr-container
     :id="page.id"
     :style="page.styles"
-    :class="[page.classes, {eggStage: true}]">
+    :class="[page.classes, {eggStage: true}]"
+    :activeElements="selectedElements">
 
     <stage-el
       v-for="element in page.children"
@@ -15,13 +16,18 @@
 
 
 <script>
+import { mapState } from 'vuex'
+
 import MrContainer from '@/components/mr-vue/MrContainer'
 import StageEl from './StageEl'
 
 export default {
   name: 'stage',
   components: { StageEl, MrContainer },
-  props: ['page']
+  props: ['page'],
+  computed: mapState({
+    selectedElements: state => state ? state.app.selectedElements : []
+  })
 }
 </script>
 

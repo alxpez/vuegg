@@ -1,5 +1,5 @@
 <template>
-  <div mr-el class="mrEl" :style="style">
+  <div mr-el class="mrEl" :style="style" @mousedown.stop.prevent="onElDown">
     <slot></slot>
     <div mr-el-handle
       v-for="handle in handles"
@@ -61,28 +61,61 @@ export default {
       }
     }
   },
-  computed: {
-    yo () {
-      return this.$el.parentNode.getBoundingClientRect()
-    },
-    tu () {
-      return this.$el.parentNode
-    },
-    style () {
-      return {
-        top: this.top + 'px',
-        left: this.left + 'px',
-        width: this.width + 'px',
-        height: this.height + 'px',
-        zIndex: this.zIndex
-      }
+  data: function () {
+    return {
+      t: this.top,
+      l: this.left,
+      w: this.width,
+      h: this.height,
+      z: this.zIndex,
+      enabled: this.active
+      // resizing: false,
+      // dragging: false,
+      // handle: null
     }
   },
   methods: {
-    alertame () {
-      console.log('ELEMENT PAPA---------------')
-      console.log(this.yo)
-      console.log(this.tu)
+    onElDown (e) {
+      this.$emit('activated', e)
+    },
+    posize () {
+      console.log('OffsetLeft ' + this.$el.offsetLeft)
+      console.log('OffsetTop ' + this.$el.offsetTop)
+      console.log('Height ' + this.$el.getBoundingClientRect().height)
+      console.log('Width ' + this.$el.getBoundingClientRect().width)
+    }
+  },
+  computed: {
+    style () {
+      return {
+        top: this.t + 'px',
+        left: this.l + 'px',
+        width: this.w + 'px',
+        height: this.h + 'px',
+        zIndex: this.z
+      }
+    }
+  },
+  watch: {
+    active: function (val) {
+      this.enabled = val
+    },
+    left: function (val) {
+      this.l = val
+    },
+    top: function (val) {
+      this.t = val
+    },
+    width: function (val) {
+      this.w = val
+    },
+    height: function (val) {
+      this.h = val
+    },
+    zIndex: function (val) {
+      if (val >= 0 || val === 'auto') {
+        this.z = val
+      }
     }
   }
 }

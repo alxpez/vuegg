@@ -4,9 +4,8 @@ const MockData = {
       'name': 'Div',
       'type': 'div',
       'egglement': true,
-      'classes': {
-        'containegg': true
-      },
+      'containegg': true,
+      'classes': {},
       'children': []
     }, {
       'name': 'Link',
@@ -52,19 +51,18 @@ const MockData = {
       'name': 'Comp1',
       'type': 'div',
       'egglement': true,
-      'componegg': true,
+      'componegg': false,
+      'containegg': true,
       'width': 400,
       'height': 300,
-      'classes': {
-        'containegg': true
-      },
+      'classes': {},
       'children': [
         {
           'type': 'button',
           'text': 'Un boton cualquiera',
           'egglement': true,
-          'x': 50,
-          'y': 100,
+          'left': 50,
+          'top': 100,
           'width': 200,
           'minWidth': 32,
           'height': 40,
@@ -79,6 +77,7 @@ const MockData = {
       'type': 'div',
       'egglement': true,
       'componegg': true,
+      'containegg': true,
       'width': 500,
       'height': 400,
       'styles': {
@@ -86,15 +85,13 @@ const MockData = {
         'background-color': 'blue',
         'margin': '40px'
       },
-      'classes': {
-        'containegg': true
-      },
+      'classes': {},
       'children': [
         {
           'type': 'input',
           'egglement': true,
-          'x': 10,
-          'y': 20,
+          'left': 10,
+          'top': 20,
           'width': 150,
           'minWidth': 32,
           'height': 40,
@@ -113,20 +110,19 @@ const MockData = {
           'type': 'div',
           'egglement': true,
           'componegg': true,
-          'x': 20,
-          'y': 60,
+          'containegg': true,
+          'left': 20,
+          'top': 60,
           'width': 300,
           'height': 100,
-          'classes': {
-            'containegg': true
-          },
+          'classes': {},
           'children': [
             {
               'type': 'button',
               'text': 'Un boton cualquiera',
               'egglement': true,
-              'x': 50,
-              'y': 50,
+              'left': 50,
+              'top': 50,
               'width': 55,
               'minWidth': 32,
               'height': 40,

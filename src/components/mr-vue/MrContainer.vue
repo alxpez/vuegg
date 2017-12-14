@@ -10,33 +10,34 @@
 <script>
 export default {
   name: 'mr-container',
+  props: ['activeElements'],
   data: function () {
     return {
-      active: false,
       moving: false,
       resizing: false
     }
   },
   methods: {
     mDownHandler (e) {
-      if (e.target.attributes.hasOwnProperty('mr-container')) {
+      if (e.target.getAttribute('mr-container') !== null) {
         console.log('PAGE!')
-        this.active = false
-      } else if (e.target.attributes.hasOwnProperty('mr-el-handle')) {
-        console.log('ELEMENT RESIZE')
-        e.target.setAttribute('active', true)
+        this.$emit('clearselect')
+      } else if (e.target.getAttribute('mr-el-handle') !== null) {
+        console.log('HANDLE!')
         this.resizing = true
-      } else if (e.target.attributes.hasOwnProperty('mr-el') || e.target.parentNode.attributes.hasOwnProperty('mr-el')) {
-        console.log('ELEMENT MOVE')
-        e.target.active = true
+        this.$emit('resizestart')
+      } else if (e.target.getAttribute('mr-el') !== null || e.target.parentNode.getAttribute('mr-el') !== null) {
+        console.log('ELEMENT!')
         this.moving = true
+        this.$emit('movestart')
       } else {
-        console.log('something else')
+        console.log('OTRAS COSAS?!?!')
       }
 
       console.log('M-DOWN----------------')
       console.log(e)
       console.log(e.target)
+      console.log(e.target.parentNode)
 
       // clientX and clientY (aka x and y),
       // shows the location of the mouse on the SCREEN
@@ -61,7 +62,15 @@ export default {
       // console.log('OffsetX: ' + e.offsetX)
     },
     mMoveHandler (e) {
+      if (this.resizing) {
+        console.log(e)
+        this.$emit('resizing')
+      }
 
+      if (this.moving) {
+        console.log(e)
+        this.$emit('moving')
+      }
     },
     mUpHandler (e) {
       this.moving = false
