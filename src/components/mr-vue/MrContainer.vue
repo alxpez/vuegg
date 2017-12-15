@@ -138,26 +138,16 @@ export default {
       if (this.checkBounds(element, newLeft, 'left')) element.style.left = newLeft + 'px'
     },
 
-    checkBounds (element, value, property) {
-      let isGoodToGo = true
-      let parent = this.getParentMr(element)
-      console.log(parent)
-
+    checkBounds (el, val, property) {
+      let isOk = true
+      let parentRect = this.getParentMr(el).getBoundingClientRect()
       switch (property) {
-        case 'top':
-          isGoodToGo = (value >= 0 && (value + element.getBoundingClientRect().height < parent.getBoundingClientRect().height))
-          break
-        case 'left':
-          isGoodToGo = (value >= 0 && (value + element.getBoundingClientRect().width < parent.getBoundingClientRect().width))
-          break
-        case 'height':
-          isGoodToGo = (value <= parent.getBoundingClientRect().height)
-          break
-        case 'width':
-          isGoodToGo = (value <= parent.getBoundingClientRect().width)
-          break
+        case 'top': isOk = (val >= 0 && (val + el.parentRect.height < parentRect.height)); break
+        case 'left': isOk = (val >= 0 && (val + el.parentRect.width < parentRect.width)); break
+        case 'height': isOk = (val < parentRect.height && (val + el.offsetTop < parentRect.height)); break
+        case 'width': isOk = (val < parentRect.width && (val + el.offsetLeft < parent.parentRect.width)); break
       }
-      return isGoodToGo
+      return isOk
     },
 
     getParentMr (element) {
