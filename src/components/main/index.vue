@@ -37,6 +37,7 @@ export default {
 
 <style scoped>
 .mainegg {
-  margin: 10px 10px 35px;
+  /* display: inline-flex; */
+  margin: 10px 15px 35px;
 }
 </style>

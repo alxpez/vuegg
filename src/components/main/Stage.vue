@@ -3,7 +3,10 @@
     :id="page.id"
     :style="page.styles"
     :class="[page.classes, {eggStage: true}]"
-    :activeElements="selectedElements">
+    :activeElements="selectedElements"
+    @resizestop="resizeElements"
+    @movestop="moveElements"
+    @clearselection="_clearSelectedElements">
 
     <stage-el
       v-for="element in page.children"
@@ -16,7 +19,8 @@
 
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
+import { _clearSelectedElements, resizeEgglement, moveEgglement } from '@/store/types'
 
 import MrContainer from '@/components/mr-vue/MrContainer'
 import StageEl from './StageEl'
@@ -27,7 +31,19 @@ export default {
   props: ['page'],
   computed: mapState({
     selectedElements: state => state ? state.app.selectedElements : []
-  })
+  }),
+  methods: {
+    resizeElements (resizeList) {
+      resizeList.map(resData => this.resizeEgglement({...resData, pageId: this.page.id}))
+    },
+
+    moveElements (moveList) {
+      moveList.map(moveData => this.moveEgglement({...moveData, pageId: this.page.id, parentId: null}))
+    },
+
+    ...mapActions([resizeEgglement, moveEgglement]),
+    ...mapMutations([_clearSelectedElements])
+  }
 }
 </script>
 

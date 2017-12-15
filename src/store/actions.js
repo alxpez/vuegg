@@ -146,16 +146,16 @@ const actions = {
     commit(types.createEgglement, {parent: newParent, egglement: payload.egglement})
 
     // Update relative position of the element, minus the EggStage offset position
+    // const mainContainer = document.getElementById('main')
+    // const pageEl = document.getElementById(payload.pageId)
+    //
+    // const offsetX = mainContainer.scrollLeft - pageEl.offsetLeft
+    // const offsetY = mainContainer.scrollTop - pageEl.offsetTop
+
     const relPoint = getRelativePoint(payload.page, payload.egglement.id, payload.mouseX, payload.mouseY)
 
-    const mainContainer = document.getElementById('main')
-    const pageEl = document.getElementById(payload.pageId)
-
-    const offsetX = mainContainer.scrollLeft - pageEl.offsetLeft
-    const offsetY = mainContainer.scrollTop - pageEl.offsetTop
-
-    const left = relPoint.left + offsetX - (payload.egglement.width / 2)
-    const top = relPoint.top + offsetY - (payload.egglement.height / 2)
+    const left = relPoint.left - (payload.egglement.width / 2)
+    const top = relPoint.top - (payload.egglement.height / 2)
 
     commit(types.updateEgglement, {egglement: payload.egglement, left, top})
   }

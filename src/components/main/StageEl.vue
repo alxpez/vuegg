@@ -1,6 +1,6 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
-import { _clearSelectedElements, _addSelectedElement, resizeEgglement, moveEgglement } from '@/store/types'
+import { _clearSelectedElements, _addSelectedElement, moveEgglement } from '@/store/types'
 
 import MrEl from '@/components/mr-vue/MrEl'
 import StageEl from './StageEl'
@@ -12,7 +12,7 @@ export default {
   render: function (createElement) {
     let stageElem
 
-    let plainElStyle = {
+    const plainElStyle = {
       position: 'absolute',
       left: this.elem.left + 'px',
       top: this.elem.top + 'px',
@@ -20,8 +20,8 @@ export default {
       height: this.elem.height + 'px'
     }
 
-    let data = {
-      'class': (this.elem.egglement && !this.isPlain) ? {...this.elem.classes, egglement: true} : this.elem.classes,
+    const data = {
+      'class': this.elem.classes,
       'style': this.isPlain ? {...plainElStyle, ...this.elem.styles} : this.elem.styles,
       'attrs': {...this.elem.attrs, id: this.elem.id}
     }
@@ -40,19 +40,20 @@ export default {
       }
     }
 
-    let plainElem = createElement(this.elem.type, data, children)
+    const plainElem = createElement(this.elem.type, data, children)
 
     if (this.isPlain) {
       stageElem = plainElem
     } else {
-      // active prop: Computed / watcher to check if element is in the selectedEggs array
       stageElem = createElement(MrEl, {
         'props': {
           active: this.isActive,
           left: this.elem.left,
           top: this.elem.top,
           width: this.elem.width,
-          height: this.elem.height
+          height: this.elem.height,
+          minWidth: this.elem.minWidth,
+          minHeight: this.elem.minHeight
         },
         'on': {
           activated: this.activateEl
@@ -74,6 +75,9 @@ export default {
   }),
   methods: {
     activateEl (e) {
+      e.stopPropagation()
+      e.preventDefault()
+
       if (!e.shiftKey) {
         this._clearSelectedElements()
         this._addSelectedElement(this.elem)
@@ -102,10 +106,12 @@ export default {
       }
       return null
     },
+
     onDragging (eggLeft, eggTop, mouseX, mouseY) {
       let containegg = this.getContaineggOnPoint(mouseX, mouseY)
       this.toggleDroppableCursor(containegg && typeof containegg !== 'undefined')
     },
+
     onDragStop (eggLeft, eggTop, mouseX, mouseY) {
       let payload = {
         pageId: this.activePageId,
@@ -125,23 +131,14 @@ export default {
       this.moveEgglement(payload)
       this.toggleDroppableCursor(false)
     },
+
     toggleDroppableCursor (isDroppable) {
       isDroppable
         ? document.documentElement.classList.add('droppable')
         : document.documentElement.classList.remove('droppable')
     },
-    onResizeStop (left, top, width, height) {
-      const payload = {
-        elId: this.elem.id,
-        pageId: this.activePageId,
-        left: left,
-        top: top,
-        width,
-        height
-      }
-      this.resizeEgglement(payload)
-    },
-    ...mapActions([resizeEgglement, moveEgglement]),
+
+    ...mapActions([moveEgglement]),
     ...mapMutations([_clearSelectedElements, _addSelectedElement])
   },
   watch: {
@@ -152,16 +149,6 @@ export default {
 }
 </script>
 
-
-<style scoped>
-.egglement {
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  box-sizing: border-box;
-}
-</style>
 
 <style>
 html.droppable,

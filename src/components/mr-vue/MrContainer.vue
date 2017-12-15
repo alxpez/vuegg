@@ -1,11 +1,13 @@
 <template>
   <div mr-container class="mrContainer"
-    @mousedown='mDownHandler'
+    @mousedown.capture='mDownHandler'
     @mousemove='mMoveHandler'
+    @mouseout='mOutHandler'
     @mouseup='mUpHandler'>
     <slot></slot>
   </div>
 </template>
+
 
 <script>
 export default {
@@ -14,74 +16,193 @@ export default {
   data: function () {
     return {
       moving: false,
-      resizing: false
+      lastMouseX: 0,
+      lastMouseY: 0,
+      resizing: false,
+      handle: null,
+      mrElements: [],
+      mainContainer: null
     }
+  },
+  watch: {
+    activeElements: function (val) {
+      this.moving = val.length > 0
+      this.mrElements = val.map(el => document.getElementById(el.id).parentElement)
+    }
+  },
+  mounted: function () {
+    this.mainContainer = document.getElementById('main')
   },
   methods: {
     mDownHandler (e) {
       if (e.target.getAttribute('mr-container') !== null) {
-        console.log('PAGE!')
-        this.$emit('clearselect')
-      } else if (e.target.getAttribute('mr-el-handle') !== null) {
-        console.log('HANDLE!')
+        this.$emit('clearselection')
+      } else if (e.target.getAttribute('mr-handle') !== null) {
         this.resizing = true
+        this.handle = e.target.classList[1]
         this.$emit('resizestart')
-      } else if (e.target.getAttribute('mr-el') !== null || e.target.parentNode.getAttribute('mr-el') !== null) {
-        console.log('ELEMENT!')
-        this.moving = true
-        this.$emit('movestart')
-      } else {
-        console.log('OTRAS COSAS?!?!')
       }
-
-      console.log('M-DOWN----------------')
-      console.log(e)
-      console.log(e.target)
-      console.log(e.target.parentNode)
-
-      // clientX and clientY (aka x and y),
-      // shows the location of the mouse on the SCREEN
-      // (does not care about scrolls)
-
-      // (DO NOT USE) screenX and screenY work similar to Clients?
-
-      // vvvvvvv USE THIS ! vvvvvvvv
-
-      // pageY and pageX shows the position of the mouse
-      // relative to the whole document (page)
-      // including scroll positions
-      // Does not detect the scroll cause is not in the body, but in the main element
-
-      // BONUS!
-      // ClientX + scrollLeft = pageX
-      // ClientY + scrollTop = pageY
-
-      // Offset of mouse position relative to cliked element
-      // AKA position of the mouse within the element
-      // console.log('OffsetY: ' + e.offsetY)
-      // console.log('OffsetX: ' + e.offsetX)
     },
+
+    mUpHandler (e) {
+      if (this.resizing) {
+        this.$emit('resizestop', this.resizeStopData())
+      } else if (this.moving) {
+        this.$emit('movestop', this.moveStopData())
+      }
+      this.resizing = false
+      this.handle = null
+      this.moving = false
+    },
+
+    // Review this functionality
+    mOutHandler (e) {
+      if (this.getParentMr(e.fromElement) !== null && this.getParentMr(e.toElement) === null) {
+        if (this.resizing) {
+          this.$emit('resizestop', this.resizeStopData())
+        } else if (this.moving) {
+          this.$emit('movestop', this.moveStopData())
+        }
+        this.resizing = false
+        this.handle = null
+        this.moving = false
+      }
+    },
+
     mMoveHandler (e) {
       if (this.resizing) {
-        console.log(e)
         this.$emit('resizing')
-      }
-
-      if (this.moving) {
-        console.log(e)
+        this.mrElements.map(mrEl => this.resizeElementBy(mrEl, e.movementX, e.movementY))
+      } else if (this.moving) {
         this.$emit('moving')
+        this.lastMouseX = e.pageX + this.mainContainer.scrollLeft - this.$el.offsetLeft
+        this.lastMouseY = e.pageY + this.mainContainer.scrollTop - this.$el.offsetTop
+        this.mrElements.map(mrEl => this.moveElementBy(mrEl, e.movementX, e.movementY))
       }
     },
-    mUpHandler (e) {
-      this.moving = false
-      this.resizing = false
-      // console.log('M-UP------------------')
-      // console.log(e)
-      // console.log(e.target)
+
+    resizeElementBy (element, offX, offY) {
+      let newHeight = null
+      let newWidth = null
+      let newTop = null
+      let newLeft = null
+
+      switch (this.handle) {
+        case 'tl':
+          newHeight = element.getBoundingClientRect().height - offY
+          newWidth = element.getBoundingClientRect().width - offX
+          newTop = element.offsetTop + offY
+          newLeft = element.offsetLeft + offX
+          break
+        case 'mt':
+          newHeight = element.getBoundingClientRect().height - offY
+          newTop = element.offsetTop + offY
+          break
+        case 'tr':
+          newHeight = element.getBoundingClientRect().height - offY
+          newWidth = element.getBoundingClientRect().width + offX
+          newTop = element.offsetTop + offY
+          break
+        case 'mr':
+          newWidth = element.getBoundingClientRect().width + offX
+          break
+        case 'br':
+          newHeight = element.getBoundingClientRect().height + offY
+          newWidth = element.getBoundingClientRect().width + offX
+          break
+        case 'mb':
+          newHeight = element.getBoundingClientRect().height + offY
+          break
+        case 'bl':
+          newHeight = element.getBoundingClientRect().height + offY
+          newWidth = element.getBoundingClientRect().width - offX
+          newLeft = element.offsetLeft + offX
+          break
+        case 'ml':
+          newWidth = element.getBoundingClientRect().width - offX
+          newLeft = element.offsetLeft + offX
+          break
+      }
+
+      if (this.checkBounds(element, newTop, 'top')) element.style.top = newTop + 'px'
+      if (this.checkBounds(element, newLeft, 'left')) element.style.left = newLeft + 'px'
+      if (this.checkBounds(element, newHeight, 'height')) element.style.height = newHeight + 'px'
+      if (this.checkBounds(element, newWidth, 'width')) element.style.width = newWidth + 'px'
+    },
+
+    moveElementBy (element, offX, offY) {
+      let newTop = element.offsetTop + offY
+      let newLeft = element.offsetLeft + offX
+
+      if (this.checkBounds(element, newTop, 'top')) element.style.top = newTop + 'px'
+      if (this.checkBounds(element, newLeft, 'left')) element.style.left = newLeft + 'px'
+    },
+
+    checkBounds (element, value, property) {
+      let isGoodToGo = true
+      let parent = this.getParentMr(element)
+      console.log(parent)
+
+      switch (property) {
+        case 'top':
+          isGoodToGo = (value >= 0 && (value + element.getBoundingClientRect().height < parent.getBoundingClientRect().height))
+          break
+        case 'left':
+          isGoodToGo = (value >= 0 && (value + element.getBoundingClientRect().width < parent.getBoundingClientRect().width))
+          break
+        case 'height':
+          isGoodToGo = (value <= parent.getBoundingClientRect().height)
+          break
+        case 'width':
+          isGoodToGo = (value <= parent.getBoundingClientRect().width)
+          break
+      }
+      return isGoodToGo
+    },
+
+    getParentMr (element) {
+      let mrParent = null
+      let currentMr = element
+      while (mrParent === null) {
+        if (currentMr === null || currentMr.parentElement === null) {
+          break
+        } else if (currentMr.getAttribute('mr-container') !== null) {
+          mrParent = currentMr
+        } else if (currentMr.parentElement.getAttribute('mr-el') !== null) {
+          mrParent = currentMr.parentElement
+        }
+        currentMr = currentMr.parentElement
+      }
+      return mrParent
+    },
+
+    resizeStopData () {
+      return this.mrElements.map(el => {
+        return {
+          elId: el.childNodes[0].id,
+          top: parseInt(el.style.top),
+          left: parseInt(el.style.left),
+          height: parseInt(el.style.height),
+          width: parseInt(el.style.width)
+        }
+      })
+    },
+
+    moveStopData () {
+      return this.mrElements.map(el => {
+        return {
+          elId: el.childNodes[0].id,
+          top: parseInt(el.style.top),
+          left: parseInt(el.style.left),
+          mouseX: this.lastMouseX,
+          mouseY: this.lastMouseY
+        }
+      })
     }
   }
 }
 </script>
+
 
 <style scoped>
 .mrContainer {
