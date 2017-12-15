@@ -141,11 +141,13 @@ export default {
     checkBounds (el, val, property) {
       let isOk = true
       let parentRect = this.getParentMr(el).getBoundingClientRect()
+      let elementRect = el.getBoundingClientRect()
+
       switch (property) {
-        case 'top': isOk = (val >= 0 && (val + el.parentRect.height < parentRect.height)); break
-        case 'left': isOk = (val >= 0 && (val + el.parentRect.width < parentRect.width)); break
+        case 'top': isOk = (val >= 0 && (val + elementRect.height < parentRect.height)); break
+        case 'left': isOk = (val >= 0 && (val + elementRect.width < parentRect.width)); break
         case 'height': isOk = (val < parentRect.height && (val + el.offsetTop < parentRect.height)); break
-        case 'width': isOk = (val < parentRect.width && (val + el.offsetLeft < parent.parentRect.width)); break
+        case 'width': isOk = (val < parentRect.width && (val + el.offsetLeft < parentRect.width)); break
       }
       return isOk
     },
