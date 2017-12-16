@@ -4,8 +4,8 @@
     :style="page.styles"
     :class="[page.classes, {eggStage: true}]"
     :activeElements="selectedElements"
-    @resizestop="resizeElements"
-    @movestop="moveElements"
+    @resizestop="resizeStopHandler"
+    @movestop="moveStopHandler"
     @clearselection="_clearSelectedElements">
 
     <stage-el
@@ -33,12 +33,12 @@ export default {
     selectedElements: state => state ? state.app.selectedElements : []
   }),
   methods: {
-    resizeElements (resizeList) {
-      resizeList.map(resData => this.resizeEgglement({...resData, pageId: this.page.id}))
+    resizeStopHandler (resizedElList) {
+      resizedElList.map(resData => this.resizeEgglement({...resData, pageId: this.page.id}))
     },
 
-    moveElements (moveList) {
-      moveList.map(moveData => this.moveEgglement({...moveData, pageId: this.page.id, parentId: null}))
+    moveStopHandler (movedElList) {
+      movedElList.map(moveData => this.moveEgglement({...moveData, pageId: this.page.id, parentId: null}))
     },
 
     ...mapActions([resizeEgglement, moveEgglement]),
