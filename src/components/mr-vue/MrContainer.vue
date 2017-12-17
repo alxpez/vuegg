@@ -28,10 +28,12 @@ export default {
   },
   watch: {
     activeElements: function (val) {
-      this.moving = val.length > 0
       this.mrElements = val.map(el => {
-        if (document.getElementById(el.id)) return document.getElementById(el.id).parentElement
+        return document.getElementById(el.id)
+          ? document.getElementById(el.id).parentElement
+          : null
       })
+      this.moving = val.length > 0
     }
   },
   mounted: function () {
@@ -39,6 +41,8 @@ export default {
   },
   methods: {
     mouseDownHandler (e) {
+      this.setMousePosition(e)
+
       if (e.target.getAttribute('mr-container')) {
         this.$emit('clearselection')
       } else if (e.target.getAttribute('mr-handle')) {
@@ -49,11 +53,9 @@ export default {
     },
 
     mouseUpHandler (e) {
-      if (this.resizing) {
-        this.$emit('resizestop', this.resizeStopData())
-      } else if (this.moving) {
-        this.$emit('movestop', this.moveStopData())
-      }
+      if (this.resizing) this.$emit('resizestop', this.resizeStopData())
+      else if (this.moving) this.$emit('movestop', this.moveStopData())
+
       this.resizing = false
       this.handle = null
       this.moving = false
@@ -62,11 +64,9 @@ export default {
     // TODO: Review this functionality / Other options?
     mouseOutHandler (e) {
       if (this.getParentMr(e.fromElement) !== null && this.getParentMr(e.toElement) === null) {
-        if (this.resizing) {
-          this.$emit('resizestop', this.resizeStopData())
-        } else if (this.moving) {
-          this.$emit('movestop', this.moveStopData())
-        }
+        if (this.resizing) this.$emit('resizestop', this.resizeStopData())
+        else if (this.moving) this.$emit('movestop', this.moveStopData())
+
         this.resizing = false
         this.handle = null
         this.moving = false
@@ -76,19 +76,15 @@ export default {
     mouseMoveHandler (e) {
       if (this.resizing) {
         this.$emit('resizing')
-        this.mrElements.map(mrEl => this.resizeElementBy(mrEl, e.movementX, e.movementY))
+        this.mrElements.map(mrEl => mrEl ? this.resizeElementBy(mrEl, e.movementX, e.movementY) : mrEl)
       } else if (this.moving) {
-        this.absMouseX = e.clientX
-        this.absMouseY = e.clientY
-        this.relMouseX = e.pageX + this.mainContainer.scrollLeft - this.$el.offsetLeft
-        this.relMouseY = e.pageY + this.mainContainer.scrollTop - this.$el.offsetTop
+        this.setMousePosition(e)
         this.$emit('moving', this.absMouseX, this.absMouseY)
-        this.mrElements.map(mrEl => this.moveElementBy(mrEl, e.movementX, e.movementY))
+        this.mrElements.map(mrEl => mrEl ? this.moveElementBy(mrEl, e.movementX, e.movementY) : mrEl)
       }
     },
 
     resizeElementBy (el, offX, offY) {
-      const elementRect = el.getBoundingClientRect()
       let newHeight = null
       let newWidth = null
       let newTop = null
@@ -96,37 +92,37 @@ export default {
 
       switch (this.handle) {
         case 'tl':
-          newHeight = elementRect.height - offY
-          newWidth = elementRect.width - offX
+          newHeight = parseInt(el.style.height) - offY
+          newWidth = parseInt(el.style.width) - offX
           newTop = el.offsetTop + offY
           newLeft = el.offsetLeft + offX
           break
         case 'mt':
-          newHeight = elementRect.height - offY
+          newHeight = parseInt(el.style.height) - offY
           newTop = el.offsetTop + offY
           break
         case 'tr':
-          newHeight = elementRect.height - offY
-          newWidth = elementRect.width + offX
+          newHeight = parseInt(el.style.height) - offY
+          newWidth = parseInt(el.style.width) + offX
           newTop = el.offsetTop + offY
           break
         case 'mr':
-          newWidth = elementRect.width + offX
+          newWidth = parseInt(el.style.width) + offX
           break
         case 'br':
-          newHeight = elementRect.height + offY
-          newWidth = elementRect.width + offX
+          newHeight = parseInt(el.style.height) + offY
+          newWidth = parseInt(el.style.width) + offX
           break
         case 'mb':
-          newHeight = elementRect.height + offY
+          newHeight = parseInt(el.style.height) + offY
           break
         case 'bl':
-          newHeight = elementRect.height + offY
-          newWidth = elementRect.width - offX
+          newHeight = parseInt(el.style.height) + offY
+          newWidth = parseInt(el.style.width) - offX
           newLeft = el.offsetLeft + offX
           break
         case 'ml':
-          newWidth = elementRect.width - offX
+          newWidth = parseInt(el.style.width) - offX
           newLeft = el.offsetLeft + offX
           break
       }
@@ -151,23 +147,22 @@ export default {
 
     checkBounds (el, val, property) {
       let isOk = true
-      const parentRect = this.getParentMr(el).getBoundingClientRect()
-      const elementRect = el.getBoundingClientRect()
+      const parent = this.getParentMr(el)
 
       switch (property) {
         case 'top':
-          isOk = ((val >= 0) && (val + elementRect.height <= parentRect.height))
+          isOk = ((val >= 0) && (val + parseInt(el.style.height) <= parseInt(parent.style.height)))
           break
         case 'left':
-          isOk = ((val >= 0) && (val + elementRect.width <= parentRect.width))
+          isOk = ((val >= 0) && (val + parseInt(el.style.width) <= parseInt(parent.style.width)))
           break
         case 'height':
-          isOk = ((val <= parentRect.height) && (val + el.offsetTop <= parentRect.height) &&
-                  (val >= parseInt(el.style.minHeight)))
+          isOk = ((val <= parseInt(parent.style.height)) && (val >= parseInt(el.style.minHeight)) &&
+                  (val + el.offsetTop <= parseInt(parent.style.height)))
           break
         case 'width':
-          isOk = ((val <= parentRect.width) && (val + el.offsetLeft <= parentRect.width) &&
-                  (val >= parseInt(el.style.minWidth)))
+          isOk = ((val <= parseInt(parent.style.width)) && (val >= parseInt(el.style.minWidth)) &&
+                  (val + el.offsetLeft <= parseInt(parent.style.width)))
           break
       }
       return isOk
@@ -178,27 +173,32 @@ export default {
       let currentMr = element
 
       while (parentMr === null) {
-        if (currentMr === null || currentMr.parentElement === null) {
-          break
-        } else if (currentMr.getAttribute('mr-container') !== null) {
-          parentMr = currentMr
-        } else if (currentMr.parentElement.getAttribute('mr-el') !== null) {
-          parentMr = currentMr.parentElement
-        }
+        if (currentMr === null || currentMr.parentElement === null) break
+        else if (currentMr.getAttribute('mr-container') !== null) parentMr = currentMr
+        else if (currentMr.parentElement.getAttribute('mr-el') !== null) parentMr = currentMr.parentElement
+
         currentMr = currentMr.parentElement
       }
       return parentMr
     },
 
+    setMousePosition (e) {
+      this.absMouseX = e.clientX
+      this.absMouseY = e.clientY
+      this.relMouseX = e.pageX + this.mainContainer.scrollLeft - this.$el.offsetLeft
+      this.relMouseY = e.pageY + this.mainContainer.scrollTop - this.$el.offsetTop
+    },
+
     resizeStopData () {
       return this.mrElements.map(el => {
-        let elRect = el.getBoundingClientRect()
-        return {
-          elId: el.childNodes[0].id,
-          top: el.offsetTop,
-          left: el.offsetLeft,
-          height: elRect.height,
-          width: elRect.width
+        if (el) {
+          return {
+            elId: el.childNodes[0].id,
+            top: el.offsetTop,
+            left: el.offsetLeft,
+            height: parseInt(el.style.height),
+            width: parseInt(el.style.width)
+          }
         }
       })
     },
@@ -206,10 +206,12 @@ export default {
     moveStopData () {
       return {
         moveElData: this.mrElements.map(el => {
-          return {
-            elId: el.childNodes[0].id,
-            top: el.offsetTop,
-            left: el.offsetLeft
+          if (el) {
+            return {
+              elId: el.childNodes[0].id,
+              top: el.offsetTop,
+              left: el.offsetLeft
+            }
           }
         }),
         relMouseX: this.relMouseX,

@@ -4,9 +4,9 @@
     :style="page.styles"
     :class="[page.classes, {eggStage: true}]"
     :activeElements="selectedElements"
-    @resizestop="resizeStopHandler"
-    @movestop="moveStopHandler"
     @moving="movingHandler"
+    @movestop="moveStopHandler"
+    @resizestop="resizeStopHandler"
     @clearselection="_clearSelectedElements">
 
     <stage-el
@@ -40,13 +40,12 @@ export default {
 
     movingHandler (absMouseX, absMouseY) {
       let containegg = this.getContaineggOnPoint(absMouseX, absMouseY)
-      console.log(containegg)
-      this.toggleDroppableCursor(containegg && typeof containegg !== 'undefined')
+      this.toggleDroppableCursor(containegg)
     },
 
     moveStopHandler (moveStopData) {
       const containegg = this.getContaineggOnPoint(moveStopData.absMouseX, moveStopData.absMouseY)
-      const parentId = (containegg && typeof containegg !== 'undefined') ? containegg.id : null
+      const parentId = containegg ? containegg.id : null
 
       moveStopData.moveElData.map(moveData => this.moveEgglement({
         pageId: this.page.id,
@@ -70,7 +69,7 @@ export default {
         if ((el.getAttribute('mr-container')) ||
           (
             (el.getAttribute('containegg')) &&
-            (el.getAttribute('egglement')) &&
+            (!el.getAttribute('componegg')) &&
             (movingEggs.every(egg => !el.id.includes(egg.id)))
           )
         ) return el

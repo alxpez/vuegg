@@ -6,6 +6,9 @@ const MockData = {
       'egglement': true,
       'containegg': true,
       'classes': {},
+      'styles': {
+        'border': '1px solid rgba(0, 0, 0, 0.15)'
+      },
       'children': []
     }, {
       'name': 'Link',

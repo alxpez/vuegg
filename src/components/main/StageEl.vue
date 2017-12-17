@@ -27,6 +27,7 @@ export default {
         id: this.elem.id,
         egglement: this.elem.egglement,
         containegg: this.elem.containegg,
+        componegg: this.elem.componegg,
         ...this.elem.attrs
       }
     }
