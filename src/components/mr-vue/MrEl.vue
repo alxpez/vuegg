@@ -1,7 +1,7 @@
 <template>
-  <div mr-el class="mrEl" :style="style" @mousedown="e => $emit('activated', e)">
+  <div mr-el="true" class="mrEl" :style="style" @mousedown="e => $emit('activated', e)">
     <slot></slot>
-    <div mr-handle
+    <div mr-handle="true"
       v-for="handle in handles"
       class="handle" :class="handle"
       :style="{ display: active ? 'block' : 'none'}"

@@ -1,7 +1,8 @@
 <template>
-  <div mr-container class="mrContainer"
+  <div mr-container="true" class="mrContainer"
     @mousedown.prevent.capture='mouseDownHandler'
     @mousemove.stop.prevent='mouseMoveHandler'
+    @mouseout.stop.prevent='mouseOutHandler'
     @mouseup.stop.prevent='mouseUpHandler'>
     <slot></slot>
   </div>
@@ -14,9 +15,11 @@ export default {
   props: ['activeElements'],
   data: function () {
     return {
+      relMouseX: 0,
+      relMouseY: 0,
+      absMouseX: 0,
+      absMouseY: 0,
       moving: false,
-      lastMouseX: 0,
-      lastMouseY: 0,
       resizing: false,
       handle: null,
       mrElements: [],
@@ -36,9 +39,9 @@ export default {
   },
   methods: {
     mouseDownHandler (e) {
-      if (e.target.getAttribute('mr-container') !== null) {
+      if (e.target.getAttribute('mr-container')) {
         this.$emit('clearselection')
-      } else if (e.target.getAttribute('mr-handle') !== null) {
+      } else if (e.target.getAttribute('mr-handle')) {
         this.resizing = true
         this.handle = e.target.classList[1]
         this.$emit('resizestart')
@@ -75,9 +78,11 @@ export default {
         this.$emit('resizing')
         this.mrElements.map(mrEl => this.resizeElementBy(mrEl, e.movementX, e.movementY))
       } else if (this.moving) {
-        this.$emit('moving')
-        this.lastMouseX = e.pageX + this.mainContainer.scrollLeft - this.$el.offsetLeft
-        this.lastMouseY = e.pageY + this.mainContainer.scrollTop - this.$el.offsetTop
+        this.absMouseX = e.clientX
+        this.absMouseY = e.clientY
+        this.relMouseX = e.pageX + this.mainContainer.scrollLeft - this.$el.offsetLeft
+        this.relMouseY = e.pageY + this.mainContainer.scrollTop - this.$el.offsetTop
+        this.$emit('moving', this.absMouseX, this.absMouseY)
         this.mrElements.map(mrEl => this.moveElementBy(mrEl, e.movementX, e.movementY))
       }
     },
@@ -199,15 +204,19 @@ export default {
     },
 
     moveStopData () {
-      return this.mrElements.map(el => {
-        return {
-          elId: el.childNodes[0].id,
-          top: el.offsetTop,
-          left: el.offsetLeft,
-          mouseX: this.lastMouseX,
-          mouseY: this.lastMouseY
-        }
-      })
+      return {
+        moveElData: this.mrElements.map(el => {
+          return {
+            elId: el.childNodes[0].id,
+            top: el.offsetTop,
+            left: el.offsetLeft
+          }
+        }),
+        relMouseX: this.relMouseX,
+        relMouseY: this.relMouseY,
+        absMouseX: this.absMouseX,
+        absMouseY: this.absMouseY
+      }
     }
   }
 }

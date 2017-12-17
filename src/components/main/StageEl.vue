@@ -1,6 +1,6 @@
 <script>
-import { mapState, mapActions, mapMutations } from 'vuex'
-import { _clearSelectedElements, _addSelectedElement, moveEgglement } from '@/store/types'
+import { mapState, mapMutations } from 'vuex'
+import { _clearSelectedElements, _addSelectedElement } from '@/store/types'
 
 import MrEl from '@/components/mr-vue/MrEl'
 import StageEl from './StageEl'
@@ -23,7 +23,12 @@ export default {
     const data = {
       'class': this.elem.classes,
       'style': this.isPlain ? {...plainElStyle, ...this.elem.styles} : this.elem.styles,
-      'attrs': {...this.elem.attrs, id: this.elem.id}
+      'attrs': {
+        id: this.elem.id,
+        egglement: this.elem.egglement,
+        containegg: this.elem.containegg,
+        ...this.elem.attrs
+      }
     }
 
     let children = []
@@ -86,59 +91,6 @@ export default {
       }
     },
 
-    getContaineggOnPoint (x, y) {
-      let thisEgg = this.$el.children[0]
-      let parentId = thisEgg.id.substring(0, thisEgg.id.lastIndexOf('.'))
-      let elementsOnPoint = document.elementsFromPoint(x, y)
-
-      for (let element of elementsOnPoint) {
-        if (element.id === parentId) return null
-
-        if (element.classList.contains('eggStage') ||
-          (
-            !element.id.includes(thisEgg.id) &&
-            element.classList.contains('egglement') &&
-            element.classList.contains('containegg')
-          )
-        ) {
-          return element
-        }
-      }
-      return null
-    },
-
-    onDragging (eggLeft, eggTop, mouseX, mouseY) {
-      let containegg = this.getContaineggOnPoint(mouseX, mouseY)
-      this.toggleDroppableCursor(containegg && typeof containegg !== 'undefined')
-    },
-
-    onDragStop (eggLeft, eggTop, mouseX, mouseY) {
-      let payload = {
-        pageId: this.activePageId,
-        parentId: null,
-        elId: this.elem.id,
-        left: eggLeft,
-        top: eggTop,
-        mouseX,
-        mouseY
-      }
-
-      let containegg = this.getContaineggOnPoint(mouseX, mouseY)
-      console.log(containegg)
-      if (containegg && typeof containegg !== 'undefined') {
-        payload.parentId = containegg.id
-      }
-      this.moveEgglement(payload)
-      this.toggleDroppableCursor(false)
-    },
-
-    toggleDroppableCursor (isDroppable) {
-      isDroppable
-        ? document.documentElement.classList.add('droppable')
-        : document.documentElement.classList.remove('droppable')
-    },
-
-    ...mapActions([moveEgglement]),
     ...mapMutations([_clearSelectedElements, _addSelectedElement])
   },
   watch: {

@@ -6,6 +6,7 @@
     :activeElements="selectedElements"
     @resizestop="resizeStopHandler"
     @movestop="moveStopHandler"
+    @moving="movingHandler"
     @clearselection="_clearSelectedElements">
 
     <stage-el
@@ -33,12 +34,54 @@ export default {
     selectedElements: state => state ? state.app.selectedElements : []
   }),
   methods: {
-    resizeStopHandler (resizedElList) {
-      resizedElList.map(resData => this.resizeEgglement({...resData, pageId: this.page.id}))
+    resizeStopHandler (resStopData) {
+      resStopData.map(resElData => this.resizeEgglement({...resElData, pageId: this.page.id}))
     },
 
-    moveStopHandler (movedElList) {
-      movedElList.map(moveData => this.moveEgglement({...moveData, pageId: this.page.id, parentId: null}))
+    movingHandler (absMouseX, absMouseY) {
+      let containegg = this.getContaineggOnPoint(absMouseX, absMouseY)
+      console.log(containegg)
+      this.toggleDroppableCursor(containegg && typeof containegg !== 'undefined')
+    },
+
+    moveStopHandler (moveStopData) {
+      const containegg = this.getContaineggOnPoint(moveStopData.absMouseX, moveStopData.absMouseY)
+      const parentId = (containegg && typeof containegg !== 'undefined') ? containegg.id : null
+
+      moveStopData.moveElData.map(moveData => this.moveEgglement({
+        pageId: this.page.id,
+        mouseX: moveStopData.relMouseX,
+        mouseY: moveStopData.relMouseY,
+        parentId,
+        ...moveData
+      }))
+
+      this.toggleDroppableCursor(false)
+    },
+
+    getContaineggOnPoint (x, y) {
+      const movingEggs = this.selectedElements
+      const parentsIds = movingEggs.map(egg => egg.id.substring(0, egg.id.lastIndexOf('.')))
+      const commonParentId = parentsIds.every((val, i, arr) => val === arr[0]) ? parentsIds[0] : null
+      const elementsOnPoint = document.elementsFromPoint(x, y)
+
+      for (let el of elementsOnPoint) {
+        if (el.id === commonParentId) return null
+        if ((el.getAttribute('mr-container')) ||
+          (
+            (el.getAttribute('containegg')) &&
+            (el.getAttribute('egglement')) &&
+            (movingEggs.every(egg => !el.id.includes(egg.id)))
+          )
+        ) return el
+      }
+      return null
+    },
+
+    toggleDroppableCursor (isDroppable) {
+      isDroppable
+        ? document.documentElement.classList.add('droppable')
+        : document.documentElement.classList.remove('droppable')
     },
 
     ...mapActions([resizeEgglement, moveEgglement]),
@@ -47,6 +90,13 @@ export default {
 }
 </script>
 
+
+<style>
+html.droppable,
+html.droppable * {
+  cursor: copy !important;
+}
+</style>
 
 <style scoped>
 .eggStage {
