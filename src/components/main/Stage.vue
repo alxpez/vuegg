@@ -2,12 +2,13 @@
   <mr-container
     :id="page.id"
     :style="page.styles"
-    :class="[page.classes, {eggStage: true}]"
+    :class="[page.classes, {stage: true}]"
     :activeElements="selectedElements"
     @moving="movingHandler"
     @movestop="moveStopHandler"
     @resizestop="resizeStopHandler"
-    @clearselection="_clearSelectedElements">
+    @removeselection="removeSelectionHandler"
+    @clearselection="clearSelectionHandler">
 
     <stage-el
       v-for="element in page.children"
@@ -21,7 +22,7 @@
 
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
-import { _clearSelectedElements, resizeEgglement, moveEgglement } from '@/store/types'
+import { _clearSelectedElements, removeElement, resizeElement, moveElement } from '@/store/types'
 
 import MrContainer from '@/components/mr-vue/MrContainer'
 import StageEl from './StageEl'
@@ -34,8 +35,18 @@ export default {
     selectedElements: state => state ? state.app.selectedElements : []
   }),
   methods: {
+    clearSelectionHandler () {
+      if (this.selectedElements.length > 0) this._clearSelectedElements()
+    },
+
+    removeSelectionHandler () {
+      if (this.selectedElements.length > 0) {
+        this.selectedElements.map(el => this.removeElement({page: this.page, elId: el.id}))
+      }
+    },
+
     resizeStopHandler (resStopData) {
-      resStopData.map(resElData => this.resizeEgglement({...resElData, pageId: this.page.id}))
+      resStopData.map(resElData => this.resizeElement({...resElData, pageId: this.page.id}))
     },
 
     movingHandler (absMouseX, absMouseY) {
@@ -47,12 +58,12 @@ export default {
       const containegg = this.getContaineggOnPoint(moveStopData.absMouseX, moveStopData.absMouseY)
       const parentId = containegg ? containegg.id : null
 
-      moveStopData.moveElData.map(moveData => this.moveEgglement({
+      moveStopData.moveElData.map(moveData => this.moveElement({
+        ...moveData,
         pageId: this.page.id,
-        mouseX: moveStopData.relMouseX,
-        mouseY: moveStopData.relMouseY,
         parentId,
-        ...moveData
+        mouseX: moveStopData.relMouseX,
+        mouseY: moveStopData.relMouseY
       }))
 
       this.toggleDroppableCursor(false)
@@ -83,7 +94,7 @@ export default {
         : document.documentElement.classList.remove('droppable')
     },
 
-    ...mapActions([resizeEgglement, moveEgglement]),
+    ...mapActions([removeElement, resizeElement, moveElement]),
     ...mapMutations([_clearSelectedElements])
   }
 }
@@ -98,7 +109,7 @@ html.droppable * {
 </style>
 
 <style scoped>
-.eggStage {
+.stage {
   /* for paper style */
   box-shadow:
     0 1px 3px rgba(0, 0, 0, 0.2),

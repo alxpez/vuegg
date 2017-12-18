@@ -1,6 +1,6 @@
 <script>
 import { mapState, mapMutations } from 'vuex'
-import { _clearSelectedElements, _addSelectedElement } from '@/store/types'
+import { _clearSelectedElements, _addSelectedElement, _removeSelectedElement } from '@/store/types'
 
 import MrEl from '@/components/mr-vue/MrEl'
 import StageEl from './StageEl'
@@ -80,19 +80,28 @@ export default {
     selectedElements: state => state.app.selectedElements
   }),
   methods: {
+    // Problems with the "selectedElements",
+    // since on each mutation the element is a different one ???
     activateEl (e) {
       e.stopPropagation()
       e.preventDefault()
 
-      if (!e.shiftKey) {
-        this._clearSelectedElements()
+      if (e.shiftKey && !this.isActive) {
+        console.log('shift + !active')
         this._addSelectedElement(this.elem)
-      } else if (!this.isActive) {
+      } else if (e.shiftKey && this.isActive) {
+        console.log('shift + active')
+        let elemIndex = this.selectedElements.findIndex(el => el.id === this.elem.id)
+        console.log(elemIndex)
+        // this._removeSelectedElement(elemIndex)
+      } else if (!e.shiftKey) {
+        console.log('!shift')
+        this._clearSelectedElements()
         this._addSelectedElement(this.elem)
       }
     },
 
-    ...mapMutations([_clearSelectedElements, _addSelectedElement])
+    ...mapMutations([_clearSelectedElements, _addSelectedElement, _removeSelectedElement])
   },
   watch: {
     selectedElements: function (val) {

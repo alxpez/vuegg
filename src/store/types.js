@@ -7,10 +7,11 @@ export const nameInUse = 'nameInUse'
 
 // ACTIONS
 export const savePageAndClose = 'savePageAndClose'
-export const registerAndSaveEgglement = 'registerAndSaveEgglement'
-export const resizeEgglement = 'resizeEgglement'
-export const moveEgglement = 'moveEgglement'
-export const changeEgglementParent = 'changeEgglementParent'
+export const registerAndSaveElement = 'registerAndSaveElement'
+export const resizeElement = 'resizeElement'
+export const moveElement = 'moveElement'
+export const changeElementParent = 'changeElementParent'
+export const removeElement = 'removeElement'
 
 // MUTATIONS
 export const _toggleSidebar = '_toggleSidebar'
@@ -39,10 +40,11 @@ const types = {
   nameInUse,
   // ACTIONS
   savePageAndClose,
-  registerAndSaveEgglement,
-  resizeEgglement,
-  moveEgglement,
-  changeEgglementParent,
+  registerAndSaveElement,
+  resizeElement,
+  moveElement,
+  changeElementParent,
+  removeElement,
   // MUTATIONS
   _toggleSidebar,
   _toggleMiniSidebar,

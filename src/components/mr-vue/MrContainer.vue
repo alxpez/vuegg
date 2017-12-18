@@ -1,9 +1,11 @@
 <template>
-  <div mr-container="true" class="mrContainer"
-    @mousedown.prevent.capture='mouseDownHandler'
-    @mousemove.stop.prevent='mouseMoveHandler'
-    @mouseout.stop.prevent='mouseOutHandler'
-    @mouseup.stop.prevent='mouseUpHandler'>
+  <div mr-container="true" class="mrContainer" tabindex="0"
+    @mousedown.prevent.capture="mouseDownHandler"
+    @mousemove.stop.prevent="mouseMoveHandler"
+    @mouseout.stop.prevent="mouseOutHandler"
+    @mouseup.stop.prevent="mouseUpHandler"
+    @keydown.delete.stop.prevent="keydownHandler"
+  >
     <slot></slot>
   </div>
 </template>
@@ -28,11 +30,7 @@ export default {
   },
   watch: {
     activeElements: function (val) {
-      this.mrElements = val.map(el => {
-        return document.getElementById(el.id)
-          ? document.getElementById(el.id).parentElement
-          : null
-      })
+      this.mrElements = val.map(el => document.getElementById(el.id).parentElement)
       this.moving = val.length > 0
     }
   },
@@ -40,6 +38,10 @@ export default {
     this.mainContainer = document.getElementById('main')
   },
   methods: {
+    keydownHandler (e) {
+      this.$emit('removeselection')
+    },
+
     mouseDownHandler (e) {
       this.setMousePosition(e)
 
@@ -53,6 +55,8 @@ export default {
     },
 
     mouseUpHandler (e) {
+      this.$el.focus()
+
       if (this.resizing) this.$emit('resizestop', this.resizeStopData())
       else if (this.moving) this.$emit('movestop', this.moveStopData())
 
@@ -76,11 +80,11 @@ export default {
     mouseMoveHandler (e) {
       if (this.resizing) {
         this.$emit('resizing')
-        this.mrElements.map(mrEl => mrEl ? this.resizeElementBy(mrEl, e.movementX, e.movementY) : mrEl)
+        this.mrElements.map(mrEl => this.resizeElementBy(mrEl, e.movementX, e.movementY))
       } else if (this.moving) {
         this.setMousePosition(e)
         this.$emit('moving', this.absMouseX, this.absMouseY)
-        this.mrElements.map(mrEl => mrEl ? this.moveElementBy(mrEl, e.movementX, e.movementY) : mrEl)
+        this.mrElements.map(mrEl => this.moveElementBy(mrEl, e.movementX, e.movementY))
       }
     },
 
@@ -191,14 +195,12 @@ export default {
 
     resizeStopData () {
       return this.mrElements.map(el => {
-        if (el) {
-          return {
-            elId: el.childNodes[0].id,
-            top: el.offsetTop,
-            left: el.offsetLeft,
-            height: parseInt(el.style.height),
-            width: parseInt(el.style.width)
-          }
+        return {
+          elId: el.childNodes[0].id,
+          top: el.offsetTop,
+          left: el.offsetLeft,
+          height: parseInt(el.style.height),
+          width: parseInt(el.style.width)
         }
       })
     },
@@ -206,12 +208,10 @@ export default {
     moveStopData () {
       return {
         moveElData: this.mrElements.map(el => {
-          if (el) {
-            return {
-              elId: el.childNodes[0].id,
-              top: el.offsetTop,
-              left: el.offsetLeft
-            }
+          return {
+            elId: el.childNodes[0].id,
+            top: el.offsetTop,
+            left: el.offsetLeft
           }
         }),
         relMouseX: this.relMouseX,
@@ -228,5 +228,6 @@ export default {
 <style scoped>
 .mrContainer {
   position: relative;
+  outline: none;
 }
 </style>

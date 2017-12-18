@@ -2,7 +2,7 @@
   <div id="compMenu" class="list-group">
     <a id="comp" :key="compKey"
       v-for="component in components"
-      @click="registerAndSaveEgglement({pageId: activePage.id, el: component})"
+      @click="registerAndSaveElement({pageId: activePage.id, el: component})"
       class="list-group-item list-group-item-action"
     >
       {{component.name}}
@@ -14,12 +14,12 @@
 <script>
 import shortid from 'shortid'
 import { mapState, mapActions } from 'vuex'
-import { registerAndSaveEgglement } from '@/store/types'
+import { registerAndSaveElement } from '@/store/types'
 import MockData from '@/assets/mockdata'
 
 export default {
   name: 'components-menu',
-  methods: mapActions([registerAndSaveEgglement]),
+  methods: mapActions([registerAndSaveElement]),
   data: function () {
     return {
       components: MockData.components
