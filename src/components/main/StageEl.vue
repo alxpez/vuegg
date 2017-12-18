@@ -46,10 +46,8 @@ export default {
       }
     }
 
-    const plainElem = createElement(this.elem.type, data, children)
-
     if (this.isPlain) {
-      stageElem = plainElem
+      stageElem = createElement(this.elem.type, data, children)
     } else {
       stageElem = createElement(MrEl, {
         'props': {
@@ -62,59 +60,36 @@ export default {
           minHeight: this.elem.minHeight
         },
         'on': {
-          activated: this.activateEl
+          activated: this.activatedHandler
         }
-      }, [plainElem])
+      }, [ createElement(this.elem.type, data, children) ])
     }
 
     return stageElem
   },
-  data: function () {
-    return {
-      isActive: false,
-      isDroppable: false
-    }
+  computed: {
+    isActive () {
+      return (this.selectedElements.findIndex(el => el.id === this.elem.id) !== -1)
+    },
+
+    ...mapState({
+      selectedElements: state => state.app.selectedElements
+    })
   },
-  computed: mapState({
-    activePageId: state => state.app.selectedPage.id,
-    selectedElements: state => state.app.selectedElements
-  }),
   methods: {
-    // Problems with the "selectedElements",
-    // since on each mutation the element is a different one ???
-    activateEl (e) {
+    activatedHandler (e) {
       e.stopPropagation()
       e.preventDefault()
 
       if (e.shiftKey && !this.isActive) {
-        console.log('shift + !active')
         this._addSelectedElement(this.elem)
-      } else if (e.shiftKey && this.isActive) {
-        console.log('shift + active')
-        let elemIndex = this.selectedElements.findIndex(el => el.id === this.elem.id)
-        console.log(elemIndex)
-        // this._removeSelectedElement(elemIndex)
       } else if (!e.shiftKey) {
-        console.log('!shift')
         this._clearSelectedElements()
         this._addSelectedElement(this.elem)
       }
     },
 
     ...mapMutations([_clearSelectedElements, _addSelectedElement, _removeSelectedElement])
-  },
-  watch: {
-    selectedElements: function (val) {
-      this.isActive = (val.findIndex(el => el.id === this.elem.id) !== -1)
-    }
   }
 }
 </script>
-
-
-<style>
-html.droppable,
-html.droppable * {
-  cursor: copy !important;
-}
-</style>

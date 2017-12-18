@@ -23,19 +23,13 @@ export default {
       absMouseY: 0,
       moving: false,
       resizing: false,
-      handle: null,
-      mrElements: [],
-      mainContainer: null
+      handle: null
     }
   },
-  watch: {
-    activeElements: function (val) {
-      this.mrElements = val.map(el => document.getElementById(el.id).parentElement)
-      this.moving = val.length > 0
+  computed: {
+    mrElements () {
+      return this.activeElements.map(el => document.getElementById(el.id).parentElement)
     }
-  },
-  mounted: function () {
-    this.mainContainer = document.getElementById('main')
   },
   methods: {
     keydownHandler (e) {
@@ -51,6 +45,9 @@ export default {
         this.resizing = true
         this.handle = e.target.classList[1]
         this.$emit('resizestart')
+      } else if (this.getParentMr(e.target)) {
+        this.moving = true
+        this.$emit('movestart')
       }
     },
 
@@ -187,10 +184,12 @@ export default {
     },
 
     setMousePosition (e) {
+      const mainContainer = document.getElementById('main')
+
       this.absMouseX = e.clientX
       this.absMouseY = e.clientY
-      this.relMouseX = e.pageX + this.mainContainer.scrollLeft - this.$el.offsetLeft
-      this.relMouseY = e.pageY + this.mainContainer.scrollTop - this.$el.offsetTop
+      this.relMouseX = e.pageX + mainContainer.scrollLeft - this.$el.offsetLeft
+      this.relMouseY = e.pageY + mainContainer.scrollTop - this.$el.offsetTop
     },
 
     resizeStopData () {
