@@ -30,6 +30,7 @@ export default {
   watch: {
     selectedPage: function (val) {
       this._rebaseActivePage(this.getPageIndexById(val.id))
+      // TODO: possibly rebasing activeElements as well ?
     }
   }
 }
