@@ -166,13 +166,31 @@ const actions = {
 
     commit(types.createEgglement, {parent: newParent, egglement: payload.egglement})
 
-    // Update relative position of the element
+    // Update relative position and dimensions of the element
     const relPoint = getRelativePoint(payload.page, payload.egglement.id, payload.mouseX, payload.mouseY)
 
-    const left = relPoint.left - (payload.egglement.width / 2)
-    const top = relPoint.top - (payload.egglement.height / 2)
+    let left = relPoint.left - (payload.egglement.width / 2)
+    let top = relPoint.top - (payload.egglement.height / 2)
+    let height = null
+    let width = null
 
-    commit(types.updateEgglement, {egglement: payload.egglement, left, top})
+    // Checks if position + size gets out-of-bounds, if so, reposition...
+    if ((top + payload.egglement.height) > newParent.height) {
+      top -= (top + payload.egglement.height) - newParent.height
+    }
+    if ((left + payload.egglement.width) > newParent.width) {
+      left -= (left + payload.egglement.width) - newParent.width
+    }
+
+    // Checks if position is out-of-bounds, if so reposition...
+    if (top <= 0) top = 0
+    if (left <= 0) left = 0
+
+    // Checks if, with a 0 position, the element is still out-of-bounds, if so, resize
+    if (top === 0 && (payload.egglement.height > newParent.height)) height = newParent.height
+    if (left === 0 && (payload.egglement.width > newParent.width)) width = newParent.width
+
+    commit(types.updateEgglement, {egglement: payload.egglement, left, top, height, width})
   }
 }
 
