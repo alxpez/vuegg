@@ -52,7 +52,11 @@ export default {
     },
 
     mouseUpHandler (e) {
+      // Saves the scroll position before giving focus and sets it back after focus
+      const mainContainer = document.getElementById('main')
+      let currentScroll = mainContainer.scrollTop
       this.$el.focus()
+      mainContainer.scrollTop = currentScroll
 
       if (this.resizing) this.$emit('resizestop', this.resizeStopData())
       else if (this.moving) this.$emit('movestop', this.moveStopData())
