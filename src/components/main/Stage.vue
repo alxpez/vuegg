@@ -1,7 +1,7 @@
 <template>
   <mr-container
     :id="page.id"
-    :style="page.styles"
+    :style="pageStyles"
     :class="[page.classes, {stage: true}]"
     :activeElements="selectedElements"
     @moving="movingHandler"
@@ -31,9 +31,19 @@ export default {
   name: 'stage',
   components: { StageEl, MrContainer },
   props: ['page'],
-  computed: mapState({
-    selectedElements: state => state ? state.app.selectedElements : []
-  }),
+  computed: {
+    pageStyles () {
+      return {
+        ...this.page.styles,
+        height: this.page.height + 'px',
+        width: this.page.width + 'px'
+      }
+    },
+
+    ...mapState({
+      selectedElements: state => state ? state.app.selectedElements : []
+    })
+  },
   methods: {
     clearSelectionHandler () {
       if (this.selectedElements.length > 0) this._clearSelectedElements()

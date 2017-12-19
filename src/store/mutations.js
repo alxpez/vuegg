@@ -87,8 +87,7 @@ const mutations = {
    * @param {object} elemIndex : Index of the element to remove
    */
   [types._removeSelectedElement]: function (state, elemIndex) {
-    console.log(elemIndex)
-    state.app.selectedElements.splice(elemIndex, 1, state.app.selectedElements)
+    state.app.selectedElements.splice(elemIndex, 1)
   },
 
   /**

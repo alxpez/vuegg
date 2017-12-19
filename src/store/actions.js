@@ -69,7 +69,9 @@ const actions = {
    * @param {string} payload.elId : Id of the element to be updated
    * @see {@link [types.deleteEgglement]}
    */
-  [types.removeElement]: function ({ commit }, payload) {
+  [types.removeElement]: function ({ commit, state }, payload) {
+    commit(types._clearSelectedElements)
+
     let parentId = payload.elId.substring(0, payload.elId.lastIndexOf('.'))
     let parent = getChildNode(payload.page, parentId)
     let eggIndex = parent.children.findIndex(egg => egg.id === payload.elId)
@@ -135,7 +137,7 @@ const actions = {
    * Changes the payoad.egglement to another family:
    * First removes the egglement from the children array of it's current (old) parent.
    * Registers the egglement with the ids of its new family and created as new child
-   * on its new parent. After this process, its position gets updated.
+   * on its new parent. After this process, its position/size gets updated.
    *
    * @param {string} payload.pageId : Id of the page where the element exist
    * @param {string} payload.elId : Id of the element to be updated

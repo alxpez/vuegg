@@ -1,6 +1,6 @@
 <script>
 import { mapState, mapMutations } from 'vuex'
-import { _clearSelectedElements, _addSelectedElement, _removeSelectedElement } from '@/store/types'
+import { _clearSelectedElements, _addSelectedElement } from '@/store/types'
 
 import MrEl from '@/components/mr-vue/MrEl'
 import StageEl from './StageEl'
@@ -89,7 +89,7 @@ export default {
       }
     },
 
-    ...mapMutations([_clearSelectedElements, _addSelectedElement, _removeSelectedElement])
+    ...mapMutations([_clearSelectedElements, _addSelectedElement])
   }
 }
 </script>

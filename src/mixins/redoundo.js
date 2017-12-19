@@ -1,6 +1,6 @@
 import cloneDeep from 'clone-deep'
 
-const MAX_HISTORY = 20
+const MAX_HISTORY = 10
 
 /**
  * Vue Mixin to control the State history and undo/redo functionality
