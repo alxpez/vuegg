@@ -96,7 +96,7 @@ const mutations = {
    * @param {string} payload.title : Project title
    */
   [types.updateProject]: function (state, payload) {
-    state.app.title = payload.title
+    state.project.title = payload.title
   },
 
   // ----- PAGE MUTATIONS ----- //
