@@ -1,12 +1,11 @@
 <template>
-  <div id="elMenu" class="list-group">
-    <a id="el" :key="elKey"
+  <div class="elMenu">
+    <div class="el" :key="elKey"
       v-for="element in elements"
       @click="registerAndSaveElement({pageId: activePage.id, el: element})"
-      class="list-group-item list-group-item-action"
     >
       {{element.name}}
-    </a>
+    </div>
   </div>
 </template>
 
@@ -38,12 +37,25 @@ export default {
 
 
 <style scoped>
-#elMenu {
+.elMenu {
   width: 100%;
   height: 100%;
+  display: grid;
+  margin: 1px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: minmax(1px, 75px);
 }
 
-#el {
+.el {
   cursor: pointer;
+  border-radius: 2px;
+  background-color: rgba(0,0,0,0);
+  padding: 1em;
+  color: black;
+  transition: all 0.15s linear;
+}
+
+.el:hover {
+  background-color: rgba(0,0,0,.15);
 }
 </style>
