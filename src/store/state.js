@@ -21,7 +21,7 @@ const state = {
       isOpen: false
     },
     selectedPage: null,
-    selectedEggs: []
+    selectedElements: []
   },
   project: newProject('Vuegg Project')
 }

@@ -66,12 +66,37 @@ const mutations = {
   },
 
   /**
+   * Resets the selectedElements aray
+   */
+  [types._clearSelectedElements]: function (state) {
+    state.app.selectedElements = []
+  },
+
+  /**
+   * Adds a new element to the selectedElements array
+   *
+   * @param {object} elem : selected element
+   */
+  [types._addSelectedElement]: function (state, elem) {
+    state.app.selectedElements.push(elem)
+  },
+
+  /**
+   * Removes an element from the selectedElements array
+   *
+   * @param {object} elemIndex : Index of the element to remove
+   */
+  [types._removeSelectedElement]: function (state, elemIndex) {
+    state.app.selectedElements.splice(elemIndex, 1)
+  },
+
+  /**
    * Updates the project data
    *
    * @param {string} payload.title : Project title
    */
   [types.updateProject]: function (state, payload) {
-    state.project.title = payload.title
+    state.app.title = payload.title
   },
 
   // ----- PAGE MUTATIONS ----- //
@@ -125,14 +150,14 @@ const mutations = {
    * Updates the passed egglement with the defined new values
    *
    * @param {object} payload.egglement : Egglement to update
-   * @param {object} payload.x : New egglement's x (left) position
-   * @param {object} payload.y : New egglement's y (top) position
+   * @param {object} payload.left : New egglement's left (left) position
+   * @param {object} payload.top : New egglement's top (top) position
    * @param {object|null} [payload.height] : New egglement's height
    * @param {object|null} [payload.width] : New egglement's width
    */
   [types.updateEgglement]: function (state, payload) {
-    payload.egglement.x = payload.x
-    payload.egglement.y = payload.y
+    payload.egglement.left = payload.left
+    payload.egglement.top = payload.top
     if (payload.height) payload.egglement.height = payload.height
     if (payload.width) payload.egglement.width = payload.width
   },

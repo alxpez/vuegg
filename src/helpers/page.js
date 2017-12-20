@@ -1,15 +1,13 @@
 import shortid from 'shortid'
 
-// TODO: width and height should come dynamically
-function newPage (name, path) {
+function newPage (name, path, height, width) {
   return {
     id: shortid.generate(),
     name: name,
     path: path,
+    width: width || 960,
+    height: height || 1000,
     styles: {
-      'width': '960px',
-      'height': '1000px',
-      'overflow': 'hidden',
       'position': 'relative',
       'margin': 'auto',
       'background-color': '#fff'

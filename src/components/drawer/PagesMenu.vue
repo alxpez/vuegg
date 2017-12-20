@@ -2,16 +2,18 @@
   <div id="pagesMenu">
     <mdc-list class="pageList">
       <div v-for="(page, pageIndex) in projectPages" :key="page.id"
-          :class="{active: (page.id === activePageId)}" @click="changeActivePage(page)"
+          :class="{active: (page.id === activePageId)}" @click="changePageIfNeeded(page)"
         >
         <mdc-list-item class="pageItem">
           <i v-if="pageIndex === 0" slot="start-detail" class="material-icons">home</i>
           <i v-else slot="start-detail" class="material-icons">insert_drive_file</i>
           <span>{{page.name}}</span>
           <span v-show="(page.id === activePageId)" slot="secondary">{{page.path}}</span>
+
           <mdc-menu-anchor slot="end-detail" v-show="(page.id === activePageId)">
             <i class="material-icons" @click="showOptsMenu(page)">more_vert</i>
-            <mdc-menu :ref="'menu-'+page.id" @select="(selected)=>onSelect(selected, pageIndex)" @cancel="onCancel">
+
+            <mdc-menu :ref="'menu-'+page.id" @select="(selected)=>onSelect(selected, pageIndex)">
               <mdc-menu-item>Rename page</mdc-menu-item>
               <mdc-menu-item>Duplicate page</mdc-menu-item>
               <mdc-menu-divider></mdc-menu-divider>
@@ -29,7 +31,7 @@
 
 <script>
 import { mapState, mapGetters, mapMutations } from 'vuex'
-import { getPageById, getPageIndexById, _changeActivePage, deletePage, _togglePageDialog } from '@/store/types'
+import { getPageById, getPageIndexById, deletePage, _changeActivePage, _togglePageDialog } from '@/store/types'
 
 export default {
   name: 'pages-menu',
@@ -38,35 +40,36 @@ export default {
     projectPages: state => state ? state.project.pages : []
   }),
   methods: {
-    changeActivePage (page) {
+    changePageIfNeeded (page) {
       if (page.id !== this.activePageId) {
         this._changeActivePage(page)
       }
     },
+
     showOptsMenu (page) {
-      this.changeActivePage(page)
+      this.changePageIfNeeded(page)
       this.$refs['menu-' + page.id][0].show()
     },
+
     onSelect (selected, pageIndex) {
+      const EDIT = 0
+      const DUPLICATE = 1
+      const DELETE = 2
+
       switch (selected.index) {
-        // Edit page
-        case 0:
+        case EDIT:
           this._togglePageDialog({isOpen: true, isNew: false})
           break
-        // Duplicate page
-        case 1:
+        case DUPLICATE:
           break
-        // Delete page
-        case 2:
+        case DELETE:
           let fallbackPage = this.projectPages[(pageIndex > 0) ? 0 : 1] || null
-          this.changeActivePage(fallbackPage)
+          this.changePageIfNeeded(fallbackPage)
           this.deletePage(pageIndex)
           break
       }
     },
-    onCancel () {
-      console.log('menu cancelled')
-    },
+
     ...mapGetters([getPageById, getPageIndexById]),
     ...mapMutations([_togglePageDialog, _changeActivePage, deletePage])
   }

@@ -31,6 +31,7 @@ const actions = {
     if (!payload.id) {
       let page = newPage(payload.name, payload.path.toLowerCase())
       commit(types.createPage, page)
+      commit(types._clearSelectedElements)
       commit(types._changeActivePage, page)
     } else {
       let pagePayload = {
@@ -53,10 +54,29 @@ const actions = {
    *
    * @see {@link [types.createEgglement]}
    */
-  [types.registerAndSaveEgglement]: function ({ getters, commit }, payload) {
+  [types.registerAndSaveElement]: function ({ getters, commit }, payload) {
     let parent = getters.getPageById(payload.pageId)
     let egglement = registerEgglement(payload.el, payload.pageId)
     commit(types.createEgglement, {parent, egglement})
+  },
+
+  /**
+   * Removes the egglement identified by payload.elId from the
+   * page (payload.pageId). Notice that the element to remove
+   * may not necessarily be a direct children of the page, but sub-(n)-children.
+   *
+   * @param {string} payload.page : The page where the element exist
+   * @param {string} payload.elId : Id of the element to be updated
+   * @see {@link [types.deleteEgglement]}
+   */
+  [types.removeElement]: function ({ commit, state }, payload) {
+    commit(types._clearSelectedElements)
+
+    let parentId = payload.elId.substring(0, payload.elId.lastIndexOf('.'))
+    let parent = getChildNode(payload.page, parentId)
+    let eggIndex = parent.children.findIndex(egg => egg.id === payload.elId)
+
+    commit(types.deleteEgglement, {parent, eggIndex})
   },
 
   /**
@@ -64,21 +84,21 @@ const actions = {
    *
    * @param {string} payload.pageId : Id of the page where the element reside
    * @param {string} payload.elId : Id of the element to be updated
-   * @param {number} payload.left : New value for the element's X prop
-   * @param {number} payload.top : New value for the element's Y prop
+   * @param {number} payload.left : New value for the element's left prop
+   * @param {number} payload.top : New value for the element's top prop
    * @param {number} payload.height : New value for the element's height
    * @param {number} payload.width : New value for the element's width
    *
    * @see {@link [types.updateEgglement]}
    */
-  [types.resizeEgglement]: function ({ getters, commit }, payload) {
+  [types.resizeElement]: function ({ getters, commit }, payload) {
     let page = getters.getPageById(payload.pageId)
     let egglement = getChildNode(page, payload.elId)
 
     commit(types.updateEgglement, {
       egglement,
-      x: payload.left,
-      y: payload.top,
+      left: payload.left,
+      top: payload.top,
       height: payload.height,
       width: payload.width
     })
@@ -93,23 +113,23 @@ const actions = {
    *
    * @param {string} payload.pageId : Id of the page where the element exits
    * @param {string} payload.elId : Id of the element to be updated
-   * @param {number} payload.left : New value for the element's X prop
-   * @param {number} payload.top : New value for the element's Y prop
-   * @param {number} payload.mouseX : Global mouse position for X axis
-   * @param {number} payload.mouseY : Global mouse position for Y axis
+   * @param {number} payload.left : New value for the element's left prop
+   * @param {number} payload.top : New value for the element's top prop
+   * @param {number} payload.mouseX : Global mouse position for left axis
+   * @param {number} payload.mouseY : Global mouse position for top axis
    * @param {string|null} [payload.parentId] : Id of the container where the element has been dropped
    *
-   * @see {@link [types.changeEgglementParent]}
+   * @see {@link [types.changeElementParent]}
    * @see {@link [types.updateEgglement]}
    */
-  [types.moveEgglement]: function ({ getters, dispatch, commit }, payload) {
+  [types.moveElement]: function ({ getters, dispatch, commit }, payload) {
     let page = getters.getPageById(payload.pageId)
     let egglement = getChildNode(page, payload.elId)
 
     if (payload.parentId) {
-      dispatch(types.changeEgglementParent, {...payload, page, egglement})
+      dispatch(types.changeElementParent, {...payload, page, egglement})
     } else {
-      commit(types.updateEgglement, {egglement, x: payload.left, y: payload.top})
+      commit(types.updateEgglement, {egglement, left: payload.left, top: payload.top})
     }
   },
 
@@ -117,21 +137,24 @@ const actions = {
    * Changes the payoad.egglement to another family:
    * First removes the egglement from the children array of it's current (old) parent.
    * Registers the egglement with the ids of its new family and created as new child
-   * on its new parent. After this process, its position gets updated.
+   * on its new parent. After this process, its position/size gets updated.
    *
    * @param {string} payload.pageId : Id of the page where the element exist
    * @param {string} payload.elId : Id of the element to be updated
-   * @param {number} payload.left : New value for the element's X prop
-   * @param {number} payload.top : New value for the element's Y prop
-   * @param {number} payload.mouseX : Global mouse position for X axis
-   * @param {number} payload.mouseY : Global mouse position for Y axis
+   * @param {number} payload.left : New value for the element's left prop
+   * @param {number} payload.top : New value for the element's top prop
+   * @param {number} payload.mouseX : Global mouse position for left axis
+   * @param {number} payload.mouseY : Global mouse position for top axis
    * @param {string} payload.parentId : Id of the container where the element has been dropped
    *
    * @see {@link [types.deleteEgglement]}
    * @see {@link [types.createEgglement]}
    * @see {@link [types.updateEgglement]}
    */
-  [types.changeEgglementParent]: function ({ getters, commit }, payload) {
+  [types.changeElementParent]: function ({ getters, commit }, payload) {
+    // To avoid reference problems (the oldSelected element will be different)
+    commit(types._clearSelectedElements)
+
     // OLD FAMILY business
     let oldParentId = payload.elId.substring(0, payload.elId.lastIndexOf('.'))
     let oldParent = getChildNode(payload.page, oldParentId)
@@ -145,19 +168,31 @@ const actions = {
 
     commit(types.createEgglement, {parent: newParent, egglement: payload.egglement})
 
-    // Update relative position of the element, minus the EggStage offset position
+    // Update relative position and dimensions of the element
     const relPoint = getRelativePoint(payload.page, payload.egglement.id, payload.mouseX, payload.mouseY)
 
-    const mainContainer = document.getElementById('main')
-    const pageEl = document.getElementById(payload.pageId)
+    let left = relPoint.left - (payload.egglement.width / 2)
+    let top = relPoint.top - (payload.egglement.height / 2)
+    let height = null
+    let width = null
 
-    const offsetX = mainContainer.scrollLeft - pageEl.offsetLeft
-    const offsetY = mainContainer.scrollTop - pageEl.offsetTop
+    // Checks if position + size gets out-of-bounds, if so, reposition...
+    if ((top + payload.egglement.height) > newParent.height) {
+      top -= (top + payload.egglement.height) - newParent.height
+    }
+    if ((left + payload.egglement.width) > newParent.width) {
+      left -= (left + payload.egglement.width) - newParent.width
+    }
 
-    const x = relPoint.x + offsetX - (payload.egglement.width / 2)
-    const y = relPoint.y + offsetY - (payload.egglement.height / 2)
+    // Checks if position is out-of-bounds, if so reposition...
+    if (top <= 0) top = 0
+    if (left <= 0) left = 0
 
-    commit(types.updateEgglement, {egglement: payload.egglement, x, y})
+    // Checks if, with a 0 position, the element is still out-of-bounds, if so, resize
+    if (top === 0 && (payload.egglement.height > newParent.height)) height = newParent.height
+    if (left === 0 && (payload.egglement.width > newParent.width)) width = newParent.width
+
+    commit(types.updateEgglement, {egglement: payload.egglement, left, top, height, width})
   }
 }
 
@@ -207,21 +242,21 @@ function getChildNode (currentNode, targetId) {
 /**
  * Returns the element (identified by targetId) position,
  * relative to its parent (and full family depth) position
- * and the current X/Y position.
+ * and the current left/top position.
  *
  * @param {object} currentNode : The element being inspected
  * @param {string} targetId : The id of the element expected
- * @param {number} currentX : Current relative X position
- * @param {number} currentY : Current relative Y position
+ * @param {number} currentX : Current relative left position
+ * @param {number} currentY : Current relative top position
  *
  * @return {object} : Relative point obtained from the currentX, currentY
  */
 function getRelativePoint (currentNode, targetId, currentX, currentY) {
-  if (currentNode.id === targetId) return {x: currentX, y: currentY}
+  if (currentNode.id === targetId) return {left: currentX, top: currentY}
 
-  if (currentNode.x && currentNode.y) {
-    currentX -= currentNode.x
-    currentY -= currentNode.y
+  if (currentNode.left && currentNode.top) {
+    currentX -= currentNode.left
+    currentY -= currentNode.top
   }
   for (let child of currentNode.children) {
     if (targetId.indexOf(child.id) !== -1) {
