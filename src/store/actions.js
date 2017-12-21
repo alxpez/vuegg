@@ -54,7 +54,7 @@ const actions = {
    *
    * @see {@link [types.createEgglement]}
    */
-  [types.registerAndSaveElement]: function ({ getters, commit }, payload) {
+  [types.registerElement]: function ({ getters, commit }, payload) {
     let parent = getters.getPageById(payload.pageId)
     let egglement = registerEgglement(payload.el, payload.pageId)
     commit(types.createEgglement, {parent, egglement})

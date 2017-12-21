@@ -26,19 +26,17 @@ export default {
     }),
     ...mapGetters([getPageIndexById])
   },
-  methods: mapMutations([_changeActivePage, _rebaseActivePage]),
   watch: {
     selectedPage: function (val) {
       this._rebaseActivePage(this.getPageIndexById(val.id))
-      // TODO: possibly rebasing activeElements as well ?
     }
-  }
+  },
+  methods: mapMutations([_changeActivePage, _rebaseActivePage])
 }
 </script>
 
 <style scoped>
 .mainegg {
-  /* display: inline-flex; */
   margin: 10px 15px 35px;
 }
 </style>

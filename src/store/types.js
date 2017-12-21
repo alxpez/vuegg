@@ -7,7 +7,7 @@ export const nameInUse = 'nameInUse'
 
 // ACTIONS
 export const savePageAndClose = 'savePageAndClose'
-export const registerAndSaveElement = 'registerAndSaveElement'
+export const registerElement = 'registerElement'
 export const resizeElement = 'resizeElement'
 export const moveElement = 'moveElement'
 export const changeElementParent = 'changeElementParent'
@@ -40,7 +40,7 @@ const types = {
   nameInUse,
   // ACTIONS
   savePageAndClose,
-  registerAndSaveElement,
+  registerElement,
   resizeElement,
   moveElement,
   changeElementParent,
