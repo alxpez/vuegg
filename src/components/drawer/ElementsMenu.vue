@@ -2,7 +2,9 @@
   <div class="elMenu">
     <div class="el" :key="elKey"
       v-for="element in elements"
-      @click="registerAndSaveElement({pageId: activePage.id, el: element})"
+      draggable="true"
+      @dragstart="e => dragstartHandler(e, element)"
+      @click="registerElement({pageId: activePage.id, el: element})"
     >
       {{element.name}}
     </div>
@@ -13,12 +15,11 @@
 <script>
 import shortid from 'shortid'
 import { mapState, mapActions } from 'vuex'
-import { registerAndSaveElement } from '@/store/types'
+import { registerElement } from '@/store/types'
 import MockData from '@/assets/mockdata'
 
 export default {
   name: 'elements-menu',
-  methods: mapActions([registerAndSaveElement]),
   data: function () {
     return {
       elements: MockData.elements
@@ -31,6 +32,15 @@ export default {
     ...mapState({
       activePage: state => state.app.selectedPage
     })
+  },
+  methods: {
+    dragstartHandler (e, element) {
+      e.dataTransfer.dropEffect = 'copy'
+      e.dataTransfer.effectAllowed = 'all'
+      e.dataTransfer.setData('text/plain', JSON.stringify(element))
+    },
+
+    ...mapActions([registerElement])
   }
 }
 </script>

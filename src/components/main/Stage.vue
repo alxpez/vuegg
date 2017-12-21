@@ -8,7 +8,9 @@
     @movestop="moveStopHandler"
     @resizestop="resizeStopHandler"
     @removeselection="removeSelectionHandler"
-    @clearselection="clearSelectionHandler">
+    @clearselection="clearSelectionHandler"
+    @drop="dropHandler"
+  >
 
     <stage-el
       v-for="element in page.children"
@@ -22,7 +24,7 @@
 
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
-import { _clearSelectedElements, removeElement, resizeElement, moveElement } from '@/store/types'
+import { _clearSelectedElements, registerElement, removeElement, resizeElement, moveElement } from '@/store/types'
 
 import MrContainer from '@/components/mr-vue/MrContainer'
 import StageEl from './StageEl'
@@ -134,7 +136,7 @@ export default {
         : document.documentElement.classList.remove('droppable')
     },
 
-    ...mapActions([removeElement, resizeElement, moveElement]),
+    ...mapActions([registerElement, removeElement, resizeElement, moveElement]),
     ...mapMutations([_clearSelectedElements])
   }
 }

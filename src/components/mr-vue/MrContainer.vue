@@ -5,6 +5,8 @@
     @mouseout.stop.prevent="mouseOutHandler"
     @mouseup.stop.prevent="mouseUpHandler"
     @keydown.delete.stop.prevent="keydownHandler"
+    @drop="e => $emit('drop', e)"
+    @dragover.prevent
   >
     <slot></slot>
   </div>
