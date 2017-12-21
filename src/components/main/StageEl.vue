@@ -12,7 +12,7 @@ export default {
   render: function (createElement) {
     let stageElem
 
-    const plainElStyle = {
+    const plainEggStyle = {
       position: 'absolute',
       left: this.elem.left + 'px',
       top: this.elem.top + 'px',
@@ -22,7 +22,7 @@ export default {
 
     const data = {
       'class': this.elem.classes,
-      'style': this.isPlain ? {...plainElStyle, ...this.elem.styles} : this.elem.styles,
+      'style': (this.isPlain && this.elem.egglement) ? {...plainEggStyle, ...this.elem.styles} : this.elem.styles,
       'attrs': {
         id: this.elem.id,
         egglement: this.elem.egglement,
