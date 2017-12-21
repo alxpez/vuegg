@@ -6,6 +6,8 @@ import store from './store/'
 
 import redoundo from './mixins/redoundo'
 
+import VueSVGIcon from 'vue-svgicon'
+
 import VueMDCAdapter from 'vue-mdc-adapter'
 import 'vue-mdc-adapter/dist/vue-mdc-adapter.css'
 
@@ -17,6 +19,7 @@ import 'dialog-polyfill/dialog-polyfill.css'
 // Get rid of these ones
 
 Vue.use(redoundo)
+Vue.use(VueSVGIcon)
 Vue.use(VueMDCAdapter)
 
 Vue.config.productionTip = false
