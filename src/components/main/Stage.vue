@@ -45,6 +45,36 @@ export default {
     })
   },
   methods: {
+    // TODO: Extract positioning/resizing logic in one place (helper or something)
+    dropHandler (e) {
+      const mainContainer = document.getElementById('main')
+      let element = JSON.parse(e.dataTransfer.getData('text/plain'))
+
+      let height = element.height || element.minHeight || 40
+      let width = element.width || element.minWidth || 100
+      let top = e.pageY + mainContainer.scrollTop - this.$el.offsetTop - (height / 2)
+      let left = e.pageX + mainContainer.scrollLeft - this.$el.offsetLeft - (width / 2)
+
+      // Checks if position + size gets out-of-bounds, if so, reposition...
+      if ((top + element.height) > this.page.height) {
+        top -= (top + element.height) - this.page.height
+      }
+      if ((left + element.width) > this.page.width) {
+        left -= (left + element.width) - this.page.width
+      }
+
+      // Checks if position is out-of-bounds, if so reposition...
+      if (top <= 0) top = 0
+      if (left <= 0) left = 0
+
+      // Checks if, with a 0 position, the element is still out-of-bounds, if so, resize
+      if (top === 0 && (element.height > this.page.height)) height = this.page.height
+      if (left === 0 && (element.width > this.page.width)) width = this.page.width
+
+      element = {...element, top, left, height, width}
+      this.registerElement({pageId: this.page.id, el: element})
+    },
+
     clearSelectionHandler () {
       if (this.selectedElements.length > 0) this._clearSelectedElements()
     },

@@ -18,17 +18,19 @@ export default {
       default: false
     },
     width: {
-      type: Number,
+      type: [String, Number],
       default: 100,
       validator: function (val) {
-        return val > 0
+        let valid = (typeof val === 'string') ? val.indexOf('%') : val >= 0
+        return valid
       }
     },
     height: {
-      type: Number,
+      type: [String, Number],
       default: 100,
       validator: function (val) {
-        return val > 0
+        let valid = (typeof val === 'string') ? val.indexOf('%') : val >= 0
+        return valid
       }
     },
     minWidth: {
@@ -79,8 +81,8 @@ export default {
       return {
         top: this.top + 'px',
         left: this.left + 'px',
-        width: this.width + 'px',
-        height: this.height + 'px',
+        width: (typeof this.width === 'string') ? this.width : (this.width + 'px'),
+        height: (typeof this.height === 'string') ? this.height : (this.height + 'px'),
         minWidth: this.minWidth + 'px',
         minHeight: this.minHeight + 'px',
         zIndex: this.zIndex

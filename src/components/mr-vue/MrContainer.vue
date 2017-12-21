@@ -90,45 +90,55 @@ export default {
     },
 
     resizeElementBy (el, offX, offY) {
-      let newHeight = null
-      let newWidth = null
-      let newTop = null
-      let newLeft = null
+      const parent = this.getParentMr(el)
+
+      let newHeight = this.calculateHeight(el, parent)
+      let newWidth = this.calculateWidth(el, parent)
+      let newTop = el.offsetTop
+      let newLeft = el.offsetLeft
 
       switch (this.handle) {
         case 'tl':
-          newHeight = parseInt(el.style.height) - offY
-          newWidth = parseInt(el.style.width) - offX
-          newTop = el.offsetTop + offY
-          newLeft = el.offsetLeft + offX
+          newHeight -= offY
+          newWidth -= offX
+          newTop += offY
+          newLeft += offX
           break
         case 'mt':
-          newHeight = parseInt(el.style.height) - offY
-          newTop = el.offsetTop + offY
+          newHeight -= offY
+          newTop += offY
+          newLeft = newWidth = null
           break
         case 'tr':
-          newHeight = parseInt(el.style.height) - offY
-          newWidth = parseInt(el.style.width) + offX
-          newTop = el.offsetTop + offY
+          newHeight -= offY
+          newWidth += offX
+          newTop += offY
+          newLeft = null
           break
         case 'mr':
-          newWidth = parseInt(el.style.width) + offX
+          newHeight
+          newWidth += offX
+          newHeight = newTop = newLeft = null
           break
         case 'br':
-          newHeight = parseInt(el.style.height) + offY
-          newWidth = parseInt(el.style.width) + offX
+          newHeight += offY
+          newWidth += offX
+          newTop = newLeft = null
           break
         case 'mb':
-          newHeight = parseInt(el.style.height) + offY
+          newHeight += offY
+          newWidth = newTop = newLeft = null
           break
         case 'bl':
-          newHeight = parseInt(el.style.height) + offY
-          newWidth = parseInt(el.style.width) - offX
-          newLeft = el.offsetLeft + offX
+          newHeight += offY
+          newWidth -= offX
+          newLeft += offX
+          newTop = null
           break
         case 'ml':
-          newWidth = parseInt(el.style.width) - offX
-          newLeft = el.offsetLeft + offX
+          newWidth -= offX
+          newLeft += offX
+          newHeight = newTop = null
           break
       }
 
@@ -156,10 +166,10 @@ export default {
 
       switch (property) {
         case 'top':
-          isOk = ((val >= 0) && (val + parseInt(el.style.height) <= parseInt(parent.style.height)))
+          isOk = ((val >= 0) && (val + this.calculateHeight(el, parent) <= parseInt(parent.style.height)))
           break
         case 'left':
-          isOk = ((val >= 0) && (val + parseInt(el.style.width) <= parseInt(parent.style.width)))
+          isOk = ((val >= 0) && (val + this.calculateWidth(el, parent) <= parseInt(parent.style.width)))
           break
         case 'height':
           isOk = ((val <= parseInt(parent.style.height)) && (val >= parseInt(el.style.minHeight)) &&
@@ -187,6 +197,18 @@ export default {
       return parentMr
     },
 
+    calculateHeight (el, parent) {
+      return (el.style.height.indexOf('%') !== -1)
+        ? (parseInt(parent.style.height) * (parseInt(el.style.height.replace('%', '')) / 100))
+        : parseInt(el.style.height)
+    },
+
+    calculateWidth (el, parent) {
+      return (el.style.width.indexOf('%') !== -1)
+        ? (parseInt(parent.style.width) * (parseInt(el.style.width.replace('%', '')) / 100))
+        : parseInt(el.style.width)
+    },
+
     setMousePosition (e) {
       const mainContainer = document.getElementById('main')
 
@@ -202,8 +224,8 @@ export default {
           elId: el.childNodes[0].id,
           top: el.offsetTop,
           left: el.offsetLeft,
-          height: parseInt(el.style.height),
-          width: parseInt(el.style.width)
+          height: (el.style.height.indexOf('%') !== -1) ? el.style.height : parseInt(el.style.height),
+          width: (el.style.width.indexOf('%') !== -1) ? el.style.width : parseInt(el.style.width)
         }
       })
     },

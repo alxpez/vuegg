@@ -40,7 +40,7 @@ const MockData = {
       'type': 'button',
       'text': 'Button',
       'egglement': true,
-      'width': 200,
+      'width': '50%',
       'minWidth': 32,
       'height': 40,
       'minHeight': 32,
@@ -51,10 +51,67 @@ const MockData = {
   ],
   'components': [
     {
+      'name': 'MDC-Toolbar',
+      'type': 'mdc-toolbar',
+      'componegg': true,
+      'height': 64,
+      'width': '100%',
+      'classes': {},
+      'children': [
+        {
+          'type': 'mdc-toolbar-row',
+          'attrs': {},
+          'styles': {},
+          'classes': {},
+          'children': [
+            {
+              'type': 'mdc-toolbar-section',
+              'attrs': {
+                'align-start': true
+              },
+              'styles': {},
+              'classes': {},
+              'children': [
+                {
+                  'type': 'mdc-toolbar-menu-icon',
+                  'attrs': {},
+                  'styles': {},
+                  'classes': {}
+                }, {
+                  'type': 'mdc-toolbar-title',
+                  'text': 'Sweet mother of fuck',
+                  'attrs': {},
+                  'styles': {},
+                  'classes': {}
+                }
+              ]
+            }, {
+              'type': 'mdc-toolbar-section',
+              'attrs': {
+                'align-end': true
+              },
+              'styles': {},
+              'classes': {},
+              'children': [
+                {
+                  'type': 'mdc-toolbar-icon',
+                  'attrs': {
+                    'icon': 'help'
+                  },
+                  'styles': {},
+                  'classes': {}
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       'name': 'Comp1',
       'type': 'div',
       'egglement': true,
-      'componegg': false,
+      'componegg': true,
       'containegg': true,
       'width': 400,
       'height': 300,
