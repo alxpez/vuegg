@@ -22,7 +22,44 @@
     <title>vuegg</title>
   </head>
   <body>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
+    <div id="app">
+      <!-- This content will be replaced, once the Root Vue app is loaded -->
+      <style>
+        @keyframes fadeIn {
+          0%   {opacity: 0;}
+          75%  {opacity: 0;}
+          100% {opacity: 1;}
+        }
+
+        html, body, body div {
+          font-family: Helvetica, Arial, sans-serif;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          height: 100%;
+          width: 100%;
+        }
+
+        .loader-wrapper {
+          padding-top: 15%;
+        }
+
+        .loader-wrapper * {
+          display: block;
+          margin: auto;
+          animation: fadeIn 5500ms;
+        }
+
+        h1 {
+          text-align: center;
+          padding-top: 50px;
+          font-size: 2em;
+          color: #333;
+        }
+      </style>
+      <div class="loader-wrapper">
+        <img src="/static/vuegg-fam.svg" height="280"/>
+        <h1>vuegg</h1>
+      </div>
+    </div>
   </body>
 </html>
