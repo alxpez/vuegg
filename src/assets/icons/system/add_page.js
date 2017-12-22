@@ -2,7 +2,7 @@
 
 var icon = require('vue-svgicon')
 icon.register({
-  'add_page': {
+  'system/add_page': {
     width: 24,
     height: 24,
     viewBox: '0 0 24 24',

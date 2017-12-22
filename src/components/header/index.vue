@@ -1,7 +1,7 @@
 <template>
   <div id="headegg" class="mdl-layout__header-row">
     <button id="homeBtn">
-      <svgicon icon="vuegg" width="40" height="40" :original="true"></svgicon>
+      <svgicon icon="product/vuegg" width="40" height="40" :original="true"></svgicon>
     </button>
     <div id="inputTitle" class="mdl-textfield mdl-js-textfield">
       <input class="mdl-textfield__input" type="text" id="pTitle" v-model="tmpProjectTitle" @blur="onTitleBlur">
@@ -34,7 +34,7 @@
 import { mapState, mapMutations } from 'vuex'
 import { _toggleSidebar, updateProject } from '@/store/types'
 
-import '@/assets/icons/vuegg'
+import '@/assets/icons/product/vuegg'
 
 import * as download from 'downloadjs'
 import axios from 'axios'
