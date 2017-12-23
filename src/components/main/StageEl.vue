@@ -16,8 +16,8 @@ export default {
       position: 'absolute',
       left: this.elem.left + 'px',
       top: this.elem.top + 'px',
-      width: (this.elem.width === '100%') ? this.elem.width : (this.elem.width + 'px'),
-      height: (this.elem.height === '100%') ? this.elem.height : (this.elem.height + 'px')
+      width: (typeof this.elem.width === 'string') ? this.elem.width : (this.elem.width + 'px'),
+      height: (typeof this.elem.height === 'string') ? this.elem.height : (this.elem.height + 'px')
     }
 
     const data = {
