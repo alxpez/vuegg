@@ -1,8 +1,7 @@
 <template>
   <div id="headegg" class="mdl-layout__header-row">
-    <button id="homeBtn" class="mdl-button mdl-js-button mdl-button--icon">
-      <!-- Subtitue for vuegg logo -->
-      <i class="material-icons">cloud_circle</i>
+    <button id="homeBtn">
+      <svgicon icon="product/vuegg" width="40" height="40" :original="true"></svgicon>
     </button>
     <div id="inputTitle" class="mdl-textfield mdl-js-textfield">
       <input class="mdl-textfield__input" type="text" id="pTitle" v-model="tmpProjectTitle" @blur="onTitleBlur">
@@ -30,9 +29,12 @@
   </div>
 </template>
 
+
 <script>
 import { mapState, mapMutations } from 'vuex'
 import { _toggleSidebar, updateProject } from '@/store/types'
+
+import '@/assets/icons/product/vuegg'
 
 import * as download from 'downloadjs'
 import axios from 'axios'
@@ -97,6 +99,11 @@ export default {
 
 #homeBtn {
   margin-right: 25px;
+  border: none;
+  border-radius: 100px;
+  padding: 0;
+  background-color: transparent;
+  outline: none;
 }
 
 #inputTitle {

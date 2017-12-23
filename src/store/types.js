@@ -7,10 +7,11 @@ export const nameInUse = 'nameInUse'
 
 // ACTIONS
 export const savePageAndClose = 'savePageAndClose'
-export const registerAndSaveEgglement = 'registerAndSaveEgglement'
-export const resizeEgglement = 'resizeEgglement'
-export const moveEgglement = 'moveEgglement'
-export const changeEgglementParent = 'changeEgglementParent'
+export const registerElement = 'registerElement'
+export const resizeElement = 'resizeElement'
+export const moveElement = 'moveElement'
+export const changeElementParent = 'changeElementParent'
+export const removeElement = 'removeElement'
 
 // MUTATIONS
 export const _toggleSidebar = '_toggleSidebar'
@@ -18,6 +19,9 @@ export const _toggleMiniSidebar = '_toggleMiniSidebar'
 export const _togglePageDialog = '_togglePageDialog'
 export const _changeActivePage = '_changeActivePage'
 export const _rebaseActivePage = '_rebaseActivePage'
+export const _clearSelectedElements = '_clearSelectedElements'
+export const _addSelectedElement = '_addSelectedElement'
+export const _removeSelectedElement = '_removeSelectedElement'
 
 export const updateProject = 'updateProject'
 export const createPage = 'createPage'
@@ -36,16 +40,20 @@ const types = {
   nameInUse,
   // ACTIONS
   savePageAndClose,
-  registerAndSaveEgglement,
-  resizeEgglement,
-  moveEgglement,
-  changeEgglementParent,
+  registerElement,
+  resizeElement,
+  moveElement,
+  changeElementParent,
+  removeElement,
   // MUTATIONS
   _toggleSidebar,
   _toggleMiniSidebar,
   _togglePageDialog,
   _changeActivePage,
   _rebaseActivePage,
+  _clearSelectedElements,
+  _addSelectedElement,
+  _removeSelectedElement,
 
   updateProject,
   createPage,

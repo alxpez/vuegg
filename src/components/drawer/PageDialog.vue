@@ -39,10 +39,12 @@ export default {
     dialogTitle () {
       return this.pageDialog.isNew ? 'Add a new page' : 'Editing: ' + this.activePage.name
     },
+
     ...mapState({
       activePage: state => state.app.selectedPage,
       pageDialog: state => state ? state.app.pageDialog : {isNew: true, isOpen: false}
     }),
+
     ...mapGetters([pathInUse, nameInUse])
   },
   methods: {
@@ -56,9 +58,9 @@ export default {
       } else {
         this.nameError = ''
       }
-
       this.valid = (this.name && !this.nameError && this.path && !this.pathError)
     },
+
     checkPath () {
       if (!this.pageDialog.isNew && (this.path === this.activePage.path)) {
         this.pathError = ''
@@ -73,9 +75,9 @@ export default {
       } else {
         this.pathError = ''
       }
-
       this.valid = (this.name && !this.nameError && this.path && !this.pathError)
     },
+
     resetDialog () {
       this.valid = false
       this.id = null
@@ -84,11 +86,13 @@ export default {
       this.path = ''
       this.pathError = ''
     },
+
     setEditDialog (activePage) {
       this.id = activePage.id
       this.name = activePage.name
       this.path = activePage.path
     },
+
     ...mapActions([savePageAndClose]),
     ...mapMutations([_togglePageDialog])
   },

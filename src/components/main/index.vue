@@ -1,6 +1,6 @@
 <template>
-  <div id="mainegg">
-    <egg-stage v-if="selectedPage"></egg-stage>
+  <div class="mainegg">
+    <stage v-if="selectedPage" :page="selectedPage"></stage>
   </div>
 </template>
 
@@ -8,11 +8,12 @@
 <script>
 import { mapState, mapGetters, mapMutations } from 'vuex'
 import { _changeActivePage, _rebaseActivePage, getPageIndexById } from '@/store/types'
-import EggStage from './EggStage'
+
+import Stage from './Stage'
 
 export default {
   name: 'mainegg',
-  components: { EggStage },
+  components: { Stage },
   created: function () {
     if (!this.selectedPage && this.pages.length) {
       this._changeActivePage(this.pages[0])
@@ -25,17 +26,17 @@ export default {
     }),
     ...mapGetters([getPageIndexById])
   },
-  methods: mapMutations([_changeActivePage, _rebaseActivePage]),
   watch: {
     selectedPage: function (val) {
       this._rebaseActivePage(this.getPageIndexById(val.id))
     }
-  }
+  },
+  methods: mapMutations([_changeActivePage, _rebaseActivePage])
 }
 </script>
 
-
 <style scoped>
-#mainegg {
+.mainegg {
+  margin: 10px 15px 35px;
 }
 </style>

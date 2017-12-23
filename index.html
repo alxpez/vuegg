@@ -3,12 +3,120 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>vuegg</title>
+
+    <!-- global stylesheets -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+
+    <!-- fav config -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png?v=0">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png?v=0">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png?v=0">
+    <link rel="manifest" href="/static/manifest.json?v=0">
+    <link rel="mask-icon" href="/static/safari-pinned-tab.svg?v=0" color="#2b6a73">
+    <link rel="shortcut icon" href="/static/favicon.ico?v=0">
+    <meta name="apple-mobile-web-app-title" content="vuegg">
+    <meta name="application-name" content="vuegg">
+    <meta name="theme-color" content="#ffffff">
+
+    <title>vuegg</title>
   </head>
   <body>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
+    <div id="app">
+      <!-- This content will be replaced, once the Root Vue app is loaded -->
+      <style>
+      .progress {
+        position: relative;
+        height: 3px;
+        display: block;
+        width: 100%;
+        background-color: #ffa901;
+        border-radius: 2px;
+        background-clip: padding-box;
+        /* margin: 0.5rem 0 1rem 0; */
+        overflow: hidden;
+      }
+      .progress .indeterminate {
+        background-color: #ea493f;
+      }
+      .progress .indeterminate:before {
+        content: '';
+        position: absolute;
+        background-color: inherit;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        will-change: left, right;
+        -webkit-animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+        -moz-animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+        animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+      }
+      .progress .indeterminate:after {
+        content: '';
+        position: absolute;
+        background-color: inherit;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        will-change: left, right;
+        -webkit-animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+        -moz-animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+        animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+        -webkit-animation-delay: 1.15s;
+        -moz-animation-delay: 1.15s;
+        animation-delay: 1.15s;
+      }
+
+      @keyframes indeterminate {
+        0% { left: -35%; right: 100%; }
+        60% { left: 100%; right: -90%; }
+        100% { left: 100%; right: -90%; }
+      }
+      @keyframes indeterminate-short {
+        0% { left: -200%; right: 100%; }
+        60% { left: 107%; right: -8%; }
+        100% { left: 107%; right: -8%; }
+      }
+
+      html, body, body .loader-wrapper {
+        font-family: Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        height: 100%;
+        width: 100%;
+      }
+
+      h1 {
+        text-align: center;
+        padding-top: 50px;
+        font-size: 2em;
+        color: #333;
+      }
+
+      .loader-wrapper {
+        padding-top: 15%;
+      }
+
+      .loader-wrapper * {
+        display: block;
+        margin: auto;
+        animation: fadeIn 5500ms;
+      }
+
+      @keyframes fadeIn {
+        0% { opacity: 0; }
+        75% { opacity: 0; }
+        100% { opacity: 1; }
+      }
+      </style>
+      <div class="progress">
+        <div class="indeterminate"></div>
+      </div>
+      <div class="loader-wrapper">
+        <img src="/static/vuegg-fam.svg" height="280"/>
+        <h1>vuegg</h1>
+      </div>
+      <!-- This content will be replaced, once the Root Vue app is loaded -->
+    </div>
   </body>
 </html>

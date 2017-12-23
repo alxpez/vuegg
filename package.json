@@ -5,6 +5,7 @@
   "author": "alxpez",
   "private": true,
   "scripts": {
+    "svg-icon": "vsvg -s src/assets/svgs -t src/assets/icons",
     "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",
     "build": "node build/build.js",
@@ -85,6 +86,7 @@
     "url-loader": "^0.5.8",
     "vue-loader": "^13.5.0",
     "vue-style-loader": "^3.0.3",
+    "vue-svgicon": "^2.1.1",
     "vue-template-compiler": "^2.5.9",
     "webpack": "^2.6.1",
     "webpack-bundle-analyzer": "^2.9.1",

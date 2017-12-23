@@ -1,152 +1,234 @@
 const MockData = {
   'elements': [
     {
-      'name': 'Div',
+      'name': 'div',
       'type': 'div',
-      'egg': true,
-      'classes': [
-        {
-          'containegg': true
-        }
-      ],
+      'egglement': true,
+      'containegg': true,
+      'width': 300,
+      'height': 300,
+      'classes': {},
+      'styles': {
+        'border': '1px solid rgba(0, 0, 0, 0.15)'
+      },
       'children': []
     }, {
-      'name': 'Link',
+      'name': 'text',
+      'type': 'span',
+      'text': 'random sample text',
+      'egglement': true,
+      'width': 150,
+      'height': 32,
+      'attrs': {},
+      'styles': {},
+      'classes': {}
+    }, {
+      'name': 'link',
       'type': 'a',
       'text': 'Link',
-      'egg': true,
+      'egglement': true,
       'width': 200,
       'minWidth': 32,
       'height': 40,
       'minHeight': 32,
-      'props': {},
-      'styles': {},
-      'classes': []
+      'attrs': {
+        'href': '#'
+      },
+      'styles': {
+        'text-align': 'center'
+      },
+      'classes': {}
     }, {
-      'name': 'Input',
+      'name': 'button',
+      'type': 'button',
+      'text': 'Button',
+      'egglement': true,
+      'width': 200,
+      'minWidth': 32,
+      'height': 40,
+      'minHeight': 32,
+      'attrs': {},
+      'styles': {},
+      'classes': {}
+    }, {
+      'name': 'input',
       'type': 'input',
-      'egg': true,
+      'egglement': true,
       'width': 300,
       'minWidth': 32,
       'height': 40,
       'minHeight': 32,
-      'props': {
+      'attrs': {
         'placeholder': 'Input prompt'
       },
       'styles': {},
-      'classes': []
+      'classes': {}
     }, {
-      'name': 'Button',
-      'type': 'button',
-      'text': 'Button',
-      'egg': true,
+      'name': 'radio',
+      'type': 'input',
+      'egglement': true,
+      'width': 40,
+      'minWidth': 32,
+      'height': 40,
+      'minHeight': 32,
+      'attrs': {
+        'type': 'radio',
+        'name': 'default-group'
+      },
+      'styles': {},
+      'classes': {}
+    }, {
+      'name': 'checkbox',
+      'type': 'input',
+      'egglement': true,
+      'width': 40,
+      'minWidth': 32,
+      'height': 40,
+      'minHeight': 32,
+      'attrs': {
+        'type': 'checkbox'
+      },
+      'styles': {},
+      'classes': {}
+    }, {
+      'name': 'date',
+      'type': 'input',
+      'egglement': true,
       'width': 200,
       'minWidth': 32,
       'height': 40,
       'minHeight': 32,
-      'props': {},
+      'attrs': {
+        'type': 'date'
+      },
       'styles': {},
-      'classes': []
+      'classes': {}
+    }, {
+      'name': 'image',
+      'type': 'img',
+      'egglement': true,
+      'width': 50,
+      'minWidth': 32,
+      'height': 44.44,
+      'minHeight': 32,
+      'attrs': {
+        'src': '/static/vuegg-fam.svg'
+      },
+      'styles': {},
+      'classes': {}
+    }, {
+      'name': 'color',
+      'type': 'input',
+      'egglement': true,
+      'width': 25,
+      'minWidth': 20,
+      'height': 25,
+      'minHeight': 20,
+      'attrs': {
+        'type': 'color'
+      },
+      'styles': {},
+      'classes': {}
     }
   ],
   'components': [
     {
-      'name': 'Comp1',
-      'type': 'div',
-      'egg': true,
+      'name': 'MDC Toolbar',
+      'type': 'mdc-toolbar',
       'componegg': true,
-      'width': 400,
-      'height': 300,
-      'classes': [
-        {
-          'containegg': true
-        }
-      ],
+      'height': 64,
+      'width': '100%',
+      'classes': {},
       'children': [
         {
-          'type': 'button',
-          'text': 'Un boton cualquiera',
-          'egg': true,
-          'x': 50,
-          'y': 100,
-          'width': 200,
-          'minWidth': 32,
-          'height': 40,
-          'minHeight': 32,
-          'props': {},
+          'type': 'mdc-toolbar-row',
+          'attrs': {},
           'styles': {},
-          'classes': []
+          'classes': {},
+          'children': [
+            {
+              'type': 'mdc-toolbar-section',
+              'attrs': {
+                'align-start': true
+              },
+              'styles': {},
+              'classes': {},
+              'children': [
+                {
+                  'type': 'mdc-toolbar-menu-icon',
+                  'attrs': {},
+                  'styles': {},
+                  'classes': {}
+                }, {
+                  'type': 'mdc-toolbar-title',
+                  'text': 'Sweet mother of fuck',
+                  'attrs': {},
+                  'styles': {},
+                  'classes': {}
+                }
+              ]
+            }, {
+              'type': 'mdc-toolbar-section',
+              'attrs': {
+                'align-end': true
+              },
+              'styles': {},
+              'classes': {},
+              'children': [
+                {
+                  'type': 'mdc-toolbar-icon',
+                  'attrs': {
+                    'icon': 'help'
+                  },
+                  'styles': {},
+                  'classes': {}
+                }
+              ]
+            }
+          ]
         }
       ]
-    }, {
-      'name': 'CompComp',
+    },
+    {
+      'name': 'Search Box',
       'type': 'div',
-      'egg': true,
+      'egglement': true,
       'componegg': true,
-      'width': 500,
-      'height': 400,
-      'styles': {
-        'border-style': 'dashed',
-        'background-color': 'blue'
-      },
-      'classes': [
-        {
-          'containegg': true
-        }
-      ],
+      'containegg': true,
+      'width': 400,
+      'height': 40,
+      'classes': {},
       'children': [
         {
           'type': 'input',
-          'egg': true,
-          'x': 10,
-          'y': 20,
-          'width': 150,
+          'egglement': true,
+          'width': '65%',
           'minWidth': 32,
-          'height': 40,
+          'height': '100%',
           'minHeight': 32,
-          'props': {
-            'placeholder': 'Input prompt'
+          'attrs': {
+            'placeholder': 'Type your search...'
           },
           'styles': {
-            'border-style': 'inset',
-            'background-color': 'white',
-            'color': 'initial'
+            'padding': 0,
+            'border': 0,
+            'border-bottom': '1px solid #eee',
+            'background-color': 'transparent'
           },
-          'classes': []
+          'classes': {}
         }, {
-          'name': 'Comp1',
-          'type': 'div',
-          'egg': true,
-          'componegg': true,
-          'x': 20,
-          'y': 60,
-          'width': 300,
-          'height': 100,
-          'classes': [
-            {
-              'containegg': true
-            }
-          ],
-          'children': [
-            {
-              'type': 'button',
-              'text': 'Un boton cualquiera',
-              'egg': true,
-              'x': 50,
-              'y': 50,
-              'width': 55,
-              'minWidth': 32,
-              'height': 40,
-              'minHeight': 32,
-              'props': {},
-              'styles': {
-                'border-style': 'solid',
-                'background-color': 'green',
-                'color': 'black'
-              },
-              'classes': []
-            }
-          ]
+          'type': 'button',
+          'text': 'Search',
+          'egglement': true,
+          'width': '30%',
+          'minWidth': 32,
+          'height': '100%',
+          'minHeight': 32,
+          'attrs': {},
+          'styles': {
+            'right': 0
+          },
+          'classes': {}
         }
       ]
     }

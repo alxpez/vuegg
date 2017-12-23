@@ -15,10 +15,9 @@
 
         <div class="mdl-tabs__panel is-active" id="elements">
           <ElementsMenu></ElementsMenu>
-          <ComponentsMenu></ComponentsMenu>
         </div>
         <div class="mdl-tabs__panel" id="settings">
-          <properties-menu></properties-menu>
+          <settings-menu></settings-menu>
         </div>
         <div class="mdl-tabs__panel" id="pages">
           <pages-menu></pages-menu>
@@ -27,24 +26,15 @@
     </nav>
 </template>
 
-<script>
-import { mapMutations } from 'vuex'
-import { _toggleSidebar, _toggleMiniSidebar } from '@/store/types'
 
+<script>
 import ElementsMenu from './ElementsMenu'
-import ComponentsMenu from './ComponentsMenu'
-import PropertiesMenu from './PropertiesMenu'
+import SettingsMenu from './SettingsMenu'
 import PagesMenu from './PagesMenu'
 
 export default {
   name: 'drawegg',
-  components: { ElementsMenu, ComponentsMenu, PropertiesMenu, PagesMenu },
-  methods: mapMutations([_toggleMiniSidebar, _toggleSidebar]),
-  data: function () {
-    return {
-      propsMenu: false
-    }
-  }
+  components: { ElementsMenu, SettingsMenu, PagesMenu }
 }
 </script>
 
@@ -59,9 +49,17 @@ export default {
       padding-top: 8px;
   }
 }
+.mdl-tabs__tab {
+  padding: 0 28px;
+  height: 50px;
+}
 
 .mdl-tabs.is-upgraded .mdl-tabs__tab.is-active:after {
   -webkit-animation: border-expand .4s cubic-bezier(.4,0,.4,1).01s alternate backwards;
   animation: border-expand .4s cubic-bezier(.4,0,.4,1).01s alternate backwards;
+}
+
+.mdl-tabs__panel {
+  margin-top: 1px;
 }
 </style>

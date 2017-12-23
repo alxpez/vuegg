@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
-    <header class="mdl-layout__header">
+    <header class="mdl-layout__header" :class="{'not-scrolled': notScrolled}">
       <headegg></headegg>
     </header>
 
@@ -8,10 +8,8 @@
       <drawegg></drawegg>
     </div>
 
-    <main class="mdl-layout__content">
-      <div class="page-content">
-        <router-view></router-view>
-      </div>
+    <main id="main" role="main" class="main" @scroll="scrollFunction">
+      <router-view></router-view>
     </main>
 
     <page-dialog></page-dialog>
@@ -28,7 +26,17 @@ import PageDialog from '@/components/drawer/PageDialog'
 export default {
   name: 'app',
   components: { Headegg, Drawegg, PageDialog },
-  methods: mapMutations(['initializeState']),
+  data: function () {
+    return {
+      notScrolled: true
+    }
+  },
+  methods: {
+    scrollFunction (e) {
+      this.notScrolled = (e.target.scrollTop === 0)
+    },
+    ...mapMutations(['initializeState'])
+  },
   mounted: function () {
     this.initializeState()
   }
@@ -49,9 +57,26 @@ export default {
 </style>
 
 <style scoped>
+.main {
+  -ms-flex: 0 1 auto;
+  /*position: relative;*/
+  display: inline-block;
+  overflow-y: auto;
+  overflow-x: auto;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  z-index: 1;
+  -webkit-overflow-scrolling: touch;
+  margin-right: 240px;
+}
+
+.not-scrolled {
+  box-shadow: 0 0 0;
+}
+
 .mdl-layout__header{
   background-color: inherit;
-  box-shadow: 0 0 0;
   margin-left: 0;
 }
 
@@ -67,8 +92,4 @@ export default {
   transform: translateX(0);
 }
 
-.mdl-layout--fixed-drawer>.mdl-layout__content {
-  margin-right: 240px;
-  margin-left: 0;
-}
 </style>
