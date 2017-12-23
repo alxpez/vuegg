@@ -1,12 +1,12 @@
 <template>
   <div>
-    YO PROPS!
+    (TODO) SETTINGS
   </div>
 </template>
 
 
 <script>
 export default {
-  name: 'properties-menu'
+  name: 'settings-menu'
 }
 </script>
