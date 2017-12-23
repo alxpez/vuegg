@@ -1,19 +1,47 @@
 const MockData = {
   'elements': [
     {
-      'name': 'Div',
+      'name': 'div',
       'type': 'div',
       'egglement': true,
       'containegg': true,
+      'width': 300,
+      'height': 300,
       'classes': {},
       'styles': {
         'border': '1px solid rgba(0, 0, 0, 0.15)'
       },
       'children': []
     }, {
-      'name': 'Link',
+      'name': 'text',
+      'type': 'span',
+      'text': 'random sample text',
+      'egglement': true,
+      'width': 150,
+      'height': 32,
+      'attrs': {},
+      'styles': {},
+      'classes': {}
+    }, {
+      'name': 'link',
       'type': 'a',
       'text': 'Link',
+      'egglement': true,
+      'width': 200,
+      'minWidth': 32,
+      'height': 40,
+      'minHeight': 32,
+      'attrs': {
+        'href': '#'
+      },
+      'styles': {
+        'text-align': 'center'
+      },
+      'classes': {}
+    }, {
+      'name': 'button',
+      'type': 'button',
+      'text': 'Button',
       'egglement': true,
       'width': 200,
       'minWidth': 32,
@@ -23,7 +51,7 @@ const MockData = {
       'styles': {},
       'classes': {}
     }, {
-      'name': 'Input',
+      'name': 'input',
       'type': 'input',
       'egglement': true,
       'width': 300,
@@ -36,22 +64,76 @@ const MockData = {
       'styles': {},
       'classes': {}
     }, {
-      'name': 'Button',
-      'type': 'button',
-      'text': 'Button',
+      'name': 'radio',
+      'type': 'input',
       'egglement': true,
-      'width': '50%',
+      'width': 40,
       'minWidth': 32,
       'height': 40,
       'minHeight': 32,
-      'attrs': {},
+      'attrs': {
+        'type': 'radio',
+        'name': 'default-group'
+      },
+      'styles': {},
+      'classes': {}
+    }, {
+      'name': 'checkbox',
+      'type': 'input',
+      'egglement': true,
+      'width': 40,
+      'minWidth': 32,
+      'height': 40,
+      'minHeight': 32,
+      'attrs': {
+        'type': 'checkbox'
+      },
+      'styles': {},
+      'classes': {}
+    }, {
+      'name': 'date',
+      'type': 'input',
+      'egglement': true,
+      'width': 200,
+      'minWidth': 32,
+      'height': 40,
+      'minHeight': 32,
+      'attrs': {
+        'type': 'date'
+      },
+      'styles': {},
+      'classes': {}
+    }, {
+      'name': 'image',
+      'type': 'img',
+      'egglement': true,
+      'width': 50,
+      'minWidth': 32,
+      'height': 44.44,
+      'minHeight': 32,
+      'attrs': {
+        'src': '/static/vuegg-fam.svg'
+      },
+      'styles': {},
+      'classes': {}
+    }, {
+      'name': 'color',
+      'type': 'input',
+      'egglement': true,
+      'width': 25,
+      'minWidth': 20,
+      'height': 25,
+      'minHeight': 20,
+      'attrs': {
+        'type': 'color'
+      },
       'styles': {},
       'classes': {}
     }
   ],
   'components': [
     {
-      'name': 'MDC-Toolbar',
+      'name': 'MDC Toolbar',
       'type': 'mdc-toolbar',
       'componegg': true,
       'height': 64,
@@ -108,94 +190,45 @@ const MockData = {
       ]
     },
     {
-      'name': 'Comp1',
+      'name': 'Search Box',
       'type': 'div',
       'egglement': true,
       'componegg': true,
       'containegg': true,
       'width': 400,
-      'height': 300,
-      'classes': {},
-      'children': [
-        {
-          'type': 'button',
-          'text': 'Un boton cualquiera',
-          'egglement': true,
-          'left': 50,
-          'top': 100,
-          'width': 200,
-          'minWidth': 32,
-          'height': 40,
-          'minHeight': 32,
-          'attrs': {},
-          'styles': {},
-          'classes': {}
-        }
-      ]
-    }, {
-      'name': 'CompComp',
-      'type': 'div',
-      'egglement': true,
-      'componegg': true,
-      'containegg': true,
-      'width': 500,
-      'height': 400,
-      'styles': {
-        'border-style': 'dashed',
-        'background-color': 'blue',
-        'margin': '40px'
-      },
+      'height': 40,
       'classes': {},
       'children': [
         {
           'type': 'input',
           'egglement': true,
-          'left': 10,
-          'top': 20,
-          'width': 150,
+          'width': '65%',
           'minWidth': 32,
-          'height': 40,
+          'height': '100%',
           'minHeight': 32,
           'attrs': {
-            'placeholder': 'Input prompt'
+            'placeholder': 'Type your search...'
           },
           'styles': {
-            'border-style': 'inset',
-            'background-color': 'white',
-            'color': 'initial'
+            'padding': 0,
+            'border': 0,
+            'border-bottom': '1px solid #eee',
+            'background-color': 'transparent'
           },
           'classes': {}
         }, {
-          'name': 'Comp1',
-          'type': 'div',
+          'type': 'button',
+          'text': 'Search',
           'egglement': true,
-          'componegg': true,
-          'containegg': true,
-          'left': 20,
-          'top': 60,
-          'width': 300,
-          'height': 100,
-          'classes': {},
-          'children': [
-            {
-              'type': 'button',
-              'text': 'Un boton cualquiera',
-              'egglement': true,
-              'left': 50,
-              'top': 50,
-              'width': 55,
-              'minWidth': 32,
-              'height': 40,
-              'minHeight': 32,
-              'attrs': {},
-              'styles': {
-                'border-style': 'solid',
-                'background-color': 'green',
-                'color': 'black'
-              },
-              'classes': {}
-            }
-          ]
+          'width': '30%',
+          'minWidth': 32,
+          'height': '100%',
+          'minHeight': 32,
+          'attrs': {},
+          'styles': {
+            'right': 0
+          },
+          'classes': {}
         }
       ]
     }
