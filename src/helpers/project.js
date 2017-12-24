@@ -5,7 +5,7 @@ function newProject (title) {
   return {
     id: shortid.generate(),
     title: title,
-    componeggs: [],
+    components: [],
     pages: [newPage('Home', '/')]
   }
 }
