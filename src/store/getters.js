@@ -47,6 +47,18 @@ const getters = {
   },
 
   /**
+   * Returns a boolean value as result of checking if
+   * the component name already exists in the state.project.components array
+   *
+   * @param {string} componentName : Component's name
+   * @return {boolean} : Whether the given component already exists or not
+   */
+  [types.componentExist]: (state) => (componentName) => {
+    let compIndex = state.project.components.findIndex(page => page.name === componentName)
+    return (compIndex > -1)
+  },
+
+  /**
    * Returns a boolean value as result of checking if the page's path is in use
    *
    * @param {string} pagePath : Page's path
@@ -60,7 +72,7 @@ const getters = {
   /**
    * Returns a boolean value as result of checking if the page's name is in use
    *
-   * @param {string} id : Page's name
+   * @param {string} pageName : Page's name
    * @return {boolean} : Whether the given pageName already exists or not
    */
   [types.nameInUse]: (state) => (pageName) => {

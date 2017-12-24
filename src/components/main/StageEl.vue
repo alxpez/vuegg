@@ -10,59 +10,64 @@ export default {
   props: ['elem', 'isPlain'],
   components: { MrEl },
   render: function (createElement) {
-    let stageElem
+    let elementO = this.elem.componegg ? {...this.elem, ...this.componentRef} : this.elem
 
-    const plainEggStyle = {
-      position: 'absolute',
-      left: this.elem.left + 'px',
-      top: this.elem.top + 'px',
-      width: (typeof this.elem.width === 'string') ? this.elem.width : (this.elem.width + 'px'),
-      height: (typeof this.elem.height === 'string') ? this.elem.height : (this.elem.height + 'px')
+    let styles = elementO.styles
+    if (this.isPlain && elementO.egglement) {
+      styles = {
+        ...elementO.styles,
+        position: 'absolute',
+        left: elementO.left + 'px',
+        top: elementO.top + 'px',
+        width: (typeof elementO.width === 'string') ? elementO.width : (elementO.width + 'px'),
+        height: (typeof elementO.height === 'string') ? elementO.height : (elementO.height + 'px')
+      }
     }
 
     const data = {
-      'class': this.elem.classes,
-      'style': (this.isPlain && this.elem.egglement) ? {...plainEggStyle, ...this.elem.styles} : this.elem.styles,
+      'class': elementO.classes,
+      'style': styles,
       'attrs': {
-        id: this.elem.id,
-        egglement: this.elem.egglement,
-        containegg: this.elem.containegg,
-        componegg: this.elem.componegg,
-        ...this.elem.attrs
+        id: elementO.id,
+        egglement: elementO.egglement,
+        containegg: elementO.containegg,
+        componegg: elementO.componegg,
+        ...elementO.attrs
       }
     }
 
     let children = []
-    if (this.elem.text) {
-      children.push(this.elem.text)
-    } else {
-      for (let child of this.elem.children) {
+    if (elementO.text) {
+      children.push(elementO.text)
+    } else if (elementO.children) {
+      for (let child of elementO.children) {
         children.push(createElement(StageEl, {
           'props': {
             elem: child,
-            isPlain: this.elem.componegg || this.isPlain
+            isPlain: elementO.componegg || this.isPlain
           }
         }))
       }
     }
 
+    let stageElem
     if (this.isPlain) {
-      stageElem = createElement(this.elem.type, data, children)
+      stageElem = createElement(elementO.type, data, children)
     } else {
+      let mrElProps = {
+        active: this.isActive,
+        left: elementO.left,
+        top: elementO.top,
+        width: elementO.width,
+        height: elementO.height,
+        minWidth: elementO.minWidth,
+        minHeight: elementO.minHeight
+      }
+
       stageElem = createElement(MrEl, {
-        'props': {
-          active: this.isActive,
-          left: this.elem.left,
-          top: this.elem.top,
-          width: this.elem.width,
-          height: this.elem.height,
-          minWidth: this.elem.minWidth,
-          minHeight: this.elem.minHeight
-        },
-        'on': {
-          activated: this.activatedHandler
-        }
-      }, [ createElement(this.elem.type, data, children) ])
+        'props': elementO.componegg ? {...mrElProps, handles: null} : mrElProps,
+        'on': { activated: this.activatedHandler }
+      }, [ createElement(elementO.type, data, children) ])
     }
 
     return stageElem
@@ -72,8 +77,13 @@ export default {
       return (this.selectedElements.findIndex(el => el.id === this.elem.id) !== -1)
     },
 
+    componentRef () {
+      return this.projectComponents[this.projectComponents.findIndex(comp => comp.name === this.elem.name)]
+    },
+
     ...mapState({
-      selectedElements: state => state.app.selectedElements
+      selectedElements: state => state.app.selectedElements,
+      projectComponents: state => state.project.components
     })
   },
   methods: {

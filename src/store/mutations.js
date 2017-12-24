@@ -90,6 +90,8 @@ const mutations = {
     state.app.selectedElements.splice(elemIndex, 1)
   },
 
+  // ----- PROJECT MUTATIONS ----- //
+
   /**
    * Updates the project data
    *
@@ -97,6 +99,15 @@ const mutations = {
    */
   [types.updateProject]: function (state, payload) {
     state.project.title = payload.title
+  },
+
+  /**
+   * Adds a component reference to the state.project.components array
+   *
+   * @param {string} componentRef : Component reference for the project
+   */
+  [types.saveComponentRef]: function (state, componentRef) {
+    state.project.components.push(componentRef)
   },
 
   // ----- PAGE MUTATIONS ----- //

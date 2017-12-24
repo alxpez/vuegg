@@ -1,6 +1,7 @@
 // GETTERS
 export const getPageIndexById = 'getPageIndexById'
 export const getPageById = 'getPageById'
+export const componentExist = 'componentExist'
 export const pageExists = 'pageExists'
 export const pathInUse = 'pathInUse'
 export const nameInUse = 'nameInUse'
@@ -24,6 +25,7 @@ export const _addSelectedElement = '_addSelectedElement'
 export const _removeSelectedElement = '_removeSelectedElement'
 
 export const updateProject = 'updateProject'
+export const saveComponentRef = 'saveComponentRef'
 export const createPage = 'createPage'
 export const updatePage = 'updatePage'
 export const deletePage = 'deletePage'
@@ -35,6 +37,7 @@ const types = {
   // GETTERS
   getPageIndexById,
   getPageById,
+  componentExist,
   pageExists,
   pathInUse,
   nameInUse,
@@ -56,6 +59,7 @@ const types = {
   _removeSelectedElement,
 
   updateProject,
+  saveComponentRef,
   createPage,
   updatePage,
   deletePage,

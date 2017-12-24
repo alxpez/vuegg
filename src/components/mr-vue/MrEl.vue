@@ -1,11 +1,16 @@
 <template>
   <div mr-el="true" class="mrEl" :style="style" @mousedown="e => $emit('activated', e)">
     <slot></slot>
-    <div mr-handle="true"
+    <div v-if="resizable"
+      mr-handle="true"
       v-for="handle in handles"
       class="handle" :class="handle"
-      :style="{ display: active ? 'block' : 'none'}"
-    ></div>
+      :style="{ display: active ? 'block' : 'none'}">
+    </div>
+    <div v-if="!resizable"
+      class="selectedBox"
+      :style="{ display: active ? 'block' : 'none'}">
+    </div>
   </div>
 </template>
 
@@ -77,6 +82,10 @@ export default {
     }
   },
   computed: {
+    resizable () {
+      return ((this.handles !== null) && (this.handles.length > 0))
+    },
+
     style () {
       return {
         top: this.top + 'px',
@@ -107,6 +116,10 @@ export default {
   height: 100%;
   position: absolute;
   box-sizing: border-box;
+}
+
+.selectedBox {
+  border: 2px solid #03a9f4;
 }
 
 .handle {
