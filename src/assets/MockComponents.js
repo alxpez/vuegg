@@ -5,6 +5,7 @@ const MockComponents = [
     'componegg': true,
     'height': 64,
     'width': '100%',
+    'styles': {},
     'classes': {},
     'children': [
       {
@@ -64,6 +65,7 @@ const MockComponents = [
     'containegg': true,
     'width': 400,
     'height': 40,
+    'styles': {},
     'classes': {},
     'children': [
       {

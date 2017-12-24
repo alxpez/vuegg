@@ -47,7 +47,7 @@ export default {
     })
   },
   methods: {
-    // TODO: Extract positioning/resizing logic in one place (helper or something)
+    // TODO: extract logic to helper and add support for percentages in dimensions (actions.js same)
     dropHandler (e) {
       const mainContainer = document.getElementById('main')
       let element = JSON.parse(e.dataTransfer.getData('text/plain'))

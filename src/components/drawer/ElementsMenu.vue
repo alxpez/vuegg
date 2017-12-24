@@ -14,7 +14,7 @@
       </div>
     </menu-toggle>
 
-    <!-- v-for components (community/personal) retrieved from GH? -->
+    <!-- TODO: v-for components (community/personal) retrieved from GH? -->
     <menu-toggle :menuHeader="'Community Components'">
       <div class="el-menu">
         <div class="el" :key="elKey"
