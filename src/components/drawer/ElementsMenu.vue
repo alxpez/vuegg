@@ -3,7 +3,7 @@
     <menu-toggle :menuHeader="'HTML5 Elements'">
       <div class="el-menu">
         <div class="el" :key="elKey"
-          v-for="element in basicElements"
+          v-for="element in elements"
           draggable="true"
           @dragstart="e => dragstartHandler(e, element)"
           @click="registerElement({pageId: activePage.id, el: element})"
@@ -37,7 +37,8 @@ import shortid from 'shortid'
 import { mapState, mapActions } from 'vuex'
 import { registerElement } from '@/store/types'
 
-import MockData from '@/assets/mockdata'
+import HTML5Elements from '@/assets/HTML5Elements'
+import MockComponents from '@/assets/MockComponents'
 import MenuToggle from '@/components/common/MenuToggle'
 
 import '@/assets/icons/system'
@@ -47,8 +48,8 @@ export default {
   components: { MenuToggle },
   data: function () {
     return {
-      basicElements: MockData.elements,
-      components: MockData.components
+      elements: HTML5Elements,
+      components: MockComponents
     }
   },
   computed: {
