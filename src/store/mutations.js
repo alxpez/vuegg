@@ -104,10 +104,32 @@ const mutations = {
   /**
    * Adds a component reference to the state.project.components array
    *
-   * @param {string} componentRef : Component reference for the project
+   * @param {object} componentRef : Component reference for the project
    */
   [types.saveComponentRef]: function (state, componentRef) {
     state.project.components.push(componentRef)
+  },
+
+  /**
+   * Updates the component reference usage count.
+   *
+   * @param {number} payload.compIndex : Component's index
+   * @param {number} payload.newCount : New usage count
+   */
+  [types.updateComponentRef]: function (state, payload) {
+    state.project.components.splice(payload.compIndex, 1, {
+      ...state.project.components[payload.compIndex],
+      usageCount: payload.newCount
+    })
+  },
+
+  /**
+   * Removes a component reference from the state.project.components array
+   *
+   * @param {string} componentRefIndex : Index of the component reference to remove
+   */
+  [types.removeComponentRef]: function (state, componentRefIndex) {
+    state.project.components.splice(componentRefIndex, 1)
   },
 
   // ----- PAGE MUTATIONS ----- //

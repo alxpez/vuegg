@@ -77,6 +77,8 @@ const actions = {
         // Component reference (global params)
         let componentRef = {
           name: payload.el.name,
+          usageCount: 1,
+          dependencies: payload.el.dependencies || [],
           height: payload.el.height,
           width: payload.el.width,
           type: payload.el.type,
@@ -85,6 +87,10 @@ const actions = {
           children: payload.el.children
         }
         commit(types.saveComponentRef, componentRef)
+      } else {
+        let compIndex = getters.getComponentRefIndexByName(el.name)
+        let newCount = getters.getComponentRefByIndex(compIndex).usageCount + 1
+        commit(types.updateComponentRef, {compIndex, newCount})
       }
     }
 
@@ -101,12 +107,22 @@ const actions = {
    * @param {string} payload.elId : Id of the element to be updated
    * @see {@link [types.deleteEgglement]}
    */
-  [types.removeElement]: function ({ commit, state }, payload) {
+  [types.removeElement]: function ({ getters, commit, state }, payload) {
     commit(types._clearSelectedElements)
 
     let parentId = payload.elId.substring(0, payload.elId.lastIndexOf('.'))
     let parent = getChildNode(payload.page, parentId)
     let eggIndex = parent.children.findIndex(egg => egg.id === payload.elId)
+
+    let element = parent.children[eggIndex]
+    if (element.componegg) {
+      let compIndex = getters.getComponentRefIndexByName(element.name)
+      let count = getters.getComponentRefByIndex(compIndex).usageCount
+
+      count > 1
+        ? commit(types.updateComponentRef, {compIndex, newCount: count - 1})
+        : commit(types.removeComponentRef, compIndex)
+    }
 
     commit(types.deleteEgglement, {parent, eggIndex})
   },

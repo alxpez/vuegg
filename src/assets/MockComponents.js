@@ -1,7 +1,17 @@
 const MockComponents = [
   {
-    'name': 'MDC Toolbar',
+    'name': 'Material Toolbar',
     'type': 'mdc-toolbar',
+    'dependencies': [
+      {
+        'name': 'vue-mdc-adapter',
+        'version': '^0.6.3',
+        'imports': [
+          ['VueMDCAdapter', 'vue-mdc-adapter'],
+          'vue-mdc-adapter/dist/vue-mdc-adapter.css'
+        ]
+      }
+    ],
     'componegg': true,
     'height': 64,
     'width': '100%',
@@ -58,7 +68,7 @@ const MockComponents = [
     ]
   },
   {
-    'name': 'Search Box',
+    'name': 'Search Bar',
     'type': 'div',
     'egglement': true,
     'componegg': true,
