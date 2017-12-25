@@ -10,7 +10,7 @@ export default {
   props: ['elem', 'isPlain'],
   components: { MrEl },
   render: function (createElement) {
-    let elementO = this.elem.componegg ? {...this.elem, ...this.componentRef} : this.elem
+    let elementO = this.elem.componegg ? {...this.elem, ...this.componentRef, id: this.elem.id} : this.elem
 
     let styles = elementO.styles
     if (this.isPlain && elementO.egglement) {

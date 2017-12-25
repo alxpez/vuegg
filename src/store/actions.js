@@ -86,7 +86,7 @@ const actions = {
           classes: payload.el.classes,
           children: payload.el.children
         }
-        commit(types.saveComponentRef, componentRef)
+        commit(types.saveComponentRef, registerEgglement(componentRef))
       } else {
         let compIndex = getters.getComponentRefIndexByName(el.name)
         let newCount = getters.getComponentRefByIndex(compIndex).usageCount + 1

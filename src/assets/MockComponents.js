@@ -13,6 +13,7 @@ const MockComponents = [
       }
     ],
     'componegg': true,
+    'egglement': true,
     'height': 64,
     'width': '100%',
     'styles': {},
