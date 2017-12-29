@@ -111,6 +111,28 @@ const MockComponents = [
         'classes': {}
       }
     ]
+  }, {
+    'name': 'Material Button',
+    'type': 'v-btn',
+    'dependencies': [
+      {
+        'name': 'vuetify',
+        'version': '^0.17',
+        'imports': [
+          ['VueMaterial', 'vue-material'],
+          'vue-material/dist/vue-material.min.css'
+        ]
+      }
+    ],
+    'egglement': true,
+    'componegg': true,
+    'text': 'UN BOTON',
+    'width': 150,
+    'height': 40,
+    'attrs': {},
+    'styles': {},
+    'classes': {},
+    'children': []
   }
 ]
 

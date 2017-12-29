@@ -21,7 +21,7 @@
           v-for="component in components"
           draggable="true"
           @dragstart="e => dragstartHandler(e, component)"
-          @click="registerElement({pageId: activePage.id, el: component})"
+          @click="addComponent(component)"
         >
           <svgicon icon="system/aspect_ratio" width="24" height="24" :original="true"></svgicon>
           <span>{{component.name}}</span>
@@ -61,6 +61,36 @@ export default {
     })
   },
   methods: {
+    async addComponent (component) {
+      // if (component.dependencies) {
+      //   for (let dependency of component.dependencies) {
+      //     const src = 'https://unpkg.com/' + dependency.name + '@' + dependency.version
+      //
+      //     try {
+      //       await this.injectScript(src, dependency.name)
+      //     } catch (e) {
+      //       console.error(e)
+      //     }
+      //     console.log('finished')
+      //   }
+      // }
+
+      this.registerElement({pageId: this.activePage.id, el: component})
+    },
+
+    injectScript (src, id) {
+      return new Promise((resolve, reject) => {
+        if (document.getElementById(id)) return
+
+        let script = document.createElement('script')
+        script.id = id
+        script.async = true
+        script.src = src
+        script.addEventListener('load', resolve)
+        script.addEventListener('error', () => reject('Error loading script.'))
+        script.addEventListener('abort', () => reject('Script loading aborted.'))
+        document.head.appendChild(script)
+      })
     },
 
     dragstartHandler (e, element) {
