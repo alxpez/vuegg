@@ -23,12 +23,21 @@ export default {
   },
   data: function () {
     return {
-      isClosed: this.initStatus,
+      initialized: false,
+      isClosed: false, // Menu needs to start open to calculate the maxHeight
       maxHeight: 'auto'
     }
   },
   mounted: function () {
     this.maxHeight = this.$el.scrollHeight - 40 + 'px'
+  },
+  beforeUpdate: function () {
+    // Once the maxHeight has been calculated on the mounted hook,
+    // The initial state gets applied. Only once (if the component is not initialized)
+    if (!this.initialized) {
+      this.isClosed = this.initClosed
+      this.initialized = true
+    }
   },
   computed: {
     elStyle () {

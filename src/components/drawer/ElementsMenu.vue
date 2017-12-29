@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="menus-wrapper">
     <menu-toggle :menuHeader="'HTML5 Elements'">
       <div class="el-menu">
         <div class="el" :key="elKey"
@@ -15,7 +15,7 @@
     </menu-toggle>
 
     <!-- TODO: v-for components (community/personal) retrieved from GH? -->
-    <menu-toggle :menuHeader="'Community Components'">
+    <menu-toggle :menuHeader="'Community Components'" :initClosed="true">
       <div class="el-menu">
         <div class="el" :key="elKey"
           v-for="component in components"
@@ -61,9 +61,6 @@ export default {
     })
   },
   methods: {
-    toggleMenu (menuToggle) {
-      console.log(menuToggle)
-      menuToggle = !menuToggle
     },
 
     dragstartHandler (e, element) {
@@ -79,6 +76,16 @@ export default {
 
 
 <style scoped>
+.menus-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  height: calc(100% - 58px);
+  width: 100%;
+  position: absolute;
+  overflow-y: auto;
+}
+
 .el-menu {
   width: 100%;
   height: 100%;

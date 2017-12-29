@@ -115,19 +115,19 @@ const HTML5Elements = [
     },
     'styles': {},
     'classes': {}
-  }, {
-    'name': 'color',
-    'type': 'input',
-    'egglement': true,
-    'width': 25,
-    'minWidth': 20,
-    'height': 25,
-    'minHeight': 20,
-    'attrs': {
-      'type': 'color'
-    },
-    'styles': {},
-    'classes': {}
+  // }, {
+  //   'name': 'color',
+  //   'type': 'input',
+  //   'egglement': true,
+  //   'width': 25,
+  //   'minWidth': 20,
+  //   'height': 25,
+  //   'minHeight': 20,
+  //   'attrs': {
+  //     'type': 'color'
+  //   },
+  //   'styles': {},
+  //   'classes': {}
   }
 ]
 
