@@ -93,7 +93,7 @@ export default {
 
       if (e.shiftKey && !this.isActive) {
         this._addSelectedElement(this.elem)
-      } else if (!e.shiftKey) {
+      } else if (!e.shiftKey && !this.isActive) {
         this._clearSelectedElements()
         this._addSelectedElement(this.elem)
       }

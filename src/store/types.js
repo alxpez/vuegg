@@ -1,13 +1,14 @@
 // GETTERS
 export const getPageIndexById = 'getPageIndexById'
 export const getPageById = 'getPageById'
+export const pageExists = 'pageExists'
+export const pathInUse = 'pathInUse'
+export const nameInUse = 'nameInUse'
 export const getComponentRefIndexByName = 'getComponentRefIndexByName'
 export const getComponentRefByName = 'getComponentRefByName'
 export const getComponentRefByIndex = 'getComponentRefByIndex'
 export const componentExist = 'componentExist'
-export const pageExists = 'pageExists'
-export const pathInUse = 'pathInUse'
-export const nameInUse = 'nameInUse'
+export const getSelectedElIndexById = 'getSelectedElIndexById'
 
 // ACTIONS
 export const savePageAndClose = 'savePageAndClose'
@@ -42,13 +43,14 @@ const types = {
   // GETTERS
   getPageIndexById,
   getPageById,
+  pageExists,
+  pathInUse,
+  nameInUse,
   getComponentRefIndexByName,
   getComponentRefByName,
   getComponentRefByIndex,
   componentExist,
-  pageExists,
-  pathInUse,
-  nameInUse,
+  getSelectedElIndexById,
   // ACTIONS
   savePageAndClose,
   registerElement,

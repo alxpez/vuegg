@@ -151,6 +151,7 @@ const mutations = {
    * @param {string|null} [payload.path] : New page's path
    * @param {string|null} [payload.height] : New page's height
    * @param {string|null} [payload.width] : New page's width
+   * @param {string|null} [payload.styles] : New page's styles
    */
   [types.updatePage]: function (state, payload) {
     console.log(payload)
@@ -190,8 +191,6 @@ const mutations = {
    * @param {object|null} [payload.top] : New egglement's top position
    * @param {object|null} [payload.height] : New egglement's height
    * @param {object|null} [payload.width] : New egglement's width
-   * @param {object|null} [payload.minHeight] : New egglement's minHeight
-   * @param {object|null} [payload.minWidth] : New egglement's minWidth
    * @param {object|null} [payload.text] : New egglement's text child
    * @param {object|null} [payload.classes] : New egglement's classes
    * @param {object|null} [payload.styles] : New egglement's styles
@@ -202,8 +201,6 @@ const mutations = {
     if (payload.top) payload.egglement.top = payload.top
     if (payload.height) payload.egglement.height = payload.height
     if (payload.width) payload.egglement.width = payload.width
-    if (payload.minHeight) payload.egglement.minHeight = payload.minHeight
-    if (payload.minWidth) payload.egglement.minWidth = payload.minWidth
     if (payload.text) payload.egglement.text = payload.text
     if (payload.classes) payload.egglement.classes = payload.classes
     if (payload.styles) payload.egglement.styles = payload.styles

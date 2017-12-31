@@ -150,6 +150,10 @@ const actions = {
       height: payload.height,
       width: payload.width
     })
+
+    // Remove old selected element and add the updated one
+    commit(types._removeSelectedElement, getters.getSelectedElIndexById(payload.elId))
+    commit(types._addSelectedElement, egglement)
   },
 
   /**
@@ -178,6 +182,10 @@ const actions = {
       dispatch(types.changeElementParent, {...payload, page, egglement})
     } else {
       commit(types.updateEgglement, {egglement, left: payload.left, top: payload.top})
+
+      // Remove old selected element and add the updated one
+      commit(types._removeSelectedElement, getters.getSelectedElIndexById(payload.elId))
+      commit(types._addSelectedElement, egglement)
     }
   },
 

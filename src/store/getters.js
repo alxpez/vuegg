@@ -47,6 +47,16 @@ const getters = {
   },
 
   /**
+   * Finds an element index (from the selected elements array) by a given id
+   *
+   * @param {string} id : Selected element's id
+   * @return {object} : Element index
+   */
+  [types.getSelectedElIndexById]: (state, getters) => (id) => {
+    return state.app.selectedElements.findIndex(el => el.id === id)
+  },
+
+  /**
    * Returns the index, of the component with the passed name, in the state.project.components array
    *
    * @param {string} componentName : Component's name
