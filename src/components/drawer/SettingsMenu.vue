@@ -2,14 +2,14 @@
   <div class="menus-wrapper">
     <menu-toggle :menuHeader="'Dimensions'">
       <div class="el-menu">
-        <mdc-textfield v-model="height" @blur="saveChanges" label="Height (px)" class="text-input" dense/>
-        <mdc-textfield v-model="width"  @blur="saveChanges" label="Width (px)" class="text-input" dense/>
+        <mdc-textfield v-model="height" @blur="e => saveChanges(e, 'height')" label="Height (px)" class="text-input" dense/>
+        <mdc-textfield v-model="width"  @blur="e => saveChanges(e, 'width')" label="Width (px)" class="text-input" dense/>
       </div>
     </menu-toggle>
 
     <menu-toggle v-if="selectionType === 'page'" :menuHeader="'PAGE settings'">
       <div class="el-menu">
-        <input type="color" v-model="styles.background">
+        <input type="color" v-model="styles.background" @input="e => saveChanges(e, 'styles')">
       </div>
     </menu-toggle>
 
@@ -75,9 +75,26 @@ export default {
     })
   },
   methods: {
-    saveChanges (e) {
-      // TODO: save setting changes
-      console.log(e)
+    saveChanges (e, prop) {
+      let newValue = {}
+
+      if (prop === 'attrs') {
+        newValue['attrs'] = this.attrs
+      } else if (prop === 'styles') {
+        newValue['styles'] = this.styles
+      } else if (prop === 'classes') {
+        newValue['classes'] = this.classes
+      } else {
+        newValue[prop] = e.target.value
+      }
+
+      if (this.selectionType === 'page') {
+        this.updatePage({page: this.activePage, ...newValue})
+      } else if (this.selectionType === 'single') {
+        this.updateEgglement({egglement: this.selectedItem, ...newValue})
+      } else {
+        this.selectedItem.map(egglement => this.updateEgglement({egglement, ...newValue}))
+      }
     },
 
     ...mapMutations([updatePage, updateEgglement])
