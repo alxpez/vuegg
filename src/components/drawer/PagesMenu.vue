@@ -31,7 +31,7 @@
 
 <script>
 import { mapState, mapGetters, mapMutations } from 'vuex'
-import { getPageById, getPageIndexById, deletePage, _changeActivePage, _togglePageDialog } from '@/store/types'
+import { getPageById, getPageIndexById, deletePage, _changeActivePage, _togglePageDialog, _clearSelectedElements } from '@/store/types'
 
 export default {
   name: 'pages-menu',
@@ -42,6 +42,7 @@ export default {
   methods: {
     changePageIfNeeded (page) {
       if (page.id !== this.activePageId) {
+        this._clearSelectedElements()
         this._changeActivePage(page)
       }
     },
@@ -71,7 +72,7 @@ export default {
     },
 
     ...mapGetters([getPageById, getPageIndexById]),
-    ...mapMutations([_togglePageDialog, _changeActivePage, deletePage])
+    ...mapMutations([_clearSelectedElements, _togglePageDialog, _changeActivePage, deletePage])
   }
 }
 </script>
