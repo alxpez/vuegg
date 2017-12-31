@@ -5,13 +5,13 @@
           :class="{active: (page.id === activePageId)}" @click="changePageIfNeeded(page)"
         >
         <mdc-list-item class="pageItem">
-          <i v-if="pageIndex === 0" slot="start-detail" class="material-icons">home</i>
-          <i v-else slot="start-detail" class="material-icons">insert_drive_file</i>
+          <svgicon v-if="pageIndex === 0" slot="start-detail" icon="system/home" width="24" height="24" :original="true"></svgicon>
+          <svgicon v-else  slot="start-detail"icon="system/page" width="24" height="24" :original="true"></svgicon>
           <span>{{page.name}}</span>
           <span v-show="(page.id === activePageId)" slot="secondary">{{page.path}}</span>
 
           <mdc-menu-anchor slot="end-detail" v-show="(page.id === activePageId)">
-            <i class="material-icons" @click="showOptsMenu(page)">more_vert</i>
+            <svgicon icon="system/more_vert" width="24" height="24" :original="true" @click.native="showOptsMenu(page)"></svgicon>
 
             <mdc-menu :ref="'menu-'+page.id" @select="(selected)=>onSelect(selected, pageIndex)">
               <mdc-menu-item>Rename page</mdc-menu-item>
@@ -32,6 +32,10 @@
 <script>
 import { mapState, mapGetters, mapMutations } from 'vuex'
 import { getPageById, getPageIndexById, deletePage, _changeActivePage, _togglePageDialog, _clearSelectedElements } from '@/store/types'
+
+import '@/assets/icons/system/home'
+import '@/assets/icons/system/page'
+import '@/assets/icons/system/more_vert'
 
 export default {
   name: 'pages-menu',

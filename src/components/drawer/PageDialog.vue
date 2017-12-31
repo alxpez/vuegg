@@ -4,11 +4,11 @@
     <div class="mdl-dialog__content">
       <mdc-textfield v-model="name" label="Name" @input="checkName" :helptext="nameError"
         minlength="1" helptext-validation helptext-persistent required
-        :class="{'mdc-text-field--invalid': nameError}"/>
+        class="dialog-input" :class="{'mdc-text-field--invalid': nameError}"/>
 
       <mdc-textfield v-model="path" label="Path" @input="checkPath" :helptext="pathError"
         minlength="1" helptext-validation helptext-persistent required
-        :class="{'mdc-text-field--invalid': pathError}"/>
+        class="dialog-input" :class="{'mdc-text-field--invalid': pathError}"/>
     </div>
     <div class="mdl-dialog__actions">
       <mdc-button @click="savePageAndClose({id, name, path})" :disabled="!valid">Save</mdc-button>
@@ -125,7 +125,7 @@ export default {
   font-weight: 500;
 }
 
-.mdc-textfield{
+.dialog-input{
   width: 100%;
 }
 </style>
