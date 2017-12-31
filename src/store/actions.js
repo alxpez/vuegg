@@ -143,17 +143,22 @@ const actions = {
     let page = getters.getPageById(payload.pageId)
     let egglement = getChildNode(page, payload.elId)
 
-    commit(types.updateEgglement, {
-      egglement,
-      left: payload.left,
-      top: payload.top,
-      height: payload.height,
-      width: payload.width
-    })
+    if (
+      payload.left !== egglement.left || payload.top !== egglement.top ||
+      payload.height !== egglement.height || payload.width !== egglement.width
+    ) {
+      commit(types.updateEgglement, {
+        egglement,
+        left: payload.left,
+        top: payload.top,
+        height: payload.height,
+        width: payload.width
+      })
 
-    // Remove old selected element and add the updated one
-    commit(types._removeSelectedElement, getters.getSelectedElIndexById(payload.elId))
-    commit(types._addSelectedElement, egglement)
+      // Remove old selected element and add the updated one
+      commit(types._removeSelectedElement, getters.getSelectedElIndexById(payload.elId))
+      commit(types._addSelectedElement, egglement)
+    }
   },
 
   /**
@@ -178,14 +183,16 @@ const actions = {
     let page = getters.getPageById(payload.pageId)
     let egglement = getChildNode(page, payload.elId)
 
-    if (payload.parentId) {
-      dispatch(types.changeElementParent, {...payload, page, egglement})
-    } else {
-      commit(types.updateEgglement, {egglement, left: payload.left, top: payload.top})
+    if (payload.left !== egglement.left || payload.top !== egglement.top) {
+      if (payload.parentId) {
+        dispatch(types.changeElementParent, {...payload, page, egglement})
+      } else {
+        commit(types.updateEgglement, {egglement, left: payload.left, top: payload.top})
 
-      // Remove old selected element and add the updated one
-      commit(types._removeSelectedElement, getters.getSelectedElIndexById(payload.elId))
-      commit(types._addSelectedElement, egglement)
+        // Remove old selected element and add the updated one
+        commit(types._removeSelectedElement, getters.getSelectedElIndexById(payload.elId))
+        commit(types._addSelectedElement, egglement)
+      }
     }
   },
 
