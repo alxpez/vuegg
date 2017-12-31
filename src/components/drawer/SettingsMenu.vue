@@ -22,6 +22,7 @@
     <menu-toggle v-if="selectionType === 'single'" :menuHeader="'SINGLE settings'">
       <div class="el-menu">
         Settings for a single element
+        <input type="color" v-model="styles.background" @input="e => saveChanges(e, 'styles')">
       </div>
     </menu-toggle>
   </div>
@@ -79,11 +80,11 @@ export default {
       let newValue = {}
 
       if (prop === 'attrs') {
-        newValue['attrs'] = this.attrs
+        newValue['attrs'] = cloneDeep(this.attrs)
       } else if (prop === 'styles') {
-        newValue['styles'] = this.styles
+        newValue['styles'] = cloneDeep(this.styles)
       } else if (prop === 'classes') {
-        newValue['classes'] = this.classes
+        newValue['classes'] = cloneDeep(this.classes)
       } else {
         newValue[prop] = e.target.value
       }
