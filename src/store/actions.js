@@ -35,7 +35,7 @@ const actions = {
       commit(types._changeActivePage, page)
     } else {
       let pagePayload = {
-        pageIndex: getters.getPageIndexById(payload.id),
+        page: getters.getPageById(payload.id),
         name: payload.name,
         path: payload.path
       }
