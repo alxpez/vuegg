@@ -10,7 +10,7 @@ function newPage (name, path, height, width) {
     styles: {
       'position': 'relative',
       'margin': 'auto',
-      'background-color': '#fff'
+      'background': '#ffffff'
     },
     classes: [],
     children: []

@@ -5,7 +5,12 @@ const HTML5Elements = [
     'egglement': true,
     'containegg': true,
     'width': 300,
+    'minWidth': 50,
     'height': 300,
+    'minHeight': 50,
+    'attrs': {
+      'hidden': false
+    },
     'classes': {},
     'styles': {
       'border': '1px solid rgba(0, 0, 0, 0.15)'
@@ -17,7 +22,9 @@ const HTML5Elements = [
     'text': 'random sample text',
     'egglement': true,
     'width': 150,
+    'minWidth': 32,
     'height': 32,
+    'minHeight': 32,
     'attrs': {},
     'styles': {},
     'classes': {}
@@ -115,19 +122,6 @@ const HTML5Elements = [
     },
     'styles': {},
     'classes': {}
-  // }, {
-  //   'name': 'color',
-  //   'type': 'input',
-  //   'egglement': true,
-  //   'width': 25,
-  //   'minWidth': 20,
-  //   'height': 25,
-  //   'minHeight': 20,
-  //   'attrs': {
-  //     'type': 'color'
-  //   },
-  //   'styles': {},
-  //   'classes': {}
   }
 ]
 

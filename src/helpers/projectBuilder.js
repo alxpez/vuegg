@@ -1,5 +1,5 @@
 import shortid from 'shortid'
-import newPage from './page'
+import newPage from './pageBuilder'
 
 function newProject (title) {
   return {

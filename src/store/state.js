@@ -1,4 +1,4 @@
-import newProject from '@/helpers/project'
+import newProject from '@/helpers/projectBuilder'
 
 /**
  * Vuex Store State
