@@ -149,16 +149,15 @@ const mutations = {
    * @param {number} payload.page : Page to update
    * @param {string|null} [payload.name] : New page's name
    * @param {string|null} [payload.path] : New page's path
-   * @param {string|null} [payload.height] : New page's height
-   * @param {string|null} [payload.width] : New page's width
-   * @param {string|null} [payload.styles] : New page's styles
+   * @param {number|string|null} [payload.height] : New page's height
+   * @param {number|string|null} [payload.width] : New page's width
+   * @param {object|null} [payload.styles] : New page's styles
    */
   [types.updatePage]: function (state, payload) {
-    console.log(payload)
     if (payload.name) payload.page.name = payload.name
     if (payload.path) payload.page.path = payload.path
-    if (payload.height) payload.page.height = payload.height
-    if (payload.width) payload.page.width = payload.width
+    if (payload.height) payload.page.height = parseInt(payload.height)
+    if (payload.width) payload.page.width = parseInt(payload.width)
     if (payload.styles) payload.page.styles = payload.styles
   },
 
@@ -187,20 +186,20 @@ const mutations = {
    * Updates the passed egglement with the defined new values
    *
    * @param {object} payload.egglement : Egglement to update
-   * @param {object|null} [payload.left] : New egglement's left position
-   * @param {object|null} [payload.top] : New egglement's top position
-   * @param {object|null} [payload.height] : New egglement's height
-   * @param {object|null} [payload.width] : New egglement's width
-   * @param {object|null} [payload.text] : New egglement's text child
+   * @param {number|string|null} [payload.left] : New egglement's left position
+   * @param {number|string|null} [payload.top] : New egglement's top position
+   * @param {number|string|null} [payload.height] : New egglement's height
+   * @param {number|string|null} [payload.width] : New egglement's width
+   * @param {string|null} [payload.text] : New egglement's text child
    * @param {object|null} [payload.classes] : New egglement's classes
    * @param {object|null} [payload.styles] : New egglement's styles
    * @param {object|null} [payload.attrs] : New egglement's attributes
    */
   [types.updateEgglement]: function (state, payload) {
-    if (payload.left) payload.egglement.left = payload.left
-    if (payload.top) payload.egglement.top = payload.top
-    if (payload.height) payload.egglement.height = payload.height
-    if (payload.width) payload.egglement.width = payload.width
+    if (payload.left) payload.egglement.left = parseInt(payload.left)
+    if (payload.top) payload.egglement.top = parseInt(payload.top)
+    if (payload.height) payload.egglement.height = parseInt(payload.height)
+    if (payload.width) payload.egglement.width = parseInt(payload.width)
     if (payload.text) payload.egglement.text = payload.text
     if (payload.classes) payload.egglement.classes = payload.classes
     if (payload.styles) payload.egglement.styles = payload.styles
