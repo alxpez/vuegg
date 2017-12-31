@@ -1,7 +1,7 @@
 {
-  "name": "vuexample",
+  "name": "vuegg",
   "version": "1.0.0",
-  "description": "vue sandbox",
+  "description": "vuejs GUI generator",
   "author": "alxpez",
   "private": true,
   "scripts": {
@@ -22,7 +22,7 @@
     "material-design-lite": "^1.3.0",
     "shortid": "^2.2.8",
     "vue": "^2.5.9",
-    "vue-mdc-adapter": "^0.6.3",
+    "vue-mdc-adapter": "^0.7.3",
     "vue-router": "^2.8.1",
     "vuex": "^2.5.0"
   },
