@@ -1,25 +1,25 @@
 import shortid from 'shortid'
 
 /**
- * Assigns a new id to the egglement preceded by the parentId and a dot '.'
+ * Assigns a new id to the element preceded by the parentId and a dot '.'
  *
- * @param {object} egglement : Element to register
+ * @param {object} el : Element to register
  * @param {string} parentId : Id of the parent element
  *
  * @return {object} : New element (cloned from egglement) with newly assigned ids
  */
-export function registerEgglement (egglement, parentId) {
-  let eggId = shortid.generate()
-  if (parentId) eggId = parentId.concat('.', eggId)
+export function setElId (el, parentId) {
+  let elId = shortid.generate()
+  if (parentId) elId = parentId.concat('.', elId)
 
-  let newEgglement = {...egglement, id: eggId, children: []}
+  let newElement = {...el, id: elId, children: []}
 
-  if (egglement.children && egglement.children.length > 0) {
-    for (let childEgg of egglement.children) {
-      newEgglement.children.push(registerEgglement(childEgg, eggId))
+  if (el.children && el.children.length > 0) {
+    for (let childEl of el.children) {
+      newElement.children.push(setElId(childEl, elId))
     }
   }
-  return newEgglement
+  return newElement
 }
 
 /**

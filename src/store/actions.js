@@ -1,6 +1,6 @@
 import types from './types'
 import newPage from '@/helpers/pageBuilder'
-import { registerEgglement, getChildNode, getRelativePoint } from '@/helpers/recursiveMethods'
+import { setElId, getChildNode, getRelativePoint } from '@/helpers/recursiveMethods'
 
 // TODO: Refactor actions and divide them by context
 
@@ -86,7 +86,7 @@ const actions = {
           classes: payload.el.classes,
           children: payload.el.children
         }
-        commit(types.saveComponentRef, registerEgglement(componentRef))
+        commit(types.saveComponentRef, setElId(componentRef))
       } else {
         let compIndex = getters.getComponentRefIndexByName(el.name)
         let newCount = getters.getComponentRefByIndex(compIndex).usageCount + 1
@@ -94,7 +94,7 @@ const actions = {
       }
     }
 
-    let egglement = registerEgglement(el, payload.pageId)
+    let egglement = setElId(el, payload.pageId)
     commit(types.createEgglement, {parent, egglement})
   },
 
@@ -225,7 +225,7 @@ const actions = {
 
     // NEW FAMILY business
     let newParent = getChildNode(payload.page, payload.parentId)
-    payload.egglement = registerEgglement(payload.egglement, payload.parentId)
+    payload.egglement = setElId(payload.egglement, payload.parentId)
 
     commit(types.createEgglement, {parent: newParent, egglement: payload.egglement})
 
