@@ -7,21 +7,15 @@
       </div>
     </menu-toggle>
 
-    <menu-toggle v-if="selectionType === 'page'" :menuHeader="'PAGE settings'">
+    <menu-toggle v-if="selectionType !== 'page'" :menuHeader="'Position'">
       <div class="el-menu">
-        <input type="color" v-model="styles.background" @input="e => saveChanges(e, 'styles')">
+        <mdc-textfield v-model="top" @blur="e => saveChanges(e, 'top')" label="Top (px)" class="text-input" dense/>
+        <mdc-textfield v-model="left"  @blur="e => saveChanges(e, 'left')" label="Left (px)" class="text-input" dense/>
       </div>
     </menu-toggle>
 
-    <menu-toggle v-if="selectionType === 'multiple'" :menuHeader="'MULTI settings'">
+    <menu-toggle v-if="selectionType !== 'multiple'" :menuHeader="'Color'">
       <div class="el-menu">
-        Settings for multiple selected elements
-      </div>
-    </menu-toggle>
-
-    <menu-toggle v-if="selectionType === 'single'" :menuHeader="'SINGLE settings'">
-      <div class="el-menu">
-        Settings for a single element
         <input type="color" v-model="styles.background" @input="e => saveChanges(e, 'styles')">
       </div>
     </menu-toggle>
@@ -77,6 +71,7 @@ export default {
   },
   methods: {
     saveChanges (e, prop) {
+      if (e.target.value === '') return
       let newValue = {}
 
       if (prop === 'attrs') {
@@ -85,6 +80,10 @@ export default {
         newValue['styles'] = cloneDeep(this.styles)
       } else if (prop === 'classes') {
         newValue['classes'] = cloneDeep(this.classes)
+      } else if (prop === 'height' || prop === 'width') {
+        newValue[prop] = (e.target.value.indexOf('%') !== -1) ? e.target.value : parseInt(e.target.value)
+      } else if (prop === 'top' || prop === 'left') {
+        newValue[prop] = parseInt(e.target.value)
       } else {
         newValue[prop] = e.target.value
       }

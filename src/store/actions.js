@@ -183,16 +183,14 @@ const actions = {
     let page = getters.getPageById(payload.pageId)
     let egglement = getChildNode(page, payload.elId)
 
-    if (payload.left !== egglement.left || payload.top !== egglement.top) {
-      if (payload.parentId) {
-        dispatch(types.changeElementParent, {...payload, page, egglement})
-      } else {
-        commit(types.updateEgglement, {egglement, left: payload.left, top: payload.top})
+    if (payload.parentId) {
+      dispatch(types.changeElementParent, {...payload, page, egglement})
+    } else if (payload.left !== egglement.left || payload.top !== egglement.top) {
+      commit(types.updateEgglement, {egglement, left: payload.left, top: payload.top})
 
-        // Remove old selected element and add the updated one
-        commit(types._removeSelectedElement, getters.getSelectedElIndexById(payload.elId))
-        commit(types._addSelectedElement, egglement)
-      }
+      // Remove old selected element and add the updated one
+      commit(types._removeSelectedElement, getters.getSelectedElIndexById(payload.elId))
+      commit(types._addSelectedElement, egglement)
     }
   },
 

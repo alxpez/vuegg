@@ -154,10 +154,10 @@ const mutations = {
    * @param {object|null} [payload.styles] : New page's styles
    */
   [types.updatePage]: function (state, payload) {
-    if (payload.name) payload.page.name = payload.name
-    if (payload.path) payload.page.path = payload.path
-    if (payload.height) payload.page.height = parseInt(payload.height)
-    if (payload.width) payload.page.width = parseInt(payload.width)
+    if ((typeof payload.name !== 'undefined') && (payload.name !== null)) payload.page.name = payload.name
+    if ((typeof payload.path !== 'undefined') && (payload.path !== null)) payload.page.path = payload.path
+    if ((typeof payload.height !== 'undefined') && (payload.height !== null)) payload.page.height = payload.height
+    if ((typeof payload.width !== 'undefined') && (payload.width !== null)) payload.page.width = payload.width
     if (payload.styles) payload.page.styles = payload.styles
   },
 
@@ -186,8 +186,8 @@ const mutations = {
    * Updates the passed egglement with the defined new values
    *
    * @param {object} payload.egglement : Egglement to update
-   * @param {number|string|null} [payload.left] : New egglement's left position
-   * @param {number|string|null} [payload.top] : New egglement's top position
+   * @param {number|null} [payload.left] : New egglement's left position
+   * @param {number|null} [payload.top] : New egglement's top position
    * @param {number|string|null} [payload.height] : New egglement's height
    * @param {number|string|null} [payload.width] : New egglement's width
    * @param {string|null} [payload.text] : New egglement's text child
@@ -196,11 +196,11 @@ const mutations = {
    * @param {object|null} [payload.attrs] : New egglement's attributes
    */
   [types.updateEgglement]: function (state, payload) {
-    if (payload.left) payload.egglement.left = parseInt(payload.left)
-    if (payload.top) payload.egglement.top = parseInt(payload.top)
-    if (payload.height) payload.egglement.height = parseInt(payload.height)
-    if (payload.width) payload.egglement.width = parseInt(payload.width)
-    if (payload.text) payload.egglement.text = payload.text
+    if ((typeof payload.left !== 'undefined') && (payload.left !== null)) payload.egglement.left = payload.left
+    if ((typeof payload.top !== 'undefined') && (payload.top !== null)) payload.egglement.top = payload.top
+    if ((typeof payload.height !== 'undefined') && (payload.height !== null)) payload.egglement.height = payload.height
+    if ((typeof payload.width !== 'undefined') && (payload.width !== null)) payload.egglement.width = payload.width
+    if ((typeof payload.text !== 'undefined') && (payload.text !== null)) payload.egglement.text = payload.text
     if (payload.classes) payload.egglement.classes = payload.classes
     if (payload.styles) payload.egglement.styles = payload.styles
     if (payload.attrs) payload.egglement.attrs = payload.attrs
