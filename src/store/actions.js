@@ -107,7 +107,7 @@ const actions = {
    * @param {string} payload.elId : Id of the element to be updated
    * @see {@link [types.deleteEgglement]}
    */
-  [types.removeElement]: function ({ getters, commit, state }, payload) {
+  [types.removeElement]: function ({ getters, commit }, payload) {
     commit(types._clearSelectedElements)
 
     let parentId = payload.elId.substring(0, payload.elId.lastIndexOf('.'))
@@ -255,6 +255,18 @@ const actions = {
     if (left === 0 && (payload.egglement.width > newParent.width)) width = newParent.width
 
     commit(types.updateEgglement, {egglement: payload.egglement, left, top, height, width})
+  },
+
+  /**
+   * Refetches the elements on the page by the id's of the selectedElements,
+   * cleans the selectedElements array and repopulates it with the fresh refetched elements.
+   *
+   * This is necessary for a correct data binding after redo/undo actions.
+   */
+  [types.rebaseSelectedElements]: function ({ getters, commit, state }) {
+    let freshElements = state.app.selectedElements.map(el => getChildNode(state.app.selectedPage, el.id))
+    commit(types._clearSelectedElements)
+    freshElements.map(el => commit(types._addSelectedElement, el))
   }
 }
 

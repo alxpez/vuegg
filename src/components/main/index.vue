@@ -6,8 +6,8 @@
 
 
 <script>
-import { mapState, mapGetters, mapMutations } from 'vuex'
-import { _changeActivePage, _rebaseActivePage, getPageIndexById } from '@/store/types'
+import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
+import { _changeActivePage, _rebaseActivePage, rebaseSelectedElements, getPageIndexById } from '@/store/types'
 
 import Stage from './Stage'
 
@@ -27,11 +27,16 @@ export default {
     ...mapGetters([getPageIndexById])
   },
   watch: {
+    // After a redo/undo action this will apply
     selectedPage: function (val) {
       this._rebaseActivePage(this.getPageIndexById(val.id))
+      this.rebaseSelectedElements()
     }
   },
-  methods: mapMutations([_changeActivePage, _rebaseActivePage])
+  methods: {
+    ...mapMutations([_changeActivePage, _rebaseActivePage]),
+    ...mapActions([rebaseSelectedElements])
+  }
 }
 </script>
 

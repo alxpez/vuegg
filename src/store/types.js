@@ -17,6 +17,7 @@ export const resizeElement = 'resizeElement'
 export const moveElement = 'moveElement'
 export const changeElementParent = 'changeElementParent'
 export const removeElement = 'removeElement'
+export const rebaseSelectedElements = 'rebaseSelectedElements'
 
 // MUTATIONS
 export const _toggleSidebar = '_toggleSidebar'
@@ -58,6 +59,7 @@ const types = {
   moveElement,
   changeElementParent,
   removeElement,
+  rebaseSelectedElements,
   // MUTATIONS
   _toggleSidebar,
   _toggleMiniSidebar,
