@@ -19,7 +19,7 @@ const redoundo = {
     this.$store.subscribe((mutation, state) => {
       // If the history size is reached, the eldest state will be removed
       if (this.done.length === MAX_HISTORY) this.done.shift()
-      console.log(state)
+
       // It won't save the state of mutations leaded by '_'
       if (mutation.type.charAt(0) !== '_') {
         console.log('push done')
