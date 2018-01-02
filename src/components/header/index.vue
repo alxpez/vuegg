@@ -33,6 +33,7 @@
 <script>
 import { mapState, mapMutations } from 'vuex'
 import { _toggleSidebar, updateProject } from '@/store/types'
+import redoundo from '@/mixins/redoundo'
 
 import '@/assets/icons/product/vuegg'
 
@@ -41,6 +42,7 @@ import axios from 'axios'
 
 export default {
   name: 'headegg',
+  mixins: [redoundo],
   data: function () {
     return {
       tmpProjectTitle: ''
