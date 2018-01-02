@@ -62,35 +62,48 @@ const actions = {
     let parent = getters.getPageById(payload.pageId)
     let el = payload.el
 
-    if (payload.el.componegg) {
-      // Component instance (local params: position)
-      el = {
-        name: payload.el.name,
-        top: payload.el.top,
-        left: payload.el.left,
-        componegg: payload.el.componegg,
-        egglement: payload.el.egglement,
-        containegg: payload.el.containegg
-      }
-
-      if (!getters.componentExist(payload.el.name)) {
-        // Component reference (global params)
-        let componentRef = {
-          name: payload.el.name,
-          usageCount: 1,
-          dependencies: payload.el.dependencies || [],
-          height: payload.el.height,
-          width: payload.el.width,
-          type: payload.el.type,
-          styles: payload.el.styles,
-          classes: payload.el.classes,
-          children: payload.el.children
+    if (el.componegg) {
+      if (el.external) {
+        // In case the componegg is from a external library...
+        if (!getters.componentExist(el.name)) {
+          let componentRef = {
+            name: el.name,
+            usageCount: 1,
+            dependencies: el.dependencies || []
+          }
+          commit(types.saveComponentRef, setElId(componentRef))
+        } else {
+          let compIndex = getters.getComponentRefIndexByName(el.name)
+          let newCount = getters.getComponentRefByIndex(compIndex).usageCount + 1
+          commit(types.updateComponentRef, {compIndex, newCount})
         }
-        commit(types.saveComponentRef, setElId(componentRef))
       } else {
-        let compIndex = getters.getComponentRefIndexByName(el.name)
-        let newCount = getters.getComponentRefByIndex(compIndex).usageCount + 1
-        commit(types.updateComponentRef, {compIndex, newCount})
+        // In case the componegg is vuegg-powered
+        el = {
+          name: payload.el.name,
+          top: payload.el.top,
+          left: payload.el.left,
+          componegg: payload.el.componegg,
+          egglement: payload.el.egglement,
+          containegg: payload.el.containegg
+        }
+        if (!getters.componentExist(el.name)) {
+          let componentRef = {
+            name: payload.el.name,
+            usageCount: 1,
+            height: payload.el.height,
+            width: payload.el.width,
+            type: payload.el.type,
+            styles: payload.el.styles,
+            classes: payload.el.classes,
+            children: payload.el.children
+          }
+          commit(types.saveComponentRef, setElId(componentRef))
+        } else {
+          let compIndex = getters.getComponentRefIndexByName(el.name)
+          let newCount = getters.getComponentRefByIndex(compIndex).usageCount + 1
+          commit(types.updateComponentRef, {compIndex, newCount})
+        }
       }
     }
 
