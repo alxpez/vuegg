@@ -1,3 +1,7 @@
+/*
+  Basic elements (HTML5 Elements):
+  - PARENT -> egglement, containegg
+ */
 const HTML5Elements = [
   {
     'name': 'div',
