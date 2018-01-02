@@ -14,6 +14,20 @@
       </div>
     </menu-toggle>
 
+    <menu-toggle :menuHeader="'Material Components'" :initClosed="true">
+      <div class="el-menu">
+        <div class="el" :key="elKey"
+          v-for="mdComp in mdComponents"
+          draggable="true"
+          @dragstart="e => dragstartHandler(e, mdComp)"
+          @click="registerElement({pageId: activePage.id, el: mdComp})"
+        >
+          <svgicon icon="system/aspect_ratio" width="24" height="24" :original="true"></svgicon>
+          <span>{{mdComp.name}}</span>
+        </div>
+      </div>
+    </menu-toggle>
+
     <!-- TODO: v-for components (community/personal) retrieved from GH? -->
     <menu-toggle :menuHeader="'Community Components'" :initClosed="true">
       <div class="el-menu">
@@ -21,7 +35,7 @@
           v-for="component in components"
           draggable="true"
           @dragstart="e => dragstartHandler(e, component)"
-          @click="addComponent(component)"
+          @click="registerElement({pageId: activePage.id, el: component})"
         >
           <svgicon icon="system/aspect_ratio" width="24" height="24" :original="true"></svgicon>
           <span>{{component.name}}</span>
@@ -38,6 +52,7 @@ import { mapState, mapActions } from 'vuex'
 import { registerElement } from '@/store/types'
 
 import HTML5Elements from '@/assets/HTML5Elements'
+import MaterialComponents from '@/assets/MaterialComponents'
 import MockComponents from '@/assets/MockComponents'
 import MenuToggle from '@/components/common/MenuToggle'
 
@@ -49,6 +64,7 @@ export default {
   data: function () {
     return {
       elements: HTML5Elements,
+      mdComponents: MaterialComponents,
       components: MockComponents
     }
   },
@@ -61,38 +77,6 @@ export default {
     })
   },
   methods: {
-    async addComponent (component) {
-      // if (component.dependencies) {
-      //   for (let dependency of component.dependencies) {
-      //     const src = 'https://unpkg.com/' + dependency.name + '@' + dependency.version
-      //
-      //     try {
-      //       await this.injectScript(src, dependency.name)
-      //     } catch (e) {
-      //       console.error(e)
-      //     }
-      //     console.log('finished')
-      //   }
-      // }
-
-      this.registerElement({pageId: this.activePage.id, el: component})
-    },
-
-    injectScript (src, id) {
-      return new Promise((resolve, reject) => {
-        if (document.getElementById(id)) return
-
-        let script = document.createElement('script')
-        script.id = id
-        script.async = true
-        script.src = src
-        script.addEventListener('load', resolve)
-        script.addEventListener('error', () => reject('Error loading script.'))
-        script.addEventListener('abort', () => reject('Script loading aborted.'))
-        document.head.appendChild(script)
-      })
-    },
-
     dragstartHandler (e, element) {
       e.dataTransfer.dropEffect = 'copy'
       e.dataTransfer.effectAllowed = 'all'
