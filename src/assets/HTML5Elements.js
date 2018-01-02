@@ -1,6 +1,6 @@
 /*
   Basic elements (HTML5 Elements):
-  - PARENT -> egglement, containegg
+  - PARENT -> egglement, [containegg]
  */
 const HTML5Elements = [
   {
