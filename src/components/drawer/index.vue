@@ -28,9 +28,9 @@
 
 
 <script>
-import ElementsMenu from './ElementsMenu'
-import SettingsMenu from './SettingsMenu'
-import PagesMenu from './PagesMenu'
+import ElementsMenu from './elements/ElementsMenu'
+import SettingsMenu from './settings/SettingsMenu'
+import PagesMenu from './pages/PagesMenu'
 
 export default {
   name: 'drawegg',

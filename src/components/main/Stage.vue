@@ -26,7 +26,7 @@
 import { mapState, mapActions, mapMutations } from 'vuex'
 import { _clearSelectedElements, registerElement, removeElement, resizeElement, moveElement } from '@/store/types'
 
-import MrContainer from '@/components/mr-vue/MrContainer'
+import MrContainer from '@/components/common/mr-vue/MrContainer'
 import StageEl from './StageEl'
 
 export default {

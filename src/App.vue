@@ -21,7 +21,7 @@ import { mapMutations } from 'vuex'
 
 import Headegg from '@/components/header'
 import Drawegg from '@/components/drawer'
-import PageDialog from '@/components/drawer/PageDialog'
+import PageDialog from '@/components/drawer/pages/PageDialog'
 
 export default {
   name: 'app',

@@ -2,7 +2,7 @@
 import { mapState, mapMutations } from 'vuex'
 import { _clearSelectedElements, _addSelectedElement } from '@/store/types'
 
-import MrEl from '@/components/mr-vue/MrEl'
+import MrEl from '@/components/common/mr-vue/MrEl'
 import StageEl from './StageEl'
 
 export default {
