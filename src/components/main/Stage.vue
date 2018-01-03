@@ -39,6 +39,8 @@ export default {
         ...this.page.styles,
         height: this.page.height + 'px',
         width: this.page.width + 'px'
+        // height: (typeof this.page.height === 'string') ? this.page.height : (this.page.height + 'px'),
+        // width: (typeof this.page.width === 'string') ? this.page.width : (this.page.width + 'px')
       }
     },
 

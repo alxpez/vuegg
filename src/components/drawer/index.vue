@@ -5,7 +5,7 @@
           <a href="#elements" title="Elements" class="mdl-tabs__tab is-active">
             <i class="material-icons">widgets</i>
           </a>
-          <a href="#settings" title="Properties" class="mdl-tabs__tab">
+          <a href="#settings" title="Settings" class="mdl-tabs__tab">
             <i class="material-icons">settings</i>
           </a>
           <a href="#pages" title="Pages" class="mdl-tabs__tab">
