@@ -1,22 +1,33 @@
 <template>
   <div class="menus-wrapper">
-    <menu-toggle :menuHeader="'Dimensions'">
-      <div class="el-menu">
-        <mdc-textfield v-model="height" @blur="e => saveChanges(e, 'height')" label="Height (px)" class="text-input" dense/>
-        <mdc-textfield v-model="width"  @blur="e => saveChanges(e, 'width')" label="Width (px)" class="text-input" dense/>
+    <span class="selection-title">{{selectionTitle}}</span>
+    <menu-toggle :menuHeader="'Dimensions'" v-show="showDimensionSettings" >
+      <div class="menu">
+        <mdc-textfield v-model="height" @blur="e => onPropChange(e, 'height')" label="Height (px)" class="text-input" dense/>
+        <mdc-textfield v-model="width"  @blur="e => onPropChange(e, 'width')" label="Width (px)" class="text-input" dense/>
       </div>
     </menu-toggle>
 
-    <menu-toggle v-if="selectionType !== 'page'" :menuHeader="'Position'">
-      <div class="el-menu">
-        <mdc-textfield v-model="top" @blur="e => saveChanges(e, 'top')" label="Top (px)" class="text-input" dense/>
-        <mdc-textfield v-model="left"  @blur="e => saveChanges(e, 'left')" label="Left (px)" class="text-input" dense/>
+    <menu-toggle :menuHeader="'Position'" v-show="selectionType !== 'page'">
+      <div class="menu">
+        <mdc-textfield v-model="top" @blur="e => onPropChange(e, 'top')" label="Top (px)" class="text-input" dense/>
+        <mdc-textfield v-model="left"  @blur="e => onPropChange(e, 'left')" label="Left (px)" class="text-input" dense/>
       </div>
     </menu-toggle>
 
-    <menu-toggle v-if="selectionType !== 'multiple'" :menuHeader="'Color'">
-      <div class="el-menu">
-        <input type="color" v-model="styles.background" @input="e => saveChanges(e, 'styles')">
+    <menu-toggle :menuHeader="'Text'" :initClosed="true" v-show="showTextSettings">
+      <div class="menu text-menu">
+        <mdc-textfield v-model="text" v-if="text !== null"
+          @blur="e => onPropChange(e, 'text')"label="Text" class="text-input" dense/>
+        <mdc-textfield v-model="attrs.value" v-else-if="showTextSettings"
+          @blur="e => onPropChange(e, 'attrs')" label="Text" class="text-input" dense/>
+        <color-picker :value="formattedColor" @input="newColor => onColorChange(newColor, 'color')"></color-picker>
+      </div>
+    </menu-toggle>
+
+    <menu-toggle :menuHeader="'BackgroundColor'" :initClosed="true" v-if="showColorSettings">
+      <div class="menu color-menu">
+        <color-picker :value="formattedBackgroundColor" @input="newColor => onColorChange(newColor, 'background')"></color-picker>
       </div>
     </menu-toggle>
   </div>
@@ -28,23 +39,28 @@ import cloneDeep from 'clone-deep'
 import { mapState, mapMutations } from 'vuex'
 import { updatePage, updateEgglement } from '@/store/types'
 
+import { Chrome } from 'vue-color'
+import tinycolor from 'tinycolor2'
+
 import MenuToggle from '@/components/common/MenuToggle'
 import '@/assets/icons/system'
 
 export default {
   name: 'settings-menu',
-  components: { MenuToggle },
+  components: { MenuToggle, 'color-picker': Chrome },
   data: function () {
     return {
       name: null,
       path: null,
+      text: null,
       height: null,
       width: null,
       top: null,
       left: null,
       attrs: {},
       styles: {},
-      classes: {}
+      classes: {},
+      defaultColor: {rgba: {r: 0, g: 0, b: 0, a: 1}, a: 1}
     }
   },
   computed: {
@@ -56,6 +72,14 @@ export default {
           : 'single'
     },
 
+    selectionTitle () {
+      return (this.selectedElements.length === 0)
+        ? 'PAGE'
+        : (this.selectedElements.length > 1)
+          ? 'MULTIPLE'
+          : this.selectedElements[0].name.toUpperCase()
+    },
+
     selectedItem () {
       return (this.selectedElements.length === 0)
         ? this.activePage
@@ -64,13 +88,54 @@ export default {
           : this.selectedElements[0]
     },
 
+    formattedBackgroundColor () {
+      return (this.styles.background) ? tinycolor(this.styles.background).toRgb() : this.defaultColor
+    },
+
+    formattedColor () {
+      return (this.styles && this.styles.color) ? tinycolor(this.styles.color).toRgb() : this.defaultColor
+    },
+
+    hasComponents () {
+      return (this.selectedElements.length > 0)
+        ? (this.selectedElements.findIndex(el => el.componegg === true) !== -1)
+        : false
+    },
+
+    isExternal () {
+      return (this.selectedElements.length > 0)
+        ? (this.selectedElements.findIndex(el => el.external === true) !== -1)
+        : false
+    },
+
+    // --- Visibility menus settings --- //
+    showDimensionSettings () {
+      return (!this.hasComponents || (this.hasComponents && this.isExternal))
+    },
+
+    showTextSettings () {
+      return ((this.selectionType !== 'multiple') && (this.selectionType !== 'page') &&
+              (this.text !== null || (typeof this.attrs.value !== 'undefined' && this.attrs.value !== null)) &&
+              (!this.hasComponents || (this.hasComponents && this.isExternal)))
+    },
+
+    showColorSettings () {
+      return ((this.selectionType !== 'multiple') &&
+              (!this.hasComponents || (this.hasComponents && this.isExternal)))
+    },
+
     ...mapState({
       activePage: state => state.app.selectedPage,
       selectedElements: state => state.app.selectedElements
     })
   },
   methods: {
-    saveChanges (e, prop) {
+    onColorChange (newColor, prop) {
+      this.styles[prop] = tinycolor(newColor.hsl).toRgbString()
+      this.saveChanges({styles: cloneDeep(this.styles)})
+    },
+
+    onPropChange (e, prop) {
       if (e.target.value === '') return
       let newValue = {}
 
@@ -88,12 +153,16 @@ export default {
         newValue[prop] = e.target.value
       }
 
+      this.saveChanges(newValue)
+    },
+
+    saveChanges (newValue) {
       if (this.selectionType === 'page') {
         this.updatePage({page: this.activePage, ...newValue})
-      } else if (this.selectionType === 'single') {
-        this.updateEgglement({egglement: this.selectedItem, ...newValue})
-      } else {
+      } else if (this.selectionType === 'multiple') {
         this.selectedItem.map(egglement => this.updateEgglement({egglement, ...newValue}))
+      } else {
+        this.updateEgglement({egglement: this.selectedItem, ...newValue})
       }
     },
 
@@ -101,21 +170,28 @@ export default {
   },
   watch: {
     'selectedItem': function (val) {
-      if (!Array.isArray(val)) {
-        this.name = val.name
-        this.path = val.path
-        if (val.height) this.height = val.height.toString()
-        if (val.width) this.width = val.width.toString()
-        if (val.top) this.top = val.top.toString()
-        if (val.left) this.left = val.left.toString()
-        this.attrs = cloneDeep(val.attrs)
-        this.styles = cloneDeep(val.styles)
-        this.classes = cloneDeep(val.classes)
-      } else {
-        this.height = null
-        this.width = null
+      if (Array.isArray(val)) {
+        this.name = null
+        this.path = null
+        this.text = null
         this.top = null
         this.left = null
+        this.height = null
+        this.width = null
+        this.attrs = {}
+        this.styles = {}
+        this.classes = {}
+      } else {
+        this.name = (val.name) ? val.name : null
+        this.path = (val.path) ? val.path : null
+        this.text = (val.text) ? val.text : null
+        this.height = (typeof val.height !== 'undefined' && val.height !== null) ? val.height.toString() : null
+        this.width = (typeof val.width !== 'undefined' && val.width !== null) ? val.width.toString() : null
+        this.top = (typeof val.top !== 'undefined' && val.top !== null) ? val.top.toString() : null
+        this.left = (typeof val.left !== 'undefined' && val.left !== null) ? val.left.toString() : null
+        this.attrs = (val.attrs) ? cloneDeep(val.attrs) : {}
+        this.styles = (val.styles) ? cloneDeep(val.styles) : {}
+        this.classes = (val.classes) ? cloneDeep(val.classes) : {}
       }
     }
   }
@@ -134,13 +210,33 @@ export default {
   overflow-y: auto;
 }
 
-.el-menu {
+.selection-title {
+  text-align: center;
+  padding: 9px 0;
+  background-color: #ffffff;
+  border-bottom: 1px solid rgba(0,0,0,0.12);
+}
+
+.menu {
   width: 100%;
   height: 100%;
   margin: 1px;
   margin-bottom: 10px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+}
+  .text-menu {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .color-menu {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+.vc-chrome {
+  background: rgba(0,0,0,0);
+  background-color: rgba(0,0,0,0);
+  box-shadow: none;
+  margin: auto;
 }
 
 .text-input {
