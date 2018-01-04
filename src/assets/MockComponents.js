@@ -12,6 +12,7 @@ const MockComponents = [
     'containegg': true,
     'width': 400,
     'height': 40,
+    'attrs': {},
     'styles': {},
     'classes': {},
     'children': [

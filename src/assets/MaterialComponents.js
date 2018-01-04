@@ -31,7 +31,6 @@ const MockComponents = [
       'compact': false,
       'disabled': false
     },
-    'styles': {},
     'classes': {},
     'children': []
   }, {

@@ -17,6 +17,7 @@ const HTML5Elements = [
     },
     'classes': {},
     'styles': {
+      'background': 'rgba(0,0,0,0)',
       'overflow': 'hidden',
       'border': '1px solid rgba(0, 0, 0, 0.15)'
     },
@@ -31,7 +32,9 @@ const HTML5Elements = [
     'height': 32,
     'minHeight': 32,
     'attrs': {},
-    'styles': {},
+    'styles': {
+      'background': 'rgba(0,0,0,0)'
+    },
     'classes': {}
   }, {
     'name': 'link',
@@ -46,6 +49,7 @@ const HTML5Elements = [
       'href': '#'
     },
     'styles': {
+      'background': 'rgba(0,0,0,0)',
       'text-align': 'center'
     },
     'classes': {}
@@ -59,7 +63,9 @@ const HTML5Elements = [
     'height': 40,
     'minHeight': 32,
     'attrs': {},
-    'styles': {},
+    'styles': {
+      'background': '#ffffff'
+    },
     'classes': {}
   }, {
     'name': 'input',
@@ -70,9 +76,12 @@ const HTML5Elements = [
     'height': 40,
     'minHeight': 32,
     'attrs': {
+      'value': '',
       'placeholder': 'Input prompt'
     },
-    'styles': {},
+    'styles': {
+      'background': '#ffffff'
+    },
     'classes': {}
   }, {
     'name': 'radio',
@@ -86,7 +95,9 @@ const HTML5Elements = [
       'type': 'radio',
       'name': 'default-group'
     },
-    'styles': {},
+    'styles': {
+      'background': 'rgba(0,0,0,0)'
+    },
     'classes': {}
   }, {
     'name': 'checkbox',
@@ -99,7 +110,9 @@ const HTML5Elements = [
     'attrs': {
       'type': 'checkbox'
     },
-    'styles': {},
+    'styles': {
+      'background': 'rgba(0,0,0,0)'
+    },
     'classes': {}
   }, {
     'name': 'date',
@@ -110,9 +123,12 @@ const HTML5Elements = [
     'height': 40,
     'minHeight': 32,
     'attrs': {
+      'value': '',
       'type': 'date'
     },
-    'styles': {},
+    'styles': {
+      'background': '#ffffff'
+    },
     'classes': {}
   }, {
     'name': 'image',
@@ -125,7 +141,9 @@ const HTML5Elements = [
     'attrs': {
       'src': '/static/vuegg-fam.svg'
     },
-    'styles': {},
+    'styles': {
+      'background': 'rgba(0,0,0,0)'
+    },
     'classes': {}
   }
 ]
