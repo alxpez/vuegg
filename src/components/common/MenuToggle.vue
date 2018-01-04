@@ -1,5 +1,5 @@
 <template>
-  <div class="menu-container">
+  <div class="menu-container" v-show="!isHidden">
     <div class="header" @click="toggleMenu()">
       <span>{{menuHeader}}</span>
       <svgicon v-if="isClosed" icon="system/expand" width="14" height="14" color="#737373"></svgicon>
@@ -19,12 +19,14 @@ export default {
   name: 'menu-toggle',
   props: {
     menuHeader: { type: String, default: '' },
-    initClosed: { type: Boolean, dafault: false }
+    startClosed: { type: Boolean, dafault: false },
+    hidden: { type: Boolean, dafault: false }
   },
   data: function () {
     return {
       initialized: false,
-      isClosed: false, // Menu needs to start open to calculate the maxHeight
+      isClosed: false,
+      isHidden: false,
       maxHeight: 'auto'
     }
   },
@@ -32,10 +34,9 @@ export default {
     this.maxHeight = this.$el.scrollHeight - 40 + 'px'
   },
   beforeUpdate: function () {
-    // Once the maxHeight has been calculated on the mounted hook,
-    // The initial state gets applied. Only once (if the component is not initialized)
     if (!this.initialized) {
-      this.isClosed = this.initClosed
+      this.isClosed = this.startClosed
+      this.isHidden = this.hidden
       this.initialized = true
     }
   },
@@ -48,6 +49,11 @@ export default {
     toggleMenu () {
       this.isClosed = !this.isClosed
       this.isClosed ? this.$emit('closed') : this.$emit('opened')
+    }
+  },
+  watch: {
+    'hidden': function (val) {
+      this.isHidden = val
     }
   }
 }

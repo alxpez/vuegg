@@ -1,33 +1,34 @@
 <template>
   <div class="menus-wrapper">
     <span class="selection-title">{{selectionTitle}}</span>
-    <menu-toggle :menuHeader="'Dimensions'" v-show="showDimensionSettings" >
-      <div class="menu">
-        <mdc-textfield v-model="height" @blur="e => onPropChange(e, 'height')" label="Height (px)" class="text-input" dense/>
-        <mdc-textfield v-model="width"  @blur="e => onPropChange(e, 'width')" label="Width (px)" class="text-input" dense/>
+    <menu-toggle :menuHeader="'Dimensions'" :hidden="!showDimensionSettings" >
+      <div class="menu dimension-menu">
+        <mdc-textfield v-model="height" @blur="e => onPropChange(e, 'height')" label="Height (px)" class="mini-text-input" dense/>
+        <mdc-textfield v-model="width"  @blur="e => onPropChange(e, 'width')" label="Width (px)" class="mini-text-input" dense/>
       </div>
     </menu-toggle>
 
-    <menu-toggle :menuHeader="'Position'" v-show="selectionType !== 'page'">
-      <div class="menu">
-        <mdc-textfield v-model="top" @blur="e => onPropChange(e, 'top')" label="Top (px)" class="text-input" dense/>
-        <mdc-textfield v-model="left"  @blur="e => onPropChange(e, 'left')" label="Left (px)" class="text-input" dense/>
+    <menu-toggle :menuHeader="'Position'" :hidden="selectionType === 'page'">
+      <div class="menu position-menu">
+        <mdc-textfield v-model="top" @blur="e => onPropChange(e, 'top')" label="Top (px)" class="mini-text-input" dense/>
+        <mdc-textfield v-model="left"  @blur="e => onPropChange(e, 'left')" label="Left (px)" class="mini-text-input" dense/>
       </div>
     </menu-toggle>
 
-    <menu-toggle :menuHeader="'Text'" :initClosed="true" v-show="showTextSettings">
+    <menu-toggle :menuHeader="'Text properties'" :startClosed="true" :hidden="!showTextSettings">
       <div class="menu text-menu">
-        <mdc-textfield v-model="text" v-if="text !== null"
-          @blur="e => onPropChange(e, 'text')"label="Text" class="text-input" dense/>
-        <mdc-textfield v-model="attrs.value" v-else-if="showTextSettings"
+        <mdc-textfield v-model="attrs.value" v-if="(typeof attrs.value !== 'undefined' && attrs.value !== null)"
           @blur="e => onPropChange(e, 'attrs')" label="Text" class="text-input" dense/>
-        <color-picker :value="formattedColor" @input="newColor => onColorChange(newColor, 'color')"></color-picker>
+        <mdc-textfield v-model="text" v-else
+          @blur="e => onPropChange(e, 'text')"label="Text" class="text-input" dense/>
+
+        <color-chrome :value="formattedColor" @input="newColor => onColorChange(newColor, 'color')"></color-chrome>
       </div>
     </menu-toggle>
 
-    <menu-toggle :menuHeader="'BackgroundColor'" :initClosed="true" v-if="showColorSettings">
+    <menu-toggle :menuHeader="'Background Color'" :startClosed="true" :hidden="!showColorSettings">
       <div class="menu color-menu">
-        <color-picker :value="formattedBackgroundColor" @input="newColor => onColorChange(newColor, 'background')"></color-picker>
+        <color-chrome :value="formattedBackgroundColor" @input="newColor => onColorChange(newColor, 'background')"></color-chrome>
       </div>
     </menu-toggle>
   </div>
@@ -47,7 +48,7 @@ import '@/assets/icons/system'
 
 export default {
   name: 'settings-menu',
-  components: { MenuToggle, 'color-picker': Chrome },
+  components: { MenuToggle, 'color-chrome': Chrome },
   data: function () {
     return {
       name: null,
@@ -223,23 +224,26 @@ export default {
   margin: 1px;
   margin-bottom: 10px;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
 }
-  .text-menu {
-    grid-template-columns: repeat(1, 1fr);
+  .dimension-menu, .position-menu {
+    grid-template-columns: repeat(2, 1fr);
   }
-  .color-menu {
+  .text-menu, .color-menu {
     grid-template-columns: repeat(1, 1fr);
   }
 
 .vc-chrome {
-  background: rgba(0,0,0,0);
-  background-color: rgba(0,0,0,0);
+  background: transparent;
+  background-color: transparent;
   box-shadow: none;
   margin: auto;
 }
 
 .text-input {
+  margin: 0 20px 10px;
+}
+
+.mini-text-input {
   margin: 0 20px;
 }
 
