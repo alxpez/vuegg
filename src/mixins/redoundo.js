@@ -22,7 +22,6 @@ const redoundo = {
 
       // It won't save the state of mutations leaded by '_'
       if (mutation.type.charAt(0) !== '_') {
-        console.log('push done')
         this.done.push(cloneDeep(state))
         this.undone = []
       }
