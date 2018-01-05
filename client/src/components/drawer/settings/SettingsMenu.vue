@@ -17,8 +17,22 @@
       </div>
     </menu-toggle>
 
-    <menu-toggle :menuHeader="'Text properties'" :startClosed="true" :hidden="!showTextSettings">
+    <menu-toggle :menuHeader="'Text properties'" :startClosed="false" :hidden="!showTextSettings">
       <div class="menu text-menu">
+        <div class="icon-bar">
+          <svgicon icon="system/editor/align_left" width="22" height="22" :original="true"></svgicon>
+          <svgicon icon="system/editor/align_right" width="22" height="22" :original="true"></svgicon>
+          <svgicon icon="system/editor/align_center" width="22" height="22" :original="true"></svgicon>
+          <svgicon icon="system/editor/align_justify" width="22" height="22" :original="true"></svgicon>
+        </div>
+
+        <div class="icon-bar">
+          <svgicon icon="system/editor/bold" width="22" height="22" :original="true"></svgicon>
+          <svgicon icon="system/editor/italic" width="22" height="22" :original="true"></svgicon>
+          <svgicon icon="system/editor/underline" width="22" height="22" :original="true"></svgicon>
+          <svgicon icon="system/editor/strikethrough" width="22" height="22" :original="true"></svgicon>
+        </div>
+
         <mdc-textfield v-model="attrs.value" v-if="(typeof attrs.value !== 'undefined' && attrs.value !== null)"
           @blur="e => onPropChange(e, 'attrs')" label="Text" class="text-input" dense/>
         <mdc-textfield v-model="text" v-else
@@ -46,7 +60,7 @@ import { Chrome } from 'vue-color'
 import tinycolor from 'tinycolor2'
 
 import MenuToggle from '@/components/common/MenuToggle'
-import '@/assets/icons/system'
+import '@/assets/icons/system/editor/'
 
 export default {
   name: 'settings-menu',
@@ -233,6 +247,15 @@ export default {
   .text-menu, .color-menu {
     grid-template-columns: repeat(1, 1fr);
   }
+
+.icon-bar {
+  text-align: center;
+  margin: 16px 0 4px;
+}
+.icon-bar svg {
+  margin: 0 16px;
+  cursor: pointer;
+}
 
 .vc-chrome {
   background: transparent;
