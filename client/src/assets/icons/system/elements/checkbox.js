@@ -2,7 +2,7 @@
 
 var icon = require('vue-svgicon')
 icon.register({
-  'system/checkbox': {
+  'system/elements/checkbox': {
     width: 24,
     height: 24,
     viewBox: '0 0 24 24',

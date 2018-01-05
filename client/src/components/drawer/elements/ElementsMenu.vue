@@ -8,7 +8,7 @@
           @dragstart="e => dragstartHandler(e, element)"
           @click="registerElement({pageId: activePage.id, el: element})"
         >
-          <svgicon :icon="'system/'+element.name" width="24" height="24" :original="true"></svgicon>
+          <svgicon :icon="'system/elements/'+element.name" width="24" height="24" :original="true"></svgicon>
           <span>{{element.name}}</span>
         </div>
       </div>
@@ -22,7 +22,7 @@
           @dragstart="e => dragstartHandler(e, mdComp)"
           @click="registerElement({pageId: activePage.id, el: mdComp})"
         >
-          <svgicon icon="system/aspect_ratio" width="24" height="24" :original="true"></svgicon>
+          <svgicon icon="system/elements/aspect_ratio" width="24" height="24" :original="true"></svgicon>
           <span>{{mdComp.name}}</span>
         </div>
       </div>
@@ -37,7 +37,7 @@
           @dragstart="e => dragstartHandler(e, component)"
           @click="registerElement({pageId: activePage.id, el: component})"
         >
-          <svgicon icon="system/aspect_ratio" width="24" height="24" :original="true"></svgicon>
+          <svgicon icon="system/elements/earth" width="24" height="24" :original="true"></svgicon>
           <span>{{component.name}}</span>
         </div>
       </div>
@@ -56,7 +56,7 @@ import MaterialComponents from '@/assets/MaterialComponents'
 import MockComponents from '@/assets/MockComponents'
 import MenuToggle from '@/components/common/MenuToggle'
 
-import '@/assets/icons/system'
+import '@/assets/icons/system/elements/'
 
 export default {
   name: 'elements-menu',

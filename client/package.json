@@ -14,8 +14,9 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
     "clean-product-svgs": "svgo -p 2 -f src/assets/svgs/raw/product/ -o src/assets/svgs/clean/product/",
     "clean-system-svgs": "svgo -p 2 -f src/assets/svgs/raw/system/ -o src/assets/svgs/clean/system/",
+    "clean-sys-elements-svgs": "svgo -p 2 -f src/assets/svgs/raw/system/elements/ -o src/assets/svgs/clean/system/elements/",
     "clean-sys-editor-svgs": "svgo -p 2 -f src/assets/svgs/raw/system/editor/ -o src/assets/svgs/clean/system/editor/",
-    "clean-svgs": "npm run clean-product-svgs && npm run clean-system-svgs && npm run clean-sys-editor-svgs",
+    "clean-svgs": "npm run clean-product-svgs && npm run clean-system-svgs && npm run clean-sys-editor-svgs && npm run clean-sys-elements-svgs",
     "svg2icon": "vsvg -s src/assets/svgs/clean -t src/assets/icons",
     "optimicons": "npm run clean-svgs && npm run svg2icon"
   },
