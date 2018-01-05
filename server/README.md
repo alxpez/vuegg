@@ -8,6 +8,12 @@
 # install dependencies
 npm install
 
-# start server at localhost:5000
-npm run dev  # OR npm run start
+# start server for development
+# (auto-restart on changes, thanks to nodemon)
+npm run dev
+
+# start server for production (no auto-restart)
+npm run start
 ```
+
+The server will be running on `localhost:5000`

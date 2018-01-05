@@ -6,7 +6,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "NODE_ENV=development node server.js"
+    "dev": "NODE_ENV=development nodemon server.js"
   },
   "dependencies": {
     "archiver": "^2.1.0",
@@ -21,5 +21,15 @@
     "shortid": "^2.2.8",
     "string": "^3.3.3"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "nodemon": "^1.14.7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/alxpez/vuegg.git"
+  },
+  "bugs": {
+    "url": "https://gitlab.com/alxpez/vuegg/issues"
+  },
+  "homepage": "https://gitlab.com/alxpez/vuegg#README"
 }
