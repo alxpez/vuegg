@@ -5,14 +5,19 @@
   "author": "alxpez",
   "private": true,
   "scripts": {
-    "svg-icon": "vsvg -s src/assets/svgs -t src/assets/icons",
     "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",
     "build": "node build/build.js",
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
-    "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
+    "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
+    "clean-product-svgs": "svgo -p 2 -f src/assets/svgs/raw/product/ -o src/assets/svgs/clean/product/",
+    "clean-system-svgs": "svgo -p 2 -f src/assets/svgs/raw/system/ -o src/assets/svgs/clean/system/",
+    "clean-sys-editor-svgs": "svgo -p 2 -f src/assets/svgs/raw/system/editor/ -o src/assets/svgs/clean/system/editor/",
+    "clean-svgs": "npm run clean-product-svgs && npm run clean-system-svgs && npm run clean-sys-editor-svgs",
+    "svg2icon": "vsvg -s src/assets/svgs/clean -t src/assets/icons",
+    "optimicons": "npm run clean-svgs && npm run svg2icon"
   },
   "dependencies": {
     "axios": "^0.17.1",

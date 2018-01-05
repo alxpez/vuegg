@@ -1,3 +1,5 @@
+<!-- TODO: divide settingsMenu > submenus into their own components -->
+
 <template>
   <div class="menus-wrapper">
     <span class="selection-title">{{selectionTitle}}</span>
