@@ -1,62 +1,59 @@
-# vuegg
+<h1 align="center">vuegg</h1>
+<p align="center">
+  <a href="https://vuegg.now.sh" target="_blank">
+    <img width="180" src="https://vuegg.now.sh/static/vuegg-fam.svg">
+  </a>
+</p>
+<p align="center"><strong>vue</strong>.js <strong>G</strong>UI <strong>g</strong>enerator</p>
 
-> **vue**js **G**UI **g**enerator
+---
 
-## Build Setup
-
+## Auto-run
 ``` bash
-# install dependencies
-npm install
+# install, build and serve
+npm run vuegg
+```
+Navigate to `localhost:5000` to serve (a production-ready) vuegg.
 
-# serve with hot reload at localhost:8080
-npm run dev
+---
 
-# build for production with minification
+## Step-by-step setup
+
+#### installation
+``` bash
+# install client & server dependencies
+npm run install:all
+
+# OR install only client / server
+npm run install:client
+npm run install:server
+```
+---
+
+#### development
+``` bash
+# serve vuegg-client with hot reload
+npm run client # OR npm run dev
+
+# start vuegg-server
+npm run server # OR npm run start
+```
+Navigate to `localhost:8080` to serve *vuegg-client* with hot-reload (development server).
+
+> For detailed explanation on how things work, checkout the **[vuejs-templates/webpack](http://vuejs-templates.github.io/webpack/)** guide and docs for **[vue-loader](http://vuejs.github.io/vue-loader)**.
+
+> For development *vuegg-server* will only generate vuejs projects (it won't be serving *vuegg-client* resources).
+
+> **BE AWARE** that the above commands should be run in different terminal instances.
+
+---
+
+#### production
+``` bash
+# build vuegg-client for production with minification
 npm run build
 
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
+# start vuegg-server at localhost:5000
+npm run start # OR npm run server
 ```
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
-
-## Development notes
-
-**Basic Elements**
-* Props: **egglement**, [**containegg**]
-
-* *Renders directly on the page.*
-
-> Any HTML5 elements (div, button, input...)
-
-
-**Vuegg components**
-* Wrapper props: **egglement**, **componegg**, **containegg**
-
-* Children props: **egglement**, [**componegg**], [**containegg**]
-
-* *Renders component tag on the page and generates component file with full definition.*
-
-> Any component build with the set of *Basic Elements*. Usually a 'div' element containing other basic elements or components (vuegg-powered or external).
-
-> They are not editable from the main edition view (only position).
-
->TODO, a vuegg-componegg edition view to modify the global component reference, and apply changes to all instances of that component.
-
-**External components**
-* Wrapper props: **external**, **componegg**
-
-* Children props: (none)
-
-* *Renders directly on the page. Adds global dependencies to package.json, main.js and/or index.html*
-
-> Components from external libraries/packages (ie. vue-mdc-adapter)
+Navigate to `localhost:5000` to serve (a production-ready) vuegg.
