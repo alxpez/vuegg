@@ -2,7 +2,7 @@
 
 var icon = require('vue-svgicon')
 icon.register({
-  'system/div': {
+  'system/elements/div': {
     width: 24,
     height: 24,
     viewBox: '0 0 24 24',
