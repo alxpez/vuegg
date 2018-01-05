@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "vuejs GUI generator",
   "author": "alxpez",
-  "main": "./server/server.js",
+  "main": "server/server.js",
   "scripts": {
     "vuegg": "npm run install:all && npm run build && npm run start",
     "install:all": "npm run install:client && npm run install:server",
