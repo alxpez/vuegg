@@ -5,7 +5,7 @@
  */
 const MockComponents = [
   {
-    'name': 'Search Bar',
+    'name': 'alxpez/searchBar',
     'type': 'div',
     'egglement': true,
     'componegg': true,
