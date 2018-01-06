@@ -1,4 +1,4 @@
-<!-- TODO: divide settingsMenu > submenus into their own components -->
+<!-- TODO: divide settingsMenu into submenus components -->
 
 <template>
   <div class="menus-wrapper">
@@ -20,18 +20,41 @@
     <menu-toggle :menuHeader="'Text properties'" :startClosed="false" :hidden="!showTextSettings">
       <div class="menu text-menu">
         <div class="icon-bar">
-          <svgicon icon="system/editor/align_left" width="22" height="22" color="rgba(0,0,0,.38)"
-            @click.native="onToggleProp('alignLeft')"></svgicon>
-          <svgicon icon="system/editor/align_right" width="22" height="22" color="rgba(0,0,0,.87)"></svgicon>
-          <svgicon icon="system/editor/align_center" width="22" height="22" color="rgba(0,0,0,.87)"></svgicon>
-          <svgicon icon="system/editor/align_justify" width="22" height="22" color="rgba(0,0,0,.87)"></svgicon>
+          <svgicon icon="system/editor/align_left" width="22" height="22"
+            @click.native="onToggleProp('text-align', 'left', isAlignedLeft)"
+            :color="isAlignedLeft ? 'rgba(0,0,0,.87)' : 'rgba(0,0,0,.38)'">
+          </svgicon>
+          <svgicon icon="system/editor/align_right" width="22" height="22"
+            @click.native="onToggleProp('text-align', 'right', isAlignedRight)"
+            :color="isAlignedRight ? 'rgba(0,0,0,.87)' : 'rgba(0,0,0,.38)'">
+          </svgicon>
+          <svgicon icon="system/editor/align_center" width="22" height="22"
+            @click.native="onToggleProp('text-align', 'center', isCentered)"
+            :color="isCentered ? 'rgba(0,0,0,.87)' : 'rgba(0,0,0,.38)'">
+          </svgicon>
+          <svgicon icon="system/editor/align_justify" width="22" height="22"
+            @click.native="onToggleProp('text-align', 'justify', isJustified)"
+            :color="isJustified ?'rgba(0,0,0,.87)' : 'rgba(0,0,0,.38)'">
+          </svgicon>
         </div>
 
         <div class="icon-bar">
-          <svgicon icon="system/editor/bold" width="22" height="22"></svgicon>
-          <svgicon icon="system/editor/italic" width="22" height="22"></svgicon>
-          <svgicon icon="system/editor/underline" width="22" height="22"></svgicon>
-          <svgicon icon="system/editor/strikethrough" width="22" height="22"></svgicon>
+          <svgicon icon="system/editor/bold" width="22" height="22"
+            @click.native="onToggleProp('font-weight', 'bold', isBold)"
+            :color="isBold ? 'rgba(0,0,0,.87)' : 'rgba(0,0,0,.38)'">
+          </svgicon>
+          <svgicon icon="system/editor/italic" width="22" height="22"
+            @click.native="onToggleProp('font-style', 'italic', isItalic)"
+            :color="isItalic ? 'rgba(0,0,0,.87)' : 'rgba(0,0,0,.38)'">
+          </svgicon>
+          <svgicon icon="system/editor/underline" width="22" height="22"
+            @click.native="onToggleProp('text-decoration', 'underline', isUnderlined)"
+            :color="isUnderlined ? 'rgba(0,0,0,.87)' : 'rgba(0,0,0,.38)'">
+          </svgicon>
+          <svgicon icon="system/editor/strikethrough" width="22" height="22"
+            @click.native="onToggleProp('text-decoration', 'line-through', isStriked)"
+            :color="isStriked ? 'rgba(0,0,0,.87)' : 'rgba(0,0,0,.38)'">
+          </svgicon>
         </div>
 
         <mdc-textfield v-model="attrs.value" v-if="(typeof attrs.value !== 'undefined' && attrs.value !== null)"
@@ -45,7 +68,7 @@
 
     <menu-toggle :menuHeader="'Background Color'" :startClosed="true" :hidden="!showColorSettings">
       <div class="menu color-menu">
-        <color-chrome :value="formattedBackgroundColor" @input="newColor => onColorChange(newColor, 'background')"></color-chrome>
+        <color-chrome :value="formattedBackgroundColor" @input="newColor => onColorChange(newColor, 'background-color')"></color-chrome>
       </div>
     </menu-toggle>
   </div>
@@ -89,7 +112,6 @@ export default {
           ? 'multiple'
           : 'single'
     },
-
     selectionTitle () {
       return (this.selectedElements.length === 0)
         ? 'PAGE'
@@ -97,7 +119,6 @@ export default {
           ? 'MULTIPLE'
           : this.selectedElements[0].name.toUpperCase()
     },
-
     selectedItem () {
       return (this.selectedElements.length === 0)
         ? this.activePage
@@ -107,9 +128,8 @@ export default {
     },
 
     formattedBackgroundColor () {
-      return (this.styles.background) ? tinycolor(this.styles.background).toRgb() : this.defaultColor
+      return (this.styles['background-color']) ? tinycolor(this.styles['background-color']).toRgb() : this.defaultColor
     },
-
     formattedColor () {
       return (this.styles && this.styles.color) ? tinycolor(this.styles.color).toRgb() : this.defaultColor
     },
@@ -119,26 +139,34 @@ export default {
         ? (this.selectedElements.findIndex(el => el.componegg === true) !== -1)
         : false
     },
-
     isExternal () {
       return (this.selectedElements.length > 0)
         ? (this.selectedElements.findIndex(el => el.external === true) !== -1)
         : false
     },
 
+    // --- Toggle menus visibility settings --- //
+    isAlignedLeft () { return (this.styles['text-align'] === 'left') },
+    isAlignedRight () { return (this.styles['text-align'] === 'right') },
+    isCentered () { return (this.styles['text-align'] === 'center') },
+    isJustified () { return (this.styles['text-align'] === 'justify') },
+
+    isBold () { return (this.styles['font-weight'] === 'bold') },
+    isItalic () { return (this.styles['font-style'] === 'italic') },
+    isUnderlined () { return (this.styles['text-decoration'] === 'underline') },
+    isStriked () { return (this.styles['text-decoration'] === 'line-through') },
+
     // --- Visibility menus settings --- //
     showDimensionSettings () {
       return (!this.hasComponents || (this.hasComponents && this.isExternal))
     },
-
+    showColorSettings () {
+      return ((this.selectionType !== 'multiple') &&
+              (!this.hasComponents || (this.hasComponents && this.isExternal)))
+    },
     showTextSettings () {
       return ((this.selectionType !== 'multiple') && (this.selectionType !== 'page') &&
               (this.text !== null || (typeof this.attrs.value !== 'undefined' && this.attrs.value !== null)) &&
-              (!this.hasComponents || (this.hasComponents && this.isExternal)))
-    },
-
-    showColorSettings () {
-      return ((this.selectionType !== 'multiple') &&
               (!this.hasComponents || (this.hasComponents && this.isExternal)))
     },
 
@@ -153,8 +181,12 @@ export default {
       this.saveChanges({styles: cloneDeep(this.styles)})
     },
 
-    onToggleProp (prop) {
-      console.log(prop)
+    onToggleProp (prop, val, isOn) {
+      this.styles[prop] = isOn ? 'inherit' : val
+      this.saveChanges({styles: cloneDeep(this.styles)})
+
+      // Necessary rebase for reactivity purposes
+      this.styles = cloneDeep(this.styles)
     },
 
     onPropChange (e, prop) {
