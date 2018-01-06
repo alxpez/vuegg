@@ -1,7 +1,7 @@
 <h1 align="center">vuegg</h1>
 <p align="center">
   <a href="https://vuegg.now.sh" target="_blank">
-    <img width="180" src="https://avatars3.githubusercontent.com/u/35027416">
+    <img width="180" src="http://localhost:8080/static/vuegg-fam.svg">
   </a>
 </p>
 <p align="center"><strong>vue</strong>.js <strong>G</strong>UI <strong>g</strong>enerator</p>
