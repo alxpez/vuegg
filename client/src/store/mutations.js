@@ -106,7 +106,7 @@ const mutations = {
    *
    * @param {object} componentRef : Component reference for the project
    */
-  [types.saveComponentRef]: function (state, componentRef) {
+  [types._saveComponentRef]: function (state, componentRef) {
     state.project.components.push(componentRef)
   },
 
@@ -116,7 +116,7 @@ const mutations = {
    * @param {number} payload.compIndex : Component's index
    * @param {number} payload.newCount : New usage count
    */
-  [types.updateComponentRef]: function (state, payload) {
+  [types._updateComponentRef]: function (state, payload) {
     state.project.components.splice(payload.compIndex, 1, {
       ...state.project.components[payload.compIndex],
       usageCount: payload.newCount
@@ -128,7 +128,7 @@ const mutations = {
    *
    * @param {string} componentRefIndex : Index of the component reference to remove
    */
-  [types.removeComponentRef]: function (state, componentRefIndex) {
+  [types._removeComponentRef]: function (state, componentRefIndex) {
     state.project.components.splice(componentRefIndex, 1)
   },
 
