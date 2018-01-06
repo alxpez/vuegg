@@ -14,7 +14,7 @@
     "build": "cd client && npm run build",
     "start": "cd server && npm run start",
     "now-build": "npm run install:all && npm run build",
-    "deploy": "now scale vuegg.now.sh 0 1 && now --public && now alias && now scale vuegg.now.sh 1"
+    "deploy": "now --public && now alias && now scale vuegg.now.sh 1"
   },
   "now": {
     "name": "vuegg",
