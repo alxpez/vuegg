@@ -17,7 +17,6 @@ const HTML5Elements = [
     },
     'classes': {},
     'styles': {
-      'background': 'rgba(0,0,0,0)',
       'overflow': 'hidden',
       'border': '1px solid rgba(0, 0, 0, 0.15)'
     },
@@ -32,9 +31,7 @@ const HTML5Elements = [
     'height': 32,
     'minHeight': 32,
     'attrs': {},
-    'styles': {
-      'background': 'rgba(0,0,0,0)'
-    },
+    'styles': {},
     'classes': {}
   }, {
     'name': 'link',
@@ -49,7 +46,6 @@ const HTML5Elements = [
       'href': '#'
     },
     'styles': {
-      'background': 'rgba(0,0,0,0)',
       'text-align': 'center'
     },
     'classes': {}
@@ -63,9 +59,7 @@ const HTML5Elements = [
     'height': 40,
     'minHeight': 32,
     'attrs': {},
-    'styles': {
-      'background': '#ffffff'
-    },
+    'styles': {},
     'classes': {}
   }, {
     'name': 'input',
@@ -79,9 +73,7 @@ const HTML5Elements = [
       'value': '',
       'placeholder': 'Input prompt'
     },
-    'styles': {
-      'background': '#ffffff'
-    },
+    'styles': {},
     'classes': {}
   }, {
     'name': 'radio',
@@ -95,9 +87,7 @@ const HTML5Elements = [
       'type': 'radio',
       'name': 'default-group'
     },
-    'styles': {
-      'background': 'rgba(0,0,0,0)'
-    },
+    'styles': {},
     'classes': {}
   }, {
     'name': 'checkbox',
@@ -110,9 +100,7 @@ const HTML5Elements = [
     'attrs': {
       'type': 'checkbox'
     },
-    'styles': {
-      'background': 'rgba(0,0,0,0)'
-    },
+    'styles': {},
     'classes': {}
   }, {
     'name': 'date',
@@ -126,9 +114,7 @@ const HTML5Elements = [
       'value': '',
       'type': 'date'
     },
-    'styles': {
-      'background': '#ffffff'
-    },
+    'styles': {},
     'classes': {}
   }, {
     'name': 'image',
@@ -141,9 +127,7 @@ const HTML5Elements = [
     'attrs': {
       'src': '/static/vuegg-fam.svg'
     },
-    'styles': {
-      'background': 'rgba(0,0,0,0)'
-    },
+    'styles': {},
     'classes': {}
   }
 ]
