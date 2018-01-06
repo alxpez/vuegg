@@ -1,7 +1,7 @@
 <template>
   <div id="headegg" class="mdl-layout__header-row">
     <button id="homeBtn">
-      <svgicon icon="product/vuegg" width="40" height="40"></svgicon>
+      <svgicon icon="product/vuegg" width="40" height="40" :original="true"></svgicon>
     </button>
     <div id="inputTitle" class="mdl-textfield mdl-js-textfield">
       <input class="mdl-textfield__input" type="text" id="pTitle" v-model="tmpProjectTitle" @blur="onTitleBlur">
