@@ -20,10 +20,7 @@
     "env": {
       "NODE_ENV": "production",
       "PORT": 5000
-    },
-    "files": [
-      "dist"
-    ]
+    }
   },
   "engines": {
     "node": ">= 8.0.0",
