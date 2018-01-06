@@ -4,11 +4,12 @@
       <div class="el-menu">
         <div class="el" :key="elKey"
           v-for="element in elements"
+          :title="element.name"
           draggable="true"
           @dragstart="e => dragstartHandler(e, element)"
           @click="registerElement({pageId: activePage.id, el: element})"
         >
-          <svgicon :icon="'system/elements/'+element.name" width="24" height="24" :original="true"></svgicon>
+          <svgicon :icon="'system/elements/'+element.name" width="24" height="24" color="rgba(0,0,0,.87)"></svgicon>
           <span>{{element.name}}</span>
         </div>
       </div>
@@ -18,11 +19,12 @@
       <div class="el-menu">
         <div class="el" :key="elKey"
           v-for="mdComp in mdComponents"
+          :title="mdComp.name"
           draggable="true"
           @dragstart="e => dragstartHandler(e, mdComp)"
           @click="registerElement({pageId: activePage.id, el: mdComp})"
         >
-          <svgicon icon="system/elements/aspect_ratio" width="24" height="24" :original="true"></svgicon>
+          <svgicon icon="system/elements/aspect_ratio" width="24" height="24" color="rgba(0,0,0,.87)"></svgicon>
           <span>{{mdComp.name}}</span>
         </div>
       </div>
@@ -33,11 +35,12 @@
       <div class="el-menu">
         <div class="el" :key="elKey"
           v-for="component in components"
+          :title="component.name"
           draggable="true"
           @dragstart="e => dragstartHandler(e, component)"
           @click="registerElement({pageId: activePage.id, el: component})"
         >
-          <svgicon icon="system/elements/earth" width="24" height="24" :original="true"></svgicon>
+          <svgicon icon="system/elements/earth" width="24" height="24" color="rgba(0,0,0,.87)"></svgicon>
           <span>{{component.name}}</span>
         </div>
       </div>
@@ -106,25 +109,29 @@ export default {
   display: grid;
   margin: 1px;
   grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: minmax(1px, 75px);
+  grid-auto-rows: minmax(1px, 72px);
 }
 
 .el {
+  width: 79px;
   cursor: pointer;
-  padding: 1em;
-  color: black;
+  padding-top: 1em;
+  color: rgba(0,0,0,.87);
   text-align: center;
   border-radius: 2px;
-  background-color: rgba(0,0,0,0);
+  background-color: transparent;
   transition: all 0.20s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .el:hover{
-  background-color: rgba(0,0,0,.05);
+  background-color: rgba(0,0,0,.08);
 }
 
 .el span {
   display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: smaller;
+  padding: 0 8px;
 }
 </style>

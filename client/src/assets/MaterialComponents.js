@@ -5,7 +5,7 @@
  */
 const MockComponents = [
   {
-    'name': 'MDC Button',
+    'name': 'mdcButton',
     'type': 'mdc-button',
     'dependencies': [
       {
@@ -31,10 +31,11 @@ const MockComponents = [
       'compact': false,
       'disabled': false
     },
+    'styles': {},
     'classes': {},
     'children': []
   }, {
-    'name': 'MDC Toolbar',
+    'name': 'mdcToolbar',
     'type': 'mdc-toolbar',
     'dependencies': [
       {
@@ -105,7 +106,7 @@ const MockComponents = [
       }
     ]
   }, {
-    'name': 'MDC Drawer',
+    'name': 'mdcDrawer',
     'type': 'mdc-drawer',
     'dependencies': [
       {

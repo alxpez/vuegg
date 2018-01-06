@@ -90,6 +90,7 @@ export default {
   left: auto;
   -webkit-transform: translateX(0);
   transform: translateX(0);
+  overflow: hidden;
 }
 
 </style>

@@ -30,9 +30,9 @@ export const _addSelectedElement = '_addSelectedElement'
 export const _removeSelectedElement = '_removeSelectedElement'
 
 export const updateProject = 'updateProject'
-export const saveComponentRef = 'saveComponentRef'
-export const updateComponentRef = 'updateComponentRef'
-export const removeComponentRef = 'removeComponentRef'
+export const _saveComponentRef = '_saveComponentRef'
+export const _updateComponentRef = '_updateComponentRef'
+export const _removeComponentRef = '_removeComponentRef'
 export const createPage = 'createPage'
 export const updatePage = 'updatePage'
 export const deletePage = 'deletePage'
@@ -71,9 +71,9 @@ const types = {
   _removeSelectedElement,
 
   updateProject,
-  saveComponentRef,
-  updateComponentRef,
-  removeComponentRef,
+  _saveComponentRef,
+  _updateComponentRef,
+  _removeComponentRef,
   createPage,
   updatePage,
   deletePage,

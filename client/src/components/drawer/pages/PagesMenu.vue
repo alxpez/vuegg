@@ -4,14 +4,18 @@
       <div v-for="(page, pageIndex) in projectPages" :key="page.id"
           :class="{active: (page.id === activePageId)}" @click="changePageIfNeeded(page)"
         >
-        <mdc-list-item class="pageItem">
-          <svgicon v-if="pageIndex === 0" slot="start-detail" icon="system/home" width="24" height="24" :original="true"></svgicon>
-          <svgicon v-else  slot="start-detail"icon="system/page" width="24" height="24" :original="true"></svgicon>
-          <span>{{page.name}}</span>
-          <span v-show="(page.id === activePageId)" slot="secondary">{{page.path}}</span>
+        <mdc-list-item class="page-item">
+          <svgicon v-if="pageIndex === 0" slot="start-detail" icon="system/home" width="24" height="24"
+            :color="(page.id === activePageId)?'rgba(0,0,0,.87)':'rgba(0,0,0,.54)'"></svgicon>
+          <svgicon v-else slot="start-detail"icon="system/page" width="24" height="24"
+            :color="(page.id === activePageId)?'rgba(0,0,0,.87)':'rgba(0,0,0,.54)'"></svgicon>
+          <div>
+            <span class="item-title" :title="page.name">{{page.name}}</span>
+            <span class="item-subtitle" v-show="(page.id === activePageId)" :title="page.path">{{page.path}}</span>
+          </div>
 
           <mdc-menu-anchor slot="end-detail" v-show="(page.id === activePageId)">
-            <svgicon icon="system/more_vert" width="24" height="24" :original="true" @click.native="showOptsMenu(page)"></svgicon>
+            <svgicon icon="system/more_vert" width="24" height="24" @click.native="showOptsMenu(page)"></svgicon>
 
             <mdc-menu :ref="'menu-'+page.id" @select="(selected)=>onSelect(selected, pageIndex)">
               <mdc-menu-item>Rename page</mdc-menu-item>
@@ -115,10 +119,35 @@ export default {
   background-color: #fff;
 }
 
-.pageItem{
+.page-item {
   padding: 4px 16px;
   overflow: inherit;
   cursor: pointer;
+}
+
+.item-title,
+.item-subtitle {
+  width: 115px;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.item-subtitle {
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1.25rem;
+}
+.item-title {
+  color: rgba(0,0,0,.38);
+}
+.page-item:hover .item-title,
+.item-subtitle {
+  color: rgba(0,0,0,.54);
+}
+.active .page-item .item-title,
+.active .page-item:hover .item-title {
+  color: rgba(0,0,0,.87);
 }
 
 .mdc-menu-anchor {

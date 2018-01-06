@@ -5,7 +5,7 @@
  */
 const MockComponents = [
   {
-    'name': 'Search Bar',
+    'name': 'alxpez/searchBar',
     'type': 'div',
     'egglement': true,
     'componegg': true,
@@ -30,7 +30,8 @@ const MockComponents = [
           'padding': 0,
           'border': 0,
           'border-bottom': '1px solid #eee',
-          'background-color': 'transparent'
+          'background-color': 'transparent',
+          'outline': 'none'
         },
         'classes': {}
       }, {

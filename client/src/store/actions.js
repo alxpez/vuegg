@@ -71,11 +71,11 @@ const actions = {
             usageCount: 1,
             dependencies: el.dependencies || []
           }
-          commit(types.saveComponentRef, setElId(componentRef))
+          commit(types._saveComponentRef, setElId(componentRef))
         } else {
           let compIndex = getters.getComponentRefIndexByName(el.name)
           let newCount = getters.getComponentRefByIndex(compIndex).usageCount + 1
-          commit(types.updateComponentRef, {compIndex, newCount})
+          commit(types._updateComponentRef, {compIndex, newCount})
         }
       } else {
         // In case the componegg is vuegg-powered
@@ -98,11 +98,11 @@ const actions = {
             classes: payload.el.classes,
             children: payload.el.children
           }
-          commit(types.saveComponentRef, setElId(componentRef))
+          commit(types._saveComponentRef, setElId(componentRef))
         } else {
           let compIndex = getters.getComponentRefIndexByName(el.name)
           let newCount = getters.getComponentRefByIndex(compIndex).usageCount + 1
-          commit(types.updateComponentRef, {compIndex, newCount})
+          commit(types._updateComponentRef, {compIndex, newCount})
         }
       }
     }
@@ -133,8 +133,8 @@ const actions = {
       let count = getters.getComponentRefByIndex(compIndex).usageCount
 
       count > 1
-        ? commit(types.updateComponentRef, {compIndex, newCount: count - 1})
-        : commit(types.removeComponentRef, compIndex)
+        ? commit(types._updateComponentRef, {compIndex, newCount: count - 1})
+        : commit(types._removeComponentRef, compIndex)
     }
 
     commit(types.deleteEgglement, {parent, eggIndex})

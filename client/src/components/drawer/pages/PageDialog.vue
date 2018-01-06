@@ -1,6 +1,6 @@
 <template>
   <dialog class="mdl-dialog">
-    <p class="mdl-dialog__title">{{dialogTitle}}</p>
+    <p class="mdl-dialog__title" :title="dialogTitle">{{dialogTitle}}</p>
     <div class="mdl-dialog__content">
       <mdc-textfield v-model="name" label="Name" @input="checkName" :helptext="nameError"
         minlength="1" helptext-validation helptext-persistent required
@@ -123,6 +123,9 @@ export default {
 .mdl-dialog__title {
   font-size: 24px;
   font-weight: 500;
+  max-height: 48px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .dialog-input{
