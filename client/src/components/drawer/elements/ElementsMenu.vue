@@ -8,7 +8,7 @@
           @dragstart="e => dragstartHandler(e, element)"
           @click="registerElement({pageId: activePage.id, el: element})"
         >
-          <svgicon :icon="'system/elements/'+element.name" width="24" height="24" :original="true"></svgicon>
+          <svgicon :icon="'system/elements/'+element.name" width="24" height="24"></svgicon>
           <span>{{element.name}}</span>
         </div>
       </div>
@@ -22,7 +22,7 @@
           @dragstart="e => dragstartHandler(e, mdComp)"
           @click="registerElement({pageId: activePage.id, el: mdComp})"
         >
-          <svgicon icon="system/elements/aspect_ratio" width="24" height="24" :original="true"></svgicon>
+          <svgicon icon="system/elements/aspect_ratio" width="24" height="24"></svgicon>
           <span>{{mdComp.name}}</span>
         </div>
       </div>
@@ -37,7 +37,7 @@
           @dragstart="e => dragstartHandler(e, component)"
           @click="registerElement({pageId: activePage.id, el: component})"
         >
-          <svgicon icon="system/elements/earth" width="24" height="24" :original="true"></svgicon>
+          <svgicon icon="system/elements/earth" width="24" height="24"></svgicon>
           <span>{{component.name}}</span>
         </div>
       </div>

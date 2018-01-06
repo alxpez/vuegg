@@ -5,13 +5,13 @@
           :class="{active: (page.id === activePageId)}" @click="changePageIfNeeded(page)"
         >
         <mdc-list-item class="pageItem">
-          <svgicon v-if="pageIndex === 0" slot="start-detail" icon="system/home" width="24" height="24" :original="true"></svgicon>
-          <svgicon v-else  slot="start-detail"icon="system/page" width="24" height="24" :original="true"></svgicon>
+          <svgicon v-if="pageIndex === 0" slot="start-detail" icon="system/home" width="24" height="24"></svgicon>
+          <svgicon v-else  slot="start-detail"icon="system/page" width="24" height="24"></svgicon>
           <span>{{page.name}}</span>
           <span v-show="(page.id === activePageId)" slot="secondary">{{page.path}}</span>
 
           <mdc-menu-anchor slot="end-detail" v-show="(page.id === activePageId)">
-            <svgicon icon="system/more_vert" width="24" height="24" :original="true" @click.native="showOptsMenu(page)"></svgicon>
+            <svgicon icon="system/more_vert" width="24" height="24" @click.native="showOptsMenu(page)"></svgicon>
 
             <mdc-menu :ref="'menu-'+page.id" @select="(selected)=>onSelect(selected, pageIndex)">
               <mdc-menu-item>Rename page</mdc-menu-item>
