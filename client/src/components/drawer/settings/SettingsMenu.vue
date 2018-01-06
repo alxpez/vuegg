@@ -20,17 +20,18 @@
     <menu-toggle :menuHeader="'Text properties'" :startClosed="false" :hidden="!showTextSettings">
       <div class="menu text-menu">
         <div class="icon-bar">
-          <svgicon icon="system/editor/align_left" width="22" height="22" :original="true"></svgicon>
-          <svgicon icon="system/editor/align_right" width="22" height="22" :original="true"></svgicon>
-          <svgicon icon="system/editor/align_center" width="22" height="22" :original="true"></svgicon>
-          <svgicon icon="system/editor/align_justify" width="22" height="22" :original="true"></svgicon>
+          <svgicon icon="system/editor/align_left" width="22" height="22" color="rgba(0,0,0,.38)"
+            @click.native="onToggleProp('alignLeft')"></svgicon>
+          <svgicon icon="system/editor/align_right" width="22" height="22" color="rgba(0,0,0,.87)"></svgicon>
+          <svgicon icon="system/editor/align_center" width="22" height="22" color="rgba(0,0,0,.87)"></svgicon>
+          <svgicon icon="system/editor/align_justify" width="22" height="22" color="rgba(0,0,0,.87)"></svgicon>
         </div>
 
         <div class="icon-bar">
-          <svgicon icon="system/editor/bold" width="22" height="22" :original="true"></svgicon>
-          <svgicon icon="system/editor/italic" width="22" height="22" :original="true"></svgicon>
-          <svgicon icon="system/editor/underline" width="22" height="22" :original="true"></svgicon>
-          <svgicon icon="system/editor/strikethrough" width="22" height="22" :original="true"></svgicon>
+          <svgicon icon="system/editor/bold" width="22" height="22"></svgicon>
+          <svgicon icon="system/editor/italic" width="22" height="22"></svgicon>
+          <svgicon icon="system/editor/underline" width="22" height="22"></svgicon>
+          <svgicon icon="system/editor/strikethrough" width="22" height="22"></svgicon>
         </div>
 
         <mdc-textfield v-model="attrs.value" v-if="(typeof attrs.value !== 'undefined' && attrs.value !== null)"
@@ -152,6 +153,10 @@ export default {
       this.saveChanges({styles: cloneDeep(this.styles)})
     },
 
+    onToggleProp (prop) {
+      console.log(prop)
+    },
+
     onPropChange (e, prop) {
       if (e.target.value === '') return
       let newValue = {}
@@ -228,6 +233,7 @@ export default {
 }
 
 .selection-title {
+  user-select: none;
   text-align: center;
   padding: 9px 0;
   background-color: #ffffff;
@@ -249,6 +255,7 @@ export default {
   }
 
 .icon-bar {
+  user-select: none;
   text-align: center;
   margin: 16px 0 4px;
 }
