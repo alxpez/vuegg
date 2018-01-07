@@ -143,22 +143,23 @@ export default {
           break
       }
 
-      if (this.checkBounds(el, newHeight, 'height')) {
-        if (newTop !== null) {
-          newTop = this.fixPosition(el, newTop, 'top')
-          el.style.top = newTop + 'px'
-
-          if (newTop !== 0) el.style.height = newHeight + 'px'
-        } else el.style.height = newHeight + 'px'
+      // TODO: fix resizing when implies position (left/top)
+      if (newTop !== null) {
+        if (this.checkBounds(el, newTop, 'top')) el.style.top = this.fixPosition(el, newTop, 'top') + 'px'
+        if (newTop > 0 && this.checkBounds(el, newHeight, 'height')) {
+          el.style.height = newHeight + 'px'
+        }
+      } else if (this.checkBounds(el, newHeight, 'height')) {
+        el.style.height = newHeight + 'px'
       }
 
-      if (this.checkBounds(el, newWidth, 'width')) {
-        if (newLeft !== null) {
-          newLeft = this.fixPosition(el, newLeft, 'left')
-          el.style.left = newLeft + 'px'
-
-          if (newLeft !== 0) el.style.width = newWidth + 'px'
-        } else el.style.width = newWidth + 'px'
+      if (newLeft !== null) {
+        if (this.checkBounds(el, newLeft, 'left')) el.style.left = this.fixPosition(el, newLeft, 'left') + 'px'
+        if (newLeft > 0 && this.checkBounds(el, newWidth, 'width')) {
+          el.style.width = newWidth + 'px'
+        }
+      } else if (this.checkBounds(el, newWidth, 'width')) {
+        el.style.width = newWidth + 'px'
       }
     },
 
@@ -183,18 +184,29 @@ export default {
       return val
     },
 
-    checkBounds (el, val, prop) {
+    checkBounds (el, val, property) {
+      if (val === null) return false
+
+      let isOk = true
       const parent = this.getParentMr(el)
 
-      if (prop === 'height') {
-        return ((val + el.offsetTop <= parseInt(parent.style.height)) &&
-                (val <= parseInt(parent.style.height)) && (val >= parseInt(el.style.minHeight)))
+      switch (property) {
+        case 'top':
+          isOk = ((this.calculateHeight(el, parent) > parseInt(el.style.minHeight)))
+          break
+        case 'left':
+          isOk = ((this.calculateWidth(el, parent) > parseInt(el.style.minWidth)))
+          break
+        case 'height':
+          isOk = ((val <= parseInt(parent.style.height)) && (val >= parseInt(el.style.minHeight)) &&
+                  (val + el.offsetTop <= parseInt(parent.style.height)))
+          break
+        case 'width':
+          isOk = ((val <= parseInt(parent.style.width)) && (val >= parseInt(el.style.minWidth)) &&
+                  (val + el.offsetLeft <= parseInt(parent.style.width)))
+          break
       }
-      if (prop === 'width') {
-        return ((val + el.offsetLeft <= parseInt(parent.style.width)) &&
-                (val <= parseInt(parent.style.width)) && (val >= parseInt(el.style.minWidth)))
-      }
-      return true
+      return isOk
     },
 
     getParentMr (element) {
