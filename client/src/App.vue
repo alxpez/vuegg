@@ -48,7 +48,6 @@ export default {
   font-family: 'Roboto', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #eeeeee;
 }
 
 .mdl-layout__header>.mdl-layout__drawer-button {
@@ -69,6 +68,7 @@ export default {
   z-index: 1;
   -webkit-overflow-scrolling: touch;
   margin-right: 240px;
+  background-color: #eee;
 }
 
 .not-scrolled {

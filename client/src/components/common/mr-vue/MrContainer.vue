@@ -1,10 +1,7 @@
 <template>
   <div mr-container="true" class="mrContainer" tabindex="0"
     @mousedown.prevent.capture="mouseDownHandler"
-    @mousemove.stop.prevent="mouseMoveHandler"
-    @mouseout.stop.prevent="mouseOutHandler"
-    @mouseup.stop.prevent="mouseUpHandler"
-    @keydown.delete.stop.prevent="keydownHandler"
+    @keydown.delete.stop.prevent="keyDownHandler"
     @drop="e => $emit('drop', e)"
     @dragover.prevent
   >
@@ -34,22 +31,28 @@ export default {
     }
   },
   methods: {
-    keydownHandler (e) {
+    keyDownHandler (e) {
       this.$emit('removeselection')
     },
 
     mouseDownHandler (e) {
+      let isMr = false
       this.setMousePosition(e)
 
       if (e.target.getAttribute('mr-container')) {
         this.$emit('clearselection')
       } else if (e.target.getAttribute('mr-handle')) {
-        this.resizing = true
+        isMr = this.resizing = true
         this.handle = e.target.classList[1]
         this.$emit('resizestart')
       } else if (this.getParentMr(e.target)) {
-        this.moving = true
+        isMr = this.moving = true
         this.$emit('movestart')
+      }
+
+      if (isMr) {
+        document.documentElement.addEventListener('mousemove', this.mouseMoveHandler, true)
+        document.documentElement.addEventListener('mouseup', this.mouseUpHandler, true)
       }
     },
 
@@ -66,123 +69,92 @@ export default {
       this.resizing = false
       this.handle = null
       this.moving = false
-    },
 
-    // TODO: Review this functionality / Other options?
-    mouseOutHandler (e) {
-      if (this.getParentMr(e.fromElement) !== null && this.getParentMr(e.toElement) === null) {
-        if (this.resizing) this.$emit('resizestop', this.resizeStopData())
-        else if (this.moving) this.$emit('movestop', this.moveStopData())
-
-        this.resizing = false
-        this.handle = null
-        this.moving = false
-      }
+      document.documentElement.removeEventListener('mousemove', this.mouseMoveHandler, true)
+      document.documentElement.removeEventListener('mouseup', this.mouseUpHandler, true)
     },
 
     mouseMoveHandler (e) {
-      if (this.resizing) {
-        this.$emit('resizing')
-        this.mrElements.map(mrEl => this.resizeElementBy(mrEl, e.movementX, e.movementY))
-      } else if (this.moving) {
+      if (this.resizing || this.moving) {
+        let offX = e.clientX - this.absMouseX
+        let offY = e.clientY - this.absMouseY
+
         this.setMousePosition(e)
-        this.$emit('moving', this.absMouseX, this.absMouseY)
-        this.mrElements.map(mrEl => this.moveElementBy(mrEl, e.movementX, e.movementY))
+
+        if (this.resizing) {
+          this.mrElements.map(mrEl => this.resizeElementBy(mrEl, offX, offY))
+          this.$emit('resizing')
+        } else if (this.moving) {
+          this.mrElements.map(mrEl => this.moveElementBy(mrEl, offX, offY))
+          this.$emit('moving', this.absMouseX, this.absMouseY)
+        }
       }
     },
 
     resizeElementBy (el, offX, offY) {
       const parent = this.getParentMr(el)
 
+      const parentH = parseInt(parent.style.height)
+      const parentW = parseInt(parent.style.width)
+      const elMinH = parseInt(el.style.minHeight)
+      const elMinW = parseInt(el.style.minWidth)
+
       let newHeight = this.calculateHeight(el, parent)
       let newWidth = this.calculateWidth(el, parent)
       let newTop = el.offsetTop
       let newLeft = el.offsetLeft
 
-      switch (this.handle) {
-        case 'tl':
-          newHeight -= offY
-          newWidth -= offX
-          newTop += offY
-          newLeft += offX
-          break
-        case 'mt':
-          newHeight -= offY
-          newTop += offY
-          newLeft = newWidth = null
-          break
-        case 'tr':
-          newHeight -= offY
-          newWidth += offX
-          newTop += offY
-          newLeft = null
-          break
-        case 'mr':
-          newHeight
-          newWidth += offX
-          newHeight = newTop = newLeft = null
-          break
-        case 'br':
-          newHeight += offY
-          newWidth += offX
-          newTop = newLeft = null
-          break
-        case 'mb':
-          newHeight += offY
-          newWidth = newTop = newLeft = null
-          break
-        case 'bl':
-          newHeight += offY
-          newWidth -= offX
-          newLeft += offX
-          newTop = null
-          break
-        case 'ml':
-          newWidth -= offX
-          newLeft += offX
-          newHeight = newTop = null
-          break
+      let diffX = offX
+      let diffY = offY
+
+      if (this.handle.indexOf('t') >= 0) {
+        if (newHeight - offY < elMinH) diffY = newHeight - elMinH
+        else if (newTop + offY < 0) diffY = 0 - newTop
+        newTop += diffY
+        newHeight -= diffY
+      }
+      if (this.handle.indexOf('b') >= 0) {
+        if (newHeight + offY < elMinH) diffY = elMinH - newHeight
+        else if (newTop + newHeight + offY > parentH) diffY = parentH - newTop - newHeight
+        newHeight += diffY
+      }
+      if (this.handle.indexOf('l') >= 0) {
+        if (newWidth - offX < elMinW) diffX = newWidth - elMinW
+        else if (newLeft + offX < 0) diffX = 0 - newLeft
+        newLeft += diffX
+        newWidth -= diffX
+      }
+      if (this.handle.indexOf('r') >= 0) {
+        if (newWidth + offX < elMinW) diffX = elMinW - newWidth
+        else if (newLeft + newWidth + offX > parentW) diffX = parentW - newLeft - newWidth
+        newWidth += diffX
       }
 
-      if ((this.checkBounds(el, newTop, 'top')) &&
-          (this.checkBounds(el, newHeight, 'height'))) el.style.top = newTop + 'px'
-
-      if ((this.checkBounds(el, newLeft, 'left')) &&
-          (this.checkBounds(el, newWidth, 'width'))) el.style.left = newLeft + 'px'
-
-      if (this.checkBounds(el, newHeight, 'height')) el.style.height = newHeight + 'px'
-      if (this.checkBounds(el, newWidth, 'width')) el.style.width = newWidth + 'px'
+      el.style.top = newTop + 'px'
+      el.style.left = newLeft + 'px'
+      el.style.height = newHeight + 'px'
+      el.style.width = newWidth + 'px'
     },
 
     moveElementBy (el, offX, offY) {
-      const newTop = el.offsetTop + offY
-      const newLeft = el.offsetLeft + offX
-
-      if (this.checkBounds(el, newTop, 'top')) el.style.top = newTop + 'px'
-      if (this.checkBounds(el, newLeft, 'left')) el.style.left = newLeft + 'px'
+      el.style.top = this.fixPosition(el, el.offsetTop + offY, 'top') + 'px'
+      el.style.left = this.fixPosition(el, el.offsetLeft + offX, 'left') + 'px'
     },
 
-    checkBounds (el, val, property) {
-      let isOk = true
-      const parent = this.getParentMr(el)
+    fixPosition (el, val, prop) {
+      if (val < 0) return 0
 
-      switch (property) {
-        case 'top':
-          isOk = ((val >= 0) && (val + this.calculateHeight(el, parent) <= parseInt(parent.style.height)))
-          break
-        case 'left':
-          isOk = ((val >= 0) && (val + this.calculateWidth(el, parent) <= parseInt(parent.style.width)))
-          break
-        case 'height':
-          isOk = ((val <= parseInt(parent.style.height)) && (val >= parseInt(el.style.minHeight)) &&
-                  (val + el.offsetTop <= parseInt(parent.style.height)))
-          break
-        case 'width':
-          isOk = ((val <= parseInt(parent.style.width)) && (val >= parseInt(el.style.minWidth)) &&
-                  (val + el.offsetLeft <= parseInt(parent.style.width)))
-          break
+      const parent = this.getParentMr(el)
+      const elHeight = this.calculateHeight(el, parent)
+      const elWidth = this.calculateWidth(el, parent)
+
+      if ((prop === 'top') && (val + elHeight > parseInt(parent.style.height))) {
+        return parseInt(parent.style.height) - elHeight
       }
-      return isOk
+      if ((prop === 'left') && (val + elWidth > parseInt(parent.style.width))) {
+        return parseInt(parent.style.width) - elWidth
+      }
+      return val
     },
 
     getParentMr (element) {
