@@ -1,9 +1,6 @@
 <template>
   <div mr-container="true" class="mrContainer" tabindex="0"
     @mousedown.prevent.capture="mouseDownHandler"
-    @mousemove.stop.prevent="mouseMoveHandler"
-    @mouseout.stop.prevent="mouseOutHandler"
-    @mouseup.stop.prevent="mouseUpHandler"
     @keydown.delete.stop.prevent="keydownHandler"
     @drop="e => $emit('drop', e)"
     @dragover.prevent
@@ -39,17 +36,23 @@ export default {
     },
 
     mouseDownHandler (e) {
+      let isMr = false
       this.setMousePosition(e)
 
       if (e.target.getAttribute('mr-container')) {
         this.$emit('clearselection')
       } else if (e.target.getAttribute('mr-handle')) {
-        this.resizing = true
+        isMr = this.resizing = true
         this.handle = e.target.classList[1]
         this.$emit('resizestart')
       } else if (this.getParentMr(e.target)) {
-        this.moving = true
+        isMr = this.moving = true
         this.$emit('movestart')
+      }
+
+      if (isMr) {
+        document.documentElement.addEventListener('mousemove', this.mouseMoveHandler, true)
+        document.documentElement.addEventListener('mouseup', this.mouseUpHandler, true)
       }
     },
 
@@ -66,18 +69,9 @@ export default {
       this.resizing = false
       this.handle = null
       this.moving = false
-    },
 
-    // TODO: Review this functionality / Other options?
-    mouseOutHandler (e) {
-      if (this.getParentMr(e.fromElement) !== null && this.getParentMr(e.toElement) === null) {
-        if (this.resizing) this.$emit('resizestop', this.resizeStopData())
-        else if (this.moving) this.$emit('movestop', this.moveStopData())
-
-        this.resizing = false
-        this.handle = null
-        this.moving = false
-      }
+      document.documentElement.removeEventListener('mousemove', this.mouseMoveHandler, true)
+      document.documentElement.removeEventListener('mouseup', this.mouseUpHandler, true)
     },
 
     mouseMoveHandler (e) {
@@ -85,9 +79,11 @@ export default {
         this.$emit('resizing')
         this.mrElements.map(mrEl => this.resizeElementBy(mrEl, e.movementX, e.movementY))
       } else if (this.moving) {
+        let offX = e.clientX - this.absMouseX
+        let offY = e.clientY - this.absMouseY
         this.setMousePosition(e)
         this.$emit('moving', this.absMouseX, this.absMouseY)
-        this.mrElements.map(mrEl => this.moveElementBy(mrEl, e.movementX, e.movementY))
+        this.mrElements.map(mrEl => this.moveElementBy(mrEl, offX, offY))
       }
     },
 
