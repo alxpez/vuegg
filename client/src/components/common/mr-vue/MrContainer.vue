@@ -94,73 +94,46 @@ export default {
     resizeElementBy (el, offX, offY) {
       const parent = this.getParentMr(el)
 
+      const parentH = parseInt(parent.style.height)
+      const parentW = parseInt(parent.style.width)
+      const elMinH = parseInt(el.style.minHeight)
+      const elMinW = parseInt(el.style.minWidth)
+
       let newHeight = this.calculateHeight(el, parent)
       let newWidth = this.calculateWidth(el, parent)
       let newTop = el.offsetTop
       let newLeft = el.offsetLeft
 
-      switch (this.handle) {
-        case 'tl':
-          newHeight -= offY
-          newWidth -= offX
-          newTop += offY
-          newLeft += offX
-          break
-        case 'mt':
-          newHeight -= offY
-          newTop += offY
-          newLeft = newWidth = null
-          break
-        case 'tr':
-          newHeight -= offY
-          newWidth += offX
-          newTop += offY
-          newLeft = null
-          break
-        case 'mr':
-          newWidth += offX
-          newHeight = newTop = newLeft = null
-          break
-        case 'br':
-          newHeight += offY
-          newWidth += offX
-          newTop = newLeft = null
-          break
-        case 'mb':
-          newHeight += offY
-          newWidth = newTop = newLeft = null
-          break
-        case 'bl':
-          newHeight += offY
-          newWidth -= offX
-          newLeft += offX
-          newTop = null
-          break
-        case 'ml':
-          newWidth -= offX
-          newLeft += offX
-          newHeight = newTop = null
-          break
+      let diffX = offX
+      let diffY = offY
+
+      if (this.handle.indexOf('t') >= 0) {
+        if (newHeight - offY < elMinH) diffY = newHeight - elMinH
+        else if (newTop + offY < 0) diffY = 0 - newTop
+        newTop += diffY
+        newHeight -= diffY
+      }
+      if (this.handle.indexOf('b') >= 0) {
+        if (newHeight + offY < elMinH) diffY = elMinH - newHeight
+        else if (newTop + newHeight + offY > parentH) diffY = parentH - newTop - newHeight
+        newHeight += diffY
+      }
+      if (this.handle.indexOf('l') >= 0) {
+        if (newWidth - offX < elMinW) diffX = newWidth - elMinW
+        else if (newLeft + offX < 0) diffX = 0 - newLeft
+        newLeft += diffX
+        newWidth -= diffX
+      }
+      if (this.handle.indexOf('r') >= 0) {
+        if (newWidth + offX < elMinW) diffX = elMinW - newWidth
+        else if (newLeft + newWidth + offX > parentW) diffX = parentW - newLeft - newWidth
+        newWidth += diffX
       }
 
-      // TODO: fix resizing when implies position (left/top)
-      if (newTop !== null) {
-        if (this.checkBounds(el, newTop, 'top')) el.style.top = this.fixPosition(el, newTop, 'top') + 'px'
-        if (newTop > 0 && this.checkBounds(el, newHeight, 'height')) {
-          el.style.height = newHeight + 'px'
-        }
-      } else if (this.checkBounds(el, newHeight, 'height')) {
-        el.style.height = newHeight + 'px'
-      }
-
-      if (newLeft !== null) {
-        if (this.checkBounds(el, newLeft, 'left')) el.style.left = this.fixPosition(el, newLeft, 'left') + 'px'
-        if (newLeft > 0 && this.checkBounds(el, newWidth, 'width')) {
-          el.style.width = newWidth + 'px'
-        }
-      } else if (this.checkBounds(el, newWidth, 'width')) {
-        el.style.width = newWidth + 'px'
-      }
+      el.style.top = newTop + 'px'
+      el.style.left = newLeft + 'px'
+      el.style.height = newHeight + 'px'
+      el.style.width = newWidth + 'px'
     },
 
     moveElementBy (el, offX, offY) {
@@ -182,31 +155,6 @@ export default {
         return parseInt(parent.style.width) - elWidth
       }
       return val
-    },
-
-    checkBounds (el, val, property) {
-      if (val === null) return false
-
-      let isOk = true
-      const parent = this.getParentMr(el)
-
-      switch (property) {
-        case 'top':
-          isOk = ((this.calculateHeight(el, parent) > parseInt(el.style.minHeight)))
-          break
-        case 'left':
-          isOk = ((this.calculateWidth(el, parent) > parseInt(el.style.minWidth)))
-          break
-        case 'height':
-          isOk = ((val <= parseInt(parent.style.height)) && (val >= parseInt(el.style.minHeight)) &&
-                  (val + el.offsetTop <= parseInt(parent.style.height)))
-          break
-        case 'width':
-          isOk = ((val <= parseInt(parent.style.width)) && (val >= parseInt(el.style.minWidth)) &&
-                  (val + el.offsetLeft <= parseInt(parent.style.width)))
-          break
-      }
-      return isOk
     },
 
     getParentMr (element) {
