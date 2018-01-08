@@ -3,17 +3,17 @@
     <div class="tab-bar">
       <a title="Elements" class="tab" @click="toggleTab('elements')">
         <svgicon icon="system/widgets" width="24" height="24"
-          :color="showElements ? '#2b6a73' : 'rgba(0,0,0,.54)'">
+          :color="showElements ? '#2b6a73' : 'rgba(0,0,0,.38)'">
         </svgicon>
       </a>
       <a title="Settings" class="tab" @click="toggleTab('settings')">
         <svgicon icon="system/settings" width="24" height="24"
-          :color="showSettings ? '#2b6a73' : 'rgba(0,0,0,.54)'">
+          :color="showSettings ? '#2b6a73' : 'rgba(0,0,0,.38)'">
         </svgicon>
       </a>
       <a title="Pages" class="tab" @click="toggleTab('pages')">
         <svgicon icon="system/page" width="24" height="24"
-          :color="showPages ? '#2b6a73' : 'rgba(0,0,0,.54)'">
+          :color="showPages ? '#2b6a73' : 'rgba(0,0,0,.38)'">
         </svgicon>
       </a>
 
