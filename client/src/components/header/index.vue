@@ -4,7 +4,7 @@
       <svgicon icon="product/vuegg" width="40" height="40" :original="true"></svgicon>
     </button>
 
-    <input class="title-input" v-model="tmpProjectTitle" @blur="onTitleBlur" placeholder="Project title"/>
+    <input class="title-input" v-model="tmpProjectTitle" @blur="onTitleBlur" title="Title of your project" placeholder="Project title"/>
 
     <div class="spacer"></div>
 
