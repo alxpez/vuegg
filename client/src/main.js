@@ -16,6 +16,8 @@ import 'dialog-polyfill/dialog-polyfill.css'
 // Get rid of these ones
 
 Vue.use(VueSVGIcon)
+
+import './theme.scss'
 Vue.use(VueMDCAdapter)
 
 Vue.config.productionTip = false
