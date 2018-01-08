@@ -1,6 +1,6 @@
 <template>
-  <div id="pagesMenu">
-    <mdc-list class="pageList">
+  <div id="pages-menu">
+    <mdc-list class="page-list">
       <div v-for="(page, pageIndex) in projectPages" :key="page.id"
           :class="{active: (page.id === activePageId)}" @click="changePageIfNeeded(page)"
         >
@@ -28,7 +28,9 @@
       </div>
     </mdc-list>
 
-    <mdc-fab icon="note_add" class="newPageBtn" @click="_togglePageDialog({isOpen: true, isNew: true})"></mdc-fab>
+    <mdc-fab class="new-page-btn" @click="_togglePageDialog({isOpen: true, isNew: true})">
+      <svgicon icon="system/add_page" width="24" height="24"></svgicon>
+    </mdc-fab>
   </div>
 </template>
 
@@ -40,6 +42,7 @@ import { getPageById, getPageIndexById, deletePage, _changeActivePage, _togglePa
 import '@/assets/icons/system/home'
 import '@/assets/icons/system/page'
 import '@/assets/icons/system/more_vert'
+import '@/assets/icons/system/add_page'
 
 export default {
   name: 'pages-menu',
@@ -87,31 +90,24 @@ export default {
 
 
 <style scoped>
-#pagesMenu {
-  display: -webkit-flex;
-  display: -ms-flexbox;
+#pages-menu {
   display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
   flex-direction: column;
-  -webkit-flex-wrap: nowrap;
-  -ms-flex-wrap: nowrap;
   flex-wrap: nowrap;
-  height: 90%;
+  height: calc(100% - 175px);
   width: 100%;
   position: absolute;
   overflow: visible;
   overflow-y: auto;
 }
 
-.newPageBtn {
+.new-page-btn {
   position: fixed;
   right: 92px;
   bottom: 32px;
 }
 
-.pageList {
-  /*margin-bottom: auto;*/
+.page-list {
   padding: 0;
 }
 

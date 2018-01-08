@@ -56,8 +56,8 @@ export default {
 
       let height = element.height || element.minHeight || 40
       let width = element.width || element.minWidth || 100
-      let top = e.pageY + mainContainer.scrollTop - this.$el.offsetTop - (height / 2)
-      let left = e.pageX + mainContainer.scrollLeft - this.$el.offsetLeft - (width / 2)
+      let top = e.pageY + mainContainer.scrollTop - mainContainer.offsetTop - this.$el.offsetTop - (height / 2)
+      let left = e.pageX + mainContainer.scrollLeft - mainContainer.offsetLeft - this.$el.offsetLeft - (width / 2)
 
       // Checks if position + size gets out-of-bounds, if so, reposition...
       if ((top + element.height) > this.page.height) {

@@ -1,7 +1,7 @@
 <template>
-  <dialog class="mdl-dialog">
-    <p class="mdl-dialog__title" :title="dialogTitle">{{dialogTitle}}</p>
-    <div class="mdl-dialog__content">
+  <dialog class="dialog">
+    <p class="dialog-title" :title="dialogTitle">{{dialogTitle}}</p>
+    <div class="dialog-content">
       <mdc-textfield v-model="name" label="Name" @input="checkName" :helptext="nameError"
         minlength="1" helptext-validation helptext-persistent required
         class="dialog-input" :class="{'mdc-text-field--invalid': nameError}"/>
@@ -10,7 +10,7 @@
         minlength="1" helptext-validation helptext-persistent required
         class="dialog-input" :class="{'mdc-text-field--invalid': pathError}"/>
     </div>
-    <div class="mdl-dialog__actions">
+    <div class="dialog-actions">
       <mdc-button @click="savePageAndClose({id, name, path})" :disabled="!valid">Save</mdc-button>
       <mdc-button @click="_togglePageDialog({isOpen: false, isNew: pageDialog.isNew})">Cancel</mdc-button>
     </div>
@@ -120,12 +120,32 @@ export default {
 
 
 <style>
-.mdl-dialog__title {
+dialog {
+  width: 320px;
+  border: none;
+  box-shadow:
+    0 9px 46px 8px rgba(0,0,0,.14),
+    0 11px 15px -7px rgba(0,0,0,.12),
+    0 24px 38px 3px rgba(0,0,0,.2);
+}
+
+.dialog-title {
   font-size: 24px;
   font-weight: 500;
-  max-height: 48px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  padding: 24px 24px 0;
+  margin: 0;
+}
+
+.dialog-content {
+  padding: 20px 24px 24px;
+  color: rgba(0,0,0,.54);
+}
+
+.dialog-actions {
+  padding: 8px 8px 8px 24px;
+  display: flex;
+  flex-direction: row-reverse;
+  flex-wrap: wrap;
 }
 
 .dialog-input{

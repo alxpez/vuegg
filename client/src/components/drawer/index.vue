@@ -1,29 +1,31 @@
 <template>
-    <nav class="mdl-navigation">
-      <div class="mdl-tabs mdl-js-tabs">
-        <div class="mdl-tabs__tab-bar">
-          <a href="#elements" title="Elements" class="mdl-tabs__tab is-active">
-            <i class="material-icons">widgets</i>
-          </a>
-          <a href="#settings" title="Settings" class="mdl-tabs__tab">
-            <i class="material-icons">settings</i>
-          </a>
-          <a href="#pages" title="Pages" class="mdl-tabs__tab">
-            <i class="material-icons">insert_drive_file</i>
-          </a>
-        </div>
+  <nav class="navigation">
+    <div class="tab-bar">
+      <a title="Elements" class="tab" @click="toggleTab('elements')">
+        <svgicon icon="system/widgets" width="24" height="24"
+          :color="showElements ? '#2b6a73' : 'rgba(0,0,0,.54)'">
+        </svgicon>
+      </a>
+      <a title="Settings" class="tab" @click="toggleTab('settings')">
+        <svgicon icon="system/settings" width="24" height="24"
+          :color="showSettings ? '#2b6a73' : 'rgba(0,0,0,.54)'">
+        </svgicon>
+      </a>
+      <a title="Pages" class="tab" @click="toggleTab('pages')">
+        <svgicon icon="system/page" width="24" height="24"
+          :color="showPages ? '#2b6a73' : 'rgba(0,0,0,.54)'">
+        </svgicon>
+      </a>
 
-        <div class="mdl-tabs__panel is-active" id="elements">
-          <ElementsMenu></ElementsMenu>
-        </div>
-        <div class="mdl-tabs__panel" id="settings">
-          <settings-menu></settings-menu>
-        </div>
-        <div class="mdl-tabs__panel" id="pages">
-          <pages-menu></pages-menu>
-        </div>
-      </div>
-    </nav>
+      <div class="tab-indicator mdc-theme--primary-bg" :style="{'left': indiLeft, 'right': indiRight}"></div>
+    </div>
+
+    <div class="tab-content">
+      <ElementsMenu v-show="showElements"></ElementsMenu>
+      <settings-menu v-show="showSettings"></settings-menu>
+      <pages-menu v-show="showPages"></pages-menu>
+    </div>
+  </nav>
 </template>
 
 
@@ -32,34 +34,108 @@ import ElementsMenu from './elements/ElementsMenu'
 import SettingsMenu from './settings/SettingsMenu'
 import PagesMenu from './pages/PagesMenu'
 
+import '@/assets/icons/system/widgets'
+import '@/assets/icons/system/settings'
+import '@/assets/icons/system/page'
+
 export default {
   name: 'drawegg',
-  components: { ElementsMenu, SettingsMenu, PagesMenu }
+  components: { ElementsMenu, SettingsMenu, PagesMenu },
+  data: function () {
+    return {
+      showElements: true,
+      showSettings: true,
+      showPages: true,
+      activeTabX: 0
+    }
+  },
+  computed: {
+    indiLeft () {
+      return this.activeTabX + 'px'
+    },
+    indiRight () {
+      return (240 - (this.activeTabX + 80)) + 'px'
+    }
+  },
+  mounted: function () {
+    this.$nextTick(() => {
+      this.showElements = true
+      this.showSettings = false
+      this.showPages = false
+    })
+  },
+  methods: {
+    toggleTab (name) {
+      if (name === 'elements') {
+        this.showElements = true
+        this.showSettings = this.showPages = false
+        this.activeTabX = 0
+      }
+      if (name === 'settings') {
+        this.showSettings = true
+        this.showElements = this.showPages = false
+        this.activeTabX = 80
+      }
+      if (name === 'pages') {
+        this.showPages = true
+        this.showElements = this.showSettings = false
+        this.activeTabX = 160
+      }
+    }
+  }
 }
 </script>
 
 
 <style scoped>
-.mdl-navigation {
-    padding-top: 16px;
+.navigation {
+  top: 0;
+  right: 0;
+  z-index: 5;
+  width: 240px;
+  height: 100%;
+  max-height: 100%;
+  padding-top: 20px;
+  background: #fafafa;
+  display: flex;
+  flex-shrink: 0;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  align-items: stretch;
+  box-sizing: border-box;
+  position: absolute;
+  overflow: hidden;
+  box-sizing: border-box;
+  border-right: 1px solid #e0e0e0;
+  box-shadow:
+    0 2px 2px 0 rgba(0,0,0,.14),
+    0 3px 1px -2px rgba(0,0,0,.2),
+    0 1px 5px 0 rgba(0,0,0,.12);
 }
 
+/* DRAWER DOES NOT DISPLAY IN DEVICES SMALLER THAN 1024px */
 @media screen and (max-width: 1024px) {
-  .mdl-navigation {
-      padding-top: 8px;
+  .navigation {
+    display: none;
   }
 }
-.mdl-tabs__tab {
+
+.tab {
   padding: 0 28px;
-  height: 50px;
+  height: 44px;
+  cursor: pointer;
 }
-
-.mdl-tabs.is-upgraded .mdl-tabs__tab.is-active:after {
-  -webkit-animation: border-expand .4s cubic-bezier(.4,0,.4,1).01s alternate backwards;
-  animation: border-expand .4s cubic-bezier(.4,0,.4,1).01s alternate backwards;
+.tab-bar {
+  display: inline-flex;
+  border-bottom: 1px solid rgba(0,0,0,0.12)
 }
-
-.mdl-tabs__panel {
+.tab-indicator {
+  top: 64px;
+  height: 2px;
+  position: absolute;
+  transition: all .2s cubic-bezier(.4,0,.4,1).01s;
+}
+.tab-content {
   margin-top: 1px;
 }
 </style>

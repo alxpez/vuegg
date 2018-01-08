@@ -65,24 +65,19 @@ export default {
 }
 
 .header {
-  height: 40px;
-  padding: 0 25px;
-  font-size: smaller;
+  padding: 10px 25px;
+  font-size: small;
   cursor: pointer;
+  color: rgba(0,0,0,.54)
 }
 
 .header:hover {
-  font-weight: bold;
+  color: rgba(0,0,0,.87)
 }
 
 .header span {
   display: inline-block;
-  padding-top: 10px;
   width: calc(100% - 20px);
-
-  -webkit-user-select: none; /* Safari */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none;
 }
 
@@ -97,7 +92,6 @@ export default {
 
 .content-wrapper.is-closed {
   max-height: 0;
-  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 </style>

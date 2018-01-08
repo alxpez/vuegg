@@ -188,8 +188,8 @@ export default {
 
       this.absMouseX = e.clientX
       this.absMouseY = e.clientY
-      this.relMouseX = e.pageX + mainContainer.scrollLeft - this.$el.offsetLeft
-      this.relMouseY = e.pageY + mainContainer.scrollTop - this.$el.offsetTop
+      this.relMouseX = e.pageX + mainContainer.scrollLeft - mainContainer.offsetLeft - this.$el.offsetLeft
+      this.relMouseY = e.pageY + mainContainer.scrollTop - mainContainer.offsetTop - this.$el.offsetTop
     },
 
     resizeStopData () {
