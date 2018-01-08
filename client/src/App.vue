@@ -1,18 +1,16 @@
 <template>
-  <div id="app" class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
-    <header class="mdl-layout__header" :class="{'not-scrolled': notScrolled}">
-      <headegg></headegg>
-    </header>
+  <div id="layout-container" class="mdc-theme--background">
+    <div id="app">
+      <headegg :scroll0="notScrolled"></headegg>
 
-    <div class="mdl-layout__drawer">
       <drawegg></drawegg>
+
+      <main id="main" role="main" @scroll="scrollFunction">
+        <router-view></router-view>
+      </main>
+
+      <page-dialog></page-dialog>
     </div>
-
-    <main id="main" role="main" class="main" @scroll="scrollFunction">
-      <router-view></router-view>
-    </main>
-
-    <page-dialog></page-dialog>
   </div>
 </template>
 
@@ -44,53 +42,40 @@ export default {
 </script>
 
 <style>
+#layout-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
 #app {
   font-family: 'Roboto', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
-.mdl-layout__header>.mdl-layout__drawer-button {
-  display: none;
-}
-</style>
-
-<style scoped>
-.main {
+#main {
   -ms-flex: 0 1 auto;
-  /*position: relative;*/
+  position: relative;
   display: inline-block;
   overflow-y: auto;
   overflow-x: auto;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
   flex-grow: 1;
-  z-index: 1;
-  -webkit-overflow-scrolling: touch;
-  margin-right: 240px;
-  background-color: #eee;
-}
-
-.not-scrolled {
-  box-shadow: 0 0 0;
-}
-
-.mdl-layout__header{
-  background-color: inherit;
-  margin-left: 0;
-}
-
-.mdl-layout--fixed-drawer.is-upgraded:not(.is-small-screen)>.mdl-layout__header {
-  margin-left: 0;
+  z-index: auto;
   margin-right: 240px;
 }
 
-.mdl-layout__drawer {
-  right: 0;
-  left: auto;
-  -webkit-transform: translateX(0);
-  transform: translateX(0);
-  overflow: hidden;
+/* IN DEVICES SMALLER THAN 1024px -> NO DRAWER (so remove margins) - (TODO: show notice) */
+@media screen and (max-width: 1024px) {
+  #main {
+    margin: 0px;
+  }
 }
-
 </style>

@@ -1,31 +1,30 @@
 <template>
-  <div id="headegg" class="mdl-layout__header-row">
-    <button id="homeBtn">
+  <div class="headegg mdc-theme--background" :class="{'not-scrolled': scroll0}">
+    <button class="home-btn">
       <svgicon icon="product/vuegg" width="40" height="40" :original="true"></svgicon>
     </button>
-    <div id="inputTitle" class="mdl-textfield mdl-js-textfield">
-      <input class="mdl-textfield__input" type="text" id="pTitle" v-model="tmpProjectTitle" @blur="onTitleBlur">
-      <label class="mdl-textfield__label" for="pTitle" v-show="!tmpProjectTitle">Project title</label>
-    </div>
 
-    <div class="mdl-layout-spacer"></div>
+    <input class="title-input" v-model="tmpProjectTitle" @blur="onTitleBlur" placeholder="Project title"/>
 
-    <mdc-button id="undoBtn" class="actionBtn" :disabled="!canUndo" @click="undo">
-      <i class="material-icons">undo</i>
+    <div class="spacer"></div>
+
+    <mdc-button title="Undo" id="undoBtn" class="action-btn" :disabled="!canUndo" @click="undo" dense>
+      <svgicon icon="system/undo" width="24" height="24"
+        :color="canUndo ? '#2b6a73': 'rgba(0,0,0,.38)'">
+      </svgicon>
     </mdc-button>
-    <div class="mdl-tooltip" data-mdl-for="undoBtn" v-show="canUndo">Undo</div>
 
-    <mdc-button id="redoBtn" class="actionBtn" :disabled="!canRedo" @click="redo">
-      <i class="material-icons">redo</i>
+    <mdc-button title="Redo" id="redoBtn" class="action-btn" :disabled="!canRedo" @click="redo" dense>
+      <svgicon icon="system/redo" width="24" height="24"
+        :color="canRedo ? '#2b6a73': 'rgba(0,0,0,.38)'">
+      </svgicon>
     </mdc-button>
-    <div class="mdl-tooltip" data-mdl-for="redoBtn" v-show="canRedo">Redo</div>
 
-    <mdc-button id="previewBtn" class="actionBtn">
-      <i class="material-icons">remove_red_eye</i>
+    <mdc-button title="Preview" id="previewBtn" class="action-btn" dense>
+      <svgicon icon="system/preview" width="24" height="24" color="#2b6a73"></svgicon>
     </mdc-button>
-    <div class="mdl-tooltip" data-mdl-for="previewBtn">Preview</div>
 
-    <mdc-button class="genBtn" @click="generate()" raised compact dense>Generate</mdc-button>
+    <mdc-button class="gen-btn" @click="generate()" raised compact dense>Generate</mdc-button>
   </div>
 </template>
 
@@ -36,6 +35,9 @@ import { _toggleSidebar, updateProject } from '@/store/types'
 import redoundo from '@/mixins/redoundo'
 
 import '@/assets/icons/product/vuegg'
+import '@/assets/icons/system/undo'
+import '@/assets/icons/system/redo'
+import '@/assets/icons/system/preview'
 
 import * as download from 'downloadjs'
 import axios from 'axios'
@@ -43,6 +45,7 @@ import axios from 'axios'
 export default {
   name: 'headegg',
   mixins: [redoundo],
+  props: ['scroll0'],
   data: function () {
     return {
       tmpProjectTitle: ''
@@ -84,22 +87,49 @@ export default {
 
 
 <style scoped>
-#headegg {
+
+.headegg {
+  z-index: 1;
   height: 64px;
-  background: #eeeeee;
+  width: calc(100% - 240px);
   color: rgba(0,0,0,0.66);
   padding: 0 25px 0 25px;
+  margin-right: 240px;
+  border: none;
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-self: stretch;
+  align-items: center;
+  box-sizing: border-box;
+  box-shadow:
+    0 2px 2px 0 rgba(0,0,0,.14),
+    0 3px 1px -2px rgba(0,0,0,.2),
+    0 1px 5px 0 rgba(0,0,0,.12);
+
+  transition-duration: .2s;
+  transition-timing-function: cubic-bezier(.4,0,.2,1);
+  transition-property: max-height,box-shadow;
+}
+.not-scrolled {
+  box-shadow: none;
 }
 
+/* IN DEVICES SMALLER THAN 1024px -> NO DRAWER (so remove margins) */
 @media screen and (max-width: 1024px) {
-  #headegg {
-    height: 56px;
-    padding: 0 15px 0 15px;
-    margin-right: 240px;
+  .headegg {
+    margin: 0px;
+    width: 100%;
   }
 }
 
-#homeBtn {
+.spacer {
+  width: 12px;
+}
+
+.home-btn {
   margin-right: 25px;
   border: none;
   border-radius: 100px;
@@ -108,26 +138,28 @@ export default {
   outline: none;
 }
 
-#inputTitle {
+.title-input {
+  flex-grow: 1;
   border: 0;
-  width: 45%;
+  height: 56px;
+  background: transparent;
+  outline: none;
 }
 
-.actionBtn {
+.action-btn {
   height: 36px;
   width: 36px;
   min-width: 28px;
   min-height: 28px;
-  padding: 0 1px 1px 0;
+  padding: 1px;
   margin: 0 6px;
   border-radius: 100%;
 }
-
-.actionBtn .material-icons {
+.action-btn * {
   vertical-align: middle;
 }
 
-.genBtn {
+.gen-btn {
   margin-left: 8px;
 }
 </style>

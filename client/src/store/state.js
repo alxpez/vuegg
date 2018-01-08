@@ -23,7 +23,7 @@ const state = {
     selectedPage: null,
     selectedElements: []
   },
-  project: newProject('Vuegg Project')
+  project: newProject('My vuegg project')
 }
 
 export default state
