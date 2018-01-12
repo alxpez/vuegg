@@ -1,9 +1,11 @@
 <template>
-  <div mr-container="true" class="mrContainer" tabindex="0"
+  <div mr-container="true"
     @mousedown.prevent.capture="mouseDownHandler"
     @keydown.delete.stop.prevent="keyDownHandler"
     @drop="e => $emit('drop', e)"
     @dragover.prevent
+    class="mrContainer"
+    tabindex="0"
   >
     <slot></slot>
   </div>
@@ -107,24 +109,24 @@ export default {
       let diffX = offX
       let diffY = offY
 
-      if (this.handle.indexOf('t') >= 0) {
+      if (this.handle.indexOf('t') !== -1) {
         if (newHeight - offY < elMinH) diffY = newHeight - elMinH
         else if (newTop + offY < 0) diffY = 0 - newTop
         newTop += diffY
         newHeight -= diffY
       }
-      if (this.handle.indexOf('b') >= 0) {
-        if (newHeight + offY < elMinH) diffY = elMinH - newHeight
-        else if (newTop + newHeight + offY > parentH) diffY = parentH - newTop - newHeight
-        newHeight += diffY
-      }
-      if (this.handle.indexOf('l') >= 0) {
+      if (this.handle.indexOf('l') !== -1) {
         if (newWidth - offX < elMinW) diffX = newWidth - elMinW
         else if (newLeft + offX < 0) diffX = 0 - newLeft
         newLeft += diffX
         newWidth -= diffX
       }
-      if (this.handle.indexOf('r') >= 0) {
+      if (this.handle.indexOf('b') !== -1) {
+        if (newHeight + offY < elMinH) diffY = elMinH - newHeight
+        else if (newTop + newHeight + offY > parentH) diffY = parentH - newTop - newHeight
+        newHeight += diffY
+      }
+      if (this.handle.indexOf('r') !== -1) {
         if (newWidth + offX < elMinW) diffX = elMinW - newWidth
         else if (newLeft + newWidth + offX > parentW) diffX = parentW - newLeft - newWidth
         newWidth += diffX
