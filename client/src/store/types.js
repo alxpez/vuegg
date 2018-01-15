@@ -12,6 +12,7 @@ export const getSelectedElIndexById = 'getSelectedElIndexById'
 
 // ACTIONS
 export const savePageAndClose = 'savePageAndClose'
+export const duplicatePage = 'duplicatePage'
 export const registerElement = 'registerElement'
 export const resizeElement = 'resizeElement'
 export const moveElement = 'moveElement'
@@ -20,8 +21,6 @@ export const removeElement = 'removeElement'
 export const rebaseSelectedElements = 'rebaseSelectedElements'
 
 // MUTATIONS
-export const _toggleSidebar = '_toggleSidebar'
-export const _toggleMiniSidebar = '_toggleMiniSidebar'
 export const _togglePageDialog = '_togglePageDialog'
 export const _changeActivePage = '_changeActivePage'
 export const _rebaseActivePage = '_rebaseActivePage'
@@ -54,6 +53,7 @@ const types = {
   getSelectedElIndexById,
   // ACTIONS
   savePageAndClose,
+  duplicatePage,
   registerElement,
   resizeElement,
   moveElement,
@@ -61,8 +61,6 @@ const types = {
   removeElement,
   rebaseSelectedElements,
   // MUTATIONS
-  _toggleSidebar,
-  _toggleMiniSidebar,
   _togglePageDialog,
   _changeActivePage,
   _rebaseActivePage,

@@ -31,7 +31,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import { _toggleSidebar, updateProject } from '@/store/types'
+import { updateProject } from '@/store/types'
 import redoundo from '@/mixins/redoundo'
 
 import '@/assets/icons/product/vuegg'
@@ -72,7 +72,7 @@ export default {
         this.tmpProjectTitle = this.projectTitle
       }
     },
-    ...mapMutations([_toggleSidebar, updateProject])
+    ...mapMutations([updateProject])
   },
   created: function () {
     this.tmpProjectTitle = this.projectTitle

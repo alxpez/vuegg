@@ -7,7 +7,7 @@
           :title="element.name"
           draggable="true"
           @dragstart="e => dragstartHandler(e, element)"
-          @click="registerElement({pageId: activePage.id, el: element})"
+          @click="e => addItemToStage(e, element)"
         >
           <svgicon :icon="'system/elements/'+element.name" width="24" height="24" color="rgba(0,0,0,.87)"></svgicon>
           <span>{{element.name}}</span>
@@ -22,7 +22,7 @@
           :title="mdComp.name"
           draggable="true"
           @dragstart="e => dragstartHandler(e, mdComp)"
-          @click="registerElement({pageId: activePage.id, el: mdComp})"
+          @click="e => addItemToStage(e, mdComp)"
         >
           <svgicon icon="system/elements/aspect_ratio" width="24" height="24" color="rgba(0,0,0,.87)"></svgicon>
           <span>{{mdComp.name}}</span>
@@ -38,7 +38,7 @@
           :title="component.name"
           draggable="true"
           @dragstart="e => dragstartHandler(e, component)"
-          @click="registerElement({pageId: activePage.id, el: component})"
+          @click="e => addItemToStage(e, component)"
         >
           <svgicon icon="system/elements/earth" width="24" height="24" color="rgba(0,0,0,.87)"></svgicon>
           <span>{{component.name}}</span>
@@ -84,6 +84,10 @@ export default {
       e.dataTransfer.dropEffect = 'copy'
       e.dataTransfer.effectAllowed = 'all'
       e.dataTransfer.setData('text/plain', JSON.stringify(element))
+    },
+
+    addItemToStage (e, item) {
+      this.registerElement({pageId: this.activePage.id, el: item, global: e.shiftKey})
     },
 
     ...mapActions([registerElement])

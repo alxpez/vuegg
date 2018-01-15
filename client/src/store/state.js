@@ -12,10 +12,6 @@ import newProject from '@/helpers/projectBuilder'
  */
 const state = {
   app: {
-    sidebar: {
-      isOpen: false,
-      isMini: false
-    },
     pageDialog: {
       isNew: true,
       isOpen: false

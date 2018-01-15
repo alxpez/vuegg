@@ -21,22 +21,6 @@ const mutations = {
   // ----- APP MUTATIONS ----- //
 
   /**
-   * Changes the Sidebar state to the passed value
-   *
-   * @param {boolean} status : Status of the sidebar
-   */
-  [types._toggleSidebar]: function (state, status) {
-    state.app.sidebar.isOpen = status
-  },
-
-  /**
-   * Toggles the Sidebar mini-mode state
-   */
-  [types._toggleMiniSidebar]: function (state) {
-    state.app.sidebar.isMini = !state.app.sidebar.isMini
-  },
-
-  /**
    * Changes the PageDialog state to the passed value
    *
    * @param {boolean} payload.isOpen : Status of the PageDialog

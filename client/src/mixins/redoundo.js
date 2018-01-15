@@ -15,6 +15,7 @@ const redoundo = {
       undone: []
     }
   },
+
   created: function () {
     this.$store.subscribe((mutation, state) => {
       // If the history size is reached, the eldest state will be removed
@@ -26,7 +27,16 @@ const redoundo = {
         this.undone = []
       }
     })
+
+    this.$root.$on('undo', this.undo)
+    this.$root.$on('redo', this.redo)
   },
+
+  beforeDestroy: function () {
+    this.$root.$off('undo', this.undo)
+    this.$root.$off('redo', this.redo)
+  },
+
   computed: {
     canUndo () {
     // There should always be at least one state (initialState)
@@ -36,16 +46,21 @@ const redoundo = {
       return this.undone.length > 0
     }
   },
+
   methods: {
     undo () {
-      this.undone.push(this.done.pop())
-      let undoState = this.done[this.done.length - 1]
-      this.$store.replaceState(cloneDeep(undoState))
+      if (this.canUndo) {
+        this.undone.push(this.done.pop())
+        let undoState = this.done[this.done.length - 1]
+        this.$store.replaceState(cloneDeep(undoState))
+      }
     },
     redo () {
-      let redoState = this.undone.pop()
-      this.done.push(redoState)
-      this.$store.replaceState(cloneDeep(redoState))
+      if (this.canRedo) {
+        let redoState = this.undone.pop()
+        this.done.push(redoState)
+        this.$store.replaceState(cloneDeep(redoState))
+      }
     }
   }
 }

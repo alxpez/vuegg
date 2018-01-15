@@ -10,7 +10,7 @@ export default {
   props: ['elem', 'isPlain'],
   components: { MrEl },
   render: function (createElement) {
-    let elementO = (this.elem.componegg && !this.elem.external) ? {...this.elem, ...this.componentRef, id: this.elem.id} : this.elem
+    let elementO = (this.elem.global) ? {...this.elem, ...this.componentRef, id: this.elem.id} : this.elem
 
     let styles = elementO.styles
     if (this.isPlain && elementO.egglement) {
@@ -65,7 +65,7 @@ export default {
       }
 
       stageElem = createElement(MrEl, {
-        'props': (elementO.componegg && !elementO.external) ? {...mrElProps, handles: null} : mrElProps,
+        'props': (elementO.global) ? {...mrElProps, handles: null} : mrElProps,
         'on': { activated: this.activatedHandler }
       }, [ createElement(elementO.type, data, children) ])
     }

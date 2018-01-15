@@ -1,9 +1,15 @@
 <template>
-  <div mr-el="true" class="mrEl" :style="style" @mousedown="e => $emit('activated', e)">
+  <div mr-el="true"
+    class="mrEl"
+    :style="style"
+    @mousedown="e => $emit('activated', e)"
+  >
     <slot></slot>
-    <div v-if="resizable"
-      mr-handle="true"
+
+    <div mr-handle="true"
+      v-if="resizable"
       v-for="handle in handles"
+      :key="handle"
       class="handle" :class="handle"
       :style="{ display: active ? 'block' : 'none'}">
     </div>

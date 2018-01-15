@@ -1,9 +1,21 @@
 <template>
-  <div mr-container="true" class="mrContainer" tabindex="0"
-    @mousedown.prevent.capture="mouseDownHandler"
-    @keydown.delete.stop.prevent="keyDownHandler"
+  <div mr-container="true"
+    @mousedown.capture="mouseDownHandler"
+    @keydown.delete.exact.stop.prevent="$emit('delete')"
+    @keydown.ctrl.67.exact.stop.prevent="$emit('copy')"
+    @keydown.meta.67.exact.stop.prevent="$emit('copy')"
+    @keydown.ctrl.88.exact.stop.prevent="$emit('cut')"
+    @keydown.meta.88.exact.stop.prevent="$emit('cut')"
+    @keydown.ctrl.86.exact.stop.prevent="$emit('paste')"
+    @keydown.meta.86.exact.stop.prevent="$emit('paste')"
+    @keydown.ctrl.90.exact.stop.prevent="$root.$emit('undo')"
+    @keydown.meta.90.exact.stop.prevent="$root.$emit('undo')"
+    @keydown.ctrl.shift.90.exact.stop.prevent="$root.$emit('redo')"
+    @keydown.meta.shift.90.exact.stop.prevent="$root.$emit('redo')"
     @drop="e => $emit('drop', e)"
     @dragover.prevent
+    class="mrContainer"
+    tabindex="0"
   >
     <slot></slot>
   </div>
@@ -31,10 +43,6 @@ export default {
     }
   },
   methods: {
-    keyDownHandler (e) {
-      this.$emit('removeselection')
-    },
-
     mouseDownHandler (e) {
       let isMr = false
       this.setMousePosition(e)
@@ -107,24 +115,24 @@ export default {
       let diffX = offX
       let diffY = offY
 
-      if (this.handle.indexOf('t') >= 0) {
+      if (this.handle.indexOf('t') !== -1) {
         if (newHeight - offY < elMinH) diffY = newHeight - elMinH
         else if (newTop + offY < 0) diffY = 0 - newTop
         newTop += diffY
         newHeight -= diffY
       }
-      if (this.handle.indexOf('b') >= 0) {
-        if (newHeight + offY < elMinH) diffY = elMinH - newHeight
-        else if (newTop + newHeight + offY > parentH) diffY = parentH - newTop - newHeight
-        newHeight += diffY
-      }
-      if (this.handle.indexOf('l') >= 0) {
+      if (this.handle.indexOf('l') !== -1) {
         if (newWidth - offX < elMinW) diffX = newWidth - elMinW
         else if (newLeft + offX < 0) diffX = 0 - newLeft
         newLeft += diffX
         newWidth -= diffX
       }
-      if (this.handle.indexOf('r') >= 0) {
+      if (this.handle.indexOf('b') !== -1) {
+        if (newHeight + offY < elMinH) diffY = elMinH - newHeight
+        else if (newTop + newHeight + offY > parentH) diffY = parentH - newTop - newHeight
+        newHeight += diffY
+      }
+      if (this.handle.indexOf('r') !== -1) {
         if (newWidth + offX < elMinW) diffX = elMinW - newWidth
         else if (newLeft + newWidth + offX > parentW) diffX = parentW - newLeft - newWidth
         newWidth += diffX

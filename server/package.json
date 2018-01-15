@@ -8,6 +8,9 @@
     "start": "node server.js",
     "dev": "NODE_ENV=development nodemon server.js"
   },
+  "nodemonConfig": {
+    "ignore": ["tmp/*"]
+  },
   "dependencies": {
     "archiver": "^2.1.0",
     "koa": "^2.4.1",
