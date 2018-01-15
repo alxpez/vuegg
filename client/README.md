@@ -42,25 +42,43 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 
 > Any HTML5 elements (div, button, input...)
 
-
 **Vuegg components**
 * Wrapper props: **egglement**, **componegg**, **containegg**
 
 * Children props: **egglement**, [**componegg**], [**containegg**]
 
-* *Renders component tag on the page and generates component file with full definition.*
+* *For render information see in-line and global components*
 
 > Any component build with the set of *Basic Elements*. Usually a 'div' element containing other basic elements or components (vuegg-powered or external).
-
-> They are not editable from the main edition view (only position).
-
->TODO, a vuegg-componegg edition view to modify the global component reference, and apply changes to all instances of that component.
 
 **External components**
 * Wrapper props: **external**, **componegg**
 
 * Children props: (none)
 
-* *Renders directly on the page. Adds global dependencies to package.json, main.js and/or index.html*
+* *For render information see in-line and global components*
 
 > Components from external libraries/packages (ie. vue-mdc-adapter)
+
+
+### Components render types
+
+**In-line components**
+> Full definition generated *in-line* in the page.
+
+> Can edit position and dimensions from main editor.
+(Styles, classes, children edition from component editor) *TODO.
+
+> DOES NOT SAVE A COMPONENT DEFINITION IN PROJECT LEVEL.
+
+
+**Global components**
+> Full definition generated in its own component file; instance generated in the page.
+
+> Can edit only position in main editor. (Styles, classes, children edition in component editor) *TODO.
+
+> SAVES A COMPONENT DEFINITION GLOBALLY (project level). This also applies for external components (due to dependencies)
+
+
+
+***TODO**, a vuegg-componegg edition view to modify the global component reference, and apply changes to all instances of that component.

@@ -34,6 +34,7 @@ async function _vueBuilder (file, componentRefs, targetDir) {
   let imports = ""
   let declarations = ""
 
+  if (file.text) children += file.text
   styles += cssBuilder(file, true)
 
   for (const childEl of file.children) {
@@ -41,25 +42,20 @@ async function _vueBuilder (file, componentRefs, targetDir) {
     styles += cssBuilder(childEl)
   }
 
-  let componentsInFile = []
-  componentsInFile = getAllComponents(file, componentsInFile)
+  for (const component of _getAllGlobalComponents(file, [])) {
+    let compName = S(component.name).camelize().titleCase().s
+    let compImport = "\nimport " + compName + " from '@/components/" + compName + "'"
 
-  for (const component of componentsInFile) {
-    if (!component.external) {
-      let compName = S(component.name).camelize().titleCase().s
-      let compImport = "\nimport " + compName + " from '@/components/" + compName + "'"
+    if(!S(imports).contains(compImport)) {
+      let compPath = path.resolve(targetDir,'src/components/', compName + '.vue')
+      let componentRef = _getComponentRef(componentRefs, component.name)
 
-      if(!S(imports).contains(compImport)) {
-        let compPath = path.resolve(targetDir,'src/components/', compName + '.vue')
-        let componentRef = getComponentRef(componentRefs, component.name)
-
-        if(!shell.test('-e', compPath)) {
-          _vueBuilder({...component, ...componentRef, id: component.id}, componentRefs, targetDir)
-        }
-
-        imports += compImport
-        declarations += compName + ", "
+      if(!shell.test('-e', compPath)) {
+        _vueBuilder({...component, ...componentRef, id: component.id}, componentRefs, targetDir)
       }
+
+      imports += compImport
+      declarations += compName + ", "
     }
   }
 
@@ -70,6 +66,7 @@ async function _vueBuilder (file, componentRefs, targetDir) {
 
   shell.sed('-i', '{{PARENT_TAG}}', file.type || 'div', targetFile)
   shell.sed('-i', '{{VUEGG_ID}}', S(file.id).replaceAll('.', '-').s, targetFile)
+  shell.sed('-i', '{{VUEGG_ATTRS}}', _getFormattedAttrs(file.attrs), targetFile)
   shell.sed('-i', '{{VUEGG_NAME}}', S(file.name).humanize().slugify().s, targetFile)
   shell.sed('-i', '{{VUEGG_CHILDREN}}', children, targetFile)
   shell.sed('-i', '{{COMPONENTS_IMPORTS}}', imports, targetFile)
@@ -79,18 +76,36 @@ async function _vueBuilder (file, componentRefs, targetDir) {
 
 module.exports = _vueBuilder
 
-function getAllComponents (file, collection) {
+// ------------------------ //
+// --- HELPER FUNCTIONS --- //
+// ------------------------ //
+
+function _getAllGlobalComponents (file, collection) {
   if (file.children && file.children.length > 0) {
     for (let el of file.children) {
-      if (el.componegg && (collection.indexOf(comp => comp.name === el.name) === -1)) {
+      if (el.componegg && el.global && (collection.indexOf(comp => comp.name === el.name) === -1)) {
         collection.push(el)
       }
-      collection = getAllComponents (el, collection)
+      collection = _getAllGlobalComponents (el, collection)
     }
   }
   return collection
 }
 
-function getComponentRef (components, componentName) {
+function _getComponentRef (components, componentName) {
   return components[components.findIndex(comp => comp.name === componentName)]
+}
+
+function _getFormattedAttrs (attrs) {
+  let formattedAttrs = ''
+  if (attrs) {
+    for (attr in attrs) {
+      if ((typeof attrs[attr] !== 'boolean')) {
+        formattedAttrs += ' ' + attr + '=' + attrs[attr]
+      } else if ((typeof attrs[attr] === 'boolean') && (attrs[attr] === true)) {
+        formattedAttrs += ' ' + attr
+      }
+    }
+  }
+  return formattedAttrs
 }

@@ -76,7 +76,7 @@ export default {
       if (left === 0 && (element.width > this.page.width)) width = this.page.width
 
       element = {...element, top, left, height, width}
-      this.registerElement({pageId: this.page.id, el: element})
+      this.registerElement({pageId: this.page.id, el: element, global: e.shiftKey})
     },
 
     clearSelectionHandler () {

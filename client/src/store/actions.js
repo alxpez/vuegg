@@ -47,7 +47,8 @@ const actions = {
    * Register the element (and any childElement contained on it),
    * under the pageId and saves it as a new child on the page.
    *
-   * If the element is a componegg the "component reference" will be saved
+   * If the element is a componegg and is added as global (payload.global),
+   * or if the componegg is external (due dependencies), the "component reference" will be saved
    * in the state.project.components array (global component references),
    * and a "component instance" will be registered and saved.
    *
@@ -55,6 +56,7 @@ const actions = {
    *
    * @param {string} payload.pageId : Id of the page where the element is being added
    * @param {object} payload.el : The element that will be added to the page
+   * @param {object} payload.global : Whether the component will be added as global or in-line
    *
    * @see {@link [types.createEgglement]}
    */
@@ -63,41 +65,20 @@ const actions = {
     let el = payload.el
 
     if (el.componegg) {
-      if (el.external) {
-        // In case the componegg is from a external library...
+      if (payload.global) {
+        el = _componentInstance(payload.el)
         if (!getters.componentExist(el.name)) {
-          let componentRef = {
-            name: el.name,
-            usageCount: 1,
-            dependencies: el.dependencies || []
-          }
+          let componentRef = _componentReference(payload.el)
           commit(types._saveComponentRef, setElId(componentRef))
         } else {
           let compIndex = getters.getComponentRefIndexByName(el.name)
           let newCount = getters.getComponentRefByIndex(compIndex).usageCount + 1
           commit(types._updateComponentRef, {compIndex, newCount})
         }
-      } else {
-        // In case the componegg is vuegg-powered
-        el = {
-          name: payload.el.name,
-          top: payload.el.top,
-          left: payload.el.left,
-          componegg: payload.el.componegg,
-          egglement: payload.el.egglement,
-          containegg: payload.el.containegg
-        }
+      } else if (el.external) {
+        // In case the componegg is from a external library...
         if (!getters.componentExist(el.name)) {
-          let componentRef = {
-            name: payload.el.name,
-            usageCount: 1,
-            height: payload.el.height,
-            width: payload.el.width,
-            type: payload.el.type,
-            styles: payload.el.styles,
-            classes: payload.el.classes,
-            children: payload.el.children
-          }
+          let componentRef = _componentReference(payload.el)
           commit(types._saveComponentRef, setElId(componentRef))
         } else {
           let compIndex = getters.getComponentRefIndexByName(el.name)
@@ -129,12 +110,14 @@ const actions = {
 
     let element = parent.children[eggIndex]
     if (element.componegg) {
-      let compIndex = getters.getComponentRefIndexByName(element.name)
-      let count = getters.getComponentRefByIndex(compIndex).usageCount
+      if (element.global || element.external) {
+        let compIndex = getters.getComponentRefIndexByName(element.name)
+        let count = getters.getComponentRefByIndex(compIndex).usageCount
 
-      count > 1
-        ? commit(types._updateComponentRef, {compIndex, newCount: count - 1})
-        : commit(types._removeComponentRef, compIndex)
+        count > 1
+          ? commit(types._updateComponentRef, {compIndex, newCount: count - 1})
+          : commit(types._removeComponentRef, compIndex)
+      }
     }
 
     commit(types.deleteEgglement, {parent, eggIndex})
@@ -284,3 +267,52 @@ const actions = {
 }
 
 export default actions
+
+// ----------------------------------//
+// --- INTERNAL HELPER FUNCTIONS --- //
+// ----------------------------------//
+
+/**
+ * Returns the component instance from the base component provided
+ *
+ * @param {object} component : base component to generate the instance
+ *
+ * @see {@link [types.registerElement]}
+ * @return {object} : Component instance
+ */
+function _componentInstance (component) {
+  return {
+    global: true,
+    name: component.name,
+    top: component.top,
+    left: component.left,
+    componegg: component.componegg,
+    egglement: component.egglement,
+    containegg: component.containegg
+  }
+}
+
+/**
+ * Returns the component reference from the base component provided
+ *
+ * @param {object} component : base component to generate the instance
+ * @return
+ *
+ * @see {@link [types.registerElement]}
+ * @return {object} : Component reference
+ */
+function _componentReference (component) {
+  return {
+    usageCount: 1,
+    name: component.name,
+    height: component.height,
+    width: component.width,
+    type: component.type,
+    text: component.text,
+    attrs: component.attrs,
+    styles: component.styles,
+    classes: component.classes,
+    children: component.children,
+    dependencies: component.dependencies || []
+  }
+}

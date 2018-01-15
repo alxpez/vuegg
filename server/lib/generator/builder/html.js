@@ -16,7 +16,7 @@ function _htmlBuilder (el, level) {
   let elTag = el.type
   let elProps = {'class': S(el.id).replaceAll('.', '-').s}
 
-  if (el.componegg && !el.external) {
+  if (el.global) {
     elTag = S(el.name).humanize().slugify().s
   } else {
     if (el.text && !S(el.text).isEmpty()){

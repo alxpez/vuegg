@@ -22,7 +22,7 @@ function _cssBuilder (el, isRoot) {
   } else {
     fullStyle = buildNested(el)
 
-    if (el.children && el.children.length > 0 && (!el.componegg || el.external)) {
+    if (el.children && el.children.length > 0 && !el.global) {
       for (const child of el.children){
         styleDef += _cssBuilder(child)
       }
@@ -76,5 +76,5 @@ function buildNested (el) {
     nestedCSS = {...nestedCSS, left: el.left + 'px'}
   }
 
-  return (el.componegg && !el.external) ? nestedCSS : {...nestedCSS, ...el.styles}
+  return el.global ? nestedCSS : {...nestedCSS, ...el.styles}
 }
