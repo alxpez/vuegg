@@ -7,8 +7,11 @@
     @moving="movingHandler"
     @movestop="moveStopHandler"
     @resizestop="resizeStopHandler"
-    @removeselection="removeSelectionHandler"
     @clearselection="clearSelectionHandler"
+    @delete="deleteHandler"
+    @copy="copyHandler"
+    @cut="cutHandler"
+    @paste="pasteHandler"
     @drop="dropHandler"
   >
 
@@ -23,6 +26,8 @@
 
 
 <script>
+import cloneDeep from 'clone-deep'
+
 import { mapState, mapActions, mapMutations } from 'vuex'
 import { _clearSelectedElements, registerElement, removeElement, resizeElement, moveElement } from '@/store/types'
 
@@ -33,6 +38,11 @@ export default {
   name: 'stage',
   components: { StageEl, MrContainer },
   props: ['page'],
+  data: function () {
+    return {
+      clipboard: []
+    }
+  },
   computed: {
     pageStyles () {
       return {
@@ -49,6 +59,41 @@ export default {
     })
   },
   methods: {
+    clearSelectionHandler () {
+      if (this.selectedElements.length > 0) this._clearSelectedElements()
+    },
+
+    deleteHandler () {
+      if (this.selectedElements.length > 0) {
+        this.selectedElements.map(el => this.removeElement({page: this.page, elId: el.id}))
+      }
+    },
+
+    copyHandler () {
+      if (this.selectedElements.length > 0) {
+        this.clipboard = []
+        this.selectedElements.map(el => this.clipboard.push(cloneDeep(el)))
+      }
+    },
+
+    cutHandler () {
+      if (this.selectedElements.length > 0) {
+        this.clipboard = []
+        this.selectedElements.map(el => {
+          this.clipboard.push(cloneDeep(el))
+          this.removeElement({page: this.page, elId: el.id})
+        })
+      }
+    },
+
+    pasteHandler () {
+      if (this.clipboard.length > 0) {
+        this.clipboard.map(el => {
+          this.registerElement({pageId: this.page.id, el, global: el.global})
+        })
+      }
+    },
+
     // TODO: extract logic to helper and add support for percentages in dimensions (actions.js same)
     dropHandler (e) {
       const mainContainer = document.getElementById('main')
@@ -77,16 +122,6 @@ export default {
 
       element = {...element, top, left, height, width}
       this.registerElement({pageId: this.page.id, el: element, global: e.shiftKey})
-    },
-
-    clearSelectionHandler () {
-      if (this.selectedElements.length > 0) this._clearSelectedElements()
-    },
-
-    removeSelectionHandler () {
-      if (this.selectedElements.length > 0) {
-        this.selectedElements.map(el => this.removeElement({page: this.page, elId: el.id}))
-      }
     },
 
     resizeStopHandler (resStopData) {
