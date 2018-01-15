@@ -73,6 +73,7 @@ export default {
           this._togglePageDialog({isOpen: true, isNew: false})
           break
         case DUPLICATE:
+          this._clearSelectedElements()
           this.duplicatePage({page: this.activePage})
           break
         case DELETE:
