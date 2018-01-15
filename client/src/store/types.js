@@ -21,8 +21,6 @@ export const removeElement = 'removeElement'
 export const rebaseSelectedElements = 'rebaseSelectedElements'
 
 // MUTATIONS
-export const _toggleSidebar = '_toggleSidebar'
-export const _toggleMiniSidebar = '_toggleMiniSidebar'
 export const _togglePageDialog = '_togglePageDialog'
 export const _changeActivePage = '_changeActivePage'
 export const _rebaseActivePage = '_rebaseActivePage'
@@ -63,8 +61,6 @@ const types = {
   removeElement,
   rebaseSelectedElements,
   // MUTATIONS
-  _toggleSidebar,
-  _toggleMiniSidebar,
   _togglePageDialog,
   _changeActivePage,
   _rebaseActivePage,
