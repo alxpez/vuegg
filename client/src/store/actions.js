@@ -1,3 +1,5 @@
+import shortid from 'shortid'
+
 import types from './types'
 import newPage from '@/helpers/pageBuilder'
 import { setElId, getChildNode, getRelativePoint } from '@/helpers/recursiveMethods'
@@ -41,6 +43,25 @@ const actions = {
       }
       commit(types.updatePage, pagePayload)
     }
+  },
+
+  /**
+   * Creates a new copy of the page provided on the payload
+   * and changes the active page afterwards.
+   *
+   * @param {string} payload.page : The page that will be duplicated
+   *
+   * @see {@link [types.createPage]}
+   * @see {@link [types._changeActivePage]}
+   */
+  [types.duplicatePage]: function ({ getters, commit }, payload) {
+    let pageCopy = {
+      ...setElId(payload.page),
+      name: payload.page.name + ' copy',
+      path: payload.page.path + shortid.generate()
+    }
+    commit(types.createPage, pageCopy)
+    commit(types._changeActivePage, pageCopy)
   },
 
   /**

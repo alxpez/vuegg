@@ -2,19 +2,19 @@
   <div id="pages-menu">
     <mdc-list class="page-list">
       <div v-for="(page, pageIndex) in projectPages" :key="page.id"
-          :class="{active: (page.id === activePageId)}" @click="changePageIfNeeded(page)"
+          :class="{active: (page.id === activePage.id)}" @click="changePageIfNeeded(page)"
         >
         <mdc-list-item class="page-item">
           <svgicon v-if="pageIndex === 0" slot="start-detail" icon="system/home" width="24" height="24"
-            :color="(page.id === activePageId)?'rgba(0,0,0,.87)':'rgba(0,0,0,.54)'"></svgicon>
+            :color="(page.id === activePage.id)?'rgba(0,0,0,.87)':'rgba(0,0,0,.54)'"></svgicon>
           <svgicon v-else slot="start-detail"icon="system/page" width="24" height="24"
-            :color="(page.id === activePageId)?'rgba(0,0,0,.87)':'rgba(0,0,0,.54)'"></svgicon>
+            :color="(page.id === activePage.id)?'rgba(0,0,0,.87)':'rgba(0,0,0,.54)'"></svgicon>
           <div>
             <span class="item-title" :title="page.name">{{page.name}}</span>
-            <span class="item-subtitle" v-show="(page.id === activePageId)" :title="page.path">{{page.path}}</span>
+            <span class="item-subtitle" v-show="(page.id === activePage.id)" :title="page.path">{{page.path}}</span>
           </div>
 
-          <mdc-menu-anchor slot="end-detail" v-show="(page.id === activePageId)">
+          <mdc-menu-anchor slot="end-detail" v-show="(page.id === activePage.id)">
             <svgicon icon="system/more_vert" width="24" height="24" @click.native="showOptsMenu(page)"></svgicon>
 
             <mdc-menu :ref="'menu-'+page.id" @select="(selected)=>onSelect(selected, pageIndex)">
@@ -36,8 +36,8 @@
 
 
 <script>
-import { mapState, mapGetters, mapMutations } from 'vuex'
-import { getPageById, getPageIndexById, deletePage, _changeActivePage, _togglePageDialog, _clearSelectedElements } from '@/store/types'
+import { mapState, mapActions, mapMutations } from 'vuex'
+import { duplicatePage, deletePage, _changeActivePage, _togglePageDialog, _clearSelectedElements } from '@/store/types'
 
 import '@/assets/icons/system/home'
 import '@/assets/icons/system/page'
@@ -47,12 +47,12 @@ import '@/assets/icons/system/add_page'
 export default {
   name: 'pages-menu',
   computed: mapState({
-    activePageId: state => state.app.selectedPage ? state.app.selectedPage.id : 'melonhead',
+    activePage: state => state.app.selectedPage || { id: 0 },
     projectPages: state => state ? state.project.pages : []
   }),
   methods: {
     changePageIfNeeded (page) {
-      if (page.id !== this.activePageId) {
+      if (page.id !== this.activePage.id) {
         this._clearSelectedElements()
         this._changeActivePage(page)
       }
@@ -73,6 +73,7 @@ export default {
           this._togglePageDialog({isOpen: true, isNew: false})
           break
         case DUPLICATE:
+          this.duplicatePage({page: this.activePage})
           break
         case DELETE:
           let fallbackPage = this.projectPages[(pageIndex > 0) ? 0 : 1] || null
@@ -82,7 +83,7 @@ export default {
       }
     },
 
-    ...mapGetters([getPageById, getPageIndexById]),
+    ...mapActions([duplicatePage]),
     ...mapMutations([_clearSelectedElements, _togglePageDialog, _changeActivePage, deletePage])
   }
 }

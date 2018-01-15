@@ -12,6 +12,7 @@ export const getSelectedElIndexById = 'getSelectedElIndexById'
 
 // ACTIONS
 export const savePageAndClose = 'savePageAndClose'
+export const duplicatePage = 'duplicatePage'
 export const registerElement = 'registerElement'
 export const resizeElement = 'resizeElement'
 export const moveElement = 'moveElement'
@@ -54,6 +55,7 @@ const types = {
   getSelectedElIndexById,
   // ACTIONS
   savePageAndClose,
+  duplicatePage,
   registerElement,
   resizeElement,
   moveElement,
