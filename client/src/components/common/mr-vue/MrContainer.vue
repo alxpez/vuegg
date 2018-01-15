@@ -1,7 +1,17 @@
 <template>
   <div mr-container="true"
     @mousedown.prevent.capture="mouseDownHandler"
-    @keydown.delete.stop.prevent="keyDownHandler"
+    @keydown.delete.exact.stop.prevent="$emit('removeselection')"
+    @keydown.ctrl.67.exact.stop.prevent="$emit('copyselection')"
+    @keydown.meta.67.exact.stop.prevent="$emit('copyselection')"
+    @keydown.ctrl.88.exact.stop.prevent="$emit('cutselection')"
+    @keydown.meta.88.exact.stop.prevent="$emit('cutselection')"
+    @keydown.ctrl.86.exact.stop.prevent="$emit('paste')"
+    @keydown.meta.86.exact.stop.prevent="$emit('paste')"
+    @keydown.ctrl.90.exact.stop.prevent="$emit('undo')"
+    @keydown.meta.90.exact.stop.prevent="$emit('undo')"
+    @keydown.ctrl.shift.90.exact.stop.prevent="$emit('redo')"
+    @keydown.meta.shift.90.exact.stop.prevent="$emit('redo')"
     @drop="e => $emit('drop', e)"
     @dragover.prevent
     class="mrContainer"
@@ -33,10 +43,6 @@ export default {
     }
   },
   methods: {
-    keyDownHandler (e) {
-      this.$emit('removeselection')
-    },
-
     mouseDownHandler (e) {
       let isMr = false
       this.setMousePosition(e)
