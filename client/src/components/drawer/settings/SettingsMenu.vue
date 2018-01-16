@@ -1,4 +1,4 @@
-<!-- TODO: divide settingsMenu into submenus components -->
+<!-- TODO: This component is getting quite big > divide settingsMenu into submenus components -->
 
 <template>
   <div class="menus-wrapper">
@@ -14,6 +14,12 @@
       <div class="menu position-menu">
         <mdc-textfield v-model="top" @blur="e => onPropChange(e, 'top')" label="Top (px)" class="mini-text-input" dense/>
         <mdc-textfield v-model="left"  @blur="e => onPropChange(e, 'left')" label="Left (px)" class="mini-text-input" dense/>
+      </div>
+    </menu-toggle>
+
+    <menu-toggle :menuHeader="'Image properties'" :hidden="!showImageSettings">
+      <div class="menu image-menu">
+        <mdc-textfield v-model="attrs.src" @blur="e => onPropChange(e, 'attrs')" label="Image source" class="text-input" dense/>
       </div>
     </menu-toggle>
 
@@ -57,6 +63,16 @@
           </svgicon>
         </div>
 
+        <material-select class="select-wrapper" label="Font family">
+          <select v-model="styles['font-family']" @change="e => onPropChange(e, 'styles')">
+            <optgroup v-for="fontFamily in webSafeFonts" :key="fontFamily.family" :label="fontFamily.family">
+              <option v-for="font in fontFamily.fonts" :key="font.name" :value="font.definition">
+                {{font.name}}
+              </option>
+            </optgroup>
+          </select>
+        </material-select>
+
         <mdc-textfield v-model="attrs.value" v-if="(typeof attrs.value !== 'undefined' && attrs.value !== null)"
           @blur="e => onPropChange(e, 'attrs')" label="Text" class="text-input" dense/>
         <mdc-textfield v-model="text" v-else
@@ -84,11 +100,14 @@ import { Chrome } from 'vue-color'
 import tinycolor from 'tinycolor2'
 
 import MenuToggle from '@/components/common/MenuToggle'
+import MaterialSelect from '@/components/common/MaterialSelect'
+
+import WebSafeFonts from '@/assets/WebSafeFonts'
 import '@/assets/icons/system/editor/'
 
 export default {
   name: 'settings-menu',
-  components: { MenuToggle, 'color-chrome': Chrome },
+  components: { MenuToggle, MaterialSelect, 'color-chrome': Chrome },
   data: function () {
     return {
       name: null,
@@ -101,7 +120,8 @@ export default {
       attrs: {},
       styles: {},
       classes: {},
-      defaultColor: {rgba: {r: 0, g: 0, b: 0, a: 1}, a: 1}
+      defaultColor: {rgba: {r: 0, g: 0, b: 0, a: 1}, a: 1},
+      webSafeFonts: WebSafeFonts
     }
   },
   computed: {
@@ -134,9 +154,9 @@ export default {
       return (this.styles && this.styles.color) ? tinycolor(this.styles.color).toRgb() : this.defaultColor
     },
 
-    hasComponents () {
+    hasGlobalComponents () {
       return (this.selectedElements.length > 0)
-        ? (this.selectedElements.findIndex(el => el.componegg === true) !== -1)
+        ? (this.selectedElements.findIndex(el => el.global === true) !== -1)
         : false
     },
     isExternal () {
@@ -158,16 +178,18 @@ export default {
 
     // --- Visibility menus settings --- //
     showDimensionSettings () {
-      return (!this.hasComponents || (this.hasComponents && this.isExternal))
+      return (!this.hasGlobalComponents)
     },
     showColorSettings () {
-      return ((this.selectionType !== 'multiple') &&
-              (!this.hasComponents || (this.hasComponents && this.isExternal)))
+      return ((this.selectionType !== 'multiple') && (!this.hasGlobalComponents))
     },
     showTextSettings () {
-      return ((this.selectionType !== 'multiple') && (this.selectionType !== 'page') &&
-              (this.text !== null || (typeof this.attrs.value !== 'undefined' && this.attrs.value !== null)) &&
-              (!this.hasComponents || (this.hasComponents && this.isExternal)))
+      return ((this.selectionType !== 'multiple') && (this.selectionType !== 'page') && (!this.hasGlobalComponents) &&
+              (this.text !== null || (typeof this.attrs.value !== 'undefined' && this.attrs.value !== null)))
+    },
+    showImageSettings () {
+      return ((this.selectionType !== 'multiple') && (this.selectionType !== 'page') && (!this.hasGlobalComponents) &&
+              (typeof this.attrs.src !== 'undefined' && this.attrs.src !== null))
     },
 
     ...mapState({
@@ -282,10 +304,13 @@ export default {
   .dimension-menu, .position-menu {
     grid-template-columns: repeat(2, 1fr);
   }
-  .text-menu, .color-menu {
+  .text-menu, .color-menu, .image-menu {
     grid-template-columns: repeat(1, 1fr);
   }
 
+.select-wrapper {
+  margin: 0 20px 10px;
+}
 .icon-bar {
   user-select: none;
   text-align: center;
