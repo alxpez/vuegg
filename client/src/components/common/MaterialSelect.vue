@@ -49,7 +49,7 @@ export default {
   letter-spacing: 0.04em;
   width: 100%;
   margin-bottom: 6px;
-  margin-left: -8px;
+  margin-left: -6px;
   border: none;
   background: none;
   font-size: .813rem;

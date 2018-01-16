@@ -317,7 +317,7 @@ export default {
   margin: 16px 0 4px;
 }
 .icon-bar svg {
-  margin: 0 16px;
+  margin: 0 15px;
   cursor: pointer;
 }
 
