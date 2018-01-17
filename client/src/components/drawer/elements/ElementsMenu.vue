@@ -2,7 +2,7 @@
   <div class="menus-wrapper">
     <menu-toggle :menuHeader="'HTML5 Elements'">
       <div class="el-menu">
-        <div class="el" :key="elKey"
+        <div class="el-menu__el" :key="elKey"
           v-for="element in elements"
           :title="element.name"
           draggable="true"
@@ -17,7 +17,7 @@
 
     <menu-toggle :menuHeader="'Material Components'" :startClosed="true">
       <div class="el-menu">
-        <div class="el" :key="elKey"
+        <div class="el-menu__el" :key="elKey"
           v-for="mdComp in mdComponents"
           :title="mdComp.name"
           draggable="true"
@@ -33,7 +33,7 @@
     <!-- TODO: v-for components (community/personal) retrieved from GH? -->
     <menu-toggle :menuHeader="'Community Components'" :startClosed="true">
       <div class="el-menu">
-        <div class="el" :key="elKey"
+        <div class="el-menu__el" :key="elKey"
           v-for="component in components"
           :title="component.name"
           draggable="true"
@@ -116,7 +116,7 @@ export default {
   grid-auto-rows: minmax(1px, 72px);
 }
 
-.el {
+.el-menu__el {
   width: 79px;
   cursor: pointer;
   padding-top: 1em;
@@ -126,16 +126,14 @@ export default {
   background-color: transparent;
   transition: all 0.20s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
-.el:hover{
+.el-menu__el:hover{
   background-color: rgba(0,0,0,.08);
 }
-
-.el span {
+.el-menu__el span {
   display: block;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: smaller;
+  font-size: small;
   padding: 0 8px;
 }
 </style>

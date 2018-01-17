@@ -95,7 +95,6 @@ export default {
   width: 240px;
   height: 100%;
   max-height: 100%;
-  padding-top: 20px;
   background: #fafafa;
   display: flex;
   flex-shrink: 0;
@@ -127,10 +126,16 @@ export default {
 }
 .tab-bar {
   display: inline-flex;
-  border-bottom: 1px solid rgba(0,0,0,0.12)
+  padding-top: 20px;
+  z-index: 1;
+  /* border-bottom: 1px solid rgba(0,0,0,0.12); */
+  box-shadow:
+    0 2px 2px 0 rgba(0,0,0,.14),
+    0 3px 1px -2px rgba(0,0,0,.2),
+    0 1px 5px 0 rgba(0,0,0,.12);
 }
 .tab-indicator {
-  top: 64px;
+  top: 63px;
   height: 2px;
   position: absolute;
   transition: all .2s cubic-bezier(.4,0,.4,1).01s;

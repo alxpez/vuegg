@@ -2,7 +2,7 @@
   <div class="material-select__wrapper">
     <div class="material-select">
       <label class="material-select__label">{{label}}</label>
-        <slot></slot>
+      <slot></slot>
       <div class="material-select__bottom-line"></div>
     </div>
   </div>

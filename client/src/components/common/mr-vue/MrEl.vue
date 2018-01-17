@@ -1,6 +1,6 @@
 <template>
   <div mr-el="true"
-    class="mrEl"
+    class="mr-el"
     :style="style"
     @mousedown="e => $emit('activated', e)"
   >
@@ -14,7 +14,7 @@
       :style="{ display: active ? 'block' : 'none'}">
     </div>
     <div v-if="!resizable"
-      class="selectedBox"
+      class="selection-box"
       :style="{ display: active ? 'block' : 'none'}">
     </div>
   </div>
@@ -109,14 +109,14 @@ export default {
 
 
 <style scoped>
-.mrEl {
+.mr-el {
   position: absolute;
   box-sizing: border-box;
 }
-.mrEl:hover {
+.mr-el:hover {
   cursor: move;
 }
-.mrEl > * {
+.mr-el > * {
   margin: 0;
   width: 100%;
   height: 100%;
@@ -124,7 +124,7 @@ export default {
   box-sizing: border-box;
 }
 
-.selectedBox {
+.selection-box {
   border: 2px solid #03a9f4;
 }
 

@@ -14,7 +14,7 @@
     @keydown.meta.shift.90.exact.stop.prevent="$root.$emit('redo')"
     @drop="e => $emit('drop', e)"
     @dragover.prevent
-    class="mrContainer"
+    class="mr-container"
     tabindex="0"
   >
     <slot></slot>
@@ -233,7 +233,7 @@ export default {
 
 
 <style scoped>
-.mrContainer {
+.mr-container {
   position: relative;
   outline: none;
 }
