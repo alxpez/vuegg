@@ -17,6 +17,21 @@
       </div>
     </menu-toggle>
 
+    <menu-toggle :menuHeader="'Background Color'" :hidden="!showColorSettings">
+      <div class="menu color-menu">
+        <color-chrome :value="formattedBackgroundColor" @input="newColor => onColorChange(newColor, 'background-color')"></color-chrome>
+      </div>
+    </menu-toggle>
+
+    <menu-toggle :menuHeader="'Opacity'" :hidden="!showOpacitySettings">
+      <div class="menu color-menu">
+        <div class="slider-wrapper" :title="parsedOpacity +' Opacity'">
+          <mdc-slider min="0" max="1" v-model="parsedOpacity"/>
+          <svgicon icon="system/editor/opacity" width="22" height="22" color="rgba(0,0,0,.87)"></svgicon>
+        </div>
+      </div>
+    </menu-toggle>
+
     <menu-toggle :menuHeader="'Image properties'" :hidden="!showImageSettings">
       <div class="menu image-menu">
         <mdc-textfield v-model="attrs.src" @blur="e => onPropChange(e, 'attrs')" label="Image source" class="text-input" dense/>
@@ -63,7 +78,12 @@
           </svgicon>
         </div>
 
-        <material-select class="select-wrapper" label="Font family">
+        <div class="slider-wrapper" title="Font size (px)">
+          <mdc-slider min="1" max="100" step="1" v-model="parsedFontSize"/>
+          <svgicon icon="system/editor/font_size" width="22" height="22" color="rgba(0,0,0,.87)"></svgicon>
+        </div>
+
+        <material-select class="item-wrapper" label="Font family">
           <select v-model="styles['font-family']" @change="e => onPropChange(e, 'styles')">
             <optgroup v-for="fontFamily in webSafeFonts" :key="fontFamily.family" :label="fontFamily.family">
               <option v-for="font in fontFamily.fonts" :key="font.name" :value="font.definition">
@@ -79,12 +99,6 @@
           @blur="e => onPropChange(e, 'text')"label="Text" class="text-input" dense/>
 
         <color-chrome :value="formattedColor" @input="newColor => onColorChange(newColor, 'color')"></color-chrome>
-      </div>
-    </menu-toggle>
-
-    <menu-toggle :menuHeader="'Background Color'" :startClosed="true" :hidden="!showColorSettings">
-      <div class="menu color-menu">
-        <color-chrome :value="formattedBackgroundColor" @input="newColor => onColorChange(newColor, 'background-color')"></color-chrome>
       </div>
     </menu-toggle>
   </div>
@@ -134,10 +148,10 @@ export default {
     },
     selectionTitle () {
       return (this.selectedElements.length === 0)
-        ? 'PAGE'
+        ? 'Page'
         : (this.selectedElements.length > 1)
-          ? 'MULTIPLE'
-          : this.selectedElements[0].name.toUpperCase()
+          ? 'Multiple Items'
+          : this.selectedElements[0].name
     },
     selectedItem () {
       return (this.selectedElements.length === 0)
@@ -176,11 +190,38 @@ export default {
     isUnderlined () { return (this.styles['text-decoration'] === 'underline') },
     isStriked () { return (this.styles['text-decoration'] === 'line-through') },
 
+    // --- Value parsing --- //
+    parsedFontSize: {
+      get () {
+        return (typeof this.styles['font-size'] !== 'undefined')
+          ? parseInt(this.styles['font-size']) : 16
+      },
+      set (val) {
+        this.styles['font-size'] = val + 'px'
+        this.saveChanges({styles: cloneDeep(this.styles)})
+        this.rebaseStyles()
+      }
+    },
+    parsedOpacity: {
+      get () {
+        return (typeof this.styles.opacity !== 'undefined')
+          ? this.styles.opacity : 1
+      },
+      set (val) {
+        this.styles.opacity = Math.round(val * 100) / 100
+        this.saveChanges({styles: cloneDeep(this.styles)})
+        this.rebaseStyles()
+      }
+    },
+
     // --- Visibility menus settings --- //
     showDimensionSettings () {
       return (!this.hasGlobalComponents)
     },
     showColorSettings () {
+      return ((this.selectionType !== 'multiple') && (!this.hasGlobalComponents))
+    },
+    showOpacitySettings () {
       return ((this.selectionType !== 'multiple') && (!this.hasGlobalComponents))
     },
     showTextSettings () {
@@ -206,9 +247,7 @@ export default {
     onToggleProp (prop, val, isOn) {
       this.styles[prop] = isOn ? 'inherit' : val
       this.saveChanges({styles: cloneDeep(this.styles)})
-
-      // Necessary rebase for reactivity purposes
-      this.styles = cloneDeep(this.styles)
+      this.rebaseStyles()
     },
 
     onPropChange (e, prop) {
@@ -240,6 +279,10 @@ export default {
       } else {
         this.updateEgglement({egglement: this.selectedItem, ...newValue})
       }
+    },
+
+    rebaseStyles () {
+      this.styles = cloneDeep(this.styles)
     },
 
     ...mapMutations([updatePage, updateEgglement])
@@ -308,9 +351,6 @@ export default {
     grid-template-columns: repeat(1, 1fr);
   }
 
-.select-wrapper {
-  margin: 0 20px 10px;
-}
 .icon-bar {
   user-select: none;
   text-align: center;
@@ -328,8 +368,16 @@ export default {
   margin: auto;
 }
 
-.text-input {
+.text-input, .item-wrapper {
   margin: 0 20px 10px;
+}
+
+.slider-wrapper {
+  display: inline-flex;
+  margin: 0 20px;
+}
+.slider-wrapper svg {
+  margin: 12px 0 0 10px;
 }
 
 .mini-text-input {
