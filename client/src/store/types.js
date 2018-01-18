@@ -25,6 +25,7 @@ export const _togglePageDialog = '_togglePageDialog'
 export const _changeActivePage = '_changeActivePage'
 export const _rebaseActivePage = '_rebaseActivePage'
 export const _clearSelectedElements = '_clearSelectedElements'
+export const _addSelectedElements = '_addSelectedElements'
 export const _addSelectedElement = '_addSelectedElement'
 export const _removeSelectedElement = '_removeSelectedElement'
 
@@ -65,6 +66,7 @@ const types = {
   _changeActivePage,
   _rebaseActivePage,
   _clearSelectedElements,
+  _addSelectedElements,
   _addSelectedElement,
   _removeSelectedElement,
 

@@ -18,6 +18,7 @@
     @dragover.prevent
   >
     <slot></slot>
+    <div ref="selectionArea" v-show="selecting" class="selection-area"></div>
   </div>
 </template>
 
@@ -28,10 +29,11 @@ export default {
   props: ['activeElements'],
   data: function () {
     return {
-      relMouseX: 0,
-      relMouseY: 0,
-      absMouseX: 0,
-      absMouseY: 0,
+      initialAbsPos: {x: 0, y: 0},
+      initialRelPos: {x: 0, y: 0},
+      currentAbsPos: {x: 0, y: 0},
+      currentRelPos: {x: 0, y: 0},
+      selecting: false,
       moving: false,
       resizing: false,
       handle: null
@@ -44,21 +46,24 @@ export default {
   },
   methods: {
     mouseDownHandler (e) {
-      let isMr = false
-      this.setMousePosition(e)
+      let isMrs = false
+      this.initialAbsPos = this.currentAbsPos = this.getMouseAbsPoint(e)
+      this.initialRelPos = this.currentRelPos = this.getMouseRelPoint(e)
 
       if (e.target.getAttribute('mr-container')) {
         this.$emit('clearselection')
+        this.renderSelectionArea({x: -1, y: -1}, {x: -1, y: -1})
+        isMrs = this.selecting = true
       } else if (e.target.getAttribute('mr-handle')) {
-        isMr = this.resizing = true
+        isMrs = this.resizing = true
         this.handle = e.target.classList[1]
-        this.$emit('resizestart')
+        // this.$emit('resizestart')
       } else if (this.getParentMr(e.target)) {
-        isMr = this.moving = true
-        this.$emit('movestart')
+        isMrs = this.moving = true
+        // this.$emit('movestart')
       }
 
-      if (isMr) {
+      if (isMrs) {
         document.documentElement.addEventListener('mousemove', this.mouseMoveHandler, true)
         document.documentElement.addEventListener('mouseup', this.mouseUpHandler, true)
       }
@@ -73,30 +78,49 @@ export default {
 
       if (this.resizing) this.$emit('resizestop', this.resizeStopData())
       else if (this.moving) this.$emit('movestop', this.moveStopData())
+      else if (this.selecting) this.$emit('selectstop', this.selectStopData())
 
-      this.resizing = false
-      this.handle = null
       this.moving = false
+      this.resizing = false
+      this.selecting = false
+      this.handle = null
 
       document.documentElement.removeEventListener('mousemove', this.mouseMoveHandler, true)
       document.documentElement.removeEventListener('mouseup', this.mouseUpHandler, true)
     },
 
     mouseMoveHandler (e) {
-      if (this.resizing || this.moving) {
-        let offX = e.clientX - this.absMouseX
-        let offY = e.clientY - this.absMouseY
+      const lastAbsX = this.currentAbsPos.x
+      const lastAbsY = this.currentAbsPos.y
 
-        this.setMousePosition(e)
+      this.currentAbsPos = this.getMouseAbsPoint(e)
+      this.currentRelPos = this.getMouseRelPoint(e)
 
-        if (this.resizing) {
-          this.mrElements.map(mrEl => this.resizeElementBy(mrEl, offX, offY))
-          this.$emit('resizing')
-        } else if (this.moving) {
-          this.mrElements.map(mrEl => this.moveElementBy(mrEl, offX, offY))
-          this.$emit('moving', this.absMouseX, this.absMouseY)
-        }
+      let offX = this.currentAbsPos.x - lastAbsX
+      let offY = this.currentAbsPos.y - lastAbsY
+
+      if (this.resizing) {
+        this.mrElements.map(mrEl => this.resizeElementBy(mrEl, offX, offY))
+        // this.$emit('resizing')
+      } else if (this.moving) {
+        this.mrElements.map(mrEl => this.moveElementBy(mrEl, offX, offY))
+        this.$emit('moving', this.currentAbsPos.x, this.currentAbsPos.y)
+      } else {
+        this.renderSelectionArea(this.initialRelPos, this.currentRelPos)
+        // this.$emit('selecting')
       }
+    },
+
+    renderSelectionArea (initPoint, endPoint) {
+      const minX = Math.min(initPoint.x, endPoint.x)
+      const maxX = Math.max(initPoint.x, endPoint.x)
+      const minY = Math.min(initPoint.y, endPoint.y)
+      const maxY = Math.max(initPoint.y, endPoint.y)
+
+      this.$refs.selectionArea.style.left = minX + 'px'
+      this.$refs.selectionArea.style.top = minY + 'px'
+      this.$refs.selectionArea.style.width = maxX - minX + 'px'
+      this.$refs.selectionArea.style.height = maxY - minY + 'px'
     },
 
     resizeElementBy (el, offX, offY) {
@@ -191,13 +215,32 @@ export default {
         : parseInt(el.style.width)
     },
 
-    setMousePosition (e) {
-      const mainContainer = document.getElementById('main')
+    getMouseAbsPoint (e) {
+      return {x: e.clientX, y: e.clientY}
+    },
 
-      this.absMouseX = e.clientX
-      this.absMouseY = e.clientY
-      this.relMouseX = e.pageX + mainContainer.scrollLeft - mainContainer.offsetLeft - this.$el.offsetLeft
-      this.relMouseY = e.pageY + mainContainer.scrollTop - mainContainer.offsetTop - this.$el.offsetTop
+    getMouseRelPoint (e) {
+      const mainContainer = document.getElementById('main')
+      const x = e.clientX + mainContainer.scrollLeft - mainContainer.offsetLeft - this.$el.offsetLeft
+      const y = e.clientY + mainContainer.scrollTop - mainContainer.offsetTop - this.$el.offsetTop
+
+      return {x, y}
+    },
+
+    moveStopData () {
+      return {
+        moveElData: this.mrElements.map(el => {
+          return {
+            elId: el.childNodes[0].id,
+            top: el.offsetTop,
+            left: el.offsetLeft
+          }
+        }),
+        relMouseX: this.currentRelPos.x,
+        relMouseY: this.currentRelPos.y,
+        absMouseX: this.currentAbsPos.x,
+        absMouseY: this.currentAbsPos.y
+      }
     },
 
     resizeStopData () {
@@ -212,19 +255,12 @@ export default {
       })
     },
 
-    moveStopData () {
+    selectStopData () {
       return {
-        moveElData: this.mrElements.map(el => {
-          return {
-            elId: el.childNodes[0].id,
-            top: el.offsetTop,
-            left: el.offsetLeft
-          }
-        }),
-        relMouseX: this.relMouseX,
-        relMouseY: this.relMouseY,
-        absMouseX: this.absMouseX,
-        absMouseY: this.absMouseY
+        top: parseInt(this.$refs.selectionArea.style.top),
+        bottom: parseInt(this.$refs.selectionArea.style.height) + parseInt(this.$refs.selectionArea.style.top),
+        left: parseInt(this.$refs.selectionArea.style.left),
+        right: parseInt(this.$refs.selectionArea.style.width) + parseInt(this.$refs.selectionArea.style.left)
       }
     }
   }
@@ -236,5 +272,11 @@ export default {
 .mr-container {
   position: relative;
   outline: none;
+}
+
+.selection-area {
+  position: absolute;
+  border: 1px solid #03a9f4;
+  background-color: rgba(3, 169, 244, .08);
 }
 </style>
