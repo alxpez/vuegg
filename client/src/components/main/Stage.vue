@@ -27,6 +27,7 @@
 
 <script>
 import cloneDeep from 'clone-deep'
+import elementsFromPoint from '@/helpers/elementsFromPoint'
 
 import { mapState, mapActions, mapMutations } from 'vuex'
 import { _clearSelectedElements, registerElement, removeElement, resizeElement, moveElement } from '@/store/types'
@@ -152,7 +153,7 @@ export default {
       const movingEggs = this.selectedElements
       const parentsIds = movingEggs.map(egg => egg.id.substring(0, egg.id.lastIndexOf('.')))
       const commonParentId = parentsIds.every((val, i, arr) => val === arr[0]) ? parentsIds[0] : null
-      const elementsOnPoint = document.elementsFromPoint(x, y)
+      const elementsOnPoint = elementsFromPoint(x, y)
 
       for (let el of elementsOnPoint) {
         if (el.id === commonParentId) return null
@@ -189,6 +190,7 @@ html.droppable * {
 
 <style scoped>
 .stage {
+  user-select: none;
   /* for paper style */
   box-shadow:
     0 1px 3px rgba(0, 0, 0, 0.2),

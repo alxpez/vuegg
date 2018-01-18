@@ -1,5 +1,7 @@
 <template>
   <div mr-container="true"
+    class="mr-container"
+    tabindex="0"
     @mousedown.capture="mouseDownHandler"
     @keydown.delete.exact.stop.prevent="$emit('delete')"
     @keydown.ctrl.67.exact.stop.prevent="$emit('copy')"
@@ -12,10 +14,8 @@
     @keydown.meta.90.exact.stop.prevent="$root.$emit('undo')"
     @keydown.ctrl.shift.90.exact.stop.prevent="$root.$emit('redo')"
     @keydown.meta.shift.90.exact.stop.prevent="$root.$emit('redo')"
-    @drop="e => $emit('drop', e)"
+    @drop.prevent="e => $emit('drop', e)"
     @dragover.prevent
-    class="mr-container"
-    tabindex="0"
   >
     <slot></slot>
   </div>

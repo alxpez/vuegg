@@ -78,7 +78,7 @@ const MockComponents = [
                 'classes': {}
               }, {
                 'type': 'mdc-toolbar-title',
-                'text': 'Sweet mother of fuck',
+                'text': 'Project title',
                 'attrs': {},
                 'styles': {},
                 'classes': {}

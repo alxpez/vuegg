@@ -85,6 +85,7 @@
 
         <material-select class="item-wrapper" label="Font family">
           <select v-model="styles['font-family']" @change="e => onPropChange(e, 'styles')">
+            <option disabled value="">default</option>
             <optgroup v-for="fontFamily in webSafeFonts" :key="fontFamily.family" :label="fontFamily.family">
               <option v-for="font in fontFamily.fonts" :key="font.name" :value="font.definition">
                 {{font.name}}
