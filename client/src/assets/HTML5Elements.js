@@ -107,6 +107,7 @@ const HTML5Elements = [
     'attrs': {
       'value': '',
       'type': 'date',
+      'placeholder': '07/09/2017',
       'overflow': 'hidden',
       'text-overflow': 'ellipsis'
     },
