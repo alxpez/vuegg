@@ -1,4 +1,4 @@
-<!-- TODO: divide settingsMenu into submenus components -->
+<!-- TODO: This component is getting quite big > divide settingsMenu into submenus components -->
 
 <template>
   <div class="menus-wrapper">
@@ -14,6 +14,27 @@
       <div class="menu position-menu">
         <mdc-textfield v-model="top" @blur="e => onPropChange(e, 'top')" label="Top (px)" class="mini-text-input" dense/>
         <mdc-textfield v-model="left"  @blur="e => onPropChange(e, 'left')" label="Left (px)" class="mini-text-input" dense/>
+      </div>
+    </menu-toggle>
+
+    <menu-toggle :menuHeader="'Background Color'" :hidden="!showColorSettings">
+      <div class="menu color-menu">
+        <color-chrome :value="formattedBackgroundColor" @input="newColor => onColorChange(newColor, 'background-color')"></color-chrome>
+      </div>
+    </menu-toggle>
+
+    <menu-toggle :menuHeader="'Opacity'" :hidden="!showOpacitySettings">
+      <div class="menu color-menu">
+        <div class="slider-wrapper" :title="parsedOpacity +' Opacity'">
+          <mdc-slider min="0" max="1" v-model="parsedOpacity"/>
+          <svgicon icon="system/editor/opacity" width="22" height="22" color="rgba(0,0,0,.87)"></svgicon>
+        </div>
+      </div>
+    </menu-toggle>
+
+    <menu-toggle :menuHeader="'Image properties'" :hidden="!showImageSettings">
+      <div class="menu image-menu">
+        <mdc-textfield v-model="attrs.src" @blur="e => onPropChange(e, 'attrs')" label="Image source" class="text-input" dense/>
       </div>
     </menu-toggle>
 
@@ -57,18 +78,28 @@
           </svgicon>
         </div>
 
+        <div class="slider-wrapper" title="Font size (px)">
+          <mdc-slider min="1" max="100" step="1" v-model="parsedFontSize"/>
+          <svgicon icon="system/editor/font_size" width="22" height="22" color="rgba(0,0,0,.87)"></svgicon>
+        </div>
+
+        <material-select class="item-wrapper" label="Font family">
+          <select v-model="styles['font-family']" @change="e => onPropChange(e, 'styles')">
+            <option disabled value="">default</option>
+            <optgroup v-for="fontFamily in webSafeFonts" :key="fontFamily.family" :label="fontFamily.family">
+              <option v-for="font in fontFamily.fonts" :key="font.name" :value="font.definition">
+                {{font.name}}
+              </option>
+            </optgroup>
+          </select>
+        </material-select>
+
         <mdc-textfield v-model="attrs.value" v-if="(typeof attrs.value !== 'undefined' && attrs.value !== null)"
           @blur="e => onPropChange(e, 'attrs')" label="Text" class="text-input" dense/>
         <mdc-textfield v-model="text" v-else
           @blur="e => onPropChange(e, 'text')"label="Text" class="text-input" dense/>
 
         <color-chrome :value="formattedColor" @input="newColor => onColorChange(newColor, 'color')"></color-chrome>
-      </div>
-    </menu-toggle>
-
-    <menu-toggle :menuHeader="'Background Color'" :startClosed="true" :hidden="!showColorSettings">
-      <div class="menu color-menu">
-        <color-chrome :value="formattedBackgroundColor" @input="newColor => onColorChange(newColor, 'background-color')"></color-chrome>
       </div>
     </menu-toggle>
   </div>
@@ -84,11 +115,14 @@ import { Chrome } from 'vue-color'
 import tinycolor from 'tinycolor2'
 
 import MenuToggle from '@/components/common/MenuToggle'
+import MaterialSelect from '@/components/common/MaterialSelect'
+
+import WebSafeFonts from '@/assets/WebSafeFonts'
 import '@/assets/icons/system/editor/'
 
 export default {
   name: 'settings-menu',
-  components: { MenuToggle, 'color-chrome': Chrome },
+  components: { MenuToggle, MaterialSelect, 'color-chrome': Chrome },
   data: function () {
     return {
       name: null,
@@ -101,7 +135,8 @@ export default {
       attrs: {},
       styles: {},
       classes: {},
-      defaultColor: {rgba: {r: 0, g: 0, b: 0, a: 1}, a: 1}
+      defaultColor: {rgba: {r: 0, g: 0, b: 0, a: 1}, a: 1},
+      webSafeFonts: WebSafeFonts
     }
   },
   computed: {
@@ -114,10 +149,10 @@ export default {
     },
     selectionTitle () {
       return (this.selectedElements.length === 0)
-        ? 'PAGE'
+        ? 'Page'
         : (this.selectedElements.length > 1)
-          ? 'MULTIPLE'
-          : this.selectedElements[0].name.toUpperCase()
+          ? 'Multiple Items'
+          : this.selectedElements[0].name
     },
     selectedItem () {
       return (this.selectedElements.length === 0)
@@ -134,9 +169,9 @@ export default {
       return (this.styles && this.styles.color) ? tinycolor(this.styles.color).toRgb() : this.defaultColor
     },
 
-    hasComponents () {
+    hasGlobalComponents () {
       return (this.selectedElements.length > 0)
-        ? (this.selectedElements.findIndex(el => el.componegg === true) !== -1)
+        ? (this.selectedElements.findIndex(el => el.global === true) !== -1)
         : false
     },
     isExternal () {
@@ -156,18 +191,47 @@ export default {
     isUnderlined () { return (this.styles['text-decoration'] === 'underline') },
     isStriked () { return (this.styles['text-decoration'] === 'line-through') },
 
+    // --- Value parsing --- //
+    parsedFontSize: {
+      get () {
+        return (typeof this.styles['font-size'] !== 'undefined')
+          ? parseInt(this.styles['font-size']) : 16
+      },
+      set (val) {
+        this.styles['font-size'] = val + 'px'
+        this.saveChanges({styles: cloneDeep(this.styles)})
+        this.rebaseStyles()
+      }
+    },
+    parsedOpacity: {
+      get () {
+        return (typeof this.styles.opacity !== 'undefined')
+          ? this.styles.opacity : 1
+      },
+      set (val) {
+        this.styles.opacity = Math.round(val * 100) / 100
+        this.saveChanges({styles: cloneDeep(this.styles)})
+        this.rebaseStyles()
+      }
+    },
+
     // --- Visibility menus settings --- //
     showDimensionSettings () {
-      return (!this.hasComponents || (this.hasComponents && this.isExternal))
+      return (!this.hasGlobalComponents)
     },
     showColorSettings () {
-      return ((this.selectionType !== 'multiple') &&
-              (!this.hasComponents || (this.hasComponents && this.isExternal)))
+      return ((this.selectionType !== 'multiple') && (!this.hasGlobalComponents))
+    },
+    showOpacitySettings () {
+      return ((this.selectionType !== 'multiple') && (!this.hasGlobalComponents))
     },
     showTextSettings () {
-      return ((this.selectionType !== 'multiple') && (this.selectionType !== 'page') &&
-              (this.text !== null || (typeof this.attrs.value !== 'undefined' && this.attrs.value !== null)) &&
-              (!this.hasComponents || (this.hasComponents && this.isExternal)))
+      return ((this.selectionType !== 'multiple') && (this.selectionType !== 'page') && (!this.hasGlobalComponents) &&
+              (this.text !== null || (typeof this.attrs.value !== 'undefined' && this.attrs.value !== null)))
+    },
+    showImageSettings () {
+      return ((this.selectionType !== 'multiple') && (this.selectionType !== 'page') && (!this.hasGlobalComponents) &&
+              (typeof this.attrs.src !== 'undefined' && this.attrs.src !== null))
     },
 
     ...mapState({
@@ -184,9 +248,7 @@ export default {
     onToggleProp (prop, val, isOn) {
       this.styles[prop] = isOn ? 'inherit' : val
       this.saveChanges({styles: cloneDeep(this.styles)})
-
-      // Necessary rebase for reactivity purposes
-      this.styles = cloneDeep(this.styles)
+      this.rebaseStyles()
     },
 
     onPropChange (e, prop) {
@@ -218,6 +280,10 @@ export default {
       } else {
         this.updateEgglement({egglement: this.selectedItem, ...newValue})
       }
+    },
+
+    rebaseStyles () {
+      this.styles = cloneDeep(this.styles)
     },
 
     ...mapMutations([updatePage, updateEgglement])
@@ -282,7 +348,7 @@ export default {
   .dimension-menu, .position-menu {
     grid-template-columns: repeat(2, 1fr);
   }
-  .text-menu, .color-menu {
+  .text-menu, .color-menu, .image-menu {
     grid-template-columns: repeat(1, 1fr);
   }
 
@@ -292,7 +358,7 @@ export default {
   margin: 16px 0 4px;
 }
 .icon-bar svg {
-  margin: 0 16px;
+  margin: 0 15px;
   cursor: pointer;
 }
 
@@ -303,8 +369,16 @@ export default {
   margin: auto;
 }
 
-.text-input {
+.text-input, .item-wrapper {
   margin: 0 20px 10px;
+}
+
+.slider-wrapper {
+  display: inline-flex;
+  margin: 0 20px;
+}
+.slider-wrapper svg {
+  margin: 12px 0 0 10px;
 }
 
 .mini-text-input {

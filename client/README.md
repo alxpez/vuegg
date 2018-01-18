@@ -81,4 +81,4 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 
 
 
-***TODO**, a vuegg-componegg edition view to modify the global component reference, and apply changes to all instances of that component.
+*TODO, a vuegg-componegg edition view to modify the global component reference, and apply changes to all instances of that component.

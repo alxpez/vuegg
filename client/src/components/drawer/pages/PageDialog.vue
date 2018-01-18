@@ -1,16 +1,16 @@
 <template>
   <dialog>
-    <p class="dialog-title" :title="dialogTitle">{{dialogTitle}}</p>
-    <div class="dialog-content">
+    <p class="dialog__title" :title="dialogTitle">{{dialogTitle}}</p>
+    <div class="dialog__content">
       <mdc-textfield v-model="name" label="Name" @input="checkName" :helptext="nameError"
         minlength="1" helptext-validation helptext-persistent required
-        class="dialog-input" :class="{'mdc-text-field--invalid': nameError}"/>
+        class="dialog__input" :class="{'mdc-text-field--invalid': nameError}"/>
 
       <mdc-textfield v-model="path" label="Path" @input="checkPath" :helptext="pathError"
         minlength="1" helptext-validation helptext-persistent required
-        class="dialog-input" :class="{'mdc-text-field--invalid': pathError}"/>
+        class="dialog__input" :class="{'mdc-text-field--invalid': pathError}"/>
     </div>
-    <div class="dialog-actions">
+    <div class="dialog__actions">
       <mdc-button @click="savePageAndClose({id, name, path})" :disabled="!valid">Save</mdc-button>
       <mdc-button @click="_togglePageDialog({isOpen: false, isNew: pageDialog.isNew})">Cancel</mdc-button>
     </div>
@@ -129,26 +129,25 @@ dialog {
     0 24px 38px 3px rgba(0,0,0,.2);
 }
 
-.dialog-title {
+.dialog__title {
   font-size: 24px;
   font-weight: 500;
   padding: 24px 24px 0;
   margin: 0;
 }
 
-.dialog-content {
+.dialog__content {
   padding: 20px 24px 24px;
   color: rgba(0,0,0,.54);
 }
+.dialog__content .dialog__input{
+  width: 100%;
+}
 
-.dialog-actions {
+.dialog__actions {
   padding: 8px 8px 8px 24px;
   display: flex;
   flex-direction: row-reverse;
   flex-wrap: wrap;
-}
-
-.dialog-input{
-  width: 100%;
 }
 </style>

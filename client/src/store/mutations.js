@@ -57,6 +57,15 @@ const mutations = {
   },
 
   /**
+   * Replaces the selectedElements array with a new array
+   *
+   * @param {array} elements : selected element
+   */
+  [types._addSelectedElements]: function (state, elements) {
+    state.app.selectedElements = elements
+  },
+
+  /**
    * Adds a new element to the selectedElements array
    *
    * @param {object} elem : selected element

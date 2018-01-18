@@ -7,6 +7,7 @@
     @moving="movingHandler"
     @movestop="moveStopHandler"
     @resizestop="resizeStopHandler"
+    @selectstop="selectStopHandler"
     @clearselection="clearSelectionHandler"
     @delete="deleteHandler"
     @copy="copyHandler"
@@ -27,9 +28,11 @@
 
 <script>
 import cloneDeep from 'clone-deep'
+import elementsFromPoint from '@/helpers/elementsFromPoint'
 
 import { mapState, mapActions, mapMutations } from 'vuex'
-import { _clearSelectedElements, registerElement, removeElement, resizeElement, moveElement } from '@/store/types'
+import { _clearSelectedElements, _addSelectedElements, registerElement,
+        removeElement, resizeElement, moveElement } from '@/store/types'
 
 import MrContainer from '@/components/common/mr-vue/MrContainer'
 import StageEl from './StageEl'
@@ -55,7 +58,8 @@ export default {
     },
 
     ...mapState({
-      selectedElements: state => state ? state.app.selectedElements : []
+      selectedElements: state => state.app.selectedElements || [],
+      projectComponents: state => state.project.components
     })
   },
   methods: {
@@ -124,6 +128,40 @@ export default {
       this.registerElement({pageId: this.page.id, el: element, global: e.shiftKey})
     },
 
+    selectStopHandler (selectionBox) {
+      if ((selectionBox.top === selectionBox.bottom && selectionBox.left === selectionBox.right) ||
+          (this.page.children.length === 0)) return
+
+      let selectedElements = []
+      this.page.children.forEach(childEl => {
+        const child = (childEl.global) ? {...childEl, ...this.getComponentRef(childEl), id: childEl.id} : childEl
+
+        let childBottom = this.calcDimension('height', child, this.page) + child.top
+        let childRight = this.calcDimension('width', child, this.page) + child.left
+
+        if (((child.top <= selectionBox.bottom) && (child.left <= selectionBox.right) &&
+            (childBottom >= selectionBox.top) && (childRight >= selectionBox.left)) ||
+            ((child.top <= selectionBox.bottom) && (childRight >= selectionBox.left) &&
+            (childBottom >= selectionBox.top) && (child.left <= selectionBox.right))) {
+          selectedElements.push(child)
+        }
+      })
+
+      if (selectedElements.length > 0) {
+        this._addSelectedElements(selectedElements)
+      }
+    },
+
+    getComponentRef (component) {
+      return this.projectComponents[this.projectComponents.findIndex(comp => comp.name === component.name)]
+    },
+
+    calcDimension (prop, el, parent) {
+      return ((typeof el[prop] === 'string') && (el[prop].indexOf('%') !== -1))
+        ? parent[prop] * (el[prop].replace('%', '') / 100)
+        : el[prop]
+    },
+
     resizeStopHandler (resStopData) {
       resStopData.map(resElData => this.resizeElement({...resElData, pageId: this.page.id}))
     },
@@ -152,7 +190,7 @@ export default {
       const movingEggs = this.selectedElements
       const parentsIds = movingEggs.map(egg => egg.id.substring(0, egg.id.lastIndexOf('.')))
       const commonParentId = parentsIds.every((val, i, arr) => val === arr[0]) ? parentsIds[0] : null
-      const elementsOnPoint = document.elementsFromPoint(x, y)
+      const elementsOnPoint = elementsFromPoint(x, y)
 
       for (let el of elementsOnPoint) {
         if (el.id === commonParentId) return null
@@ -174,7 +212,7 @@ export default {
     },
 
     ...mapActions([registerElement, removeElement, resizeElement, moveElement]),
-    ...mapMutations([_clearSelectedElements])
+    ...mapMutations([_clearSelectedElements, _addSelectedElements])
   }
 }
 </script>
@@ -189,6 +227,7 @@ html.droppable * {
 
 <style scoped>
 .stage {
+  user-select: none;
   /* for paper style */
   box-shadow:
     0 1px 3px rgba(0, 0, 0, 0.2),
