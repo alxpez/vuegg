@@ -5,6 +5,30 @@
  */
 const MockComponents = [
   {
+    'name': 'mdcFABComp',
+    'type': 'mdc-fab',
+    'dependencies': [
+      {
+        'name': 'vue-mdc-adapter',
+        'version': '^0.7.3',
+        'imports': [
+          ['VueMDCAdapter', 'vue-mdc-adapter'],
+          'https://unpkg.com/vue-mdc-adapter@^0.7.3/dist/vue-mdc-adapter.min.css'
+        ]
+      }
+    ],
+    'external': true,
+    'componegg': true,
+    'egglement': true,
+    'height': 40,
+    'width': 40,
+    'attrs': {
+      'icon': 'add'
+    },
+    'styles': {},
+    'classes': {},
+    'children': []
+  }, {
     'name': 'mdcButtonComp',
     'type': 'mdc-button',
     'dependencies': [
@@ -27,8 +51,6 @@ const MockComponents = [
       'raised': true,
       'unelevated': false,
       'stroked': false,
-      'dense': false,
-      'compact': false,
       'disabled': false
     },
     'styles': {},

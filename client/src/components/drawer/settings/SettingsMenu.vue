@@ -2,7 +2,10 @@
 
 <template>
   <div class="menus-wrapper">
-    <span class="selection-title">{{selectionTitle}}</span>
+    <div class="selection-title__wrapper" :title="selectionTitle">
+      <svgicon :icon="'system/elements/'+selectionIcon" width="22" height="22" color="rgba(0,0,0,.87)"></svgicon>
+      <span class="selection-title">{{selectionTitle}}</span>
+    </div>
     <menu-toggle :menuHeader="'Dimensions'" :hidden="!showDimensionSettings" >
       <div class="menu dimension-menu">
         <mdc-textfield v-model="height" @blur="e => onPropChange(e, 'height')" label="Height (px)" class="mini-text-input" dense/>
@@ -17,17 +20,18 @@
       </div>
     </menu-toggle>
 
-    <menu-toggle :menuHeader="'Background Color'" :hidden="!showColorSettings">
+    <menu-toggle :menuHeader="'General'" :hidden="!showGeneralSettings">
       <div class="menu color-menu">
-        <color-chrome :value="formattedBackgroundColor" @input="newColor => onColorChange(newColor, 'background-color')"></color-chrome>
-      </div>
-    </menu-toggle>
-
-    <menu-toggle :menuHeader="'Opacity'" :hidden="!showOpacitySettings">
-      <div class="menu color-menu">
-        <div class="slider-wrapper" :title="parsedOpacity +' Opacity'">
+        <div class="slider__wrapper" :title="'Opacity ' + parsedOpacity">
           <mdc-slider min="0" max="1" v-model="parsedOpacity"/>
           <svgicon icon="system/editor/opacity" width="22" height="22" color="rgba(0,0,0,.87)"></svgicon>
+        </div>
+
+        <div class="color-picker__wrapper">
+          <color-pick :color="formattedBackgroundColor" :title="'Background color'"
+            @input="newColor => onColorChange(newColor, 'background-color')">
+          </color-pick>
+          <svgicon icon="system/editor/bg_color" width="22" height="22" color="rgba(0,0,0,.87)"></svgicon>
         </div>
       </div>
     </menu-toggle>
@@ -78,9 +82,16 @@
           </svgicon>
         </div>
 
-        <div class="slider-wrapper" title="Font size (px)">
+        <div class="slider__wrapper" :title="'Font size ' + parsedFontSize + 'px'">
           <mdc-slider min="1" max="100" step="1" v-model="parsedFontSize"/>
           <svgicon icon="system/editor/font_size" width="22" height="22" color="rgba(0,0,0,.87)"></svgicon>
+        </div>
+
+        <div class="color-picker__wrapper">
+          <color-pick :color="formattedColor" :title="'Text color'"
+            @input="newColor => onColorChange(newColor, 'color')">
+          </color-pick>
+          <svgicon icon="system/editor/text_color" width="22" height="22" color="rgba(0,0,0,.87)"></svgicon>
         </div>
 
         <material-select class="item-wrapper" label="Font family">
@@ -98,8 +109,6 @@
           @blur="e => onPropChange(e, 'attrs')" label="Text" class="text-input" dense/>
         <mdc-textfield v-model="text" v-else
           @blur="e => onPropChange(e, 'text')"label="Text" class="text-input" dense/>
-
-        <color-chrome :value="formattedColor" @input="newColor => onColorChange(newColor, 'color')"></color-chrome>
       </div>
     </menu-toggle>
   </div>
@@ -111,18 +120,19 @@ import cloneDeep from 'clone-deep'
 import { mapState, mapMutations } from 'vuex'
 import { updatePage, updateEgglement } from '@/store/types'
 
-import { Chrome } from 'vue-color'
 import tinycolor from 'tinycolor2'
 
+import ColorPick from '@/components/common/ColorPick'
 import MenuToggle from '@/components/common/MenuToggle'
 import MaterialSelect from '@/components/common/MaterialSelect'
 
 import WebSafeFonts from '@/assets/WebSafeFonts'
 import '@/assets/icons/system/editor/'
+import '@/assets/icons/system/elements/'
 
 export default {
   name: 'settings-menu',
-  components: { MenuToggle, MaterialSelect, 'color-chrome': Chrome },
+  components: { ColorPick, MenuToggle, MaterialSelect },
   data: function () {
     return {
       name: null,
@@ -135,24 +145,38 @@ export default {
       attrs: {},
       styles: {},
       classes: {},
-      defaultColor: {rgba: {r: 0, g: 0, b: 0, a: 1}, a: 1},
       webSafeFonts: WebSafeFonts
     }
   },
   computed: {
-    selectionType () {
-      return (this.selectedElements.length === 0)
-        ? 'page'
-        : (this.selectedElements.length > 1)
-          ? 'multiple'
-          : 'single'
-    },
     selectionTitle () {
       return (this.selectedElements.length === 0)
         ? 'Page'
         : (this.selectedElements.length > 1)
           ? 'Multiple Items'
           : this.selectedElements[0].name
+    },
+    selectionIcon () {
+      return (this.selectedElements.length === 0)
+        ? 'page'
+        : (this.selectedElements.length > 1)
+          ? 'multiple'
+          : (this.selectedElements[0].global)
+            ? 'globe'
+            : (this.selectedElements[0].componegg)
+              ? 'component'
+              : this.selectedElements[0].name.toLowerCase()
+    },
+    selectionType () {
+      return (this.selectedElements.length === 0)
+        ? 'page'
+        : (this.selectedElements.length > 1)
+          ? 'multiple'
+          : (this.selectedElements[0].global)
+            ? 'global'
+            : (this.selectedElements[0].componegg)
+              ? 'component'
+              : 'element'
     },
     selectedItem () {
       return (this.selectedElements.length === 0)
@@ -163,10 +187,10 @@ export default {
     },
 
     formattedBackgroundColor () {
-      return (this.styles['background-color']) ? tinycolor(this.styles['background-color']).toRgb() : this.defaultColor
+      return tinycolor(this.styles['background-color']).toRgb()
     },
     formattedColor () {
-      return (this.styles && this.styles.color) ? tinycolor(this.styles.color).toRgb() : this.defaultColor
+      return tinycolor(this.styles.color).toRgb()
     },
 
     hasGlobalComponents () {
@@ -219,10 +243,7 @@ export default {
     showDimensionSettings () {
       return (!this.hasGlobalComponents)
     },
-    showColorSettings () {
-      return ((this.selectionType !== 'multiple') && (!this.hasGlobalComponents))
-    },
-    showOpacitySettings () {
+    showGeneralSettings () {
       return ((this.selectionType !== 'multiple') && (!this.hasGlobalComponents))
     },
     showTextSettings () {
@@ -243,6 +264,7 @@ export default {
     onColorChange (newColor, prop) {
       this.styles[prop] = tinycolor(newColor.hsl).toRgbString()
       this.saveChanges({styles: cloneDeep(this.styles)})
+      this.rebaseStyles()
     },
 
     onToggleProp (prop, val, isOn) {
@@ -330,12 +352,22 @@ export default {
   overflow-y: auto;
 }
 
-.selection-title {
+.selection-title__wrapper {
+  display: inline-flex;
   user-select: none;
-  text-align: center;
-  padding: 9px 0;
+  min-height: 22px;
+  max-height: 22px;
+  padding: 12px 16px;
   background-color: #ffffff;
   border-bottom: 1px solid rgba(0,0,0,0.12);
+}
+.selection-title__wrapper svg {
+  min-width: 22px;
+}
+.selection-title {
+  padding: 2px 0 0 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .menu {
@@ -362,22 +394,20 @@ export default {
   cursor: pointer;
 }
 
-.vc-chrome {
-  background: transparent;
-  background-color: transparent;
-  box-shadow: none;
-  margin: auto;
-}
-
 .text-input, .item-wrapper {
   margin: 0 20px 10px;
 }
 
-.slider-wrapper {
+.color-picker__wrapper {
+  display: inline-flex;
+  margin: 16px 20px 8px;
+}
+
+.slider__wrapper {
   display: inline-flex;
   margin: 0 20px;
 }
-.slider-wrapper svg {
+.slider__wrapper svg {
   margin: 12px 0 0 10px;
 }
 

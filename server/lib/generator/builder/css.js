@@ -32,7 +32,7 @@ function _cssBuilder (el, isRoot) {
   styleDef += '\n' + selector + S(el.id).replaceAll('.', '-').s + ' '
     + S(JSON.stringify(fullStyle, null, 2)).replaceAll('\n}',';\n}').s + '\n'
 
-  return S(styleDef).replaceAll('"', '').replaceAll(',\n', ';\n').s
+  return S(styleDef).replaceAll('\\"', '\'').replaceAll('"', '').replaceAll(',\n', ';\n').s
 }
 
 module.exports = _cssBuilder

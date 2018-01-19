@@ -37,7 +37,7 @@ export default {
   top: 10px;
   left: 0;
   font-size: .76rem;
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(0, 0, 0, 0.57);
 }
 .material-select select {
   outline: none;

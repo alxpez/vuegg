@@ -14,7 +14,7 @@ const S = require('string')
 function _htmlBuilder (el, level) {
   let elDef = ""
   let elTag = el.type
-  let elProps = {'class': S(el.id).replaceAll('.', '-').s}
+  let elProps = {'class': S(el.id).replaceAll('.', '-').s + _parseBooleanPropsToString(el.classes)}
 
   if (el.global) {
     elTag = S(el.name).humanize().slugify().s
@@ -38,3 +38,12 @@ function _htmlBuilder (el, level) {
 }
 
 module.exports = _htmlBuilder
+
+
+function _parseBooleanPropsToString (propList) {
+  let parsedString = ''
+  for (prop in propList) {
+    if (propList[prop] === true) parsedString += ' ' + prop
+  }
+  return parsedString
+}

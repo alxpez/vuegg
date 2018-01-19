@@ -1,11 +1,11 @@
 <template>
-  <div class="menu-container" v-show="!isHidden">
-    <div class="header" @click="toggleMenu()">
+  <div class="menu-toggle" v-show="!isHidden">
+    <div class="menu-toggle__header" @click="toggleMenu()">
       <span>{{menuHeader}}</span>
       <svgicon v-if="isClosed" icon="system/expand" width="14" height="14" color="#737373"></svgicon>
       <svgicon v-else icon="system/collapse" width="14" height="14" color="#737373"></svgicon>
     </div>
-    <div class="content-wrapper" :class="{'is-closed': isClosed}" :style="elStyle">
+    <div class="menu-toggle__content" :class="{'is-closed': isClosed}" :style="elStyle">
       <slot></slot>
     </div>
   </div>
@@ -60,38 +60,37 @@ export default {
 </script>
 
 <style scoped>
-.menu-container {
+.menu-toggle {
   border-bottom: 1px solid rgba(0,0,0,0.12);
 }
 
-.header {
+.menu-toggle__header {
   padding: 10px 25px;
   font-size: small;
+  font-weight: bold;
   cursor: pointer;
   color: rgba(0,0,0,.54)
 }
 
-.header:hover {
+.menu-toggle__header:hover {
   color: rgba(0,0,0,.87)
 }
 
-.header span {
+.menu-toggle__header span {
   display: inline-block;
   width: calc(100% - 20px);
   user-select: none;
 }
 
-.header .svg-icon {
+.menu-toggle__header .svg-icon {
   display: inline-block;
 }
 
-.content-wrapper {
+.menu-toggle__content {
   overflow: hidden;
   transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
-.content-wrapper.is-closed {
+.menu-toggle__content.is-closed {
   max-height: 0;
 }
-
 </style>
