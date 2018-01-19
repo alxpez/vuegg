@@ -62,6 +62,14 @@ const WebSafeFonts = [
         'definition': '"Lucida Console", Monaco, monospace'
       }
     ]
+  }, {
+    'family': 'icons',
+    'fonts': [
+      {
+        'name': 'Material Icons',
+        'definition': '"Material Icons"'
+      }
+    ]
   }
 ]
 
