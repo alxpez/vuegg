@@ -2,7 +2,10 @@
 
 <template>
   <div class="menus-wrapper">
-    <span class="selection-title">{{selectionTitle}}</span>
+    <div class="selection-title__wrapper" :title="selectionTitle">
+      <svgicon :icon="'system/elements/'+selectionIcon" width="22" height="22" color="rgba(0,0,0,.87)"></svgicon>
+      <span class="selection-title">{{selectionTitle}}</span>
+    </div>
     <menu-toggle :menuHeader="'Dimensions'" :hidden="!showDimensionSettings" >
       <div class="menu dimension-menu">
         <mdc-textfield v-model="height" @blur="e => onPropChange(e, 'height')" label="Height (px)" class="mini-text-input" dense/>
@@ -125,6 +128,7 @@ import MaterialSelect from '@/components/common/MaterialSelect'
 
 import WebSafeFonts from '@/assets/WebSafeFonts'
 import '@/assets/icons/system/editor/'
+import '@/assets/icons/system/elements/'
 
 export default {
   name: 'settings-menu',
@@ -145,19 +149,34 @@ export default {
     }
   },
   computed: {
-    selectionType () {
-      return (this.selectedElements.length === 0)
-        ? 'page'
-        : (this.selectedElements.length > 1)
-          ? 'multiple'
-          : 'single'
-    },
     selectionTitle () {
       return (this.selectedElements.length === 0)
         ? 'Page'
         : (this.selectedElements.length > 1)
           ? 'Multiple Items'
           : this.selectedElements[0].name
+    },
+    selectionIcon () {
+      return (this.selectedElements.length === 0)
+        ? 'page'
+        : (this.selectedElements.length > 1)
+          ? 'multiple'
+          : (this.selectedElements[0].global)
+            ? 'globe'
+            : (this.selectedElements[0].componegg)
+              ? 'component'
+              : this.selectedElements[0].name.toLowerCase()
+    },
+    selectionType () {
+      return (this.selectedElements.length === 0)
+        ? 'page'
+        : (this.selectedElements.length > 1)
+          ? 'multiple'
+          : (this.selectedElements[0].global)
+            ? 'global'
+            : (this.selectedElements[0].componegg)
+              ? 'component'
+              : 'element'
     },
     selectedItem () {
       return (this.selectedElements.length === 0)
@@ -333,12 +352,22 @@ export default {
   overflow-y: auto;
 }
 
-.selection-title {
+.selection-title__wrapper {
+  display: inline-flex;
   user-select: none;
-  text-align: center;
-  padding: 9px 0;
+  min-height: 22px;
+  max-height: 22px;
+  padding: 12px 16px;
   background-color: #ffffff;
   border-bottom: 1px solid rgba(0,0,0,0.12);
+}
+.selection-title__wrapper svg {
+  min-width: 22px;
+}
+.selection-title {
+  padding: 2px 0 0 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .menu {

@@ -2,7 +2,7 @@
 
 var icon = require('vue-svgicon')
 icon.register({
-  'system/elements/aspect_ratio': {
+  'system/elements/component': {
     width: 24,
     height: 24,
     viewBox: '0 0 24 24',
