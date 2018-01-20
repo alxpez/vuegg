@@ -4,6 +4,7 @@ html, body, body .loader-wrapper {
   -moz-osx-font-smoothing: grayscale;
   height: 100%;
   width: 100%;
+  margin: 0;
 }
 
 .loader-wrapper h1 {
@@ -20,14 +21,7 @@ html, body, body .loader-wrapper {
 .loader-wrapper * {
   display: block;
   margin: auto;
-  /* animation: fadeIn 5500ms; */
 }
-
-/* @keyframes fadeIn {
-  0% { opacity: 0; }
-  75% { opacity: 0; }
-  100% { opacity: 1; }
-} */
 
 .progress {
   position: relative;
