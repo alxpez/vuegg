@@ -80,14 +80,18 @@ export default {
     })
   },
   methods: {
-    dragstartHandler (e, element) {
+    dragstartHandler (e, item) {
       e.dataTransfer.dropEffect = 'copy'
       e.dataTransfer.effectAllowed = 'all'
-      e.dataTransfer.setData('text/plain', JSON.stringify(element))
+      e.dataTransfer.setData('text/plain', JSON.stringify(this.initItem(item)))
     },
 
     addItemToStage (e, item) {
-      this.registerElement({pageId: this.activePage.id, el: item, global: e.shiftKey})
+      this.registerElement({pageId: this.activePage.id, el: this.initItem(item), global: e.shiftKey})
+    },
+
+    initItem (item) {
+      return { zIndex: 'auto', top: 0, left: 0, ...item }
     },
 
     ...mapActions([registerElement])

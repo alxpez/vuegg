@@ -4,7 +4,9 @@
     :style="style"
     @mousedown="e => $emit('activated', e)"
   >
+    <!-- IMPORTANT! KEEP SLOT AS FIRST CHILD -->
     <slot></slot>
+    <!-- IMPORTANT! KEEP SLOT AS FIRST CHILD -->
 
     <div mr-handle="true"
       v-if="resizable"

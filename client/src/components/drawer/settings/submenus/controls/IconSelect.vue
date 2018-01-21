@@ -2,7 +2,10 @@
   <div class="material-select__wrapper">
     <div class="material-select">
       <label class="material-select__label">{{label}}</label>
-      <slot></slot>
+      <select v-model="currentValue">
+        <slot></slot>
+      </select>
+      <svgicon v-show="(icon !== '')" :icon="icon" width="22" height="22" color="rgba(0,0,0,.87)"></svgicon>
       <div class="material-select__bottom-line"></div>
     </div>
   </div>
@@ -11,8 +14,18 @@
 
 <script>
 export default {
-  name: 'material-select',
-  props: ['label']
+  name: 'icon-select',
+  props: ['value', 'label', 'icon'],
+  computed: {
+    currentValue: {
+      get () {
+        return this.value
+      },
+      set (val) {
+        this.$emit('change', val)
+      }
+    }
+  }
 }
 </script>
 
