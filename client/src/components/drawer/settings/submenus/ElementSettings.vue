@@ -83,6 +83,10 @@
   </menu-toggle>
 
   <menu-toggle menuHeader="Image" :hidden="(typeof att.src === 'undefined' || att.src === null)">
+    <div class="menu menu--single-col">
+      <mdc-textfield v-model="att.src" label="Image URL" dense
+        @input.native="e => onAttrsChanges('src', e.target.value)"/>
+    </div>
   </menu-toggle>
 </div>
 </template>
