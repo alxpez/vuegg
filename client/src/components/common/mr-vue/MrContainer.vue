@@ -100,7 +100,9 @@ export default {
       let offY = this.currentAbsPos.y - lastAbsY
 
       if (this.resizing) {
-        this.mrElements.map(mrEl => this.resizeElementBy(mrEl, offX, offY))
+        this.mrElements.map(mrEl => {
+          if (!mrEl.children[0].getAttribute('global')) this.resizeElementBy(mrEl, offX, offY)
+        })
         // this.$emit('resizing')
       } else if (this.moving) {
         this.mrElements.map(mrEl => this.moveElementBy(mrEl, offX, offY))

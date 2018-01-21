@@ -55,10 +55,11 @@ const actions = {
    * @see {@link [types._changeActivePage]}
    */
   [types.duplicatePage]: function ({ getters, commit }, payload) {
+    const copyId = shortid.generate()
     let pageCopy = {
       ...setElId(payload.page),
-      name: payload.page.name + ' copy',
-      path: payload.page.path + shortid.generate()
+      name: payload.page.name + copyId,
+      path: payload.page.path + copyId
     }
     commit(types.createPage, pageCopy)
     commit(types._changeActivePage, pageCopy)

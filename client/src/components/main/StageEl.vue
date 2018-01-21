@@ -29,6 +29,7 @@ export default {
       'style': styles,
       'attrs': {
         id: elementO.id,
+        global: elementO.global,
         egglement: elementO.egglement,
         containegg: elementO.containegg,
         componegg: elementO.componegg,
