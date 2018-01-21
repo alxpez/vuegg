@@ -33,7 +33,7 @@
     </div>
   </menu-toggle>
 
-  <menu-toggle menuHeader="Text" :hidden="(typeof txt === 'undefined' || txt === null)">
+  <menu-toggle menuHeader="Text" :hidden="hideTextSettings">
     <div class="menu menu--single-col">
       <text-align @change="newValue => onStyleChanges('text-align', newValue)"
         :textAlign="sty['text-align']">
@@ -68,12 +68,18 @@
         </optgroup>
       </icon-select>
 
-      <mdc-textfield v-model="txt" label="Text" dense
+      <mdc-textfield v-model="att.value" label="Text" dense v-if="(typeof att.value !== 'undefined' && att.value !== null)"
+        @input.native="e => onAttrsChanges('value', e.target.value)"/>
+      <mdc-textfield v-model="txt" label="Text" dense v-else
         @input.native="e => emitChanges('text', e.target.value)"/>
     </div>
   </menu-toggle>
 
-  <menu-toggle menuHeader="Input" :hidden="(typeof att.value === 'undefined' || att.value === null)">
+  <menu-toggle menuHeader="Placeholder" :hidden="(typeof att.placeholder === 'undefined' || att.placeholder === null)">
+    <div class="menu menu--single-col">
+      <mdc-textfield v-model="att.placeholder" label="Placeholder" dense
+        @input.native="e => onAttrsChanges('placeholder', e.target.value)"/>
+    </div>
   </menu-toggle>
 
   <menu-toggle menuHeader="Image" :hidden="(typeof att.src === 'undefined' || att.src === null)">
@@ -121,10 +127,21 @@ export default {
     'styles' (val) { this.sty = cloneDeep(val) },
     'attrs' (val) { this.att = cloneDeep(val) }
   },
+  computed: {
+    hideTextSettings () {
+      return (typeof this.txt === 'undefined' || this.txt === null) &&
+        (typeof this.att.value === 'undefined' || this.att.value === null)
+    }
+  },
   methods: {
     onStyleChanges (prop, value) {
       this.sty[prop] = value
       this.emitChanges('styles', this.sty)
+    },
+
+    onAttrsChanges (prop, value) {
+      this.att[prop] = value
+      this.emitChanges('attrs', this.att)
     },
 
     emitChanges (type, value) {
