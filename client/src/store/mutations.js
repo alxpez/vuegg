@@ -181,6 +181,7 @@ const mutations = {
    * @param {object} payload.egglement : Egglement to update
    * @param {number|null} [payload.left] : New egglement's left position
    * @param {number|null} [payload.top] : New egglement's top position
+   * @param {number|string|null} [payload.zIndex] : New egglement's zIndex order
    * @param {number|string|null} [payload.height] : New egglement's height
    * @param {number|string|null} [payload.width] : New egglement's width
    * @param {string|null} [payload.text] : New egglement's text child
@@ -191,6 +192,7 @@ const mutations = {
   [types.updateEgglement]: function (state, payload) {
     if ((typeof payload.left !== 'undefined') && (payload.left !== null)) payload.egglement.left = payload.left
     if ((typeof payload.top !== 'undefined') && (payload.top !== null)) payload.egglement.top = payload.top
+    if ((typeof payload.zIndex !== 'undefined') && (payload.zIndex !== null)) payload.egglement.zIndex = payload.zIndex
     if ((typeof payload.height !== 'undefined') && (payload.height !== null)) payload.egglement.height = payload.height
     if ((typeof payload.width !== 'undefined') && (payload.width !== null)) payload.egglement.width = payload.width
     if ((typeof payload.text !== 'undefined') && (payload.text !== null)) payload.egglement.text = payload.text

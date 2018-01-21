@@ -17,6 +17,7 @@ export default {
       styles = {
         ...elementO.styles,
         position: 'absolute',
+        zIndex: elementO.zIndex,
         left: elementO.left + 'px',
         top: elementO.top + 'px',
         width: (typeof elementO.width === 'string') ? elementO.width : (elementO.width + 'px'),
@@ -59,6 +60,7 @@ export default {
         active: this.isActive,
         left: elementO.left,
         top: elementO.top,
+        zIndex: elementO.zIndex,
         width: elementO.width,
         height: elementO.height,
         minWidth: elementO.minWidth,
