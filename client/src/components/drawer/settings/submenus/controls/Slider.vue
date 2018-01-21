@@ -1,6 +1,6 @@
 <template>
   <div class="slider__wrapper" :title="label + ' (' + currentValue + ')'">
-    <mdc-slider :min="min" :max="max" v-model="currentValue"/>
+    <mdc-slider :min="min" :max="max" :step="step" v-model="currentValue"/>
     <svgicon v-show="(icon !== '')" :icon="icon" width="22" height="22" color="rgba(0,0,0,.87)"></svgicon>
   </div>
 </template>
@@ -13,6 +13,7 @@ export default {
     value: {type: Number, default: 1},
     min: {type: String, default: '0'},
     max: {type: String, default: '1'},
+    step: {type: String, default: null},
     label: {type: String, default: ''},
     icon: {type: String, default: ''}
   },

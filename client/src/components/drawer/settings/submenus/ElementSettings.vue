@@ -16,9 +16,9 @@
     <div class="menu menu--single-col">
       <slider label="Opacity"
         icon="system/editor/opacity"
-        min="0" max="1"
-        :value="sty['opacity'] || 1"
-        @change="currentValue => onStyleChanges('opacity', currentValue)">
+        min="0" max="100" step="1"
+        :value="sty['opacity'] * 100 || 100"
+        @change="currentValue => onStyleChanges('opacity', currentValue / 100)">
       </slider>
 
       <color-picker label="Background color"
@@ -47,7 +47,7 @@
 
       <slider label="Font size"
         icon="system/editor/font_size"
-        min="1" max="100"
+        min="1" max="100" step="1"
         :value="parseInt(sty['font-size']) || 16"
         @change="currentValue => onStyleChanges('font-size', (currentValue + 'px'))">
       </slider>
@@ -58,7 +58,9 @@
         @input="newColor => onStyleChanges('color', newColor)">
       </color-picker>
 
-      <icon-select :value="sty['font-family'] || 'Roboto, sans-serif'" icon="system/editor/font" label="Font family"
+      <icon-select class="text-item"
+        icon="system/editor/font" label="Font family"
+        :value="sty['font-family'] || 'Roboto, sans-serif'"
         @change="newValue => onStyleChanges('font-family', newValue)"
       >
         <optgroup v-for="fontFamily in fonts" :key="fontFamily.family" :label="fontFamily.family">
@@ -68,23 +70,24 @@
         </optgroup>
       </icon-select>
 
-      <mdc-textfield v-model="att.value" label="Text" dense v-if="(typeof att.value !== 'undefined' && att.value !== null)"
+      <mdc-textfield class="text-item" v-model="att.value" label="Text" dense
+        v-if="(typeof att.value !== 'undefined' && att.value !== null)"
         @input.native="e => onAttrsChanges('value', e.target.value)"/>
-      <mdc-textfield v-model="txt" label="Text" dense v-else
+      <mdc-textfield class="text-item" v-model="txt" label="Text" dense v-else
         @input.native="e => emitChanges('text', e.target.value)"/>
     </div>
   </menu-toggle>
 
   <menu-toggle menuHeader="Placeholder" :hidden="(typeof att.placeholder === 'undefined' || att.placeholder === null)">
     <div class="menu menu--single-col">
-      <mdc-textfield v-model="att.placeholder" label="Placeholder" dense
+      <mdc-textfield class="text-item" v-model="att.placeholder" label="Placeholder" dense
         @input.native="e => onAttrsChanges('placeholder', e.target.value)"/>
     </div>
   </menu-toggle>
 
   <menu-toggle menuHeader="Image" :hidden="(typeof att.src === 'undefined' || att.src === null)">
     <div class="menu menu--single-col">
-      <mdc-textfield v-model="att.src" label="Image URL" dense
+      <mdc-textfield class="text-item" v-model="att.src" label="Image URL" dense
         @input.native="e => onAttrsChanges('src', e.target.value)"/>
     </div>
   </menu-toggle>
@@ -220,7 +223,7 @@ export default {
   .menu--single-col {
     grid-template-columns: repeat(1, 1fr);
   }
-    .menu--single-col * {
+    .menu--single-col .text-item {
       margin: 0 20px 10px;
     }
   .menu--double-col {
