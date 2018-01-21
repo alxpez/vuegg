@@ -88,6 +88,58 @@
         @input.native="e => onAttrsChanges('src', e.target.value)"/>
     </div>
   </menu-toggle>
+
+  <menu-toggle menuHeader="Border">
+    <div class="menu menu--single-col">
+      <icon-select class="text-item" :value="borderSelected"
+        :icon="'system/editor/border' + borderSelected" label="Border"
+        @change="newValue => borderSelected = newValue"
+      >
+        <option value="">All borders</option>
+        <option value="-top">Top</option>
+        <option value="-bottom">Bottom</option>
+        <option value="-left">Left</option>
+        <option value="-right">Right</option>
+      </icon-select>
+
+      <slider label="Border radius"
+        icon="system/editor/corner_radius"
+        min="0" max="50" step="1"
+        :value="parseInt(sty['border-radius']) || 0"
+        @change="currentValue => onStyleChanges('border-radius', (currentValue + '%'))">
+      </slider>
+
+      <icon-select class="text-item"
+        icon="system/editor/border_style" label="Style"
+        :value="sty['border' + borderSelected + '-style'] || 'inherit'"
+        @change="currentValue => onStyleChanges('border' + borderSelected + '-style', currentValue)"
+      >
+        <option value="none">none</option>
+        <option value="dotted">dotted</option>
+        <option value="dashed">dashed</option>
+        <option value="solid">solid</option>
+        <option value="double">double</option>
+        <option value="groove">groove</option>
+        <option value="ridge">ridge</option>
+        <option value="inset">inset</option>
+        <option value="outset">outset</option>
+        <option value="inherit">inherit</option>
+      </icon-select>
+
+      <slider label="Border width"
+        icon="system/editor/border_weight"
+        min="0" max="25" step="1"
+        :value="parseInt(sty['border' + borderSelected + '-width']) || 0"
+        @change="currentValue => onStyleChanges('border' + borderSelected + '-width', (currentValue + 'px'))">
+      </slider>
+
+      <color-picker label="Border color"
+        icon="system/editor/border_color"
+        :color="sty['border' + borderSelected + '-color']"
+        @input="newColor => onStyleChanges('border' + borderSelected + '-color', newColor)">
+      </color-picker>
+    </div>
+  </menu-toggle>
 </div>
 </template>
 
@@ -118,7 +170,8 @@ export default {
       txt: this.text,
       sty: cloneDeep(this.styles),
       att: cloneDeep(this.attrs),
-      fonts: WebSafeFonts
+      fonts: WebSafeFonts,
+      borderSelected: ''
     }
   },
   watch: {

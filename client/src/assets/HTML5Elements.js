@@ -16,7 +16,9 @@ const HTML5Elements = [
     'classes': {},
     'styles': {
       'overflow': 'hidden',
-      'border': '1px solid rgba(0, 0, 0, 0.15)'
+      'border-color': 'rgba(0, 0, 0, 0.15)',
+      'border-style': 'solid',
+      'border-width': '1px'
     },
     'children': []
   }, {
