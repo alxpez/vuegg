@@ -6,111 +6,27 @@
       <svgicon :icon="'system/elements/'+selectionIcon" width="22" height="22" color="rgba(0,0,0,.87)"></svgicon>
       <span class="selection-title">{{selectionTitle}}</span>
     </div>
-    <menu-toggle :menuHeader="'Dimensions'" :hidden="!showDimensionSettings" >
-      <div class="menu dimension-menu">
-        <mdc-textfield v-model="height" @blur="e => onPropChange(e, 'height')" label="Height (px)" class="mini-text-input" dense/>
-        <mdc-textfield v-model="width"  @blur="e => onPropChange(e, 'width')" label="Width (px)" class="mini-text-input" dense/>
-      </div>
-    </menu-toggle>
 
-    <menu-toggle :menuHeader="'Position'" :hidden="selectionType === 'page'">
-      <div class="menu position-menu">
-        <mdc-textfield v-model="top" @blur="e => onPropChange(e, 'top')" label="Top (px)" class="mini-text-input" dense/>
-        <mdc-textfield v-model="left"  @blur="e => onPropChange(e, 'left')" label="Left (px)" class="mini-text-input" dense/>
-      </div>
-    </menu-toggle>
+    <page-settings v-if="(selectionType === 'page')"
+      :height="height" :width="width" :styles="styles"
+      @propchange="onPropChange">
+    </page-settings>
 
-    <menu-toggle :menuHeader="'General'" :hidden="!showGeneralSettings">
-      <div class="menu color-menu">
-        <div class="slider__wrapper" :title="'Opacity ' + parsedOpacity">
-          <mdc-slider min="0" max="1" v-model="parsedOpacity"/>
-          <svgicon icon="system/editor/opacity" width="22" height="22" color="rgba(0,0,0,.87)"></svgicon>
-        </div>
+    <global-settings v-if="(selectionType === 'global')"
+      :zIndex="zIndex" :top="top" :left="left"
+      @propchange="onPropChange" >
+    </global-settings>
 
-        <div class="color-picker__wrapper">
-          <color-pick :color="formattedBackgroundColor" :title="'Background color'"
-            @input="newColor => onColorChange(newColor, 'background-color')">
-          </color-pick>
-          <svgicon icon="system/editor/bg_color" width="22" height="22" color="rgba(0,0,0,.87)"></svgicon>
-        </div>
-      </div>
-    </menu-toggle>
+    <component-settings v-if="(selectionType === 'component' || selectionType === 'multiple')"
+      :zIndex="zIndex" :top="top" :left="left" :height="height" :width="width" :styles="styles"
+      @propchange="onPropChange" >
+    </component-settings>
 
-    <menu-toggle :menuHeader="'Image properties'" :hidden="!showImageSettings">
-      <div class="menu image-menu">
-        <mdc-textfield v-model="attrs.src" @blur="e => onPropChange(e, 'attrs')" label="Image source" class="text-input" dense/>
-      </div>
-    </menu-toggle>
-
-    <menu-toggle :menuHeader="'Text properties'" :startClosed="false" :hidden="!showTextSettings">
-      <div class="menu text-menu">
-        <div class="icon-bar">
-          <svgicon icon="system/editor/align_left" width="22" height="22"
-            @click.native="onToggleProp('text-align', 'left', isAlignedLeft)"
-            :color="isAlignedLeft ? 'rgba(0,0,0,.87)' : 'rgba(0,0,0,.38)'">
-          </svgicon>
-          <svgicon icon="system/editor/align_right" width="22" height="22"
-            @click.native="onToggleProp('text-align', 'right', isAlignedRight)"
-            :color="isAlignedRight ? 'rgba(0,0,0,.87)' : 'rgba(0,0,0,.38)'">
-          </svgicon>
-          <svgicon icon="system/editor/align_center" width="22" height="22"
-            @click.native="onToggleProp('text-align', 'center', isCentered)"
-            :color="isCentered ? 'rgba(0,0,0,.87)' : 'rgba(0,0,0,.38)'">
-          </svgicon>
-          <svgicon icon="system/editor/align_justify" width="22" height="22"
-            @click.native="onToggleProp('text-align', 'justify', isJustified)"
-            :color="isJustified ?'rgba(0,0,0,.87)' : 'rgba(0,0,0,.38)'">
-          </svgicon>
-        </div>
-
-        <div class="icon-bar">
-          <svgicon icon="system/editor/bold" width="22" height="22"
-            @click.native="onToggleProp('font-weight', 'bold', isBold)"
-            :color="isBold ? 'rgba(0,0,0,.87)' : 'rgba(0,0,0,.38)'">
-          </svgicon>
-          <svgicon icon="system/editor/italic" width="22" height="22"
-            @click.native="onToggleProp('font-style', 'italic', isItalic)"
-            :color="isItalic ? 'rgba(0,0,0,.87)' : 'rgba(0,0,0,.38)'">
-          </svgicon>
-          <svgicon icon="system/editor/underline" width="22" height="22"
-            @click.native="onToggleProp('text-decoration', 'underline', isUnderlined)"
-            :color="isUnderlined ? 'rgba(0,0,0,.87)' : 'rgba(0,0,0,.38)'">
-          </svgicon>
-          <svgicon icon="system/editor/strikethrough" width="22" height="22"
-            @click.native="onToggleProp('text-decoration', 'line-through', isStriked)"
-            :color="isStriked ? 'rgba(0,0,0,.87)' : 'rgba(0,0,0,.38)'">
-          </svgicon>
-        </div>
-
-        <div class="slider__wrapper" :title="'Font size ' + parsedFontSize + 'px'">
-          <mdc-slider min="1" max="100" step="1" v-model="parsedFontSize"/>
-          <svgicon icon="system/editor/font_size" width="22" height="22" color="rgba(0,0,0,.87)"></svgicon>
-        </div>
-
-        <div class="color-picker__wrapper">
-          <color-pick :color="formattedColor" :title="'Text color'"
-            @input="newColor => onColorChange(newColor, 'color')">
-          </color-pick>
-          <svgicon icon="system/editor/text_color" width="22" height="22" color="rgba(0,0,0,.87)"></svgicon>
-        </div>
-
-        <material-select class="item-wrapper" label="Font family">
-          <select v-model="styles['font-family']" @change="e => onPropChange(e, 'styles')">
-            <option disabled value="">default</option>
-            <optgroup v-for="fontFamily in webSafeFonts" :key="fontFamily.family" :label="fontFamily.family">
-              <option v-for="font in fontFamily.fonts" :key="font.name" :value="font.definition">
-                {{font.name}}
-              </option>
-            </optgroup>
-          </select>
-        </material-select>
-
-        <mdc-textfield v-model="attrs.value" v-if="(typeof attrs.value !== 'undefined' && attrs.value !== null)"
-          @blur="e => onPropChange(e, 'attrs')" label="Text" class="text-input" dense/>
-        <mdc-textfield v-model="text" v-else
-          @blur="e => onPropChange(e, 'text')"label="Text" class="text-input" dense/>
-      </div>
-    </menu-toggle>
+    <element-settings v-if="(selectionType === 'element')"
+      :zIndex="zIndex" :top="top" :left="left" :height="height" :width="width"
+      :text="text" :styles="styles" :attrs="attrs"
+      @propchange="onPropChange">
+    </element-settings>
   </div>
 </template>
 
@@ -120,11 +36,10 @@ import cloneDeep from 'clone-deep'
 import { mapState, mapMutations } from 'vuex'
 import { updatePage, updateEgglement } from '@/store/types'
 
-import tinycolor from 'tinycolor2'
-
-import ColorPick from '@/components/common/ColorPick'
-import MenuToggle from '@/components/common/MenuToggle'
-import MaterialSelect from '@/components/common/MaterialSelect'
+import PageSettings from './submenus/PageSettings.vue'
+import ElementSettings from './submenus/ElementSettings.vue'
+import ComponentSettings from './submenus/ComponentSettings.vue'
+import GlobalSettings from './submenus/GlobalSettings.vue'
 
 import WebSafeFonts from '@/assets/WebSafeFonts'
 import '@/assets/icons/system/editor/'
@@ -132,16 +47,15 @@ import '@/assets/icons/system/elements/'
 
 export default {
   name: 'settings-menu',
-  components: { ColorPick, MenuToggle, MaterialSelect },
+  components: { PageSettings, ElementSettings, ComponentSettings, GlobalSettings },
   data: function () {
     return {
-      name: null,
-      path: null,
       text: null,
       height: null,
       width: null,
       top: null,
       left: null,
+      zIndex: 'auto',
       attrs: {},
       styles: {},
       classes: {},
@@ -186,109 +100,24 @@ export default {
           : this.selectedElements[0]
     },
 
-    formattedBackgroundColor () {
-      return tinycolor(this.styles['background-color']).toRgb()
-    },
-    formattedColor () {
-      return tinycolor(this.styles.color).toRgb()
-    },
-
-    hasGlobalComponents () {
-      return (this.selectedElements.length > 0)
-        ? (this.selectedElements.findIndex(el => el.global === true) !== -1)
-        : false
-    },
-    isExternal () {
-      return (this.selectedElements.length > 0)
-        ? (this.selectedElements.findIndex(el => el.external === true) !== -1)
-        : false
-    },
-
-    // --- Toggle menus visibility settings --- //
-    isAlignedLeft () { return (this.styles['text-align'] === 'left') },
-    isAlignedRight () { return (this.styles['text-align'] === 'right') },
-    isCentered () { return (this.styles['text-align'] === 'center') },
-    isJustified () { return (this.styles['text-align'] === 'justify') },
-
-    isBold () { return (this.styles['font-weight'] === 'bold') },
-    isItalic () { return (this.styles['font-style'] === 'italic') },
-    isUnderlined () { return (this.styles['text-decoration'] === 'underline') },
-    isStriked () { return (this.styles['text-decoration'] === 'line-through') },
-
-    // --- Value parsing --- //
-    parsedFontSize: {
-      get () {
-        return (typeof this.styles['font-size'] !== 'undefined')
-          ? parseInt(this.styles['font-size']) : 16
-      },
-      set (val) {
-        this.styles['font-size'] = val + 'px'
-        this.saveChanges({styles: cloneDeep(this.styles)})
-        this.rebaseStyles()
-      }
-    },
-    parsedOpacity: {
-      get () {
-        return (typeof this.styles.opacity !== 'undefined')
-          ? this.styles.opacity : 1
-      },
-      set (val) {
-        this.styles.opacity = Math.round(val * 100) / 100
-        this.saveChanges({styles: cloneDeep(this.styles)})
-        this.rebaseStyles()
-      }
-    },
-
-    // --- Visibility menus settings --- //
-    showDimensionSettings () {
-      return (!this.hasGlobalComponents)
-    },
-    showGeneralSettings () {
-      return ((this.selectionType !== 'multiple') && (!this.hasGlobalComponents))
-    },
-    showTextSettings () {
-      return ((this.selectionType !== 'multiple') && (this.selectionType !== 'page') && (!this.hasGlobalComponents) &&
-              (this.text !== null || (typeof this.attrs.value !== 'undefined' && this.attrs.value !== null)))
-    },
-    showImageSettings () {
-      return ((this.selectionType !== 'multiple') && (this.selectionType !== 'page') && (!this.hasGlobalComponents) &&
-              (typeof this.attrs.src !== 'undefined' && this.attrs.src !== null))
-    },
-
     ...mapState({
       activePage: state => state.app.selectedPage,
       selectedElements: state => state.app.selectedElements
     })
   },
   methods: {
-    onColorChange (newColor, prop) {
-      this.styles[prop] = tinycolor(newColor.hsl).toRgbString()
-      this.saveChanges({styles: cloneDeep(this.styles)})
-      this.rebaseStyles()
-    },
-
-    onToggleProp (prop, val, isOn) {
-      this.styles[prop] = isOn ? 'inherit' : val
-      this.saveChanges({styles: cloneDeep(this.styles)})
-      this.rebaseStyles()
-    },
-
-    onPropChange (e, prop) {
-      if (e.target.value === '') return
+    onPropChange (changeData) {
+      if (changeData.value === '') return
       let newValue = {}
 
-      if (prop === 'attrs') {
-        newValue['attrs'] = cloneDeep(this.attrs)
-      } else if (prop === 'styles') {
-        newValue['styles'] = cloneDeep(this.styles)
-      } else if (prop === 'classes') {
-        newValue['classes'] = cloneDeep(this.classes)
-      } else if (prop === 'height' || prop === 'width') {
-        newValue[prop] = (e.target.value.indexOf('%') !== -1) ? e.target.value : parseInt(e.target.value)
-      } else if (prop === 'top' || prop === 'left') {
-        newValue[prop] = parseInt(e.target.value)
+      if (changeData.type === 'height' || changeData.type === 'width') {
+        this[changeData.type] = newValue[changeData.type] = (changeData.value.indexOf('%') !== -1)
+          ? changeData.value
+          : parseInt(changeData.value)
+      } else if (changeData.type === 'top' || changeData.type === 'left') {
+        this[changeData.type] = newValue[changeData.type] = parseInt(changeData.value)
       } else {
-        newValue[prop] = e.target.value
+        this[changeData.type] = newValue[changeData.type] = changeData.value
       }
 
       this.saveChanges(newValue)
@@ -304,33 +133,28 @@ export default {
       }
     },
 
-    rebaseStyles () {
-      this.styles = cloneDeep(this.styles)
-    },
-
     ...mapMutations([updatePage, updateEgglement])
   },
   watch: {
     'selectedItem': function (val) {
       if (Array.isArray(val)) {
-        this.name = null
-        this.path = null
-        this.text = null
-        this.top = null
-        this.left = null
         this.height = null
         this.width = null
+        this.top = null
+        this.left = null
+        this.zIndex = 'auto'
+        this.text = null
         this.attrs = {}
         this.styles = {}
         this.classes = {}
       } else {
-        this.name = (val.name) ? val.name : null
-        this.path = (val.path) ? val.path : null
-        this.text = (val.text) ? val.text : null
+        // const currentStyles = window.getComputedStyle(document.getElementById(val.id))
         this.height = (typeof val.height !== 'undefined' && val.height !== null) ? val.height.toString() : null
         this.width = (typeof val.width !== 'undefined' && val.width !== null) ? val.width.toString() : null
         this.top = (typeof val.top !== 'undefined' && val.top !== null) ? val.top.toString() : null
         this.left = (typeof val.left !== 'undefined' && val.left !== null) ? val.left.toString() : null
+        this.zIndex = (typeof val.zIndex !== 'undefined' && val.zIndex !== null) ? val.zIndex : 'auto'
+        this.text = (val.text) ? val.text : null
         this.attrs = (val.attrs) ? cloneDeep(val.attrs) : {}
         this.styles = (val.styles) ? cloneDeep(val.styles) : {}
         this.classes = (val.classes) ? cloneDeep(val.classes) : {}
