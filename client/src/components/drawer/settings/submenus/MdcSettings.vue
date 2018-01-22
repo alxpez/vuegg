@@ -36,22 +36,69 @@
       </material-theme>
     </div>
   </menu-toggle>
+
+  <menu-toggle menuHeader="Text" :hidden="(typeof this.txt === 'undefined' || this.txt === null)">
+    <div class="menu menu--single-col">
+      <text-align @change="newValue => onStyleChanges('text-align', newValue)"
+        :textAlign="sty['text-align']">
+      </text-align>
+
+      <font-style @change="changeData => onStyleChanges(changeData.prop, changeData.value)"
+        :fontWeight="sty['font-weight']"
+        :fontStyle="sty['font-style']"
+        :textDecoration="sty['text-decoration']">
+      </font-style>
+
+      <slider label="Font size"
+        icon="system/editor/font_size"
+        min="1" max="100" step="1"
+        :value="parseInt(sty['font-size']) || 16"
+        @change="currentValue => onStyleChanges('font-size', (currentValue + 'px'))">
+      </slider>
+
+      <color-picker label="Text Color"
+        icon="system/editor/text_color"
+        :color="sty['color']"
+        @input="newColor => onStyleChanges('color', newColor)">
+      </color-picker>
+
+      <icon-select class="text-item"
+        icon="system/editor/font" label="Font family"
+        :value="sty['font-family'] || 'Roboto, sans-serif'"
+        @change="newValue => onStyleChanges('font-family', newValue)"
+      >
+        <optgroup v-for="fontFamily in fonts" :key="fontFamily.family" :label="fontFamily.family">
+          <option v-for="font in fontFamily.fonts" :key="font.name" :value="font.definition">
+            {{font.name}}
+          </option>
+        </optgroup>
+      </icon-select>
+
+      <mdc-textfield class="text-item" v-model="txt" label="Text" dense
+        @input.native="e => emitChanges('text', e.target.value)"/>
+    </div>
+  </menu-toggle>
 </div>
 </template>
 
 
 <script>
 import cloneDeep from 'clone-deep'
+import WebSafeFonts from '@/assets/WebSafeFonts'
 
 import MenuToggle from '@/components/common/MenuToggle'
 import Slider from './controls/Slider'
+import IconSelect from './controls/IconSelect'
+import ColorPicker from './controls/ColorPicker'
 import StackOrder from './controls/StackOrder'
+import TextAlign from './controls/TextAlign'
+import FontStyle from './controls/FontStyle'
 import MaterialTheme from './controls/MaterialTheme'
 
 export default {
   name: 'mdc-settings',
-  components: { MenuToggle, Slider, StackOrder, MaterialTheme },
-  props: ['height', 'width', 'top', 'left', 'zIndex', 'styles', 'isMDC'],
+  components: { MenuToggle, Slider, IconSelect, ColorPicker, StackOrder, TextAlign, FontStyle, MaterialTheme },
+  props: ['height', 'width', 'top', 'left', 'zIndex', 'text', 'styles'],
   data: function () {
     return {
       h: this.height,
@@ -59,7 +106,9 @@ export default {
       t: this.top,
       l: this.left,
       z: this.zIndex,
-      sty: cloneDeep(this.styles)
+      txt: this.text,
+      sty: cloneDeep(this.styles),
+      fonts: WebSafeFonts
     }
   },
   watch: {
@@ -68,6 +117,7 @@ export default {
     'top' (val) { this.t = val.toString() },
     'left' (val) { this.l = val.toString() },
     'zIndex' (val) { this.z = val },
+    'text' (val) { this.txt = val },
     'styles' (val) { this.sty = cloneDeep(val) }
   },
   methods: {
@@ -95,6 +145,9 @@ export default {
   .menu--single-col {
     grid-template-columns: repeat(1, 1fr);
   }
+    .menu--single-col .text-item {
+      margin: 0 20px 10px;
+    }
   .menu--double-col {
     grid-template-columns: repeat(2, 1fr);
   }

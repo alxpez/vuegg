@@ -23,7 +23,8 @@
     </component-settings>
 
     <mdc-settings v-if="(selectionType === 'mdc')"
-      :zIndex="zIndex" :top="top" :left="left" :height="height" :width="width" :styles="styles"
+      :zIndex="zIndex" :top="top" :left="left" :height="height" :width="width"
+      :text="text" :styles="styles"
       @propchange="onPropChange" >
     </mdc-settings>
 
