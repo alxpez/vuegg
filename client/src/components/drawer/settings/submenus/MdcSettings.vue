@@ -6,6 +6,11 @@
         @input.native="e => emitChanges('height', e.target.value)"/>
       <mdc-textfield v-model="w" label="Width (px)" dense
         @input.native="e => emitChanges('width', e.target.value)"/>
+
+      <mdc-textfield v-model="t" label="Top (px)" dense
+        @input.native="e => emitChanges('top', e.target.value)"/>
+      <mdc-textfield v-model="l" label="Left (px)" dense
+        @input.native="e => emitChanges('left', e.target.value)"/>
     </div>
 
     <div class="menu menu--single-col">
@@ -16,11 +21,9 @@
         @change="currentValue => onStyleChanges('opacity', currentValue)">
       </slider>
 
-      <color-picker label="Background color"
-        icon="system/editor/bg_color"
-        :color="sty['background-color']"
-        @input="newColor => onStyleChanges('background-color', newColor)">
-      </color-picker>
+      <stack-order :zIndex="z"
+        @change="newValue => emitChanges('zIndex', newValue)">
+      </stack-order>
     </div>
   </menu-toggle>
 
@@ -34,32 +37,37 @@
     </div>
   </menu-toggle>
 </div>
-
 </template>
 
 
 <script>
 import cloneDeep from 'clone-deep'
 
-import Slider from './controls/Slider'
-import ColorPicker from './controls/ColorPicker'
-import MaterialTheme from './controls/MaterialTheme'
 import MenuToggle from '@/components/common/MenuToggle'
+import Slider from './controls/Slider'
+import StackOrder from './controls/StackOrder'
+import MaterialTheme from './controls/MaterialTheme'
 
 export default {
-  name: 'page-settings',
-  components: { Slider, ColorPicker, MaterialTheme, MenuToggle },
-  props: ['height', 'width', 'styles'],
+  name: 'mdc-settings',
+  components: { MenuToggle, Slider, StackOrder, MaterialTheme },
+  props: ['height', 'width', 'top', 'left', 'zIndex', 'styles', 'isMDC'],
   data: function () {
     return {
       h: this.height,
       w: this.width,
+      t: this.top,
+      l: this.left,
+      z: this.zIndex,
       sty: cloneDeep(this.styles)
     }
   },
   watch: {
     'height' (val) { this.h = val.toString() },
     'width' (val) { this.w = val.toString() },
+    'top' (val) { this.t = val.toString() },
+    'left' (val) { this.l = val.toString() },
+    'zIndex' (val) { this.z = val },
     'styles' (val) { this.sty = cloneDeep(val) }
   },
   methods: {

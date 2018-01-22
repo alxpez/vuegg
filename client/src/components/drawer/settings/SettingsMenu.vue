@@ -3,7 +3,7 @@
 <template>
   <div class="menus-wrapper">
     <div class="selection-title__wrapper" :title="selectionTitle">
-      <svgicon :icon="'system/elements/'+selectionIcon" width="22" height="22" color="rgba(0,0,0,.87)"></svgicon>
+      <svgicon :icon="'system/elements/'+selectionIcon" width="22" height="22" :original="true"></svgicon>
       <span class="selection-title">{{selectionTitle}}</span>
     </div>
 
@@ -22,6 +22,11 @@
       @propchange="onPropChange" >
     </component-settings>
 
+    <mdc-settings v-if="(selectionType === 'mdc')"
+      :zIndex="zIndex" :top="top" :left="left" :height="height" :width="width" :styles="styles"
+      @propchange="onPropChange" >
+    </mdc-settings>
+
     <element-settings v-if="(selectionType === 'element')"
       :zIndex="zIndex" :top="top" :left="left" :height="height" :width="width"
       :text="text" :styles="styles" :attrs="attrs"
@@ -39,6 +44,7 @@ import { updatePage, updateEgglement } from '@/store/types'
 import PageSettings from './submenus/PageSettings.vue'
 import ElementSettings from './submenus/ElementSettings.vue'
 import ComponentSettings from './submenus/ComponentSettings.vue'
+import MdcSettings from './submenus/MdcSettings.vue'
 import GlobalSettings from './submenus/GlobalSettings.vue'
 
 import WebSafeFonts from '@/assets/WebSafeFonts'
@@ -47,7 +53,7 @@ import '@/assets/icons/system/elements/'
 
 export default {
   name: 'settings-menu',
-  components: { PageSettings, ElementSettings, ComponentSettings, GlobalSettings },
+  components: { PageSettings, ElementSettings, ComponentSettings, MdcSettings, GlobalSettings },
   data: function () {
     return {
       text: null,
@@ -77,9 +83,11 @@ export default {
           ? 'multiple'
           : (this.selectedElements[0].global)
             ? 'globe'
-            : (this.selectedElements[0].componegg)
-              ? 'component'
-              : this.selectedElements[0].name.toLowerCase()
+            : (this.selectedElements[0].external)
+              ? 'mdc'
+              : (this.selectedElements[0].componegg)
+                ? 'component'
+                : this.selectedElements[0].name.toLowerCase()
     },
     selectionType () {
       return (this.selectedElements.length === 0)
@@ -88,9 +96,11 @@ export default {
           ? 'multiple'
           : (this.selectedElements[0].global)
             ? 'global'
-            : (this.selectedElements[0].componegg)
-              ? 'component'
-              : 'element'
+            : (this.selectedElements[0].external)
+              ? 'mdc'
+              : (this.selectedElements[0].componegg)
+                ? 'component'
+                : 'element'
     },
     selectedItem () {
       return (this.selectedElements.length === 0)
