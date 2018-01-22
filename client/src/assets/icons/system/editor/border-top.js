@@ -2,7 +2,7 @@
 
 var icon = require('vue-svgicon')
 icon.register({
-  'system/editor/border_top': {
+  'system/editor/border-top': {
     width: 24,
     height: 24,
     viewBox: '0 0 24 24',

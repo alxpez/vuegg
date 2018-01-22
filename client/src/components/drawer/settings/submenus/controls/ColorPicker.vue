@@ -75,6 +75,7 @@ export default {
 
 .color-picker__anchor {
   display: inline-flex;
+  width: 100%;
 }
   .anchor__color-display {
     cursor: pointer;
