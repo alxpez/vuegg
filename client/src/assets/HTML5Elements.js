@@ -24,7 +24,7 @@ const HTML5Elements = [
   }, {
     'name': 'text',
     'type': 'span',
-    'text': 'random sample text',
+    'text': 'Text',
     'egglement': true,
     'width': 150,
     'height': 25,

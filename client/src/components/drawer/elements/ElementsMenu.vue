@@ -10,12 +10,12 @@
           @click="e => addItemToStage(e, element)"
         >
           <svgicon :icon="'system/elements/'+element.name.toLowerCase()" width="24" height="24" color="rgba(0,0,0,.87)"></svgicon>
-          <span>{{element.name}}</span>
+          <span>{{element.displayName || element.name}}</span>
         </div>
       </div>
     </menu-toggle>
 
-    <menu-toggle :menuHeader="'Material Components'" :startClosed="true">
+    <menu-toggle :menuHeader="'Material Components'">
       <div class="el-menu">
         <div class="el-menu__el" :key="elKey"
           v-for="mdComp in mdComponents"
@@ -25,7 +25,7 @@
           @click="e => addItemToStage(e, mdComp)"
         >
           <svgicon icon="system/elements/component" width="24" height="24" color="rgba(0,0,0,.87)"></svgicon>
-          <span>{{mdComp.name}}</span>
+          <span>{{mdComp.displayName || mdComp.name}}</span>
         </div>
       </div>
     </menu-toggle>
@@ -41,7 +41,7 @@
           @click="e => addItemToStage(e, component)"
         >
           <svgicon icon="system/elements/community" width="24" height="24" color="rgba(0,0,0,.87)"></svgicon>
-          <span>{{component.name}}</span>
+          <span>{{component.displayName || component.name}}</span>
         </div>
       </div>
     </menu-toggle>
