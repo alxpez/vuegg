@@ -1,6 +1,6 @@
 {
   "name": "vuegg-server",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "serves vuegg-client sources && generates vuejs projects",
   "author": "alxpez",
   "main": "server.js",

@@ -126,15 +126,16 @@ export default {
     },
 
     resizeElementBy (el, offX, offY) {
-      const parent = this.getParentMr(el)
+      const parentCompStyle = window.getComputedStyle(this.getParentMr(el))
+      const elCompStyle = window.getComputedStyle(el)
 
-      const parentH = parseInt(parent.style.height)
-      const parentW = parseInt(parent.style.width)
-      const elMinH = parseInt(el.style.minHeight)
-      const elMinW = parseInt(el.style.minWidth)
+      const parentH = parseInt(parentCompStyle.height)
+      const parentW = parseInt(parentCompStyle.width)
+      const elMinH = parseInt(elCompStyle.minHeight)
+      const elMinW = parseInt(elCompStyle.minWidth)
 
-      let newHeight = this.calculateHeight(el, parent)
-      let newWidth = this.calculateWidth(el, parent)
+      let newHeight = parseInt(elCompStyle.height)
+      let newWidth = parseInt(elCompStyle.width)
       let newTop = el.offsetTop
       let newLeft = el.offsetLeft
 
@@ -178,15 +179,14 @@ export default {
     fixPosition (el, val, prop) {
       if (val < 0) return 0
 
-      const parent = this.getParentMr(el)
-      const elHeight = this.calculateHeight(el, parent)
-      const elWidth = this.calculateWidth(el, parent)
+      const parentCompStyle = window.getComputedStyle(this.getParentMr(el))
+      const elCompStyle = window.getComputedStyle(el)
 
-      if ((prop === 'top') && (val + elHeight > parseInt(parent.style.height))) {
-        return parseInt(parent.style.height) - elHeight
+      if ((prop === 'top') && (val + parseInt(elCompStyle.height) > parseInt(parentCompStyle.height))) {
+        return parseInt(parentCompStyle.height) - parseInt(elCompStyle.height)
       }
-      if ((prop === 'left') && (val + elWidth > parseInt(parent.style.width))) {
-        return parseInt(parent.style.width) - elWidth
+      if ((prop === 'left') && (val + parseInt(elCompStyle.width) > parseInt(parentCompStyle.width))) {
+        return parseInt(parentCompStyle.width) - parseInt(elCompStyle.width)
       }
       return val
     },
@@ -203,18 +203,6 @@ export default {
         currentMr = currentMr.parentElement
       }
       return parentMr
-    },
-
-    calculateHeight (el, parent) {
-      return (el.style.height.indexOf('%') !== -1)
-        ? (parseInt(parent.style.height) * (parseInt(el.style.height.replace('%', '')) / 100))
-        : parseInt(el.style.height)
-    },
-
-    calculateWidth (el, parent) {
-      return (el.style.width.indexOf('%') !== -1)
-        ? (parseInt(parent.style.width) * (parseInt(el.style.width.replace('%', '')) / 100))
-        : parseInt(el.style.width)
     },
 
     getMouseAbsPoint (e) {

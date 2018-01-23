@@ -46,7 +46,6 @@ function buildRoot (el) {
   if (typeof el.width !== 'undefined' && el.width !== null) {
     rootCSS = {...rootCSS, width: (typeof el.width === 'string') ? el.width : (el.width + 'px')}
   }
-
   if (typeof el.height !== 'undefined' && el.height !== null) {
     rootCSS = {...rootCSS, height: (typeof el.height === 'string') ? el.height : (el.height + 'px')}
   }
@@ -61,20 +60,24 @@ function buildNested (el) {
   let nestedCSS = el.egglement ? {position: 'absolute'} : {}
 
   if (typeof el.width !== 'undefined' && el.width !== null) {
-    nestedCSS = {...nestedCSS, width: (typeof el.width === 'string') ? el.width : (el.width + 'px')}
+    nestedCSS = {...nestedCSS, width: (typeof el.width === 'string') ? calcDimension(el.width, el.left) : (el.width + 'px')}
   }
-
   if (typeof el.height !== 'undefined' && el.height !== null) {
-    nestedCSS = {...nestedCSS, height: (typeof el.height === 'string') ? el.height : (el.height + 'px')}
+    nestedCSS = {...nestedCSS, height: (typeof el.height === 'string') ? calcDimension(el.height, el.top) : (el.height + 'px')}
   }
-
   if (typeof el.top !== 'undefined' && el.top !== null) {
     nestedCSS = {...nestedCSS, top: el.top + 'px'}
   }
-
   if (typeof el.left !== 'undefined' && el.left !== null) {
     nestedCSS = {...nestedCSS, left: el.left + 'px'}
   }
 
   return el.global ? nestedCSS : {...nestedCSS, ...el.styles}
+}
+
+/**
+ * Returns the calculated dimension based on the position and size
+ */
+function calcDimension (size, position) {
+  return position ? 'calc(' + size + ' - ' + position + 'px)' : size
 }
