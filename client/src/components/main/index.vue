@@ -42,6 +42,7 @@ export default {
 
 <style scoped>
 .mainegg {
-  margin: 10px 15px 35px;
+  margin: 0 15px;
+  height: 100%;
 }
 </style>

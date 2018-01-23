@@ -98,8 +98,12 @@ export default {
       return {
         top: this.top + 'px',
         left: this.left + 'px',
-        width: (typeof this.width === 'string') ? this.width : (this.width + 'px'),
-        height: (typeof this.height === 'string') ? this.height : (this.height + 'px'),
+        width: (typeof this.width === 'string')
+          ? 'calc(' + this.width + ' - ' + this.left + 'px)'
+          : (this.width + 'px'),
+        height: (typeof this.height === 'string')
+          ? 'calc(' + this.height + ' - ' + this.top + 'px)'
+          : (this.height + 'px'),
         minWidth: this.minWidth + 'px',
         minHeight: this.minHeight + 'px',
         zIndex: this.zIndex

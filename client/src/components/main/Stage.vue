@@ -50,10 +50,8 @@ export default {
     pageStyles () {
       return {
         ...this.page.styles,
-        height: this.page.height + 'px',
-        width: this.page.width + 'px'
-        // height: (typeof this.page.height === 'string') ? this.page.height : (this.page.height + 'px'),
-        // width: (typeof this.page.width === 'string') ? this.page.width : (this.page.width + 'px')
+        height: (typeof this.page.height === 'string') ? this.page.height : (this.page.height + 'px'),
+        width: (typeof this.page.width === 'string') ? this.page.width : (this.page.width + 'px')
       }
     },
 
@@ -103,8 +101,11 @@ export default {
       const mainContainer = document.getElementById('main')
       let element = JSON.parse(e.dataTransfer.getData('text/plain'))
 
-      let height = element.height || element.minHeight || 40
-      let width = element.width || element.minWidth || 100
+      // If Height or width are string (percentages... usually will be 100%), then the absolute dimension applies (pageSize)
+      // This is necessary for top and left calculations during the addition of an element to stage
+      let height = (typeof element.height !== 'string') ? (element.height || element.minHeight || 40) : this.page.height
+      let width = (typeof element.width !== 'string') ? (element.width || element.minWidth || 100) : this.page.width
+
       let top = e.pageY + mainContainer.scrollTop - mainContainer.offsetTop - this.$el.offsetTop - (height / 2)
       let left = e.pageX + mainContainer.scrollLeft - mainContainer.offsetLeft - this.$el.offsetLeft - (width / 2)
 
@@ -124,7 +125,7 @@ export default {
       if (top === 0 && (element.height > this.page.height)) height = this.page.height
       if (left === 0 && (element.width > this.page.width)) width = this.page.width
 
-      element = {...element, top, left, height, width}
+      element = {...element, top, left, height: element.height, width: element.width}
       this.registerElement({pageId: this.page.id, el: element, global: e.shiftKey})
     },
 
@@ -228,6 +229,7 @@ html.droppable * {
 <style scoped>
 .stage {
   user-select: none;
+  margin: 10px auto 35px !important;
   /* for paper style */
   box-shadow:
     0 1px 3px rgba(0, 0, 0, 0.2),
