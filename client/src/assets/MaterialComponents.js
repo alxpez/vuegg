@@ -168,6 +168,38 @@ const MockComponents = [
     'children': []
   },
 
+  // --- LINEAR PROGRESS --- //
+  {
+    'name': 'mdcLinearProgressComp',
+    'displayName': 'LProgress',
+    'type': 'mdc-linear-progress',
+    'dependencies': [
+      {
+        'name': 'vue-mdc-adapter',
+        'version': '^0.7.3',
+        'imports': [
+          ['VueMDCAdapter', 'vue-mdc-adapter'],
+          'https://unpkg.com/vue-mdc-adapter@^0.7.3/dist/vue-mdc-adapter.min.css'
+        ]
+      }
+    ],
+    'external': true,
+    'componegg': true,
+    'egglement': true,
+    'height': 3,
+    'width': '100%',
+    'minHeight': 1,
+    'minWidth': 100,
+    'attrs': {
+      'indeterminate': true,
+      'accent': false,
+      'reverse': false
+    },
+    'styles': {},
+    'classes': {},
+    'children': []
+  },
+
   // --- LIST --- //
   {
     'name': 'mdcListComp',
