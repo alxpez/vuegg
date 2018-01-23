@@ -5,8 +5,8 @@ function newPage (name, path, height, width) {
     id: shortid.generate(),
     name: name,
     path: path,
-    width: width || 1024,
-    height: height || 720,
+    width: width || '100%',
+    height: height || '100%',
     styles: {
       '--mdc-theme-primary': '#673ab7',
       '--mdc-theme-secondary': '#f44336',

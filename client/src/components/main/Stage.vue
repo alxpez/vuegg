@@ -50,10 +50,8 @@ export default {
     pageStyles () {
       return {
         ...this.page.styles,
-        height: this.page.height + 'px',
-        width: this.page.width + 'px'
-        // height: (typeof this.page.height === 'string') ? this.page.height : (this.page.height + 'px'),
-        // width: (typeof this.page.width === 'string') ? this.page.width : (this.page.width + 'px')
+        height: (typeof this.page.height === 'string') ? this.page.height : (this.page.height + 'px'),
+        width: (typeof this.page.width === 'string') ? this.page.width : (this.page.width + 'px')
       }
     },
 
@@ -231,6 +229,7 @@ html.droppable * {
 <style scoped>
 .stage {
   user-select: none;
+  margin: 10px auto 35px !important;
   /* for paper style */
   box-shadow:
     0 1px 3px rgba(0, 0, 0, 0.2),

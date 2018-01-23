@@ -62,6 +62,7 @@ export default {
 }
 
 #main {
+  height: 100%;
   -ms-flex: 0 1 auto;
   position: relative;
   display: inline-block;
