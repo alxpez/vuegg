@@ -9,7 +9,7 @@
           @dragstart="e => dragstartHandler(e, element)"
           @click="e => addItemToStage(e, element)"
         >
-          <svgicon :icon="'system/elements/'+element.name.toLowerCase()" width="24" height="24" color="rgba(0,0,0,.87)"></svgicon>
+          <svgicon :icon="'system/elements/'+element.name" width="24" height="24" color="rgba(0,0,0,.87)"></svgicon>
           <span>{{element.displayName || element.name}}</span>
         </div>
       </div>
@@ -24,7 +24,7 @@
           @dragstart="e => dragstartHandler(e, mdComp)"
           @click="e => addItemToStage(e, mdComp)"
         >
-          <svgicon icon="system/elements/component" width="24" height="24" color="rgba(0,0,0,.87)"></svgicon>
+          <svgicon :icon="'system/elements/'+mdComp.iconName" width="24" height="24" color="rgba(0,0,0,.87)"></svgicon>
           <span>{{mdComp.displayName || mdComp.name}}</span>
         </div>
       </div>

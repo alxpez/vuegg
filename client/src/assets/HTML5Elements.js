@@ -126,22 +126,6 @@ const HTML5Elements = [
     },
     'styles': {},
     'classes': {}
-  }, {
-    'name': 'icon',
-    'type': 'i',
-    'egglement': true,
-    'text': 'insert_emoticon',
-    'width': 32,
-    'height': 32,
-    'attrs': {},
-    'styles': {
-      'font-family': '"Material Icons"',
-      'font-size': 32,
-      'text-align': 'center'
-    },
-    'classes': {
-      'material-icons': true
-    }
   }
 ]
 
