@@ -22,17 +22,17 @@
       @propchange="onPropChange" >
     </component-settings>
 
-    <mdc-settings v-if="(selectionType === 'mdc')"
-      :zIndex="zIndex" :top="top" :left="left" :height="height" :width="width"
-      :text="text" :styles="styles"
-      @propchange="onPropChange" >
-    </mdc-settings>
-
     <element-settings v-if="(selectionType === 'element')"
       :zIndex="zIndex" :top="top" :left="left" :height="height" :width="width"
       :text="text" :styles="styles" :attrs="attrs"
       @propchange="onPropChange">
     </element-settings>
+
+    <mdc-settings v-if="(selectionType === 'mdc')"
+      :zIndex="zIndex" :top="top" :left="left" :height="height" :width="width"
+      :text="text" :styles="styles" :attrs="attrs"
+      @propchange="onPropChange">
+    </mdc-settings>
   </div>
 </template>
 
@@ -159,7 +159,6 @@ export default {
         this.styles = {}
         this.classes = {}
       } else {
-        // const currentStyles = window.getComputedStyle(document.getElementById(val.id))
         this.height = (typeof val.height !== 'undefined' && val.height !== null) ? val.height.toString() : null
         this.width = (typeof val.width !== 'undefined' && val.width !== null) ? val.width.toString() : null
         this.top = (typeof val.top !== 'undefined' && val.top !== null) ? val.top.toString() : null

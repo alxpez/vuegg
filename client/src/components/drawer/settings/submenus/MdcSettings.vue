@@ -37,7 +37,24 @@
     </div>
   </menu-toggle>
 
-  <menu-toggle menuHeader="Text" :hidden="(typeof this.txt === 'undefined' || this.txt === null)">
+  <menu-toggle menuHeader="Material props" :hidden="!Object.keys(att).length">
+    <div class="menu menu--single-col">
+      <div v-for="(item, key, index) in attrs" :key="key">
+        <mdc-checkbox v-if="typeof item === 'boolean'"
+          class="text-item"
+          :label="key" v-model="att[key]"
+          @change="onAttrsChanges(key, att[key])">
+        </mdc-checkbox>
+
+        <mdc-textfield v-else
+          class="text-item"
+          :label="key" v-model="att[key]" dense
+          @input.native="e => onAttrsChanges(key, e.target.value)"/>
+      </div>
+    </div>
+  </menu-toggle>
+
+  <menu-toggle menuHeader="Text" :hidden="(typeof txt === 'undefined' || txt === null)">
     <div class="menu menu--single-col">
       <text-align @change="newValue => onStyleChanges('text-align', newValue)"
         :textAlign="sty['text-align']">
@@ -97,8 +114,17 @@ import MaterialTheme from './controls/MaterialTheme'
 
 export default {
   name: 'mdc-settings',
-  components: { MenuToggle, Slider, IconSelect, ColorPicker, StackOrder, TextAlign, FontStyle, MaterialTheme },
-  props: ['height', 'width', 'top', 'left', 'zIndex', 'text', 'styles'],
+  components: {
+    MenuToggle,
+    Slider,
+    IconSelect,
+    ColorPicker,
+    StackOrder,
+    TextAlign,
+    FontStyle,
+    MaterialTheme
+  },
+  props: ['height', 'width', 'top', 'left', 'zIndex', 'text', 'styles', 'attrs'],
   data: function () {
     return {
       h: this.height,
@@ -108,6 +134,7 @@ export default {
       z: this.zIndex,
       txt: this.text,
       sty: cloneDeep(this.styles),
+      att: cloneDeep(this.attrs),
       fonts: WebSafeFonts
     }
   },
@@ -118,12 +145,18 @@ export default {
     'left' (val) { this.l = val.toString() },
     'zIndex' (val) { this.z = val },
     'text' (val) { this.txt = val },
-    'styles' (val) { this.sty = cloneDeep(val) }
+    'styles' (val) { this.sty = cloneDeep(val) },
+    'attrs' (val) { this.att = cloneDeep(val) }
   },
   methods: {
     onStyleChanges (prop, value) {
       this.sty[prop] = value
       this.emitChanges('styles', this.sty)
+    },
+
+    onAttrsChanges (prop, value) {
+      this.att[prop] = value
+      this.emitChanges('attrs', this.att)
     },
 
     emitChanges (type, value) {
@@ -147,6 +180,7 @@ export default {
   }
     .menu--single-col .text-item {
       margin: 0 20px 10px;
+      display: flex;
     }
   .menu--double-col {
     grid-template-columns: repeat(2, 1fr);

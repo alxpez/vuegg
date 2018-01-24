@@ -275,14 +275,12 @@ const MockComponents = [
     'minHeight': 56,
     'minWidth': 56,
     'attrs': {
-      'value': 'Textfield',
-      'type': 'text',
       'label': 'Label',
+      'value': 'Textfield',
       'box': false,
       'outline': false,
       'fullwidth': false,
       'multiline': false,
-      'rows': 100,
       'dense': false,
       'disabled': false
     },
