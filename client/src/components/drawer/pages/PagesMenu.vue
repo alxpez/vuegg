@@ -1,32 +1,40 @@
 <template>
   <div id="pages-menu">
-    <mdc-list class="page-list">
+    <ul class="pages-list">
       <div v-for="(page, pageIndex) in projectPages" :key="page.id"
-          :class="{active: (page.id === activePage.id)}" @click="changePageIfNeeded(page)"
+           :class="{active: (page.id === activePage.id)}"
+           @click="changePageIfNeeded(page)"
         >
-        <mdc-list-item class="page-item">
-          <svgicon v-if="pageIndex === 0" slot="start-detail" icon="system/home" width="24" height="24"
-            :color="(page.id === activePage.id)?'rgba(0,0,0,.87)':'rgba(0,0,0,.54)'"></svgicon>
-          <svgicon v-else slot="start-detail"icon="system/page" width="24" height="24"
-            :color="(page.id === activePage.id)?'rgba(0,0,0,.87)':'rgba(0,0,0,.54)'"></svgicon>
+        <li class="pages-list__item">
+          <span class="pages-list-item__start-detail">
+            <svgicon v-if="pageIndex === 0" icon="system/home" width="24" height="24"
+              :color="(page.id === activePage.id)?'rgba(0,0,0,.87)':'rgba(0,0,0,.54)'">
+            </svgicon>
+            <svgicon v-else icon="system/page" width="24" height="24"
+              :color="(page.id === activePage.id)?'rgba(0,0,0,.87)':'rgba(0,0,0,.54)'">
+            </svgicon>
+          </span>
+
           <div>
-            <span class="item-title" :title="page.name">{{page.name}}</span>
-            <span class="item-subtitle" v-show="(page.id === activePage.id)" :title="page.path">{{page.path}}</span>
+            <span class="pages-list-item__title" :title="page.name">{{page.name}}</span>
+            <span class="pages-list-item__subtitle" v-show="(page.id === activePage.id)" :title="page.path">{{page.path}}</span>
           </div>
 
-          <mdc-menu-anchor slot="end-detail" v-show="(page.id === activePage.id)">
-            <svgicon icon="system/more_vert" width="24" height="24" @click.native="showOptsMenu(page)"></svgicon>
+          <span class="pages-list-item__end-detail">
+            <mdc-menu-anchor v-show="(page.id === activePage.id)">
+              <svgicon icon="system/more_vert" width="24" height="24" @click.native="showOptsMenu(page)"></svgicon>
 
-            <mdc-menu :ref="'menu-'+page.id" @select="(selected)=>onSelect(selected, pageIndex)">
-              <mdc-menu-item>Rename page</mdc-menu-item>
-              <mdc-menu-item>Duplicate page</mdc-menu-item>
-              <mdc-menu-divider></mdc-menu-divider>
-              <mdc-menu-item :disabled="(projectPages.length === 1)">Delete page</mdc-menu-item>
-            </mdc-menu>
-          </mdc-menu-anchor>
-        </mdc-list-item>
+              <mdc-menu :ref="'menu-'+page.id" @select="(selected)=>onSelect(selected, pageIndex)">
+                <mdc-menu-item>Rename page</mdc-menu-item>
+                <mdc-menu-item>Duplicate page</mdc-menu-item>
+                <mdc-menu-divider></mdc-menu-divider>
+                <mdc-menu-item :disabled="(projectPages.length === 1)">Delete page</mdc-menu-item>
+              </mdc-menu>
+            </mdc-menu-anchor>
+          </span>
+        </li>
       </div>
-    </mdc-list>
+    </ul>
 
     <mdc-fab class="new-page-btn" @click="_togglePageDialog({isOpen: true, isNew: true})">
       <svgicon icon="system/add_page" width="24" height="24"></svgicon>
@@ -103,52 +111,84 @@ export default {
   overflow-y: auto;
 }
 
-.new-page-btn {
-  position: fixed;
-  right: 92px;
-  bottom: 32px;
-}
-
-.page-list {
+.pages-list {
+  color: rgba(0, 0, 0, 0.87);
+  margin: 0;
   padding: 0;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1.75rem;
+  list-style-type: none;
 }
 
 .active {
   background-color: #fff;
 }
 
-.page-item {
+.pages-list__item {
   padding: 4px 16px;
   overflow: inherit;
   cursor: pointer;
-}
 
-.item-title,
-.item-subtitle {
-  width: 115px;
-  display: block;
-  overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 48px;
 }
-.item-subtitle {
-  font-size: 0.875rem;
-  font-weight: 400;
-  letter-spacing: 0.04em;
-  line-height: 1.25rem;
-}
-.item-title {
-  color: rgba(0,0,0,.38);
-}
-.page-item:hover .item-title,
-.item-subtitle {
+  .pages-list-item__start-detail {
+    width: 24px;
+    height: 24px;
+    margin-left: 0;
+    margin-right: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .pages-list-item__end-detail {
+    width: 24px;
+    height: 24px;
+    margin-left: auto;
+    margin-right: 0;
+  }
+
+  .pages-list-item__title,
+  .pages-list-item__subtitle {
+    width: 115px;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .pages-list-item__subtitle {
+    font-size: 0.76rem;
+    margin-bottom: 4px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    line-height: 1.25rem;
+  }
+  .pages-list-item__title {
+    color: rgba(0,0,0,.38);
+  }
+
+.pages-list__item:hover .pages-list-item__title,
+.pages-list-item__subtitle {
   color: rgba(0,0,0,.54);
 }
-.active .page-item .item-title,
-.active .page-item:hover .item-title {
+.active .pages-list__item .pages-list-item__title,
+.active .pages-list__item:hover .pages-list-item__title {
   color: rgba(0,0,0,.87);
 }
 
 .mdc-menu-anchor {
   cursor: pointer;
+}
+
+.new-page-btn {
+  position: fixed;
+  right: 92px;
+  bottom: 32px;
 }
 </style>
