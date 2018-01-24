@@ -31,14 +31,18 @@ export default {
     }
   },
   mounted: function () {
-    this.maxHeight = this.$el.scrollHeight - 40 + 'px'
+    this.$nextTick(function () {
+      this.maxHeight = this.$el.scrollHeight - 40 + 'px'
+    })
   },
   beforeUpdate: function () {
-    if (!this.initialized) {
-      this.isClosed = this.startClosed
-      this.isHidden = this.hidden
-      this.initialized = true
-    }
+    this.$nextTick(function () {
+      if (!this.initialized) {
+        this.isClosed = this.startClosed
+        this.isHidden = this.hidden
+        this.initialized = true
+      }
+    })
   },
   computed: {
     elStyle () {

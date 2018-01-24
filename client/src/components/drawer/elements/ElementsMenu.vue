@@ -1,6 +1,6 @@
 <template>
   <div class="menus-wrapper">
-    <menu-toggle :menuHeader="'HTML5 Elements'">
+    <menu-toggle menuHeader="HTML5 Elements">
       <div class="el-menu">
         <div class="el-menu__el" :key="elKey"
           v-for="element in elements"
@@ -15,7 +15,7 @@
       </div>
     </menu-toggle>
 
-    <menu-toggle :menuHeader="'Material Components'">
+    <menu-toggle menuHeader="Material Components">
       <div class="el-menu">
         <div class="el-menu__el" :key="elKey"
           v-for="mdComp in mdComponents"
@@ -31,7 +31,7 @@
     </menu-toggle>
 
     <!-- TODO: v-for components (community/personal) retrieved from GH? -->
-    <menu-toggle :menuHeader="'Community Components'" :startClosed="true">
+    <menu-toggle menuHeader="Community Components" :startClosed="true">
       <div class="el-menu">
         <div class="el-menu__el" :key="elKey"
           v-for="component in components"
