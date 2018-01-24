@@ -1,6 +1,6 @@
 {
   "name": "vuegg-client",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "vuegg UI",
   "author": "alxpez",
   "private": false,
@@ -29,7 +29,7 @@
     "shortid": "^2.2.8",
     "vue": "^2.5.9",
     "vue-color": "^2.4.3",
-    "vue-mdc-adapter": "^0.7.3",
+    "vue-mdc-adapter": "^0.8.3",
     "vue-router": "^2.8.1",
     "vuex": "^2.5.0"
   },
