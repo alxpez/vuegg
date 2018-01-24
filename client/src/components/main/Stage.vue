@@ -103,9 +103,6 @@ export default {
 
       let height = getRealDimension('height', element, this.page)
       let width = getRealDimension('width', element, this.page)
-      console.log(height)
-      console.log(width)
-
       let top = e.pageY + mainContainer.scrollTop - mainContainer.offsetTop - this.$el.offsetTop - (height / 2)
       let left = e.pageX + mainContainer.scrollLeft - mainContainer.offsetLeft - this.$el.offsetLeft - (width / 2)
 
