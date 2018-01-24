@@ -28,7 +28,8 @@
 
 <script>
 import cloneDeep from 'clone-deep'
-import elementsFromPoint from '@/helpers/elementsFromPoint'
+import elementsFromPoint from '@/polyfills/elementsFromPoint'
+import { getRealDimension, fixElementToParentBounds } from '@/helpers/positionDimension'
 
 import { mapState, mapActions, mapMutations } from 'vuex'
 import { _clearSelectedElements, _addSelectedElements, registerElement,
@@ -96,36 +97,21 @@ export default {
       }
     },
 
-    // TODO: extract logic to helper and add support for percentages in dimensions (actions.js same)
     dropHandler (e) {
       const mainContainer = document.getElementById('main')
       let element = JSON.parse(e.dataTransfer.getData('text/plain'))
 
-      // If Height or width are string (percentages... usually will be 100%), then the absolute dimension applies (pageSize)
-      // This is necessary for top and left calculations during the addition of an element to stage
-      let height = (typeof element.height !== 'string') ? (element.height || element.minHeight || 40) : this.page.height
-      let width = (typeof element.width !== 'string') ? (element.width || element.minWidth || 100) : this.page.width
+      let height = getRealDimension('height', element, this.page)
+      let width = getRealDimension('width', element, this.page)
+      console.log(height)
+      console.log(width)
 
       let top = e.pageY + mainContainer.scrollTop - mainContainer.offsetTop - this.$el.offsetTop - (height / 2)
       let left = e.pageX + mainContainer.scrollLeft - mainContainer.offsetLeft - this.$el.offsetLeft - (width / 2)
 
-      // Checks if position + size gets out-of-bounds, if so, reposition...
-      if ((top + element.height) > this.page.height) {
-        top -= (top + element.height) - this.page.height
-      }
-      if ((left + element.width) > this.page.width) {
-        left -= (left + element.width) - this.page.width
-      }
+      const fixedElement = fixElementToParentBounds({top, left, height, width}, this.page)
+      element = {...element, ...fixedElement}
 
-      // Checks if position is out-of-bounds, if so reposition...
-      if (top <= 0) top = 0
-      if (left <= 0) left = 0
-
-      // Checks if, with a 0 position, the element is still out-of-bounds, if so, resize
-      if (top === 0 && (element.height > this.page.height)) height = this.page.height
-      if (left === 0 && (element.width > this.page.width)) width = this.page.width
-
-      element = {...element, top, left, height: element.height, width: element.width}
       this.registerElement({pageId: this.page.id, el: element, global: e.shiftKey})
     },
 
@@ -137,8 +123,8 @@ export default {
       this.page.children.forEach(childEl => {
         const child = (childEl.global) ? {...childEl, ...this.getComponentRef(childEl), id: childEl.id} : childEl
 
-        let childBottom = this.calcDimension('height', child, this.page) + child.top
-        let childRight = this.calcDimension('width', child, this.page) + child.left
+        let childBottom = getRealDimension('height', child, this.page) + child.top
+        let childRight = getRealDimension('width', child, this.page) + child.left
 
         if (((child.top <= selectionBox.bottom) && (child.left <= selectionBox.right) &&
             (childBottom >= selectionBox.top) && (childRight >= selectionBox.left)) ||
@@ -155,12 +141,6 @@ export default {
 
     getComponentRef (component) {
       return this.projectComponents[this.projectComponents.findIndex(comp => comp.name === component.name)]
-    },
-
-    calcDimension (prop, el, parent) {
-      return ((typeof el[prop] === 'string') && (el[prop].indexOf('%') !== -1))
-        ? parent[prop] * (el[prop].replace('%', '') / 100)
-        : el[prop]
     },
 
     resizeStopHandler (resStopData) {
