@@ -277,11 +277,12 @@ const MockComponents = [
     'attrs': {
       'label': 'Label',
       'value': 'Textfield',
+      'dense': false,
       'box': false,
       'outline': false,
       'fullwidth': false,
       'multiline': false,
-      'dense': false,
+      'rows': 100,
       'disabled': false
     },
     'styles': {},

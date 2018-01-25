@@ -1,11 +1,11 @@
 <template>
-  <div class="menu-toggle" v-show="!isHidden">
+  <div class="menu-toggle" v-show="!hidden">
     <div class="menu-toggle__header" @click="toggleMenu()">
       <span>{{menuHeader}}</span>
       <svgicon v-if="isClosed" icon="system/expand" width="14" height="14" color="#737373"></svgicon>
       <svgicon v-else icon="system/collapse" width="14" height="14" color="#737373"></svgicon>
     </div>
-    <div class="menu-toggle__content" :class="{'is-closed': isClosed}" :style="elStyle">
+    <div ref="content" class="menu-toggle__content" :class="{'is-closed': isClosed}" :style="elStyle">
       <slot></slot>
     </div>
   </div>
@@ -26,22 +26,13 @@ export default {
     return {
       initialized: false,
       isClosed: false,
-      isHidden: false,
       maxHeight: 'auto'
     }
   },
   mounted: function () {
     this.$nextTick(function () {
-      this.maxHeight = this.$el.scrollHeight - 40 + 'px'
-    })
-  },
-  beforeUpdate: function () {
-    this.$nextTick(function () {
-      if (!this.initialized) {
-        this.isClosed = this.startClosed
-        this.isHidden = this.hidden
-        this.initialized = true
-      }
+      this.maxHeight = window.getComputedStyle(this.$refs.content)['height']
+      this.isClosed = this.startClosed
     })
   },
   computed: {
@@ -51,13 +42,12 @@ export default {
   },
   methods: {
     toggleMenu () {
+      if (!this.isClosed) {
+        this.maxHeight = window.getComputedStyle(this.$refs.content)['height']
+      }
+
       this.isClosed = !this.isClosed
       this.isClosed ? this.$emit('closed') : this.$emit('opened')
-    }
-  },
-  watch: {
-    'hidden': function (val) {
-      this.isHidden = val
     }
   }
 }
@@ -92,6 +82,7 @@ export default {
 
 .menu-toggle__content {
   overflow: hidden;
+  max-height: auto;
   transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .menu-toggle__content.is-closed {
