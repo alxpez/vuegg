@@ -46,6 +46,14 @@
           @change="onAttrsChanges(key, att[key])">
         </mdc-checkbox>
 
+        <slider v-else-if="typeof item === 'number'"
+          :label="key"
+          class="text-item"
+          min="1" max="100" step="1"
+          :value="att[key] || 100"
+          @change="currentValue => onAttrsChanges(key, currentValue)">
+        </slider>
+
         <mdc-textfield v-else
           class="text-item"
           :label="key" v-model="att[key]" dense

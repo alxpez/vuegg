@@ -1,18 +1,20 @@
 <template>
-<menu-toggle menuHeader="General">
-  <div class="menu menu--double-col">
-    <mdc-textfield v-model="t" label="Top (px)" dense
-      @input.native="e => emitChanges('top', e.target.value)"/>
-    <mdc-textfield v-model="l" label="Left (px)" dense
-      @input.native="e => emitChanges('left', e.target.value)"/>
-  </div>
+<div>
+  <menu-toggle menuHeader="General">
+    <div class="menu menu--double-col">
+      <mdc-textfield v-model="t" label="Top (px)" dense
+        @input.native="e => emitChanges('top', e.target.value)"/>
+      <mdc-textfield v-model="l" label="Left (px)" dense
+        @input.native="e => emitChanges('left', e.target.value)"/>
+    </div>
 
-  <div class="menu menu--single-col">
-    <stack-order :zIndex="z"
-      @change="newValue => emitChanges('zIndex', newValue)">
-    </stack-order>
-  </div>
-</menu-toggle>
+    <div class="menu menu--single-col">
+      <stack-order :zIndex="z"
+        @change="newValue => emitChanges('zIndex', newValue)">
+      </stack-order>
+    </div>
+  </menu-toggle>
+</div>
 </template>
 
 
