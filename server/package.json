@@ -9,9 +9,12 @@
     "dev": "NODE_ENV=development nodemon server.js"
   },
   "nodemonConfig": {
-    "ignore": ["tmp/*"]
+    "ignore": [
+      "tmp/*"
+    ]
   },
   "dependencies": {
+    "@octokit/rest": "^14.0.5",
     "archiver": "^2.1.0",
     "koa": "^2.4.1",
     "koa-body": "^2.5.0",

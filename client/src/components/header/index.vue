@@ -24,7 +24,9 @@
       <svgicon icon="system/preview" width="24" height="24" color="#2b6a73"></svgicon>
     </mdc-button>
 
-    <mdc-button class="gen-btn" @click="generate()" raised compact dense>Generate</mdc-button>
+    <!-- <mdc-button class="gen-btn" @click="generate()" raised compact dense>Generate</mdc-button> -->
+    <mdc-button class="gen-btn" @click="saveOnGH()" raised compact dense>Save</mdc-button>
+    <mdc-button class="gen-btn" @click="loginGH()" raised compact dense>GH</mdc-button>
   </div>
 </template>
 
@@ -41,6 +43,7 @@ import '@/assets/icons/system/preview'
 
 import * as download from 'downloadjs'
 import axios from 'axios'
+import auth from '@/auth'
 
 export default {
   name: 'headegg',
@@ -56,6 +59,14 @@ export default {
     projectTitle: state => state ? state.project.title : ''
   }),
   methods: {
+    loginGH () {
+      auth.authorize()
+    },
+
+    saveOnGH () {
+      auth.saveProject()
+    },
+
     async generate () {
       try {
         let resp = await axios.post('/api/generate', this.project, {responseType: 'blob'})
@@ -65,6 +76,7 @@ export default {
         console.error('CHECK IF THE BACKEND SERVER IS UP AND RUNNING')
       }
     },
+
     onTitleBlur () {
       if (this.tmpProjectTitle && (this.tmpProjectTitle !== this.projectTitle)) {
         this.updateProject({title: this.tmpProjectTitle})

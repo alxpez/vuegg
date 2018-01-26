@@ -26,6 +26,8 @@
     "dialog-polyfill": "^0.4.9",
     "downloadjs": "^1.4.7",
     "normalize.css": "^7.0.0",
+    "oauth-open": "^1.0.3",
+    "oauthio-web": "^0.6.2",
     "shortid": "^2.2.8",
     "vue": "^2.5.9",
     "vue-color": "^2.4.3",

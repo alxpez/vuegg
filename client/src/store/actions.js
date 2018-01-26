@@ -1,7 +1,7 @@
 import shortid from 'shortid'
 
 import types from './types'
-import newPage from '@/helpers/pageBuilder'
+import newPage from '@/factories/pageFactory'
 import { setElId, getChildNode, getRelativePoint } from '@/helpers/recursiveMethods'
 import { fixElementToParentBounds } from '@/helpers/positionDimension'
 
