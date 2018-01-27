@@ -4,6 +4,7 @@
   "description": "vuejs GUI generator",
   "author": "alxpez",
   "scripts": {
+    "oauth": "node oauth-config.js",
     "vuegg": "npm run install:all && npm run build && npm run start",
     "install:all": "npm run install:client && npm run install:server",
     "install:client": "cd client && npm install",
