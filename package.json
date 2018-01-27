@@ -39,5 +39,10 @@
   "bugs": {
     "url": "https://gitlab.com/alxpez/vuegg/issues"
   },
-  "homepage": "https://gitlab.com/alxpez/vuegg#README"
+  "homepage": "https://gitlab.com/alxpez/vuegg#README",
+  "devDependencies": {
+    "dotenv": "^4.0.0",
+    "inquirer": "^5.0.1",
+    "shelljs": "^0.8.1"
+  }
 }

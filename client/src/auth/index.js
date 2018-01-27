@@ -5,7 +5,6 @@ import shortid from 'shortid'
 import state from '@/store/state'
 
 const CLIENT_ID = '116bed3e72c3aab96b76'
-const CLIENT_SECRET = '5bdc16b5b384431212053fc8e16eca15cd9ebd00'
 const REDIRECT_URL = 'http://localhost:8080/auth/github'
 const STATE = shortid.generate()
 const SCOPE = 'repo user'
