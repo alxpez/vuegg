@@ -4,6 +4,7 @@ var utils = require('./utils')
 var webpack = require('webpack')
 var merge = require('webpack-merge')
 var baseConfig = require('./webpack.base.conf')
+var testEnv = require('../config/test.env')
 
 var webpackConfig = merge(baseConfig, {
   // use inline sourcemap for karma-sourcemap-loader
@@ -20,7 +21,11 @@ var webpackConfig = merge(baseConfig, {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': require('../config/test.env')
+      'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV || testEnv.NODE_ENV),
+        CLIENT_ID: JSON.stringify(process.env.CLIENT_ID || testEnv.CLIENT_ID),
+        CALLBACK_URL: JSON.stringify(process.env.CALLBACK_URL || testEnv.CALLBACK_URL)
+      }
     })
   ]
 })
