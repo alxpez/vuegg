@@ -16,8 +16,9 @@ const ROOT_DIR = (process.env.NODE_ENV === 'production') ? '/' : __dirname
 const app = new Koa()
 
 // Routes definition
-router.post('/generate', generate)
+router.post('/get-access-token', getAccessToken)
 router.post('/save-project-def', saveProjectDef)
+router.post('/generate', generate)
 
 // Middleware
 app.use(body())
@@ -26,9 +27,42 @@ app.use(serve)
 app.use(router.routes())
 app.use(router.allowedMethods())
 
+// Start server
 app.listen(PORT)
 console.log('* vuegg-server started on port %s', PORT)
-console.log('* Output directory: %s', ROOT_DIR);
+console.log('* Output directory: %s', ROOT_DIR)
+
+// --------- API METHODS --------- //
+
+async function getAccessToken (ctx) {
+  try {
+    let resp = await github.getAccessToken(ctx.request.body)
+    ctx.response.status = 200
+    ctx.response.type = 'text/plain'
+    ctx.response.body = resp
+  } catch (e) {
+    console.error('\n> Could not obtain a token\n' + e)
+    process.exit(1)
+  }
+}
+
+/**
+ * Saves a vuegg project file in Github
+ *
+ * @param {object} ctx : KoaContext object
+ * @param {object} ctx.request.body : Body of the POST request
+ *
+ * @see {@link http://koajs.com/#context|Koa Context}
+ */
+async function saveProjectDef (ctx) {
+  try {
+    await github.saveFile(ctx.request.body)
+    ctx.response.status = 200
+  } catch (e) {
+    console.error('\n> Could not save the project\n' + e)
+    process.exit(1)
+  }
+}
 
 /**
  * Generates a full vue application from a scaffold project,
@@ -42,35 +76,14 @@ console.log('* Output directory: %s', ROOT_DIR);
  * @see {@link http://koajs.com/#context|Koa Context}
  */
 async function generate (ctx) {
-  let zipFile = ''
-
   try {
-    zipFile = await generator(ctx.request.body, ROOT_DIR)
+    let zipFile = await generator(ctx.request.body, ROOT_DIR)
+
+    console.log('> Download -> ' + zipFile)
+    ctx.response.type = 'zip'
+    ctx.response.body = fs.createReadStream(zipFile)
   } catch (e) {
     console.error('\n> Could not complete the project generation...\n' + e)
     process.exit(1)
   }
-
-  console.log('> Download -> ' + zipFile)
-  ctx.response.type = 'zip'
-  ctx.response.body = fs.createReadStream(zipFile)
-}
-
-/**
- * Saves a vuegg project file in Github
- *
- * @param {object} ctx : KoaContext object
- * @param {object} ctx.request.body : Body of the POST request
- *
- * @see {@link http://koajs.com/#context|Koa Context}
- */
-async function saveProjectDef (ctx) {
-  try {
-    await github.saveProjectDef(ctx.request.body)
-    ctx.response.status = 200
-  } catch (e) {
-    console.error('\n> Could not save the project\n' + e)
-    process.exit(1)
-  }
-
 }

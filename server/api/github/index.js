@@ -1,10 +1,40 @@
 const octokit = require('@octokit/rest')()
-const jsonfile = require('jsonfile')
 const fs = require('fs')
 const path = require('path')
+const qs = require('querystring')
+const rp = require('request-promise-native');
 
+/**
+ * [getAccessToken description]
+ * @param  {[type]} code [description]
+ * @return {[type]}      [description]
+ */
+async function getAccessToken ({code, state}) {
 
-async function saveProjectDef (content) {
+  const options = {
+    method: 'POST',
+    uri: 'https://github.com/login/oauth/access_token',
+    form: {
+      client_id: process.env.CLIENT_ID,
+      client_secret: process.env.CLIENT_SECRET,
+      code: code
+    }
+  }
+
+  try {
+    let resp = await rp(options)
+    return qs.parse(resp).access_token
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+/**
+ * [saveFile description]
+ * @param  {[type]} content [description]
+ * @return {[type]}         [description]
+ */
+async function saveFile (content) {
   let existentFile = null
 
   octokit.authenticate({
@@ -52,5 +82,6 @@ async function saveProjectDef (content) {
 }
 
 module.exports = {
-  saveProjectDef
+  getAccessToken,
+  saveFile
 }

@@ -4,10 +4,10 @@ import cloneDeep from 'clone-deep'
 import shortid from 'shortid'
 import state from '@/store/state'
 
-const CLIENT_ID = '116bed3e72c3aab96b76'
-const REDIRECT_URL = 'http://localhost:8080/auth/github'
+const CLIENT_ID = process.env.CLIENT_ID
+const REDIRECT_URL = process.env.CALLBACK_URL
 const STATE = shortid.generate()
-const SCOPE = 'repo user'
+const SCOPE = 'repo'
 
 const auth = {
   authorize,
@@ -39,26 +39,19 @@ function authorize () {
 
 async function getAccessToken (code) {
   try {
-    let data = new URLSearchParams()
-    data.append('client_id', CLIENT_ID)
-    data.append('client_secret', CLIENT_SECRET)
-    data.append('code', code)
-    data.append('redirect_uri', REDIRECT_URL)
-    data.append('state', STATE)
-
-    let resp = await axios.post('https://github.com/login/oauth/access_token', data, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
+    let resp = await axios.post('/api/get-access-token', {
+      code: code,
+      state: STATE
     })
-    console.log(resp)
     auth.isAuthorized = true
-    auth.token = resp.data.slice(resp.data.indexOf('=') + 1, resp.data.indexOf('&'))
+    auth.token = resp.data
     console.log(auth.token)
-  } catch (error) {
-    console.error(error)
+  } catch (e) {
+    console.error(e)
   }
 }
+
+// -----------------------------------------------------------------------------
 
 /**
  * [saveProject description]
