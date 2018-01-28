@@ -1,157 +1,69 @@
 import open from 'oauth-open'
 import axios from 'axios'
-import cloneDeep from 'clone-deep'
 import shortid from 'shortid'
-import state from '@/store/state'
+import promisify from 'es6-promisify'
 
 const CLIENT_ID = process.env.CLIENT_ID
 const REDIRECT_URL = process.env.CALLBACK_URL
-const STATE = shortid.generate()
-const SCOPE = 'repo'
+const SCOPE = 'read:user repo'
 
 const auth = {
-  authorize,
-  getAccessToken,
-  saveProject,
-  isAuthorized: false,
-  token: '',
-  user: {}
+  authorizeUser,
+  getAuthenticatedUser
 }
 
-function authorize () {
+async function authorizeUser () {
+  const oauthOpen = promisify(open)
+
+  const STATE = shortid.generate()
   const authUrl = 'https://github.com/login/oauth/authorize'
     .concat('?client_id=').concat(CLIENT_ID)
     .concat('&redirect_uri=').concat(REDIRECT_URL)
     .concat('&state=').concat(STATE)
     .concat('&scope=').concat(SCOPE)
 
-  open(authUrl, function (err, resp) {
-    if (err) { throw err }
+  try {
+    let resp = await oauthOpen(authUrl)
 
-    if (resp.state !== STATE) {
-      console.error('The states do not match, this request could be compromised')
+    if (resp.state === STATE) {
+      return await _getAccessToken(resp.code)
     } else {
-      console.log(resp)
-      getAccessToken(resp.code)
+      console.error('The states do not match, this request could be compromised')
+      return false
     }
-  })
-}
-
-async function getAccessToken (code) {
-  try {
-    let resp = await axios.post('/api/get-access-token', {
-      code: code,
-      state: STATE
-    })
-    // Save token in localstorage
-    // Mutate state to isAuthorized
-    auth.isAuthorized = true
-    auth.token = resp.data
   } catch (e) {
     console.error(e)
+    return false
   }
 }
 
-// -----------------------------------------------------------------------------
-
-/**
- * [saveProject description]
- * @return {[type]} [description]
- */
-async function saveProject () {
-  // ----- Testing ... this should not be here, but for the time being ---------
-  await getUser()
-
-  const myRepoName = state.project.title.replace(/[^a-zA-Z0-9-_]+/g, '-')
-  let haveRepo = await repoExists(myRepoName)
-  if (!haveRepo) {
-    await createRepo(myRepoName)
-    createFile(myRepoName)
-  } else {
-    createFile(myRepoName)
-  }
-}
-
-/**
- * [getUser description]
- * @return {[type]} [description]
- */
-async function getUser () {
+async function _getAccessToken (code) {
   try {
-    let resp = await axios.get('https://api.github.com/user', {
-      headers: {
-        'Authorization': 'bearer '.concat(auth.token)
-      }
-    })
-    console.log(resp)
-    console.log('Authenticated user')
-    auth.user = resp.data
+    let resp = await axios.post('/api/get-access-token', { code: code })
+    return resp.data
   } catch (e) {
     console.error(e)
-  }
-}
-
-/**
- * [repoExists description]
- * @return {[type]} [description]
- */
-async function repoExists (repoName) {
-  let reqUrl = 'https://api.github.com/repos/'.concat(auth.user.login).concat('/').concat(repoName)
-
-  try {
-    let resp = await axios.get(reqUrl, {
-      headers: {
-        'Authorization': 'bearer '.concat(auth.token)
-      }
-    })
-    console.log(resp)
-    console.log(repoName + ' already exists')
-    return true
-  } catch (e) {
-    console.error(e)
-    console.log(repoName + ' does not exists')
     return false
   }
 }
 
 /**
- * [createTestRepo description]
- * @param  {[type]} repoName [description]
- * @return {[type]}          [description]
-*/
-async function createRepo (repoName) {
+ * Retrieves the current authenticated user info
+ *
+ * @param  {[type]} token
+ * @return {object} Authenticated user
+ */
+async function getAuthenticatedUser (token) {
   try {
-    let resp = await axios.post('https://api.github.com/user/repos', {
-      name: repoName,
-      auto_init: true
-    }, {
+    let resp = await axios.get('https://api.github.com/user', {
       headers: {
-        'Authorization': 'bearer '.concat(auth.token)
+        'Authorization': 'bearer '.concat(token)
       }
     })
-    console.log(repoName + ' has been created')
-    console.log(resp)
+    return resp.data
   } catch (e) {
     console.error(e)
-  }
-}
-
-/**
- * [createFile description]
- * @param  {[type]} repoName [description]
- * @return {[type]}          [description]
- */
-async function createFile (repoName) {
-  try {
-    await axios.post('/api/save-project-def', {
-      project: cloneDeep(state.project),
-      owner: auth.user.login,
-      repo: repoName,
-      token: auth.token
-    })
-    console.log('your project has been saved/updated')
-  } catch (e) {
-    console.error(e)
+    return false
   }
 }
 

@@ -3,6 +3,7 @@ import newProject from './projectFactory'
 function newState (project) {
   return {
     app: {
+      isLoading: false,
       pageDialog: {
         isNew: true,
         isOpen: false
@@ -10,7 +11,11 @@ function newState (project) {
       selectedPage: null,
       selectedElements: []
     },
-    project: project || newProject('My vuegg project')
+    oauth: {
+      isAuthorized: false,
+      authenticatedUser: null
+    },
+    project: project || newProject('my vuegg project')
   }
 }
 
