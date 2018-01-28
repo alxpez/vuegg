@@ -59,7 +59,7 @@ async function saveProjectDef (ctx) {
     await github.saveFile(ctx.request.body)
     ctx.response.status = 200
   } catch (e) {
-    console.error('\n> Could not save the project\n' + e)
+    console.error('\n> Could not save the project definition\n' + e)
     process.exit(1)
   }
 }

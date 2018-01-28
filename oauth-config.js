@@ -7,7 +7,7 @@ const setupQuestions = [
   {
     type: 'list',
     name: 'runScript',
-    message: 'And what to run?',
+    message: 'What to run, yo?!',
     choices: [
       'client',
       'server',

@@ -43,9 +43,10 @@ async function getAccessToken (code) {
       code: code,
       state: STATE
     })
+    // Save token in localstorage
+    // Mutate state to isAuthorized
     auth.isAuthorized = true
     auth.token = resp.data
-    console.log(auth.token)
   } catch (e) {
     console.error(e)
   }

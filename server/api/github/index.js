@@ -2,7 +2,7 @@ const octokit = require('@octokit/rest')()
 const fs = require('fs')
 const path = require('path')
 const qs = require('querystring')
-const rp = require('request-promise-native');
+const rp = require('request-promise-native')
 
 /**
  * [getAccessToken description]
@@ -36,45 +36,30 @@ async function getAccessToken ({code, state}) {
  */
 async function saveFile (content) {
   let existentFile = null
+  let ghData = {owner: content.owner, repo: content.repo, path: 'vue.gg'}
 
-  octokit.authenticate({
-    type: 'oauth',
-    token: content.token
-  })
+  octokit.authenticate({type: 'oauth', token: content.token})
 
   try {
-    existentFile = await octokit.repos.getContent({
-      owner: content.owner,
-      repo: content.repo,
-      path: content.repo.concat('.json')
-    })
+    existentFile = await octokit.repos.getContent({...ghData})
     console.log(existentFile);
   } catch (e) {
     console.error(e);
   }
 
+  ghData = {
+    ...ghData,
+    content: Buffer.from(JSON.stringify(content.project)).toString('base64'),
+    author: {name: 'vuegger', email: '35027416+vuegger@users.noreply.github.com'}
+  }
+
   try {
     if (existentFile === null) {
       console.log('creating new file')
-      await octokit.repos.createFile({
-        owner: content.owner,
-        repo: content.repo,
-        path: content.repo.concat('.json'),
-        message: 'save vuegg project',
-        content: Buffer.from(JSON.stringify(content.project)).toString('base64'),
-        author: {name: 'vuegger', email: 'vuegger@gmail.com'}
-      })
+      await octokit.repos.createFile({...ghData, message: 'save vuegg project'})
     } else {
       console.log('updating file')
-      await octokit.repos.updateFile({
-        owner: content.owner,
-        repo: content.repo,
-        path: content.repo.concat('.json'),
-        message: 'update vuegg project',
-        content: Buffer.from(JSON.stringify(content.project)).toString('base64'),
-        sha: existentFile.data.sha,
-        author: {name: 'vuegger', email: 'vuegger@gmail.com'}
-      })
+      await octokit.repos.updateFile({...ghData, message: 'update vuegg project', sha: existentFile.data.sha})
     }
   } catch (e) {
     console.error(e)
