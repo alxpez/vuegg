@@ -1,3 +1,4 @@
+import authMutations from './authMut'
 import projectMutations from './projectMut'
 import pageMutations from './pageMut'
 import elementMutations from './elementMut'
@@ -17,6 +18,7 @@ const mutations = {
   initializeState: function (state) {
     console.debug('State initialized')
   },
+  ...authMutations,
   ...projectMutations,
   ...pageMutations,
   ...elementMutations,

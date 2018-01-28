@@ -4,15 +4,22 @@ export const getPageById = 'getPageById'
 export const pageExists = 'pageExists'
 export const pathInUse = 'pathInUse'
 export const nameInUse = 'nameInUse'
+
 export const getComponentRefIndexByName = 'getComponentRefIndexByName'
 export const getComponentRefByName = 'getComponentRefByName'
 export const getComponentRefByIndex = 'getComponentRefByIndex'
 export const componentExist = 'componentExist'
+
 export const getSelectedElIndexById = 'getSelectedElIndexById'
 
 // ACTIONS
+export const logIn = 'logIn'
+export const logOut = 'logOut'
+export const checkAuth = 'checkAuth'
+
 export const savePageAndClose = 'savePageAndClose'
 export const duplicatePage = 'duplicatePage'
+
 export const registerElement = 'registerElement'
 export const resizeElement = 'resizeElement'
 export const moveElement = 'moveElement'
@@ -22,21 +29,29 @@ export const rebaseSelectedElements = 'rebaseSelectedElements'
 
 // MUTATIONS
 export const updateProject = 'updateProject'
+
 export const createPage = 'createPage'
 export const updatePage = 'updatePage'
 export const deletePage = 'deletePage'
+
 export const createEgglement = 'createEgglement'
 export const updateEgglement = 'updateEgglement'
 export const deleteEgglement = 'deleteEgglement'
 
 // INTERNAL-MUTATIONS
+export const _toggleAuthorizationStatus = '_toggleAuthorizationStatus'
+export const _addAuthenticatedUser = '_addAuthenticatedUser'
+export const _removeAuthenticatedUser = '_removeAuthenticatedUser'
+
 export const _togglePageDialog = '_togglePageDialog'
 export const _changeActivePage = '_changeActivePage'
 export const _rebaseActivePage = '_rebaseActivePage'
+
 export const _clearSelectedElements = '_clearSelectedElements'
 export const _addSelectedElements = '_addSelectedElements'
 export const _addSelectedElement = '_addSelectedElement'
 export const _removeSelectedElement = '_removeSelectedElement'
+
 export const _saveComponentRef = '_saveComponentRef'
 export const _updateComponentRef = '_updateComponentRef'
 export const _removeComponentRef = '_removeComponentRef'
@@ -54,6 +69,9 @@ const types = {
   componentExist,
   getSelectedElIndexById,
 // ACTIONS
+  logIn,
+  logOut,
+  checkAuth,
   savePageAndClose,
   duplicatePage,
   registerElement,
@@ -71,6 +89,9 @@ const types = {
   updateEgglement,
   deleteEgglement,
 // INTERNAL-MUTATIONS
+  _toggleAuthorizationStatus,
+  _addAuthenticatedUser,
+  _removeAuthenticatedUser,
   _togglePageDialog,
   _changeActivePage,
   _rebaseActivePage,

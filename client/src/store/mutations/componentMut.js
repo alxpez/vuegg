@@ -1,6 +1,6 @@
 import types from '@/store/types'
 
-const projectMutations = {
+const internalComponentMutations = {
 /**
  * Adds a component reference to the state.project.components array
  *
@@ -33,4 +33,8 @@ const projectMutations = {
   }
 }
 
-export default projectMutations
+const componentMutations = {
+  ...internalComponentMutations
+}
+
+export default componentMutations
