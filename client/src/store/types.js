@@ -21,18 +21,7 @@ export const removeElement = 'removeElement'
 export const rebaseSelectedElements = 'rebaseSelectedElements'
 
 // MUTATIONS
-export const _togglePageDialog = '_togglePageDialog'
-export const _changeActivePage = '_changeActivePage'
-export const _rebaseActivePage = '_rebaseActivePage'
-export const _clearSelectedElements = '_clearSelectedElements'
-export const _addSelectedElements = '_addSelectedElements'
-export const _addSelectedElement = '_addSelectedElement'
-export const _removeSelectedElement = '_removeSelectedElement'
-
 export const updateProject = 'updateProject'
-export const _saveComponentRef = '_saveComponentRef'
-export const _updateComponentRef = '_updateComponentRef'
-export const _removeComponentRef = '_removeComponentRef'
 export const createPage = 'createPage'
 export const updatePage = 'updatePage'
 export const deletePage = 'deletePage'
@@ -40,8 +29,20 @@ export const createEgglement = 'createEgglement'
 export const updateEgglement = 'updateEgglement'
 export const deleteEgglement = 'deleteEgglement'
 
+// INTERNAL-MUTATIONS
+export const _togglePageDialog = '_togglePageDialog'
+export const _changeActivePage = '_changeActivePage'
+export const _rebaseActivePage = '_rebaseActivePage'
+export const _clearSelectedElements = '_clearSelectedElements'
+export const _addSelectedElements = '_addSelectedElements'
+export const _addSelectedElement = '_addSelectedElement'
+export const _removeSelectedElement = '_removeSelectedElement'
+export const _saveComponentRef = '_saveComponentRef'
+export const _updateComponentRef = '_updateComponentRef'
+export const _removeComponentRef = '_removeComponentRef'
+
 const types = {
-  // GETTERS
+// GETTERS
   getPageIndexById,
   getPageById,
   pageExists,
@@ -52,7 +53,7 @@ const types = {
   getComponentRefByIndex,
   componentExist,
   getSelectedElIndexById,
-  // ACTIONS
+// ACTIONS
   savePageAndClose,
   duplicatePage,
   registerElement,
@@ -61,7 +62,15 @@ const types = {
   changeElementParent,
   removeElement,
   rebaseSelectedElements,
-  // MUTATIONS
+// MUTATIONS
+  updateProject,
+  createPage,
+  updatePage,
+  deletePage,
+  createEgglement,
+  updateEgglement,
+  deleteEgglement,
+// INTERNAL-MUTATIONS
   _togglePageDialog,
   _changeActivePage,
   _rebaseActivePage,
@@ -69,17 +78,9 @@ const types = {
   _addSelectedElements,
   _addSelectedElement,
   _removeSelectedElement,
-
-  updateProject,
   _saveComponentRef,
   _updateComponentRef,
-  _removeComponentRef,
-  createPage,
-  updatePage,
-  deletePage,
-  createEgglement,
-  updateEgglement,
-  deleteEgglement
+  _removeComponentRef
 }
 
 export default types
