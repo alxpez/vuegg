@@ -25,8 +25,8 @@
     </mdc-button>
 
     <!-- <mdc-button class="gen-btn" @click="generate()" raised compact dense>Generate</mdc-button> -->
-    <mdc-button class="gen-btn" @click="saveOnGH()" raised compact dense>Save</mdc-button>
-    <mdc-button class="gen-btn" @click="loginGH()" raised compact dense>GH</mdc-button>
+    <!-- <mdc-button class="gen-btn" raised compact dense>Save</mdc-button> -->
+    <user-menu></user-menu>
   </div>
 </template>
 
@@ -36,18 +36,17 @@ import { mapState, mapMutations } from 'vuex'
 import { updateProject } from '@/store/types'
 import redoundo from '@/mixins/redoundo'
 
+import UserMenu from './UserMenu'
+
 import '@/assets/icons/product/vuegg'
 import '@/assets/icons/system/undo'
 import '@/assets/icons/system/redo'
 import '@/assets/icons/system/preview'
 
-import * as download from 'downloadjs'
-import axios from 'axios'
-import auth from '@/auth'
-
 export default {
   name: 'headegg',
   mixins: [redoundo],
+  components: {UserMenu},
   props: ['scroll0'],
   data: function () {
     return {
@@ -59,24 +58,6 @@ export default {
     projectTitle: state => state ? state.project.title : ''
   }),
   methods: {
-    loginGH () {
-      auth.authorize()
-    },
-
-    saveOnGH () {
-      auth.saveProject()
-    },
-
-    async generate () {
-      try {
-        let resp = await axios.post('/api/generate', this.project, {responseType: 'blob'})
-        download(resp.data, this.projectTitle + '.zip', resp.data.type)
-      } catch (error) {
-        console.error(error)
-        console.error('CHECK IF THE BACKEND SERVER IS UP AND RUNNING')
-      }
-    },
-
     onTitleBlur () {
       if (this.tmpProjectTitle && (this.tmpProjectTitle !== this.projectTitle)) {
         this.updateProject({title: this.tmpProjectTitle})
@@ -144,7 +125,7 @@ export default {
 .home-btn {
   margin-right: 25px;
   border: none;
-  border-radius: 100px;
+  border-radius: 50%;
   padding: 0;
   background-color: transparent;
   outline: none;
