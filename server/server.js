@@ -7,6 +7,7 @@ const logger = require('koa-logger')
 const router = require('koa-router')({ prefix: '/api' })
 const serve = require('koa-static')(path.resolve(__dirname, '..', 'client','dist'))
 
+const auth = require('./auth')
 const generator = require('./api/generator')
 const github = require('./api/github')
 
@@ -17,7 +18,7 @@ const app = new Koa()
 
 // Routes definition
 router.post('/get-access-token', getAccessToken)
-router.post('/save-project-def', saveProjectDef)
+router.post('/save-vuegg-project', saveVueggProject)
 router.post('/generate', generate)
 
 // Middleware
@@ -32,11 +33,17 @@ app.listen(PORT)
 console.log('* vuegg-server started on port %s', PORT)
 console.log('* Output directory: %s', ROOT_DIR)
 
-// --------- API METHODS --------- //
 
+// --------- AUTH METHODS --------- //
+
+/**
+ * [getAccessToken description]
+ * @param  {[type]} ctx [description]
+ * @return {[type]}     [description]
+ */
 async function getAccessToken (ctx) {
   try {
-    let resp = await github.getAccessToken(ctx.request.body)
+    let resp = await auth.getAccessToken(ctx.request.body)
     ctx.response.status = 200
     ctx.response.type = 'text/plain'
     ctx.response.body = resp
@@ -46,6 +53,8 @@ async function getAccessToken (ctx) {
   }
 }
 
+// --------- API METHODS --------- //
+
 /**
  * Saves a vuegg project file in Github
  *
@@ -54,10 +63,12 @@ async function getAccessToken (ctx) {
  *
  * @see {@link http://koajs.com/#context|Koa Context}
  */
-async function saveProjectDef (ctx) {
+async function saveVueggProject (ctx) {
   try {
-    await github.saveFile(ctx.request.body)
+    let resp = await github.saveVueggProject(ctx.request.body)
     ctx.response.status = 200
+    ctx.response.type = 'text/plain'
+    ctx.response.body = resp
   } catch (e) {
     console.error('\n> Could not save the project definition\n' + e)
     process.exit(1)
