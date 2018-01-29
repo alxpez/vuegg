@@ -6,12 +6,11 @@ import * as download from 'downloadjs'
  * @param  {[type]} repoName [description]
  * @return {[type]}          [description]
  */
-async function saveVueggProject (project, owner, repo, token) {
+async function saveVueggProject (project, owner, token) {
   try {
-    await axios.post('/api/save-project-def', {
+    await axios.post('/api/save-vuegg-project', {
       project: project,
       owner: owner,
-      repo: repo,
       token: token
     })
     console.log('Your vuegg project has been saved!')
@@ -41,57 +40,3 @@ const api = {
 }
 
 export default api
-
-// -----------------------------------------------------------------------------
-// ----- ALL THIS FOLLOWING METHODS SHOLD PROBABLY BE IN THE SERVER SIDE -------
-// -----------------------------------------------------------------------------
-
-// async function saveProject () {
-//   // ----- Testing ... this should not be here, but for the time being ---------
-//   await getAuthenticatedUser()
-//
-//   const myRepoName = state.project.title.replace(/[^a-zA-Z0-9-_]+/g, '-')
-//   let haveRepo = await repoExists(myRepoName)
-//   if (!haveRepo) {
-//     await createRepo(myRepoName)
-//     saveVueggProject(myRepoName)
-//   } else {
-//     saveVueggProject(myRepoName)
-//   }
-// }
-
-// async function repoExists (repoName) {
-//   let reqUrl = 'https://api.github.com/repos/'.concat(auth.user.login).concat('/').concat(repoName)
-//
-//   try {
-//     let resp = await axios.get(reqUrl, {
-//       headers: {
-//         'Authorization': 'bearer '.concat(auth.token)
-//       }
-//     })
-//     console.log(resp)
-//     console.log(repoName + ' already exists')
-//     return true
-//   } catch (e) {
-//     console.error(e)
-//     console.log(repoName + ' does not exists')
-//     return false
-//   }
-// }
-//
-// async function createRepo (repoName) {
-//   try {
-//     let resp = await axios.post('https://api.github.com/user/repos', {
-//       name: repoName,
-//       auto_init: true
-//     }, {
-//       headers: {
-//         'Authorization': 'bearer '.concat(auth.token)
-//       }
-//     })
-//     console.log(repoName + ' has been created')
-//     console.log(resp)
-//   } catch (e) {
-//     console.error(e)
-//   }
-// }
