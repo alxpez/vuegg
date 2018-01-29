@@ -91,7 +91,7 @@ export default {
 .navigation {
   top: 0;
   right: 0;
-  z-index: 5;
+  z-index: 1005;
   width: 240px;
   height: 100%;
   max-height: 100%;

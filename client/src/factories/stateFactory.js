@@ -4,6 +4,8 @@ function newState (project) {
   return {
     app: {
       isLoading: false,
+      isBlockLoading: false,
+      hasChanges: false,
       pageDialog: {
         isNew: true,
         isOpen: false

@@ -17,6 +17,8 @@ export const logIn = 'logIn'
 export const logOut = 'logOut'
 export const checkAuth = 'checkAuth'
 
+export const saveProjectInGH = 'saveProjectInGH'
+
 export const savePageAndClose = 'savePageAndClose'
 export const duplicatePage = 'duplicatePage'
 
@@ -39,6 +41,10 @@ export const updateEgglement = 'updateEgglement'
 export const deleteEgglement = 'deleteEgglement'
 
 // INTERNAL-MUTATIONS
+export const _toggleLoadingStatus = '_toggleLoadingStatus'
+export const _toggleLoadingBlockStatus = '_toggleLoadingBlockStatus'
+export const _toggleHasChanges = '_toggleHasChanges'
+
 export const _toggleAuthorizationStatus = '_toggleAuthorizationStatus'
 export const _addAuthenticatedUser = '_addAuthenticatedUser'
 export const _removeAuthenticatedUser = '_removeAuthenticatedUser'
@@ -72,6 +78,7 @@ const types = {
   logIn,
   logOut,
   checkAuth,
+  saveProjectInGH,
   savePageAndClose,
   duplicatePage,
   registerElement,
@@ -89,6 +96,9 @@ const types = {
   updateEgglement,
   deleteEgglement,
 // INTERNAL-MUTATIONS
+  _toggleLoadingStatus,
+  _toggleLoadingBlockStatus,
+  _toggleHasChanges,
   _toggleAuthorizationStatus,
   _addAuthenticatedUser,
   _removeAuthenticatedUser,

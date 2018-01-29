@@ -1,6 +1,7 @@
 import authActions from './authAct'
 import pageActions from './pageAct'
 import elementActions from './elementAct'
+import projectActions from './projectAct'
 
 /**
  * Vuex Store Actions
@@ -11,6 +12,7 @@ import elementActions from './elementAct'
  */
 const actions = {
   ...authActions,
+  ...projectActions,
   ...pageActions,
   ...elementActions
 }

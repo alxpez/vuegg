@@ -9,25 +9,33 @@
         <router-view></router-view>
       </main>
 
+      <mdc-linear-progress v-show="loading" class="loader" accent indeterminate></mdc-linear-progress>
       <page-dialog></page-dialog>
+      <block-loader></block-loader>
     </div>
   </div>
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 
 import Headegg from '@/components/header'
 import Drawegg from '@/components/drawer'
 import PageDialog from '@/components/drawer/pages/PageDialog'
+import BlockLoader from '@/components/common/BlockLoader'
 
 export default {
   name: 'app',
-  components: { Headegg, Drawegg, PageDialog },
+  components: { Headegg, Drawegg, PageDialog, BlockLoader },
   data: function () {
     return {
       notScrolled: true
     }
+  },
+  computed: {
+    ...mapState({
+      loading: state => state.app.isLoading
+    })
   },
   methods: {
     scrollFunction (e) {
@@ -46,6 +54,15 @@ export default {
   position: absolute;
   width: 100%;
   height: 100%;
+}
+
+.loader {
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  position: absolute;
+  z-index: 1001;
 }
 
 #app {

@@ -1,4 +1,5 @@
 import cloneDeep from 'clone-deep'
+import { _toggleHasChanges } from '@/store/types'
 
 const MAX_HISTORY = 250
 
@@ -25,6 +26,9 @@ const redoundo = {
       if (mutation.type.charAt(0) !== '_') {
         this.done.push(cloneDeep(state))
         this.undone = []
+
+        // To display that changes had happened to the project
+        this.$store.commit(_toggleHasChanges, true)
       }
     })
 
@@ -39,7 +43,7 @@ const redoundo = {
 
   computed: {
     canUndo () {
-    // There should always be at least one state (initialState)
+    // There should always be at least one state (initializeState)
       return this.done.length > 1
     },
     canRedo () {
@@ -55,6 +59,7 @@ const redoundo = {
         this.$store.replaceState(cloneDeep(undoState))
       }
     },
+
     redo () {
       if (this.canRedo) {
         let redoState = this.undone.pop()

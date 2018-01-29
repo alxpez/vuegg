@@ -1,3 +1,4 @@
+import appMutations from './appMut'
 import authMutations from './authMut'
 import projectMutations from './projectMut'
 import pageMutations from './pageMut'
@@ -16,8 +17,9 @@ const mutations = {
    * Saves the initial state for the redo/undo functionality
    */
   initializeState: function (state) {
-    console.debug('State initialized')
+    console.debug('Base state saved')
   },
+  ...appMutations,
   ...authMutations,
   ...projectMutations,
   ...pageMutations,

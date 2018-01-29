@@ -4,28 +4,11 @@
       <svgicon icon="product/vuegg" width="40" height="40" :original="true"></svgicon>
     </button>
 
-    <input class="title-input" v-model="tmpProjectTitle" @blur="onTitleBlur" title="Title of your project" placeholder="Project title"/>
+    <input class="title-input" v-model="tmpProjectTitle" @blur="onTitleBlur"
+      title="Title of your project" placeholder="Project title"/>
 
     <div class="spacer"></div>
-
-    <mdc-button title="Undo" id="undoBtn" class="action-btn" :disabled="!canUndo" @click="undo" dense>
-      <svgicon icon="system/undo" width="24" height="24"
-        :color="canUndo ? '#2b6a73': 'rgba(0,0,0,.38)'">
-      </svgicon>
-    </mdc-button>
-
-    <mdc-button title="Redo" id="redoBtn" class="action-btn" :disabled="!canRedo" @click="redo" dense>
-      <svgicon icon="system/redo" width="24" height="24"
-        :color="canRedo ? '#2b6a73': 'rgba(0,0,0,.38)'">
-      </svgicon>
-    </mdc-button>
-
-    <mdc-button title="Preview" id="previewBtn" class="action-btn" dense>
-      <svgicon icon="system/preview" width="24" height="24" color="#2b6a73"></svgicon>
-    </mdc-button>
-
-    <!-- <mdc-button class="gen-btn" @click="generate()" raised compact dense>Generate</mdc-button> -->
-    <!-- <mdc-button class="gen-btn" raised compact dense>Save</mdc-button> -->
+    <action-bar></action-bar>
     <user-menu></user-menu>
   </div>
 </template>
@@ -34,19 +17,15 @@
 <script>
 import { mapState, mapMutations } from 'vuex'
 import { updateProject } from '@/store/types'
-import redoundo from '@/mixins/redoundo'
 
 import UserMenu from './UserMenu'
+import ActionBar from './ActionBar'
 
 import '@/assets/icons/product/vuegg'
-import '@/assets/icons/system/undo'
-import '@/assets/icons/system/redo'
-import '@/assets/icons/system/preview'
 
 export default {
   name: 'headegg',
-  mixins: [redoundo],
-  components: {UserMenu},
+  components: { ActionBar, UserMenu },
   props: ['scroll0'],
   data: function () {
     return {
@@ -82,7 +61,7 @@ export default {
 <style scoped>
 
 .headegg {
-  z-index: 1;
+  z-index: 1000;
   height: 64px;
   width: calc(100% - 240px);
   color: rgba(0,0,0,0.66);
@@ -118,10 +97,6 @@ export default {
   }
 }
 
-.spacer {
-  width: 12px;
-}
-
 .home-btn {
   margin-right: 25px;
   border: none;
@@ -131,28 +106,15 @@ export default {
   outline: none;
 }
 
+.spacer {
+  width: 12px;
+}
+
 .title-input {
   flex-grow: 1;
   border: 0;
   height: 56px;
   background: transparent;
   outline: none;
-}
-
-.action-btn {
-  height: 36px;
-  width: 36px;
-  min-width: 28px;
-  min-height: 28px;
-  padding: 1px;
-  margin: 0 6px;
-  border-radius: 100%;
-}
-.action-btn * {
-  vertical-align: middle;
-}
-
-.gen-btn {
-  margin-left: 8px;
 }
 </style>
