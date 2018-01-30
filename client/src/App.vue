@@ -17,7 +17,8 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
+import { loadVueggProject, checkAuth, checkLastSaved, rebaseSelectedElements } from '@/store/types'
 
 import Headegg from '@/components/header'
 import Drawegg from '@/components/drawer'
@@ -32,6 +33,16 @@ export default {
       notScrolled: true
     }
   },
+  created: function () {
+    this.$root.$on('rebaseState', this.rebaseState)
+  },
+  mounted: function () {
+    this.initializeState()
+    this.checkAuth()
+  },
+  beforeDestroy: function () {
+    this.$root.$off('rebaseState', this.rebaseState)
+  },
   computed: {
     ...mapState({
       loading: state => state.app.isLoading
@@ -41,10 +52,14 @@ export default {
     scrollFunction (e) {
       this.notScrolled = (e.target.scrollTop === 0)
     },
-    ...mapMutations(['initializeState'])
-  },
-  mounted: function () {
-    this.initializeState()
+
+    rebaseState () {
+      this.checkAuth()
+      this.rebaseSelectedElements()
+    },
+
+    ...mapMutations(['initializeState']),
+    ...mapActions([rebaseSelectedElements, loadVueggProject, checkAuth, checkLastSaved])
   }
 }
 </script>

@@ -57,6 +57,7 @@ const redoundo = {
         this.undone.push(this.done.pop())
         let undoState = this.done[this.done.length - 1]
         this.$store.replaceState(cloneDeep(undoState))
+        this.$root.$emit('rebaseState')
       }
     },
 
@@ -65,6 +66,7 @@ const redoundo = {
         let redoState = this.undone.pop()
         this.done.push(redoState)
         this.$store.replaceState(cloneDeep(redoState))
+        this.$root.$emit('rebaseState')
       }
     }
   }
