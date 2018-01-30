@@ -20,8 +20,13 @@
       <svgicon icon="system/preview" width="24" height="24" color="#2b6a73"></svgicon>
     </mdc-button>
 
+    <mdc-button title="Load vuegg project" class="action-btn" dense
+      :disabled="isLoading" @click="loadProject">
+      <svgicon icon="system/load" width="24" height="24" color="#2b6a73"></svgicon>
+    </mdc-button>
+
     <mdc-button :title="saveBtnTitle" class="action-btn" dense
-      :disabled="!isLoggedIn || !hasChanges || (isLoggedIn && isSaving)" @click="saveInGH"
+      :disabled="!isLoggedIn || !hasChanges || (isLoggedIn && isLoading)" @click="saveInGH"
     >
       <svgicon icon="system/cloud_off" v-if="!isLoggedIn"
         width="24" height="24" color="rgba(0,0,0,.38)">
@@ -39,13 +44,14 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import { saveProjectInGH } from '@/store/types'
+import { saveProjectInGH, loadVueggProject } from '@/store/types'
 import redoundo from '@/mixins/redoundo'
 
+import '@/assets/icons/system/sync'
 import '@/assets/icons/system/undo'
 import '@/assets/icons/system/redo'
 import '@/assets/icons/system/preview'
-import '@/assets/icons/system/sync'
+import '@/assets/icons/system/load'
 import '@/assets/icons/system/cloud_off'
 import '@/assets/icons/system/cloud_up'
 import '@/assets/icons/system/cloud_done'
@@ -63,7 +69,7 @@ export default {
     },
 
     ...mapState({
-      isSaving: state => state.app.isLoading,
+      isLoading: state => state.app.isLoading,
       isSyncing: state => state.app.isSyncing,
       hasChanges: state => state.app.hasChanges,
       isLoggedIn: state => state.oauth.isAuthorized
@@ -74,7 +80,11 @@ export default {
       this.saveProjectInGH()
     },
 
-    ...mapActions([saveProjectInGH])
+    loadProject () {
+      this.loadVueggProject({origin: 'github', userName: 'vuegger', repoName: 'momo-mo'})
+    },
+
+    ...mapActions([saveProjectInGH, loadVueggProject])
   }
 }
 </script>

@@ -5,7 +5,7 @@ const Koa = require('koa')
 const body = require('koa-body')
 const logger = require('koa-logger')
 const router = require('koa-router')({ prefix: '/api' })
-const serve = require('koa-static')(path.resolve(__dirname, '..', 'client','dist'))
+const static = require('koa-static')(path.resolve(__dirname, '..', 'client','dist'))
 
 const auth = require('./auth')
 const generator = require('./api/generator')
@@ -19,12 +19,13 @@ const app = new Koa()
 // Routes definition
 router.post('/get-access-token', getAccessToken)
 router.post('/save-vuegg-project', saveVueggProject)
+router.get('/get-vuegg-project', getVueggProject)
 router.post('/generate', generate)
 
 // Middleware
 app.use(body())
 app.use(logger())
-app.use(serve)
+app.use(static)
 app.use(router.routes())
 app.use(router.allowedMethods())
 
@@ -73,6 +74,29 @@ async function saveVueggProject (ctx) {
     }
   } catch (e) {
     console.error('\n> Could not save the project definition\n' + e)
+    process.exit(1)
+  }
+}
+
+/**
+ * Retrieves a vuegg project file from Github
+ *
+ * @param {object} ctx : KoaContext object
+ * @param {object} ctx.request.body : Body of the POST request
+ *
+ * @see {@link http://koajs.com/#context|Koa Context}
+ */
+async function getVueggProject (ctx) {
+  let params = ctx.request.query
+  try {
+    let resp = await github.getContent(params.owner, params.repo, 'vue.gg', params.token)
+    if (resp) {
+      ctx.response.status = 200
+      ctx.response.body = resp
+      ctx.response.type = 'application/json'
+    }
+  } catch (e) {
+    console.error('\n> Could not fetch the project definition\n' + e)
     process.exit(1)
   }
 }

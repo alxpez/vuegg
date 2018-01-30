@@ -39,9 +39,7 @@ export default {
   },
   mounted: function () {
     this.initializeState()
-    this.loadVueggProject()
-    this.checkAuth()
-    this.checkLastSaved()
+    this.loadVueggProject({origin: 'local'})
   },
   beforeDestroy: function () {
     this.$root.$off('rebaseState', this.rebaseState)

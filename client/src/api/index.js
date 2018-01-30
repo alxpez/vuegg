@@ -2,13 +2,31 @@ import axios from 'axios'
 import * as download from 'downloadjs'
 
 /**
- * [createFile description]
- * @param  {[type]} repoName [description]
- * @return {[type]}          [description]
+ * [saveVueggProject description]
+ * @param  {[type]} project [description]
+ * @param  {[type]} owner   [description]
+ * @param  {[type]} repo    [description]
+ * @param  {[type]} token   [description]
+ * @return {[type]}         [description]
  */
 async function saveVueggProject (project, owner, repo, token) {
   try {
     return await axios.post('/api/save-vuegg-project', { project, owner, repo, token })
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+/**
+ * [getVueggProject description]
+ * @param  {[type]} owner [description]
+ * @param  {[type]} repo  [description]
+ * @param  {[type]} token [description]
+ * @return {[type]}       [description]
+ */
+async function getVueggProject (owner, repo, token) {
+  try {
+    return await axios.get('/api/get-vuegg-project', { params: { owner, repo, token } })
   } catch (e) {
     console.error(e)
   }
@@ -31,6 +49,7 @@ async function generateVueSources (project) {
 
 const api = {
   saveVueggProject,
+  getVueggProject,
   generateVueSources
 }
 

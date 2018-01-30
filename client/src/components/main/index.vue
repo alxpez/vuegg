@@ -33,10 +33,8 @@ export default {
   methods: {
     selectFallbackPage (page) {
       if (!page && this.pages.length > 0) {
-        console.log('select 0')
         this._changeActivePage(this.pages[0])
       } else {
-        console.log('select ' + page.name)
         this._rebaseActivePage(this.getPageIndexById(page.id))
       }
     },

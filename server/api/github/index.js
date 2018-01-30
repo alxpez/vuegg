@@ -9,7 +9,7 @@ const octokit = require('@octokit/rest')()
  * @return {[type]}         [description]
  */
 async function saveVueggProject ({project, owner, repo, token}) {
-  let existingRepo = await getRepo(owner, repo)
+  let existingRepo = await getRepo(owner, repo, token)
   if (!existingRepo) { await createRepo(repo, token) }
 
   return await saveFile(project, owner, repo, 'vue.gg', token)
@@ -21,7 +21,9 @@ async function saveVueggProject ({project, owner, repo, token}) {
  * @param  {[type]} repo  [description]
  * @return {[type]}       [description]
  */
-async function getRepo (owner, repo) {
+async function getRepo (owner, repo, token) {
+  octokit.authenticate({type: 'oauth', token})
+
   try {
     return await octokit.repos.get({owner, repo})
   } catch (e) {
@@ -47,7 +49,9 @@ async function createRepo (name, token) {
   }
 }
 
-async function getContent (owner, repo, path) {
+async function getContent (owner, repo, path, token) {
+  octokit.authenticate({type: 'oauth', token})
+
   try {
     return await octokit.repos.getContent({owner, repo, path})
   } catch (e) {
@@ -65,12 +69,12 @@ async function getContent (owner, repo, path) {
  * @return {[type]}         [description]
  */
 async function saveFile (content, owner, repo, path, token) {
-  let existentFile = await getContent(owner, repo, path)
+  let existentFile = await getContent(owner, repo, path, token)
 
   let ghData = {
     owner, repo, path,
     content: Buffer.from(JSON.stringify(content)).toString('base64'),
-    author: {name: 'vuegger', email: '35027416+vuegger@users.noreply.github.com'}
+    committer: {name: 'vuegger', email: '35027416+vuegger@users.noreply.github.com'}
   }
 
   octokit.authenticate({type: 'oauth', token})
@@ -89,4 +93,4 @@ async function saveFile (content, owner, repo, path, token) {
   }
 }
 
-module.exports = { saveVueggProject }
+module.exports = { saveVueggProject, getContent }

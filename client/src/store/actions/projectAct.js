@@ -68,22 +68,38 @@ const projectActions = {
  * Loads a previously saved vuegg project.
  * If origin is not passed through, the project will load from local by default
  *
- * @param {string|null} [origin] : From where the project is beign loaded (local, pc, github)
+ * @param {string} origin : From where the project is beign loaded (local, pc, github)
+ * @param {string|null} [owner] : Github login (username) of the repository
+ * @param {string|null} [repo] : Repository name from where to fetch project (vue.gg)
  */
-  [types.loadVueggProject]: async function ({ state, commit }, origin) {
+  [types.loadVueggProject]: async function ({ state, dispatch, commit }, { origin, userName, repoName }) {
     commit(types._toggleBlockLoadingStatus, true)
 
-    let loadedProject
+    let project
     switch (origin) {
-      case 'local': loadedProject = await localforage.getItem('local-checkpoint'); break
-      case 'github': console.log('load project from GitHub'); break
-      case 'pc': console.log('load project from PC'); break
-      default: loadedProject = await localforage.getItem('local-checkpoint')
+      case 'local':
+        project = await localforage.getItem('local-checkpoint')
+        break
+      case 'github':
+        const token = await localforage.getItem('gh-token')
+        const owner = userName || state.oauth.authenticatedUser.login
+        const repo = repoName || state.project.title.replace(/[^a-zA-Z0-9-_]+/g, '-')
+
+        let ghFile = await api.getVueggProject(owner, repo, token)
+
+        project = ghFile.data.data.content
+        break
+      case 'pc':
+        console.log('load project from PC')
+        break
+      default: project = await localforage.getItem('local-checkpoint')
     }
 
-    if (loadedProject) {
-      store.replaceState(newState(JSON.parse(atob(loadedProject))))
+    if (project) {
+      store.replaceState(newState(JSON.parse(atob(project))))
       commit(types.loadProject)
+
+      await dispatch(types.checkAuth)
     }
     commit(types._toggleBlockLoadingStatus, false)
   }
