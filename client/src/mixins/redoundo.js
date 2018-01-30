@@ -1,5 +1,5 @@
 import cloneDeep from 'clone-deep'
-import { _toggleHasChanges } from '@/store/types'
+import { checkLastSaved } from '@/store/types'
 
 const MAX_HISTORY = 250
 
@@ -27,8 +27,8 @@ const redoundo = {
         this.done.push(cloneDeep(state))
         this.undone = []
 
-        // To display that changes had happened to the project
-        this.$store.commit(_toggleHasChanges, true)
+        // To display if changes had happened to the project
+        this.$store.dispatch(checkLastSaved)
       }
     })
 

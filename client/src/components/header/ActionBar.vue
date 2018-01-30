@@ -1,5 +1,9 @@
 <template>
   <div class="action-bar__wrapper">
+    <mdc-button v-if="isSyncing" title="syncing" :disabled="true" class="action-btn syncing" dense>
+      <svgicon icon="system/sync" width="24" height="24" color="rgba(0,0,0,.38)"></svgicon>
+    </mdc-button>
+
     <mdc-button title="Undo" class="action-btn" :disabled="!canUndo" @click="undo" dense>
       <svgicon icon="system/undo" width="24" height="24"
         :color="canUndo ? '#2b6a73': 'rgba(0,0,0,.38)'">
@@ -41,6 +45,7 @@ import redoundo from '@/mixins/redoundo'
 import '@/assets/icons/system/undo'
 import '@/assets/icons/system/redo'
 import '@/assets/icons/system/preview'
+import '@/assets/icons/system/sync'
 import '@/assets/icons/system/cloud_off'
 import '@/assets/icons/system/cloud_up'
 import '@/assets/icons/system/cloud_done'
@@ -59,8 +64,9 @@ export default {
 
     ...mapState({
       isSaving: state => state.app.isLoading,
-      isLoggedIn: state => state.oauth.isAuthorized,
-      hasChanges: state => state.app.hasChanges
+      isSyncing: state => state.app.isSyncing,
+      hasChanges: state => state.app.hasChanges,
+      isLoggedIn: state => state.oauth.isAuthorized
     })
   },
   methods: {
@@ -99,4 +105,21 @@ export default {
 .action-btn * {
   vertical-align: middle;
 }
+
+.syncing {
+  -webkit-animation:spin 1s linear infinite;
+  -moz-animation:spin 1s linear infinite;
+  animation:spin 1s linear infinite;
+}
+@-moz-keyframes spin { 100% {
+  -moz-transform: rotate(360deg);
+}}
+@-webkit-keyframes spin { 100% {
+  -webkit-transform: rotate(360deg);
+}}
+@keyframes spin { 100% {
+  -webkit-transform: rotate(360deg);
+  transform:rotate(360deg);
+}}
+
 </style>

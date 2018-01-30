@@ -38,7 +38,9 @@ export default {
   },
   mounted: function () {
     this.initializeState()
+    this.loadVueggProject()
     this.checkAuth()
+    this.checkLastSaved()
   },
   beforeDestroy: function () {
     this.$root.$off('rebaseState', this.rebaseState)
@@ -55,6 +57,7 @@ export default {
 
     rebaseState () {
       this.checkAuth()
+      this.checkLastSaved()
       this.rebaseSelectedElements()
     },
 

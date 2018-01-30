@@ -15,7 +15,7 @@ const internalAppMutations = {
  *
  * @param {boolean} isLoading : Whether or not the app is block loading
  */
-  [types._toggleLoadingBlockStatus]: function (state, isBlockLoading) {
+  [types._toggleBlockLoadingStatus]: function (state, isBlockLoading) {
     state.app.isBlockLoading = isBlockLoading
   },
 
@@ -26,6 +26,15 @@ const internalAppMutations = {
  */
   [types._toggleHasChanges]: function (state, hasChanges) {
     state.app.hasChanges = hasChanges
+  },
+
+/**
+ * Changes the value of "isSyncing", to the value passed as payload
+ *
+ * @param {boolean} isSyncing : Whether or not the app is syncing local cache
+ */
+  [types._toggleIsSyncing]: function (state, isSyncing) {
+    state.app.isSyncing = isSyncing
   }
 }
 

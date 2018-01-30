@@ -1,3 +1,10 @@
+/**
+ * Keeps an index of all the "types" of functions of the store
+ * (Getters, Actions, Mutations --internal/external)
+ *
+ * TODO: it may be smart to granulate this file (either by type or by context)
+ */
+
 // GETTERS
 export const getPageIndexById = 'getPageIndexById'
 export const getPageById = 'getPageById'
@@ -18,6 +25,9 @@ export const logOut = 'logOut'
 export const checkAuth = 'checkAuth'
 
 export const saveProjectInGH = 'saveProjectInGH'
+export const checkLastSaved = 'checkLastSaved'
+export const syncLocal = 'syncLocal'
+export const loadVueggProject = 'loadVueggProject'
 
 export const savePageAndClose = 'savePageAndClose'
 export const duplicatePage = 'duplicatePage'
@@ -30,6 +40,7 @@ export const removeElement = 'removeElement'
 export const rebaseSelectedElements = 'rebaseSelectedElements'
 
 // MUTATIONS
+export const loadProject = 'loadProject'
 export const updateProject = 'updateProject'
 
 export const createPage = 'createPage'
@@ -41,13 +52,14 @@ export const updateEgglement = 'updateEgglement'
 export const deleteEgglement = 'deleteEgglement'
 
 // INTERNAL-MUTATIONS
-export const _toggleLoadingStatus = '_toggleLoadingStatus'
-export const _toggleLoadingBlockStatus = '_toggleLoadingBlockStatus'
-export const _toggleHasChanges = '_toggleHasChanges'
-
 export const _toggleAuthorizationStatus = '_toggleAuthorizationStatus'
 export const _addAuthenticatedUser = '_addAuthenticatedUser'
 export const _removeAuthenticatedUser = '_removeAuthenticatedUser'
+
+export const _toggleLoadingStatus = '_toggleLoadingStatus'
+export const _toggleBlockLoadingStatus = '_toggleBlockLoadingStatus'
+export const _toggleHasChanges = '_toggleHasChanges'
+export const _toggleIsSyncing = '_toggleIsSyncing'
 
 export const _togglePageDialog = '_togglePageDialog'
 export const _changeActivePage = '_changeActivePage'
@@ -69,46 +81,65 @@ const types = {
   pageExists,
   pathInUse,
   nameInUse,
+
   getComponentRefIndexByName,
   getComponentRefByName,
   getComponentRefByIndex,
   componentExist,
+
   getSelectedElIndexById,
+
 // ACTIONS
   logIn,
   logOut,
   checkAuth,
+
   saveProjectInGH,
+  checkLastSaved,
+  syncLocal,
+  loadVueggProject,
+
   savePageAndClose,
   duplicatePage,
+
   registerElement,
   resizeElement,
   moveElement,
   changeElementParent,
   removeElement,
   rebaseSelectedElements,
+
 // MUTATIONS
+  loadProject,
   updateProject,
+
   createPage,
   updatePage,
   deletePage,
+
   createEgglement,
   updateEgglement,
   deleteEgglement,
+
 // INTERNAL-MUTATIONS
-  _toggleLoadingStatus,
-  _toggleLoadingBlockStatus,
-  _toggleHasChanges,
   _toggleAuthorizationStatus,
   _addAuthenticatedUser,
   _removeAuthenticatedUser,
+
+  _toggleLoadingStatus,
+  _toggleBlockLoadingStatus,
+  _toggleHasChanges,
+  _toggleIsSyncing,
+
   _togglePageDialog,
   _changeActivePage,
   _rebaseActivePage,
+
   _clearSelectedElements,
   _addSelectedElements,
   _addSelectedElement,
   _removeSelectedElement,
+
   _saveComponentRef,
   _updateComponentRef,
   _removeComponentRef

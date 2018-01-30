@@ -14,8 +14,6 @@ const authActions = {
     let token = await localforage.getItem('gh-token')
 
     if (!user || !token) {
-      await localforage.clear()
-
       if (state.oauth.isAuthorized) { commit(types._toggleAuthorizationStatus, false) }
       if (state.oauth.authenticatedUser !== null) { commit(types._removeAuthenticatedUser) }
     } else {
@@ -43,11 +41,9 @@ const authActions = {
         commit(types._addAuthenticatedUser, user)
         localforage.setItem('gh-user', user)
       } else {
-        // show alert?
         console.error('user error')
       }
     } else {
-      // show alert?
       console.error('token error')
     }
 
