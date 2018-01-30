@@ -70,9 +70,7 @@ async function saveFile (content, owner, repo, path, token) {
   let existentFile = await getContent(owner, repo, path)
 
   let ghData = {
-    owner,
-    repo,
-    path,
+    owner, repo, path,
     content: Buffer.from(JSON.stringify(content)).toString('base64'),
     author: {name: 'vuegger', email: '35027416+vuegger@users.noreply.github.com'}
   }
