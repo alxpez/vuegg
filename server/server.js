@@ -66,9 +66,11 @@ async function getAccessToken (ctx) {
 async function saveVueggProject (ctx) {
   try {
     let resp = await github.saveVueggProject(ctx.request.body)
-    ctx.response.status = 200
-    ctx.response.type = 'text/plain'
-    ctx.response.body = resp
+    if (resp) {
+      ctx.response.status = 200
+      ctx.response.body = resp
+      ctx.response.type = 'text/plain'
+    }
   } catch (e) {
     console.error('\n> Could not save the project definition\n' + e)
     process.exit(1)
