@@ -10,10 +10,10 @@
     @keydown.meta.88.exact.stop.prevent="$emit('cut')"
     @keydown.ctrl.86.exact.stop.prevent="$emit('paste')"
     @keydown.meta.86.exact.stop.prevent="$emit('paste')"
-    @keydown.ctrl.90.exact.stop.prevent="$root.$emit('undo')"
-    @keydown.meta.90.exact.stop.prevent="$root.$emit('undo')"
-    @keydown.ctrl.shift.90.exact.stop.prevent="$root.$emit('redo')"
-    @keydown.meta.shift.90.exact.stop.prevent="$root.$emit('redo')"
+    @keydown.ctrl.90.exact.stop.prevent="$emit('undo')"
+    @keydown.meta.90.exact.stop.prevent="$emit('undo')"
+    @keydown.ctrl.shift.90.exact.stop.prevent="$emit('redo')"
+    @keydown.meta.shift.90.exact.stop.prevent="$emit('redo')"
     @drop.prevent="e => $emit('drop', e)"
     @dragover.prevent
   >
