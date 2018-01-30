@@ -12,6 +12,7 @@
       <mdc-linear-progress v-show="loading" class="loader" accent indeterminate></mdc-linear-progress>
       <page-dialog></page-dialog>
       <block-loader></block-loader>
+      <mdc-snackbar :dismisses-on-action="false"/>
     </div>
   </div>
 </template>

@@ -6,14 +6,9 @@ import * as download from 'downloadjs'
  * @param  {[type]} repoName [description]
  * @return {[type]}          [description]
  */
-async function saveVueggProject (project, owner, token) {
+async function saveVueggProject (project, owner, repo, token) {
   try {
-    await axios.post('/api/save-vuegg-project', {
-      project: project,
-      owner: owner,
-      token: token
-    })
-    console.log('Your vuegg project has been saved!')
+    return await axios.post('/api/save-vuegg-project', { project, owner, repo, token })
   } catch (e) {
     console.error(e)
   }

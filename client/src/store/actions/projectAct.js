@@ -1,4 +1,5 @@
 import localforage from 'localforage'
+import showSnackbar from '@/helpers/showSnackbar'
 import newState from '@/factories/stateFactory'
 import types from '@/store/types'
 import store from '@/store'
@@ -31,16 +32,19 @@ const projectActions = {
   [types.saveProjectInGH]: async function ({ state, dispatch, commit }) {
     commit(types._toggleLoadingStatus, true)
 
-    let token = await localforage.getItem('gh-token')
-    let project = state.project
-    let owner = state.oauth.authenticatedUser.login
+    const token = await localforage.getItem('gh-token')
+    const project = state.project
+    const owner = state.oauth.authenticatedUser.login
+    const parsedRepoName = project.title.replace(/[^a-zA-Z0-9-_]+/g, '-')
 
     const projectB64 = btoa(JSON.stringify(project))
     localforage.setItem('gh-last-saved', projectB64)
 
-    await api.saveVueggProject(project, owner, token)
+    await api.saveVueggProject(project, owner, parsedRepoName, token)
     await dispatch(types.checkLastSaved)
+
     commit(types._toggleLoadingStatus, false)
+    showSnackbar('See your project in GitHub', 'Go', 'https://github.com/' + owner + '/' + parsedRepoName)
 
     dispatch(types.syncLocal, projectB64)
   },

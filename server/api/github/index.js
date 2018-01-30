@@ -8,13 +8,11 @@ const octokit = require('@octokit/rest')()
  * @param  {[type]} token   [description]
  * @return {[type]}         [description]
  */
-async function saveVueggProject ({project, owner, token}) {
-  const parsedRepoName = project.title.replace(/[^a-zA-Z0-9-_]+/g, '-')
+async function saveVueggProject ({project, owner, repo, token}) {
+  let existingRepo = await getRepo(owner, repo)
+  if (!existingRepo) { await createRepo(repo, token) }
 
-  let existingRepo = await getRepo(owner, parsedRepoName)
-  if (!existingRepo) { await createRepo(parsedRepoName, token) }
-
-  return await saveFile(project, owner, parsedRepoName, 'vue.gg', token)
+  return await saveFile(project, owner, repo, 'vue.gg', token)
 }
 
 /**
