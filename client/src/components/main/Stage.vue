@@ -14,6 +14,8 @@
     @cut="cutHandler"
     @paste="pasteHandler"
     @drop="dropHandler"
+    @undo="$root.$emit('undo')"
+    @redo="$root.$emit('redo')"
   >
 
     <stage-el

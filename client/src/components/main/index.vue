@@ -6,8 +6,8 @@
 
 
 <script>
-import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
-import { _changeActivePage, _rebaseActivePage, rebaseSelectedElements, getPageIndexById } from '@/store/types'
+import { mapState, mapGetters, mapMutations } from 'vuex'
+import { _changeActivePage, _rebaseActivePage, getPageIndexById } from '@/store/types'
 
 import Stage from './Stage'
 
@@ -15,9 +15,7 @@ export default {
   name: 'mainegg',
   components: { Stage },
   created: function () {
-    if (!this.selectedPage && this.pages.length) {
-      this._changeActivePage(this.pages[0])
-    }
+    this.selectFallbackPage()
   },
   computed: {
     ...mapState({
@@ -29,20 +27,26 @@ export default {
   watch: {
     // After a redo/undo action this will apply
     selectedPage: function (val) {
-      this._rebaseActivePage(this.getPageIndexById(val.id))
-      this.rebaseSelectedElements()
+      this.selectFallbackPage(val)
     }
   },
   methods: {
-    ...mapMutations([_changeActivePage, _rebaseActivePage]),
-    ...mapActions([rebaseSelectedElements])
+    selectFallbackPage (page) {
+      if (!page && this.pages.length > 0) {
+        this._changeActivePage(this.pages[0])
+      } else {
+        this._rebaseActivePage(this.getPageIndexById(page.id))
+      }
+    },
+
+    ...mapMutations([_changeActivePage, _rebaseActivePage])
   }
 }
 </script>
 
 <style scoped>
 .mainegg {
-  margin: 0 15px;
+  margin: 0 57px;
   height: 100%;
 }
 </style>

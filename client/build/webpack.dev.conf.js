@@ -19,7 +19,11 @@ module.exports = merge(baseWebpackConfig, {
   devtool: '#cheap-module-eval-source-map',
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': config.dev.env
+      'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV || config.dev.env.NODE_ENV),
+        CLIENT_ID: JSON.stringify(process.env.CLIENT_ID || config.dev.env.CLIENT_ID),
+        CALLBACK_URL: JSON.stringify(process.env.CALLBACK_URL || config.dev.env.CALLBACK_URL)
+      }
     }),
     // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
     new webpack.HotModuleReplacementPlugin(),

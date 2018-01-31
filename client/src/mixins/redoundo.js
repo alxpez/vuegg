@@ -1,4 +1,5 @@
 import cloneDeep from 'clone-deep'
+import { checkLastSaved } from '@/store/types'
 
 const MAX_HISTORY = 250
 
@@ -25,6 +26,9 @@ const redoundo = {
       if (mutation.type.charAt(0) !== '_') {
         this.done.push(cloneDeep(state))
         this.undone = []
+
+        // To display if changes had happened to the project
+        this.$store.dispatch(checkLastSaved)
       }
     })
 
@@ -39,7 +43,7 @@ const redoundo = {
 
   computed: {
     canUndo () {
-    // There should always be at least one state (initialState)
+    // There should always be at least one state (initializeState)
       return this.done.length > 1
     },
     canRedo () {
@@ -53,13 +57,16 @@ const redoundo = {
         this.undone.push(this.done.pop())
         let undoState = this.done[this.done.length - 1]
         this.$store.replaceState(cloneDeep(undoState))
+        this.$root.$emit('rebaseState')
       }
     },
+
     redo () {
       if (this.canRedo) {
         let redoState = this.undone.pop()
         this.done.push(redoState)
         this.$store.replaceState(cloneDeep(redoState))
+        this.$root.$emit('rebaseState')
       }
     }
   }

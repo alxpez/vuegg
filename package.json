@@ -1,9 +1,10 @@
 {
   "name": "vuegg",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "description": "vuejs GUI generator",
   "author": "alxpez",
   "scripts": {
+    "oauth": "node oauth-config.js",
     "vuegg": "npm run install:all && npm run build && npm run start",
     "install:all": "npm run install:client && npm run install:server",
     "install:client": "cd client && npm install",
@@ -13,14 +14,12 @@
     "build": "cd client && npm run build",
     "start": "cd server && npm run start",
     "now-build": "npm run install:all",
-    "deploy": "npm run build && now -f -p && now alias && now scale vuegg.now.sh 1"
+    "deploy:test": "npm run build && now -f -p",
+    "deploy:prod": "npm run build && now -f -p && now alias && now scale vuegg.now.sh 1"
   },
   "now": {
     "alias": "vuegg",
-    "env": {
-      "NODE_ENV": "production",
-      "PORT": 5000
-    }
+    "dotenv": ".env.prod"
   },
   "engines": {
     "node": ">= 8.0.0",
@@ -38,5 +37,10 @@
   "bugs": {
     "url": "https://gitlab.com/alxpez/vuegg/issues"
   },
-  "homepage": "https://gitlab.com/alxpez/vuegg#README"
+  "homepage": "https://gitlab.com/alxpez/vuegg#README",
+  "devDependencies": {
+    "dotenv": "^4.0.0",
+    "inquirer": "^5.0.1",
+    "shelljs": "^0.8.1"
+  }
 }

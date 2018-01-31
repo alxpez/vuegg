@@ -9,34 +9,59 @@
         <router-view></router-view>
       </main>
 
+      <mdc-linear-progress v-show="loading" class="loader" accent indeterminate></mdc-linear-progress>
       <page-dialog></page-dialog>
+      <block-loader></block-loader>
+      <mdc-snackbar :dismisses-on-action="false"/>
     </div>
   </div>
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
+import { loadVueggProject, checkAuth, checkLastSaved, rebaseSelectedElements } from '@/store/types'
 
 import Headegg from '@/components/header'
 import Drawegg from '@/components/drawer'
 import PageDialog from '@/components/drawer/pages/PageDialog'
+import BlockLoader from '@/components/common/BlockLoader'
 
 export default {
   name: 'app',
-  components: { Headegg, Drawegg, PageDialog },
+  components: { Headegg, Drawegg, PageDialog, BlockLoader },
   data: function () {
     return {
       notScrolled: true
     }
   },
+  created: function () {
+    this.$root.$on('rebaseState', this.rebaseState)
+  },
+  mounted: function () {
+    this.initializeState()
+    this.loadVueggProject({origin: 'local'})
+  },
+  beforeDestroy: function () {
+    this.$root.$off('rebaseState', this.rebaseState)
+  },
+  computed: {
+    ...mapState({
+      loading: state => state.app.isLoading
+    })
+  },
   methods: {
     scrollFunction (e) {
       this.notScrolled = (e.target.scrollTop === 0)
     },
-    ...mapMutations(['initializeState'])
-  },
-  mounted: function () {
-    this.initializeState()
+
+    rebaseState () {
+      this.checkAuth()
+      this.checkLastSaved()
+      this.rebaseSelectedElements()
+    },
+
+    ...mapMutations(['initializeState']),
+    ...mapActions([rebaseSelectedElements, loadVueggProject, checkAuth, checkLastSaved])
   }
 }
 </script>
@@ -46,6 +71,15 @@ export default {
   position: absolute;
   width: 100%;
   height: 100%;
+}
+
+.loader {
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  position: absolute;
+  z-index: 1001;
 }
 
 #app {
