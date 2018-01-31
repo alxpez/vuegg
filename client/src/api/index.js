@@ -1,5 +1,4 @@
 import axios from 'axios'
-import * as download from 'downloadjs'
 
 /**
  * [saveVueggProject description]
@@ -39,11 +38,9 @@ async function getVueggProject (owner, repo, token) {
  */
 async function generateVueSources (project) {
   try {
-    let resp = await axios.post('/api/generate', project, {responseType: 'blob'})
-    download(resp.data, project.title + '.zip', resp.data.type)
+    return await axios.post('/api/generate', project, {responseType: 'blob'})
   } catch (e) {
     console.error(e)
-    console.error('CHECK IF THE BACKEND SERVER IS UP AND RUNNING')
   }
 }
 
