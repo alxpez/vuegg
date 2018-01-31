@@ -16,8 +16,8 @@
       </svgicon>
     </mdc-button>
 
-    <mdc-button title="Preview" class="action-btn" dense>
-      <svgicon icon="system/actions/preview" width="24" height="24" color="#2b6a73"></svgicon>
+    <mdc-button title="Preview" class="action-btn" dense :disabled="true">
+      <svgicon icon="system/actions/preview" width="24" height="24" color="rgba(0,0,0,.38)"></svgicon>
     </mdc-button>
 
     <div class="separator"></div>
@@ -38,7 +38,7 @@
           <input type="file" ref="inputOpenLocal" @change="openLocalFile" :value="fileValue" accept=".gg"/>
           Computer
         </mdc-menu-item>
-        <mdc-menu-item :disabled="!isLoggedIn">GitHub</mdc-menu-item>
+        <mdc-menu-item :disabled="true">GitHub</mdc-menu-item>
       </mdc-menu>
     </mdc-menu-anchor>
 
