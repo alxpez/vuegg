@@ -1,0 +1,13 @@
+/* eslint-disable */
+require('./cloud_done')
+require('./cloud_off')
+require('./cloud_up')
+require('./delete')
+require('./download')
+require('./folder')
+require('./load')
+require('./preview')
+require('./redo')
+require('./save')
+require('./sync')
+require('./undo')

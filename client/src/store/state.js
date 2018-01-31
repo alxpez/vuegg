@@ -1,4 +1,4 @@
-import newProject from '@/helpers/projectBuilder'
+import newState from '@/factories/stateFactory'
 
 /**
  * Vuex Store State
@@ -10,16 +10,4 @@ import newProject from '@/helpers/projectBuilder'
  * @type {object}
  * @see {@link https://vuex.vuejs.org/en/state.html|Vuex State}
  */
-const state = {
-  app: {
-    pageDialog: {
-      isNew: true,
-      isOpen: false
-    },
-    selectedPage: null,
-    selectedElements: []
-  },
-  project: newProject('My vuegg project')
-}
-
-export default state
+export default newState()
