@@ -2,7 +2,7 @@
 
 var icon = require('vue-svgicon')
 icon.register({
-  'system/cloud_up': {
+  'system/actions/cloud_up': {
     width: 24,
     height: 24,
     viewBox: '0 0 24 24',
