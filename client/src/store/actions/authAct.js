@@ -29,9 +29,9 @@ const authActions = {
  * @return {[type]} [description]
  */
   [types.logIn]: async function ({ commit }) {
-    commit(types._toggleLoadingStatus, true)
-
     let token = await auth.authorizeUser()
+
+    commit(types._toggleLoadingStatus, true)
     commit(types._toggleAuthorizationStatus, !!token)
 
     if (token) {

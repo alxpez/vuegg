@@ -2,7 +2,7 @@
   <div class="user-menu__wrapper">
     <mdc-menu-anchor v-if="loggedUser">
       <button class="avatar-btn" @click="showUserMenu">
-        <img :src="loggedUser.avatar_url" alt="User avatar" height="100%" width="100%"/>
+        <img :src="loggedUser.avatar_url" alt="User avatar" height="100%" width="100%" draggable="false"/>
       </button>
       <mdc-menu ref="userMenu" @select="onSelect">
         <mdc-menu-item disabled>
@@ -17,7 +17,7 @@
       </mdc-menu>
     </mdc-menu-anchor>
 
-    <button class="avatar-btn" v-if="!loggedUser" @click="loginGH" :disabled="!loginBtnEnabled" title="Login with GitHub" >
+    <button class="avatar-btn" v-if="!loggedUser" @click="logIn" :disabled="!loginBtnEnabled" title="Login with GitHub" >
       <svgicon icon="system/gh_logo" width="100%" height="100%"
         :color="loginBtnEnabled ? '#2b6a73': 'rgba(0,0,0,.38)'">
       </svgicon>
@@ -28,7 +28,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import { logIn, logOut, checkAuth } from '@/store/types'
+import { logIn, logOut } from '@/store/types'
 
 import '@/assets/icons/system/gh_logo'
 
@@ -43,15 +43,7 @@ export default {
     isLoggedIn: state => state.oauth.isAuthorized,
     loggedUser: state => state.oauth.authenticatedUser
   }),
-  created: function () {
-    this.checkAuth()
-  },
   methods: {
-    loginGH () {
-      this.loginBtnEnabled = false
-      this.logIn()
-    },
-
     showUserMenu () {
       this.$refs.userMenu.show()
     },
@@ -60,14 +52,11 @@ export default {
       const LOGOUT = 1
 
       switch (selected.index) {
-        case LOGOUT:
-          this.logOut()
-          this.loginBtnEnabled = true
-          break
+        case LOGOUT: this.logOut(); break
       }
     },
 
-    ...mapActions([logIn, logOut, checkAuth])
+    ...mapActions([logIn, logOut])
   }
 }
 </script>

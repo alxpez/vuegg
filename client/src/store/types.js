@@ -24,10 +24,14 @@ export const logIn = 'logIn'
 export const logOut = 'logOut'
 export const checkAuth = 'checkAuth'
 
-export const saveProjectInGH = 'saveProjectInGH'
+export const downloadProject = 'downloadProject'
+export const uploadProjectToGH = 'uploadProjectToGH'
+export const downloadVueSources = 'downloadVueSources'
+export const uploadVueSourcesToGH = 'uploadVueSourcesToGH'
 export const checkLastSaved = 'checkLastSaved'
 export const syncLocal = 'syncLocal'
 export const loadVueggProject = 'loadVueggProject'
+export const clearProject = 'clearProject'
 
 export const savePageAndClose = 'savePageAndClose'
 export const duplicatePage = 'duplicatePage'
@@ -40,8 +44,9 @@ export const removeElement = 'removeElement'
 export const rebaseSelectedElements = 'rebaseSelectedElements'
 
 // MUTATIONS
-export const loadProject = 'loadProject'
+export const addProject = 'addProject'
 export const updateProject = 'updateProject'
+export const deleteProject = 'deleteProject'
 
 export const createPage = 'createPage'
 export const updatePage = 'updatePage'
@@ -94,10 +99,14 @@ const types = {
   logOut,
   checkAuth,
 
-  saveProjectInGH,
+  downloadVueSources,
+  downloadProject,
+  uploadVueSourcesToGH,
+  uploadProjectToGH,
   checkLastSaved,
   syncLocal,
   loadVueggProject,
+  clearProject,
 
   savePageAndClose,
   duplicatePage,
@@ -110,8 +119,9 @@ const types = {
   rebaseSelectedElements,
 
 // MUTATIONS
-  loadProject,
+  addProject,
   updateProject,
+  deleteProject,
 
   createPage,
   updatePage,
