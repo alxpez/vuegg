@@ -3,6 +3,6 @@ var devEnv = require('./dev.env')
 
 module.exports = merge(devEnv, {
   NODE_ENV: '"testing"',
-  CLIENT_ID: '"116bed3e72c3aab96b76"',
-  CALLBACK_URL: '"http://localhost:8080/auth/github"'
+  CLIENT_ID: '5e8f72ec1e4a789d8632',
+  CALLBACK_URL: 'http://localhost:5000/auth'
 })

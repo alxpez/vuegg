@@ -2,7 +2,7 @@
   <div class="menus-wrapper">
     <menu-toggle menuHeader="HTML5 Elements">
       <div class="el-menu">
-        <div class="el-menu__el" :key="elKey"
+        <div class="el-menu__el" :key="element.name"
           v-for="element in elements"
           :title="element.name"
           draggable="true"
@@ -17,7 +17,7 @@
 
     <menu-toggle menuHeader="Material Components">
       <div class="el-menu">
-        <div class="el-menu__el" :key="elKey"
+        <div class="el-menu__el" :key="mdComp.name"
           v-for="mdComp in mdComponents"
           :title="mdComp.name"
           draggable="true"
@@ -33,7 +33,7 @@
     <!-- TODO: v-for components (community/personal) retrieved from GH? -->
     <menu-toggle menuHeader="Community Components" :startClosed="true">
       <div class="el-menu">
-        <div class="el-menu__el" :key="elKey"
+        <div class="el-menu__el" :key="component.name"
           v-for="component in components"
           :title="component.name"
           draggable="true"
@@ -50,7 +50,6 @@
 
 
 <script>
-import shortid from 'shortid'
 import { mapState, mapActions } from 'vuex'
 import { registerElement } from '@/store/types'
 
@@ -72,9 +71,6 @@ export default {
     }
   },
   computed: {
-    elKey () {
-      return shortid.generate()
-    },
     ...mapState({
       activePage: state => state.app.selectedPage
     })

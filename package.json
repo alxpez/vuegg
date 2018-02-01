@@ -1,11 +1,12 @@
 {
   "name": "vuegg",
-  "version": "0.7.0",
+  "version": "0.8.1",
   "description": "vuejs GUI generator",
   "author": "alxpez",
   "scripts": {
     "oauth": "node oauth-config.js",
     "vuegg": "npm run install:all && npm run build && npm run start",
+    "vuegg:test": "npm run build && npm run start",
     "install:all": "npm run install:client && npm run install:server",
     "install:client": "cd client && npm install",
     "install:server": "cd server && npm install",

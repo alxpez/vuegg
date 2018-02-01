@@ -4,6 +4,7 @@ const path = require('path')
 const Koa = require('koa')
 const body = require('koa-body')
 const logger = require('koa-logger')
+const historyFallback = require('koa2-history-api-fallback')
 const router = require('koa-router')({ prefix: '/api' })
 const static = require('koa-static')(path.resolve(__dirname, '..', 'client','dist'))
 
@@ -25,6 +26,7 @@ router.post('/generate', generate)
 // Middleware
 app.use(body())
 app.use(logger())
+app.use(historyFallback())
 app.use(static)
 app.use(router.routes())
 app.use(router.allowedMethods())
@@ -49,7 +51,7 @@ async function getAccessToken (ctx) {
     ctx.response.type = 'text/plain'
     ctx.response.body = resp
   } catch (e) {
-    console.error('\n> Could not obtain a token\n' + e)
+    console.error('\n> Could not obtain token\n' + e)
     process.exit(1)
   }
 }
@@ -115,10 +117,12 @@ async function getVueggProject (ctx) {
 async function generate (ctx) {
   try {
     let zipFile = await generator(ctx.request.body, ROOT_DIR)
-
-    console.log('> Download -> ' + zipFile)
-    ctx.response.type = 'zip'
-    ctx.response.body = fs.createReadStream(zipFile)
+    if (zipFile) {
+      console.log('> Download -> ' + zipFile)
+      ctx.response.status = 200
+      ctx.response.type = 'zip'
+      ctx.response.body = fs.createReadStream(zipFile)
+    }
   } catch (e) {
     console.error('\n> Could not complete the project generation...\n' + e)
     process.exit(1)

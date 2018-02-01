@@ -114,7 +114,10 @@ const projectActions = {
         const repo = repoName || state.project.title.replace(/[^a-zA-Z0-9-_]+/g, '-')
 
         let ghFile = await api.getVueggProject(owner, repo, token)
-        project = ghFile.data.data.content
+
+        ghFile
+          ? project = ghFile.data.data.content
+          : showSnackbar(owner + '/' + repo + ' is not a valid repository')
         break
       default: project = await localforage.getItem('local-checkpoint')
     }

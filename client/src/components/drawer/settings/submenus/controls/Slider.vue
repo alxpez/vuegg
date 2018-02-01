@@ -1,5 +1,5 @@
 <template>
-  <div class="slider__wrapper" :title="label + ' (' + currentValue + ')'">
+  <div class="slider__wrapper" v-tooltip.left="{content: label + ' (' + currentValue + ')', delay: 0, offset: 0}">
     <mdc-slider :min="min" :max="max" :step="step" v-model="currentValue"/>
     <svgicon v-show="(icon !== '')" :icon="icon" width="22" height="22" color="rgba(0,0,0,.87)"></svgicon>
   </div>

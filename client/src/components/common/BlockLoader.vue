@@ -32,7 +32,7 @@ export default {
   width: 100%;
   background-color: rgba(0, 0, 0, 0.57);
   position: absolute;
-  z-index: 1010;
+  z-index: 1015;
   display: flex;
   justify-content: center;
   align-items: center

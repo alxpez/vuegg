@@ -4,31 +4,31 @@
       <svgicon icon="system/actions/sync" width="24" height="24" color="rgba(0,0,0,.38)"></svgicon>
     </mdc-button>
 
-    <mdc-button title="Undo" class="action-btn" :disabled="!canUndo" @click="undo" dense>
+    <mdc-button v-tooltip="'Undo'" class="action-btn" :disabled="!canUndo" @click="undo" dense>
       <svgicon icon="system/actions/undo" width="24" height="24"
         :color="canUndo ? '#2b6a73': 'rgba(0,0,0,.38)'">
       </svgicon>
     </mdc-button>
 
-    <mdc-button title="Redo" class="action-btn" :disabled="!canRedo" @click="redo" dense>
+    <mdc-button v-tooltip="'Redo'" class="action-btn" :disabled="!canRedo" @click="redo" dense>
       <svgicon icon="system/actions/redo" width="24" height="24"
         :color="canRedo ? '#2b6a73': 'rgba(0,0,0,.38)'">
       </svgicon>
     </mdc-button>
 
-    <mdc-button title="Preview" class="action-btn" dense :disabled="true">
+    <mdc-button v-tooltip="'Preview'" class="action-btn" dense :disabled="true">
       <svgicon icon="system/actions/preview" width="24" height="24" color="rgba(0,0,0,.38)"></svgicon>
     </mdc-button>
 
     <div class="separator"></div>
 
-    <mdc-button title="Clear project" class="action-btn" dense
-      :disabled="isLoading" @click="clearProject">
+    <mdc-button v-tooltip="'Clear project'" class="action-btn" dense
+      :disabled="isLoading" @click="$root.$emit('open-confirm-dialog')">
       <svgicon icon="system/actions/delete" width="24" height="24" color="#2b6a73"></svgicon>
     </mdc-button>
 
     <mdc-menu-anchor>
-      <mdc-button title="Open" class="action-btn" :disabled="isLoading" @click="showLoadFromMenu" dense>
+      <mdc-button v-tooltip="'Open...'" class="action-btn" :disabled="isLoading" @click="showLoadFromMenu" dense>
         <svgicon icon="system/actions/folder" width="24" height="24" color="#2b6a73"></svgicon>
       </mdc-button>
       <mdc-menu ref="loadFromMenu" @select="onSelectLoadFrom">
@@ -38,12 +38,12 @@
           <input type="file" ref="inputOpenLocal" @change="openLocalFile" :value="fileValue" accept=".gg"/>
           Computer
         </mdc-menu-item>
-        <mdc-menu-item :disabled="true">GitHub</mdc-menu-item>
+        <mdc-menu-item :disabled="!isLoggedIn">GitHub</mdc-menu-item>
       </mdc-menu>
     </mdc-menu-anchor>
 
     <mdc-menu-anchor>
-      <mdc-button title="Download" class="action-btn" :disabled="isLoading" @click="showDownloadMenu" dense>
+      <mdc-button v-tooltip="'Download...'" class="action-btn" :disabled="isLoading" @click="showDownloadMenu" dense>
         <svgicon icon="system/actions/download" width="24" height="24" color="#2b6a73"></svgicon>
       </mdc-button>
       <mdc-menu ref="downloadMenu" @select="onSelectDownload">
@@ -54,9 +54,7 @@
       </mdc-menu>
     </mdc-menu-anchor>
 
-
-
-    <mdc-button :title="saveBtnTitle" class="action-btn" dense
+    <mdc-button v-tooltip="saveBtnTitle" class="action-btn" dense
       :disabled="!isLoggedIn || !hasChanges || (isLoggedIn && isLoading)" @click="uploadProjectToGH"
     >
       <svgicon icon="system/actions/cloud_off" v-if="!isLoggedIn"
@@ -69,13 +67,15 @@
         width="24" height="24" color="rgba(0,0,0,.38)">
       </svgicon>
     </mdc-button>
+
+    <div class="separator"></div>
   </div>
 </template>
 
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import { uploadProjectToGH, downloadProject, downloadVueSources, loadVueggProject, clearProject } from '@/store/types'
+import { uploadProjectToGH, downloadProject, downloadVueSources, loadVueggProject } from '@/store/types'
 import redoundo from '@/mixins/redoundo'
 
 import '@/assets/icons/system/actions'
@@ -128,15 +128,10 @@ export default {
       const GITHUB = 2
 
       switch (selected.index) {
+        case GITHUB: this.$root.$emit('open-load-dialog'); break
         case PC:
           this.fileValue = null
           this.$refs.inputOpenLocal.click()
-          break
-        case GITHUB:
-          // show popup to fill in userName/repoName
-          let userName = 'vuegger'
-          let repoName = 'momo-mo'
-          this.loadVueggProject({origin: 'github', userName, repoName})
           break
       }
     },
@@ -149,7 +144,7 @@ export default {
       reader.readAsText(file)
     },
 
-    ...mapActions([uploadProjectToGH, downloadProject, downloadVueSources, loadVueggProject, clearProject])
+    ...mapActions([uploadProjectToGH, downloadProject, downloadVueSources, loadVueggProject])
   }
 }
 </script>

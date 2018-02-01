@@ -27,6 +27,7 @@ module.exports = {
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
+    // Development backend server
     proxyTable: {
       '/api': {
         target: 'http://localhost:5000',
