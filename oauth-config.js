@@ -1,7 +1,6 @@
 const inquirer = require('inquirer')
 const shell = require('shelljs')
-
-require('dotenv').config()
+const dotenv = require('dotenv')
 
 const setupQuestions = [
   {
@@ -11,13 +10,19 @@ const setupQuestions = [
     choices: [
       'client',
       'server',
-      'start',
-      'vuegg'
+      new inquirer.Separator(),
+      'vuegg:test'
     ]
   }
 ]
 
 inquirer.prompt(setupQuestions).then(answers => {
+  if (answers.runScript === 'vuegg:test') {
+    dotenv.config({path: '.env.test'})
+  } else {
+    dotenv.config({path: '.env.dev'})
+  }
+
   const execCommand = 'CLIENT_ID='.concat(process.env.CLIENT_ID)
     .concat(' CLIENT_SECRET=').concat(process.env.CLIENT_SECRET)
     .concat(' CALLBACK_URL=').concat(process.env.CALLBACK_URL)

@@ -1,6 +1,7 @@
 <template>
   <div id="layout-container" class="mdc-theme--background">
     <div id="app">
+      <mdc-linear-progress v-show="loading" class="linear-loader" accent indeterminate></mdc-linear-progress>
       <headegg :scroll0="notScrolled"></headegg>
 
       <drawegg></drawegg>
@@ -9,7 +10,6 @@
         <router-view></router-view>
       </main>
 
-      <mdc-linear-progress v-show="loading" class="loader" accent indeterminate></mdc-linear-progress>
       <page-dialog></page-dialog>
       <block-loader></block-loader>
       <mdc-snackbar :dismisses-on-action="false"/>
@@ -73,13 +73,13 @@ export default {
   height: 100%;
 }
 
-.loader {
+.linear-loader {
   top: 0;
   left: 0;
-  height: 2px;
   width: 100%;
-  position: absolute;
   z-index: 1001;
+  height: 2px !important;
+  position: absolute !important;
 }
 
 #app {
