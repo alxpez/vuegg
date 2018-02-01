@@ -23,7 +23,7 @@
     <div class="separator"></div>
 
     <mdc-button title="Clear project" class="action-btn" dense
-      :disabled="isLoading" @click="clearProject">
+      :disabled="isLoading" @click="$root.$emit('open-confirm-dialog')">
       <svgicon icon="system/actions/delete" width="24" height="24" color="#2b6a73"></svgicon>
     </mdc-button>
 
@@ -38,7 +38,7 @@
           <input type="file" ref="inputOpenLocal" @change="openLocalFile" :value="fileValue" accept=".gg"/>
           Computer
         </mdc-menu-item>
-        <mdc-menu-item :disabled="true">GitHub</mdc-menu-item>
+        <mdc-menu-item :disabled="!isLoggedIn">GitHub</mdc-menu-item>
       </mdc-menu>
     </mdc-menu-anchor>
 
@@ -75,7 +75,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import { uploadProjectToGH, downloadProject, downloadVueSources, loadVueggProject, clearProject } from '@/store/types'
+import { uploadProjectToGH, downloadProject, downloadVueSources, loadVueggProject } from '@/store/types'
 import redoundo from '@/mixins/redoundo'
 
 import '@/assets/icons/system/actions'
@@ -128,15 +128,10 @@ export default {
       const GITHUB = 2
 
       switch (selected.index) {
+        case GITHUB: this.$root.$emit('open-load-dialog'); break
         case PC:
           this.fileValue = null
           this.$refs.inputOpenLocal.click()
-          break
-        case GITHUB:
-          // show popup to fill in userName/repoName
-          let userName = 'vuegger'
-          let repoName = 'momo-mo'
-          this.loadVueggProject({origin: 'github', userName, repoName})
           break
       }
     },
@@ -149,7 +144,7 @@ export default {
       reader.readAsText(file)
     },
 
-    ...mapActions([uploadProjectToGH, downloadProject, downloadVueSources, loadVueggProject, clearProject])
+    ...mapActions([uploadProjectToGH, downloadProject, downloadVueSources, loadVueggProject])
   }
 }
 </script>

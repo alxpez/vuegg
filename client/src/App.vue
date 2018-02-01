@@ -11,6 +11,9 @@
       </main>
 
       <page-dialog></page-dialog>
+      <load-dialog></load-dialog>
+      <confirm-dialog></confirm-dialog>
+
       <block-loader></block-loader>
       <mdc-snackbar :dismisses-on-action="false"/>
     </div>
@@ -23,12 +26,14 @@ import { loadVueggProject, checkAuth, checkLastSaved, rebaseSelectedElements } f
 
 import Headegg from '@/components/header'
 import Drawegg from '@/components/drawer'
-import PageDialog from '@/components/drawer/pages/PageDialog'
 import BlockLoader from '@/components/common/BlockLoader'
+import PageDialog from '@/components/dialogs/PageDialog'
+import LoadDialog from '@/components/dialogs/LoadDialog'
+import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
 
 export default {
   name: 'app',
-  components: { Headegg, Drawegg, PageDialog, BlockLoader },
+  components: { Headegg, Drawegg, BlockLoader, PageDialog, LoadDialog, ConfirmDialog },
   data: function () {
     return {
       notScrolled: true
@@ -73,20 +78,10 @@ export default {
   height: 100%;
 }
 
-.linear-loader {
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1001;
-  height: 2px !important;
-  position: absolute !important;
-}
-
 #app {
   font-family: 'Roboto', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
   width: 100%;
   height: 100%;
   display: flex;
@@ -112,5 +107,36 @@ export default {
   #main {
     margin: 0px;
   }
+}
+dialog {
+  width: 320px !important;
+  border: none !important;
+  box-shadow:
+    0 9px 46px 8px rgba(0,0,0,.14),
+    0 11px 15px -7px rgba(0,0,0,.12),
+    0 24px 38px 3px rgba(0,0,0,.2);
+}
+
+dialog, dialog::backdrop {
+  animation-name: anim-open;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes anim-open {
+	0% { opacity: 0; transform: scale3d(1.1, 1.1, 1); }
+	100% { opacity: 1; transform: scale3d(1, 1, 1); }
+}
+</style>
+
+
+<style scoped>
+.linear-loader {
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1001;
+  height: 2px !important;
+  position: absolute !important;
 }
 </style>
