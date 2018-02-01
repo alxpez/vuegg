@@ -14,13 +14,13 @@
     "server": "cd server && npm run dev",
     "build": "cd client && npm run build",
     "start": "cd server && npm run start",
-    "now-build": "npm run install:all",
+    "now-build": "npm run install:server",
     "deploy:test": "npm run build && now -f -p",
     "deploy:prod": "npm run build && now -f -p && now alias && now scale vuegg.now.sh 1"
   },
   "now": {
     "alias": "vuegg",
-    "dotenv": ".env.prod"
+    "dotenv": true
   },
   "engines": {
     "node": ">= 8.0.0",
