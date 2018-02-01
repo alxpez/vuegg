@@ -1,0 +1,31 @@
+README.md:
+  - PROJECT_TITLE: String
+
+package.json:
+  - PROJECT_NAME: String
+  - DEPENDENCIES: '"name": "version"' # OPTIONAL
+
+index.hmtl:
+  - PROJECT_TITLE: String
+  - STYLE_IMPORTS: "<link rel="stylesheet" href="StyleImport.css" type="text/css">" # OPTIONAL
+  - SCRIPT_IMPORTS: "<script src="ScriptImport.js"></script>" # OPTIONAL
+
+src/main.js:
+  - PACKAGES_IMPORTS: "import Package1 from 'package1'" # OPTIONAL
+  - PACKAGES_USE: "Vue.use(Package1)" # OPTIONAL
+
+# Copy to src/router/index.js and replace the following
+templates/router/index.js:
+  - PAGES_IMPORTS: "import Page1 from '@/pages/Page1'"
+  - ROUTES_DECLARATIONS: "{ path: '/page1', name: 'Page 1', component: Page1 }"
+
+# Copy to src/{pages|components}/{name}.vue and replace the following
+templates/vue/default.vue:
+  - PARENT_TAG: String
+  - VUEGG_ID: String
+  - VUEGG_ATTRS: String
+  - VUEGG_NAME: String
+  - VUEGG_CHILDREN: "<vuegg></vuegg>" # OPTIONAL
+  - VUEGG_STYLES: "#vuegg {/**/}" # OPTIONAL
+  - COMPONENTS_IMPORTS: "import Comp1 from '@/components/Comp1'" # OPTIONAL
+  - COMPONENTS_DECLARATIONS: ", components: { Comp1 }" # OPTIONAL

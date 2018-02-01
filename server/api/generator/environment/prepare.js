@@ -1,6 +1,5 @@
 const path = require('path')
 const shell = require('shelljs')
-const Git = require('nodegit')
 
 /**
  * Prepares the environment and clones the scaffold-project for the generation tasks.
@@ -15,6 +14,7 @@ const Git = require('nodegit')
  * @return {string} : Folder that will host the generated app for the given content
  */
 async function _prepare (content, rootDir) {
+  const scaffoldDir = path.resolve(rootDir, 'scaffold', '*')
   const tmpDir = path.resolve(rootDir, 'tmp')
   const targetDir = path.resolve(tmpDir, content.id)
 
@@ -33,10 +33,16 @@ async function _prepare (content, rootDir) {
     process.exit(1)
   }
 
-  let repo = 'https://gitlab.com/alxpez/vuegg-scaffold.git'
+  // let repo = 'https://gitlab.com/alxpez/vuegg-scaffold.git'
+  //
+  // try {
+  //   await Git.Clone(repo, targetDir)
+  // } catch (e) {
+  //   console.error('\n> Ups! Could not complete the scaffolding...\n' + e)
+  // }
 
   try {
-    await Git.Clone(repo, targetDir)
+    await shell.cp('-Rf', scaffoldDir, targetDir)
   } catch (e) {
     console.error('\n> Ups! Could not complete the scaffolding...\n' + e)
   }
