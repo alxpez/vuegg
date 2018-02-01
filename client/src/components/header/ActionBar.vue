@@ -4,31 +4,31 @@
       <svgicon icon="system/actions/sync" width="24" height="24" color="rgba(0,0,0,.38)"></svgicon>
     </mdc-button>
 
-    <mdc-button title="Undo" class="action-btn" :disabled="!canUndo" @click="undo" dense>
+    <mdc-button v-tooltip="'Undo'" class="action-btn" :disabled="!canUndo" @click="undo" dense>
       <svgicon icon="system/actions/undo" width="24" height="24"
         :color="canUndo ? '#2b6a73': 'rgba(0,0,0,.38)'">
       </svgicon>
     </mdc-button>
 
-    <mdc-button title="Redo" class="action-btn" :disabled="!canRedo" @click="redo" dense>
+    <mdc-button v-tooltip="'Redo'" class="action-btn" :disabled="!canRedo" @click="redo" dense>
       <svgicon icon="system/actions/redo" width="24" height="24"
         :color="canRedo ? '#2b6a73': 'rgba(0,0,0,.38)'">
       </svgicon>
     </mdc-button>
 
-    <mdc-button title="Preview" class="action-btn" dense :disabled="true">
+    <mdc-button v-tooltip="'Preview'" class="action-btn" dense :disabled="true">
       <svgicon icon="system/actions/preview" width="24" height="24" color="rgba(0,0,0,.38)"></svgicon>
     </mdc-button>
 
     <div class="separator"></div>
 
-    <mdc-button title="Clear project" class="action-btn" dense
+    <mdc-button v-tooltip="'Clear project'" class="action-btn" dense
       :disabled="isLoading" @click="$root.$emit('open-confirm-dialog')">
       <svgicon icon="system/actions/delete" width="24" height="24" color="#2b6a73"></svgicon>
     </mdc-button>
 
     <mdc-menu-anchor>
-      <mdc-button title="Open" class="action-btn" :disabled="isLoading" @click="showLoadFromMenu" dense>
+      <mdc-button v-tooltip="'Open...'" class="action-btn" :disabled="isLoading" @click="showLoadFromMenu" dense>
         <svgicon icon="system/actions/folder" width="24" height="24" color="#2b6a73"></svgicon>
       </mdc-button>
       <mdc-menu ref="loadFromMenu" @select="onSelectLoadFrom">
@@ -43,7 +43,7 @@
     </mdc-menu-anchor>
 
     <mdc-menu-anchor>
-      <mdc-button title="Download" class="action-btn" :disabled="isLoading" @click="showDownloadMenu" dense>
+      <mdc-button v-tooltip="'Download...'" class="action-btn" :disabled="isLoading" @click="showDownloadMenu" dense>
         <svgicon icon="system/actions/download" width="24" height="24" color="#2b6a73"></svgicon>
       </mdc-button>
       <mdc-menu ref="downloadMenu" @select="onSelectDownload">
@@ -54,9 +54,7 @@
       </mdc-menu>
     </mdc-menu-anchor>
 
-
-
-    <mdc-button :title="saveBtnTitle" class="action-btn" dense
+    <mdc-button v-tooltip="saveBtnTitle" class="action-btn" dense
       :disabled="!isLoggedIn || !hasChanges || (isLoggedIn && isLoading)" @click="uploadProjectToGH"
     >
       <svgicon icon="system/actions/cloud_off" v-if="!isLoggedIn"
@@ -69,6 +67,8 @@
         width="24" height="24" color="rgba(0,0,0,.38)">
       </svgicon>
     </mdc-button>
+
+    <div class="separator"></div>
   </div>
 </template>
 

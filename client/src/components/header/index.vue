@@ -5,7 +5,7 @@
     </button>
 
     <input class="title-input" v-model="tmpProjectTitle" @blur="onTitleBlur"
-      title="Title of your project" placeholder="Project title"/>
+      title="Project title" placeholder="Project title"/>
 
     <div class="spacer"></div>
     <action-bar></action-bar>

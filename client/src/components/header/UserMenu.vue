@@ -17,7 +17,7 @@
       </mdc-menu>
     </mdc-menu-anchor>
 
-    <button class="avatar-btn" v-if="!loggedUser" @click="logIn" :disabled="!loginBtnEnabled" title="Login with GitHub" >
+    <button class="avatar-btn" v-if="!loggedUser" @click="logIn" :disabled="!loginBtnEnabled" v-tooltip="'Login with GitHub'" >
       <svgicon icon="system/gh_logo" width="100%" height="100%"
         :color="loginBtnEnabled ? '#2b6a73': 'rgba(0,0,0,.38)'">
       </svgicon>
