@@ -33,6 +33,7 @@
     "shortid": "^2.2.8",
     "vue": "^2.5.9",
     "vue-color": "^2.4.3",
+    "vue-directive-tooltip": "^1.4.2",
     "vue-mdc-adapter": "^0.9.0",
     "vue-router": "^2.8.1",
     "vuex": "^2.5.0"

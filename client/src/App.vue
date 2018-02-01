@@ -108,6 +108,21 @@ export default {
     margin: 0px;
   }
 }
+
+.vue-tooltip.tooltip-vuegg {
+  font-family: 'Roboto', Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  z-index: 1500;
+  border-radius: 3px;
+  background-color: #616161;
+  box-shadow:
+    0 1px 3px rgba(0,0,0,0.12),
+    0 1px 2px rgba(0,0,0,0.24);
+}
+.vue-tooltip.tooltip-vuegg .tooltip-arrow {
+    border-color: #616161;
+}
+
 dialog {
   width: 320px !important;
   border: none !important;
