@@ -56,11 +56,17 @@ const projectActions = {
     const projectB64 = btoa(JSON.stringify(project))
     localforage.setItem('gh-last-saved', projectB64)
 
-    await api.saveVueggProject(project, owner, parsedRepoName, token)
-    await dispatch(types.checkLastSaved)
+    let resp = await api.saveVueggProject(project, owner, parsedRepoName, token)
+
+    if (resp) {
+      await dispatch(types.checkLastSaved)
+      showSnackbar('See your project in GitHub', 'Go', 'https://github.com/' + owner + '/' + parsedRepoName)
+    } else {
+      showSnackbar('Unable to save, please check your permissions',
+        'Review', 'https://github.com/settings/connections/applications/' + process.env.CLIENT_ID)
+    }
 
     commit(types._toggleLoadingStatus, false)
-    showSnackbar('See your project in GitHub', 'Go', 'https://github.com/' + owner + '/' + parsedRepoName)
   },
 
 /**
