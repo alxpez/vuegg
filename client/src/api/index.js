@@ -13,6 +13,7 @@ async function saveVueggProject (project, owner, repo, token) {
     return await axios.post('/api/save-vuegg-project', { project, owner, repo, token })
   } catch (e) {
     console.error(e)
+    return false
   }
 }
 
@@ -28,6 +29,7 @@ async function getVueggProject (owner, repo, token) {
     return await axios.get('/api/get-vuegg-project', { params: { owner, repo, token } })
   } catch (e) {
     console.error(e)
+    return false
   }
 }
 
@@ -41,6 +43,7 @@ async function generateVueSources (project) {
     return await axios.post('/api/generate', project, {responseType: 'blob'})
   } catch (e) {
     console.error(e)
+    return false
   }
 }
 

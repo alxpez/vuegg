@@ -1,4 +1,5 @@
 import localforage from 'localforage'
+import showSnackbar from '@/helpers/showSnackbar'
 import types from '@/store/types'
 import auth from '@/auth'
 
@@ -41,10 +42,10 @@ const authActions = {
         commit(types._addAuthenticatedUser, user)
         localforage.setItem('gh-user', user)
       } else {
-        console.error('user error')
+        showSnackbar('Unable to retrieve your GitHub information')
       }
     } else {
-      console.error('token error')
+      showSnackbar('Could not complete login process')
     }
 
     commit(types._toggleLoadingStatus, false)
@@ -57,17 +58,11 @@ const authActions = {
   [types.logOut]: async function ({ commit }) {
     commit(types._toggleLoadingStatus, true)
 
-    try {
-      await localforage.clear()
+    await localforage.clear()
+    commit(types._removeAuthenticatedUser)
+    commit(types._toggleAuthorizationStatus, false)
 
-      commit(types._removeAuthenticatedUser)
-      commit(types._toggleAuthorizationStatus, false)
-
-      commit(types._toggleLoadingStatus, false)
-    } catch (e) {
-      // show alert?
-      console.error('token error')
-    }
+    commit(types._toggleLoadingStatus, false)
   }
 }
 

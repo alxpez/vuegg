@@ -41,7 +41,7 @@ async function createRepo (name, token) {
   octokit.authenticate({type: 'oauth', token})
 
   try {
-    return await octokit.repos.create({name, auto_init: true, license_template: 'mit'})
+    return await octokit.repos.create({name, license_template: 'mit'})
   } catch (e) {
     console.error('(REPO) - Failed to create: ' + owner + '/' + name)
     console.error(e)
