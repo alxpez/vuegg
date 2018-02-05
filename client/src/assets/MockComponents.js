@@ -38,14 +38,13 @@ const MockComponents = [
         'type': 'button',
         'text': 'Search',
         'egglement': true,
+        'right': 0,
         'width': '30%',
         'minWidth': 32,
         'height': '100%',
         'minHeight': 32,
         'attrs': {},
-        'styles': {
-          'right': 0
-        },
+        'styles': {},
         'classes': {}
       }
     ]
