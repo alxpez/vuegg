@@ -31,7 +31,7 @@
 <script>
 import cloneDeep from 'clone-deep'
 import elementsFromPoint from '@/polyfills/elementsFromPoint'
-import { getRealDimension, fixElementToParentBounds } from '@/helpers/positionDimension'
+import { getComputedProp, fixElementToParentBounds } from '@/helpers/positionDimension'
 
 import { mapState, mapActions, mapMutations } from 'vuex'
 import { _clearSelectedElements, _addSelectedElements, registerElement,
@@ -103,8 +103,8 @@ export default {
       const mainContainer = document.getElementById('main')
       let element = JSON.parse(e.dataTransfer.getData('text/plain'))
 
-      let height = getRealDimension('height', element, this.page)
-      let width = getRealDimension('width', element, this.page)
+      let height = getComputedProp('height', element, this.page)
+      let width = getComputedProp('width', element, this.page)
       let top = e.pageY + mainContainer.scrollTop - mainContainer.offsetTop - this.$el.offsetTop - (height / 2)
       let left = e.pageX + mainContainer.scrollLeft - mainContainer.offsetLeft - this.$el.offsetLeft - (width / 2)
 
@@ -122,13 +122,15 @@ export default {
       this.page.children.forEach(childEl => {
         const child = (childEl.global) ? {...childEl, ...this.getComponentRef(childEl), id: childEl.id} : childEl
 
-        let childBottom = getRealDimension('height', child, this.page) + child.top
-        let childRight = getRealDimension('width', child, this.page) + child.left
+        let childTop = (child.top === 'auto') ? getComputedProp('top', child) : child.top
+        let childLeft = (child.left === 'auto') ? getComputedProp('left', child) : child.left
+        let childBottom = getComputedProp('height', child, this.page) + childTop
+        let childRight = getComputedProp('width', child, this.page) + childLeft
 
-        if (((child.top <= selectionBox.bottom) && (child.left <= selectionBox.right) &&
+        if (((childTop <= selectionBox.bottom) && (childLeft <= selectionBox.right) &&
             (childBottom >= selectionBox.top) && (childRight >= selectionBox.left)) ||
-            ((child.top <= selectionBox.bottom) && (childRight >= selectionBox.left) &&
-            (childBottom >= selectionBox.top) && (child.left <= selectionBox.right))) {
+            ((childTop <= selectionBox.bottom) && (childRight >= selectionBox.left) &&
+            (childBottom >= selectionBox.top) && (childLeft <= selectionBox.right))) {
           selectedElements.push(child)
         }
       })
