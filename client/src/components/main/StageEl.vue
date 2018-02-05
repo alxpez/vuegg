@@ -18,10 +18,12 @@ export default {
         ...elementO.styles,
         position: 'absolute',
         zIndex: elementO.zIndex,
-        left: elementO.left + 'px',
-        top: elementO.top + 'px',
-        width: (typeof elementO.width === 'string') ? elementO.width : (elementO.width + 'px'),
-        height: (typeof elementO.height === 'string') ? elementO.height : (elementO.height + 'px')
+        top: (typeof elementO.top === 'number') ? (elementO.top + 'px') : 'auto',
+        left: (typeof elementO.left === 'number') ? (elementO.left + 'px') : 'auto',
+        bottom: (typeof elementO.bottom === 'number') ? (elementO.bottom + 'px') : 'auto',
+        right: (typeof elementO.right === 'number') ? (elementO.right + 'px') : 'auto',
+        width: (typeof elementO.width === 'number') ? (elementO.width + 'px') : elementO.width,
+        height: (typeof elementO.height === 'number') ? (elementO.height + 'px') : elementO.height
       }
     }
 
@@ -60,6 +62,8 @@ export default {
         active: this.isActive,
         left: elementO.left,
         top: elementO.top,
+        right: elementO.right,
+        bottom: elementO.bottom,
         zIndex: elementO.zIndex,
         width: elementO.width,
         height: elementO.height,

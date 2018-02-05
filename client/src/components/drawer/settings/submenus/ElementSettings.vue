@@ -2,15 +2,20 @@
 <div>
   <menu-toggle menuHeader="General">
     <div class="menu menu--double-col">
-      <mdc-textfield v-model="h" label="Height (px)" dense
+      <mdc-textfield v-model="h" label="Height (px/%)" dense
         @input.native="e => emitChanges('height', e.target.value)"/>
-      <mdc-textfield v-model="w" label="Width (px)" dense
-        @input.native="e => emitChanges('width', e.target.value)"/>
+      <mdc-textfield v-model="w" label="Width (px/%)" dense
+         @input.native="e => emitChanges('width', e.target.value)"/>
 
       <mdc-textfield v-model="t" label="Top (px)" dense
         @input.native="e => emitChanges('top', e.target.value)"/>
       <mdc-textfield v-model="l" label="Left (px)" dense
         @input.native="e => emitChanges('left', e.target.value)"/>
+
+      <mdc-textfield v-model="b" label="Bottom (px)" dense
+        @input.native="e => emitChanges('bottom', e.target.value)"/>
+      <mdc-textfield v-model="r" label="Right (px)" dense
+        @input.native="e => emitChanges('right', e.target.value)"/>
     </div>
 
     <div class="menu menu--single-col">
@@ -162,13 +167,15 @@ import FontStyle from './controls/FontStyle'
 export default {
   name: 'element-settings',
   components: { MenuToggle, Slider, IconSelect, ColorPicker, StackOrder, TextAlign, FontStyle },
-  props: ['height', 'width', 'top', 'left', 'zIndex', 'text', 'styles', 'attrs'],
+  props: ['height', 'width', 'top', 'left', 'bottom', 'right', 'zIndex', 'text', 'styles', 'attrs'],
   data: function () {
     return {
       h: this.height,
       w: this.width,
       t: this.top,
       l: this.left,
+      b: this.bottom,
+      r: this.right,
       z: this.zIndex,
       txt: this.text,
       sty: cloneDeep(this.styles),
@@ -182,6 +189,8 @@ export default {
     'width' (val) { this.w = val.toString() },
     'top' (val) { this.t = val.toString() },
     'left' (val) { this.l = val.toString() },
+    'bottom' (val) { this.b = val.toString() },
+    'right' (val) { this.r = val.toString() },
     'zIndex' (val) { this.z = val },
     'text' (val) { this.txt = val },
     'styles' (val) { this.sty = cloneDeep(val) },

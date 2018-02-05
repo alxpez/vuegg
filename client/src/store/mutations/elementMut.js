@@ -28,6 +28,8 @@ const commonElementMutations = {
   [types.updateEgglement]: function (state, payload) {
     if ((typeof payload.left !== 'undefined') && (payload.left !== null)) payload.egglement.left = payload.left
     if ((typeof payload.top !== 'undefined') && (payload.top !== null)) payload.egglement.top = payload.top
+    if ((typeof payload.right !== 'undefined') && (payload.right !== null)) payload.egglement.right = payload.right
+    if ((typeof payload.bottom !== 'undefined') && (payload.bottom !== null)) payload.egglement.bottom = payload.bottom
     if ((typeof payload.zIndex !== 'undefined') && (payload.zIndex !== null)) payload.egglement.zIndex = payload.zIndex
     if ((typeof payload.height !== 'undefined') && (payload.height !== null)) payload.egglement.height = payload.height
     if ((typeof payload.width !== 'undefined') && (payload.width !== null)) payload.egglement.width = payload.width

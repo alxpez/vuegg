@@ -1,6 +1,6 @@
 import types from '@/store/types'
 import { setElId, getChildNode, getRelativePoint } from '@/helpers/recursiveMethods'
-import { fixElementToParentBounds } from '@/helpers/positionDimension'
+import { fixElementToParentBounds, getComputedProp } from '@/helpers/positionDimension'
 
 const elementActions = {
 /**
@@ -101,17 +101,20 @@ const elementActions = {
 
     if (
         payload.left !== egglement.left || payload.top !== egglement.top ||
+        payload.right !== egglement.right || payload.bottom !== egglement.bottom ||
         payload.height !== egglement.height || payload.width !== egglement.width
       ) {
       commit(types.updateEgglement, {
         egglement,
-        left: payload.left,
-        top: payload.top,
-        height: payload.height,
-        width: payload.width
+        left: (egglement.left !== 'auto') ? payload.left : null,
+        top: (egglement.top !== 'auto') ? payload.top : null,
+        bottom: (egglement.bottom !== 'auto') ? payload.bottom : null,
+        right: (egglement.right !== 'auto') ? payload.right : null,
+        height: (egglement.height !== 'auto') ? payload.height : null,
+        width: (egglement.width !== 'auto') ? payload.width : null
       })
 
-        // Remove old selected element and add the updated one
+      // Remove old selected element and add the updated one
       commit(types._removeSelectedElement, getters.getSelectedElIndexById(payload.elId))
       commit(types._addSelectedElement, egglement)
     }
@@ -142,7 +145,13 @@ const elementActions = {
     if (payload.parentId) {
       dispatch(types.changeElementParent, {...payload, page, egglement})
     } else if (payload.left !== egglement.left || payload.top !== egglement.top) {
-      commit(types.updateEgglement, {egglement, left: payload.left, top: payload.top})
+      commit(types.updateEgglement, {
+        egglement,
+        left: (egglement.left !== 'auto') ? payload.left : null,
+        top: (egglement.top !== 'auto') ? payload.top : null,
+        bottom: (egglement.bottom !== 'auto') ? payload.bottom : null,
+        right: (egglement.right !== 'auto') ? payload.right : null
+      })
 
         // Remove old selected element and add the updated one
       commit(types._removeSelectedElement, getters.getSelectedElIndexById(payload.elId))
@@ -172,6 +181,10 @@ const elementActions = {
       // To avoid reference problems (the oldSelected element will be different)
     commit(types._clearSelectedElements)
 
+    // Gets the computed dimensions before being take off the stage
+    let height = getComputedProp('height', payload.egglement)
+    let width = getComputedProp('width', payload.egglement)
+
       // OLD FAMILY business
     let oldParentId = payload.elId.substring(0, payload.elId.lastIndexOf('.'))
     let oldParent = getChildNode(payload.page, oldParentId)
@@ -188,13 +201,16 @@ const elementActions = {
       // Update relative position and dimensions of the element
     const relPoint = getRelativePoint(payload.page, payload.egglement.id, payload.mouseX, payload.mouseY)
 
-    let left = relPoint.left - (payload.egglement.width / 2)
-    let top = relPoint.top - (payload.egglement.height / 2)
-    let height = payload.egglement.height
-    let width = payload.egglement.width
+    let left = relPoint.left - (width / 2)
+    let top = relPoint.top - (height / 2)
 
-    const fixedElement = fixElementToParentBounds({top, left, height, width}, newParent)
-    commit(types.updateEgglement, {egglement: payload.egglement, ...fixedElement})
+    const fixedProps = fixElementToParentBounds({top, left, height, width}, newParent)
+    commit(types.updateEgglement, {
+      ...fixedProps,
+      egglement: payload.egglement,
+      bottom: 'auto',
+      right: 'auto'
+    })
   },
 
 /**

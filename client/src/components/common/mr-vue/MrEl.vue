@@ -32,18 +32,16 @@ export default {
     },
     width: {
       type: [String, Number],
-      default: 100,
+      default: 'auto',
       validator: function (val) {
-        let valid = (typeof val === 'string') ? val.indexOf('%') : val >= 0
-        return valid
+        return ((typeof val === 'string') ? (val.indexOf('%') || val === 'auto') : val >= 0)
       }
     },
     height: {
       type: [String, Number],
-      default: 100,
+      default: 'auto',
       validator: function (val) {
-        let valid = (typeof val === 'string') ? val.indexOf('%') : val >= 0
-        return valid
+        return ((typeof val === 'string') ? (val.indexOf('%') || val === 'auto') : val >= 0)
       }
     },
     minWidth: {
@@ -60,26 +58,39 @@ export default {
         return val > 0
       }
     },
-    left: {
-      type: Number,
+    top: {
+      type: [String, Number],
       default: 0,
       validator: function (val) {
-        return typeof val === 'number'
+        return ((typeof val === 'string') ? val === 'auto' : val >= 0)
       }
     },
-    top: {
-      type: Number,
+    bottom: {
+      type: [String, Number],
+      default: 'auto',
+      validator: function (val) {
+        return ((typeof val === 'string') ? val === 'auto' : val >= 0)
+      }
+    },
+    left: {
+      type: [String, Number],
       default: 0,
       validator: function (val) {
-        return typeof val === 'number'
+        return ((typeof val === 'string') ? val === 'auto' : val >= 0)
+      }
+    },
+    right: {
+      type: [String, Number],
+      default: 'auto',
+      validator: function (val) {
+        return ((typeof val === 'string') ? val === 'auto' : val >= 0)
       }
     },
     zIndex: {
       type: [ String, Number ],
       default: 'auto',
       validator: function (val) {
-        let valid = (typeof val === 'string') ? val === 'auto' : val >= 0
-        return valid
+        return ((typeof val === 'string') ? val === 'auto' : val >= 0)
       }
     },
     handles: {
@@ -96,17 +107,15 @@ export default {
 
     style () {
       return {
-        top: this.top + 'px',
-        left: this.left + 'px',
-        width: (typeof this.width === 'string')
-          ? 'calc(' + this.width + ' - ' + this.left + 'px)'
-          : (this.width + 'px'),
-        height: (typeof this.height === 'string')
-          ? 'calc(' + this.height + ' - ' + this.top + 'px)'
-          : (this.height + 'px'),
+        zIndex: this.zIndex,
         minWidth: this.minWidth + 'px',
         minHeight: this.minHeight + 'px',
-        zIndex: this.zIndex
+        top: (typeof this.top === 'number') ? (this.top + 'px') : 'auto',
+        left: (typeof this.left === 'number') ? (this.left + 'px') : 'auto',
+        bottom: (typeof this.bottom === 'number') ? (this.bottom + 'px') : 'auto',
+        right: (typeof this.right === 'number') ? (this.right + 'px') : 'auto',
+        width: (typeof this.width === 'number') ? (this.width + 'px') : this.width,
+        height: (typeof this.height === 'number') ? (this.height + 'px') : this.height
       }
     }
   }
