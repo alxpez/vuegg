@@ -101,6 +101,7 @@ const elementActions = {
 
     if (
         payload.left !== egglement.left || payload.top !== egglement.top ||
+        payload.right !== egglement.right || payload.bottom !== egglement.bottom ||
         payload.height !== egglement.height || payload.width !== egglement.width
       ) {
       commit(types.updateEgglement, {

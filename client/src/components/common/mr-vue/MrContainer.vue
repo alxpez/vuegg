@@ -134,12 +134,12 @@ export default {
       const elMinH = parseInt(elCompStyle.minHeight)
       const elMinW = parseInt(elCompStyle.minWidth)
 
-      let newHeight = parseInt(elCompStyle.height)
-      let newWidth = parseInt(elCompStyle.width)
       let newTop = el.offsetTop
       let newLeft = el.offsetLeft
       let newRight = parseInt(elCompStyle.right)
       let newBottom = parseInt(elCompStyle.bottom)
+      let newHeight = parseInt(elCompStyle.height)
+      let newWidth = parseInt(elCompStyle.width)
 
       let diffX = offX
       let diffY = offY
