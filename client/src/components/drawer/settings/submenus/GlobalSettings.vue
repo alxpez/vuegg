@@ -1,14 +1,11 @@
 <template>
 <div>
   <menu-toggle menuHeader="General">
-    <div class="menu menu--double-col">
-      <mdc-textfield v-model="t" label="Top (px)" dense
-        @input.native="e => emitChanges('top', e.target.value)"/>
-      <mdc-textfield v-model="l" label="Left (px)" dense
-        @input.native="e => emitChanges('left', e.target.value)"/>
-    </div>
+    <dim-pos :top="t" :bottom="b" :left="l" :right="r" :hasDim="false"
+      @change="({type, value}) => emitChanges(type, value)">
+    </dim-pos>
 
-    <div class="menu menu--single-col">
+    <div class="menu">
       <stack-order :zIndex="z"
         @change="newValue => emitChanges('zIndex', newValue)">
       </stack-order>
@@ -21,21 +18,26 @@
 <script>
 import MenuToggle from '@/components/common/MenuToggle'
 import StackOrder from './controls/StackOrder'
+import DimPos from './controls/DimPos'
 
 export default {
   name: 'global-settings',
-  components: { MenuToggle, StackOrder },
-  props: ['top', 'left', 'zIndex'],
+  components: { MenuToggle, StackOrder, DimPos },
+  props: ['top', 'left', 'bottom', 'right', 'zIndex'],
   data: function () {
     return {
       t: this.top,
       l: this.left,
+      b: this.bottom,
+      r: this.right,
       z: this.zIndex
     }
   },
   watch: {
     'top' (val) { this.t = val.toString() },
     'left' (val) { this.l = val.toString() },
+    'bottom' (val) { this.b = val.toString() },
+    'right' (val) { this.r = val.toString() },
     'zIndex' (val) { this.z = val }
   },
   methods: {
@@ -48,20 +50,12 @@ export default {
 
 
 <style scoped>
-.menu {
+.menu{
   width: 100%;
   height: 100%;
   margin: 1px;
   margin-bottom: 10px;
   display: grid;
+  grid-template-columns: repeat(1, 1fr);
 }
-  .menu--single-col {
-    grid-template-columns: repeat(1, 1fr);
-  }
-  .menu--double-col {
-    grid-template-columns: repeat(2, 1fr);
-  }
-    .menu--double-col * {
-      margin: 0 20px;
-    }
 </style>

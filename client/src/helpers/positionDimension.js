@@ -7,11 +7,11 @@
  * @return {object} : Object with clean/fixed top, left, height, width properties for the element
  */
 export function fixElementToParentBounds (element, parent) {
-  const parentH = getRealDimension('height', parent)
-  const parentW = getRealDimension('width', parent)
+  const parentH = getComputedProp('height', parent)
+  const parentW = getComputedProp('width', parent)
 
-  let height = getRealDimension('height', element, parent)
-  let width = getRealDimension('width', element, parent)
+  let height = getComputedProp('height', element, parent)
+  let width = getComputedProp('width', element, parent)
   let top = element.top
   let left = element.left
 
@@ -35,7 +35,7 @@ export function fixElementToParentBounds (element, parent) {
 }
 
 /**
- * Calculates the real dimension of an element,
+ * Calculates the computed prop of an element,
  * based on its own props and the parent props.
  *
  * (Specially created to deal with percentage dimensions)
@@ -45,14 +45,18 @@ export function fixElementToParentBounds (element, parent) {
  * @param {string} prop : Property for which to extract the dimension (height/width)
  * @return {number} : The real dimension for the element (height/width)
  */
-export function getRealDimension (prop, element, parent) {
-  return (
-    (!parent)
-      ? parseInt(window.getComputedStyle(document.getElementById(element.id))[prop])
-      : (typeof element[prop] !== 'string')
-        ? element[prop]
-        : (typeof parent[prop] !== 'string')
-          ? parent[prop] * parseInt(element[prop]) / 100
-          : parseInt(window.getComputedStyle(document.getElementById(parent.id))[prop]) * parseInt(element[prop]) / 100
-  )
+export function getComputedProp (prop, element, parent) {
+  if (prop === 'left' || prop === 'right' || prop === 'top' || prop === 'bottom') {
+    return parseInt(window.getComputedStyle(document.getElementById(element.id).parentNode)[prop])
+  } else {
+    return (
+      (!parent)
+        ? parseInt(window.getComputedStyle(document.getElementById(element.id))[prop])
+        : (typeof element[prop] !== 'string')
+          ? element[prop]
+          : (typeof parent[prop] !== 'string')
+            ? parent[prop] * parseInt(element[prop]) / 100
+            : parseInt(window.getComputedStyle(document.getElementById(parent.id))[prop]) * parseInt(element[prop]) / 100
+    )
+  }
 }

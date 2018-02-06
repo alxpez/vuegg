@@ -1,14 +1,11 @@
 <template>
 <div>
   <menu-toggle menuHeader="General">
-    <div class="menu menu--double-col">
-      <mdc-textfield v-model="h" label="Height (px)" dense
-        @input.native="e => emitChanges('height', e.target.value)"/>
-      <mdc-textfield v-model="w" label="Width (px)" dense
-        @input.native="e => emitChanges('width', e.target.value)"/>
-    </div>
+    <dim-pos :height="h" :width="w" :hasPos="false"
+      @change="({type, value}) => emitChanges(type, value)">
+    </dim-pos>
 
-    <div class="menu menu--single-col">
+    <div class="menu">
       <slider label="Opacity"
         icon="system/editor/opacity"
         min="0" max="1"
@@ -25,7 +22,7 @@
   </menu-toggle>
 
   <menu-toggle menuHeader="Material theme">
-    <div class="menu menu--single-col">
+    <div class="menu">
       <material-theme :primary="sty['--mdc-theme-primary']"
         :secondary="sty['--mdc-theme-secondary']"
         :background="sty['--mdc-theme-background']"
@@ -45,10 +42,11 @@ import Slider from './controls/Slider'
 import ColorPicker from './controls/ColorPicker'
 import MaterialTheme from './controls/MaterialTheme'
 import MenuToggle from '@/components/common/MenuToggle'
+import DimPos from './controls/DimPos'
 
 export default {
   name: 'page-settings',
-  components: { Slider, ColorPicker, MaterialTheme, MenuToggle },
+  components: { Slider, ColorPicker, MaterialTheme, MenuToggle, DimPos },
   props: ['height', 'width', 'styles'],
   data: function () {
     return {
@@ -77,20 +75,12 @@ export default {
 
 
 <style scoped>
-.menu {
+.menu{
   width: 100%;
   height: 100%;
   margin: 1px;
   margin-bottom: 10px;
   display: grid;
+  grid-template-columns: repeat(1, 1fr);
 }
-  .menu--single-col {
-    grid-template-columns: repeat(1, 1fr);
-  }
-  .menu--double-col {
-    grid-template-columns: repeat(2, 1fr);
-  }
-    .menu--double-col * {
-      margin: 0 20px;
-    }
 </style>

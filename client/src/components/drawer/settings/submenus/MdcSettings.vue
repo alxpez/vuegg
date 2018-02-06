@@ -1,19 +1,11 @@
 <template>
 <div>
   <menu-toggle menuHeader="General">
-    <div class="menu menu--double-col">
-      <mdc-textfield v-model="h" label="Height (px)" dense
-        @input.native="e => emitChanges('height', e.target.value)"/>
-      <mdc-textfield v-model="w" label="Width (px)" dense
-        @input.native="e => emitChanges('width', e.target.value)"/>
+    <dim-pos :height="h" :width="w" :top="t" :bottom="b" :left="l" :right="r"
+      @change="({type, value}) => emitChanges(type, value)">
+    </dim-pos>
 
-      <mdc-textfield v-model="t" label="Top (px)" dense
-        @input.native="e => emitChanges('top', e.target.value)"/>
-      <mdc-textfield v-model="l" label="Left (px)" dense
-        @input.native="e => emitChanges('left', e.target.value)"/>
-    </div>
-
-    <div class="menu menu--single-col">
+    <div class="menu">
       <slider label="Opacity"
         icon="system/editor/opacity"
         min="0" max="1"
@@ -28,7 +20,7 @@
   </menu-toggle>
 
   <menu-toggle menuHeader="Material theme">
-    <div class="menu menu--single-col">
+    <div class="menu">
       <material-theme :primary="sty['--mdc-theme-primary']"
         :secondary="sty['--mdc-theme-secondary']"
         :background="sty['--mdc-theme-background']"
@@ -38,7 +30,7 @@
   </menu-toggle>
 
   <menu-toggle menuHeader="Material props" :hidden="!Object.keys(att).length">
-    <div class="menu menu--single-col">
+    <div class="menu">
       <div v-for="(item, key, index) in attrs" :key="key">
         <mdc-checkbox v-if="typeof item === 'boolean'"
           class="text-item"
@@ -63,7 +55,7 @@
   </menu-toggle>
 
   <menu-toggle menuHeader="Text" :hidden="(typeof txt === 'undefined' || txt === null)">
-    <div class="menu menu--single-col">
+    <div class="menu">
       <text-align @change="newValue => onStyleChanges('text-align', newValue)"
         :textAlign="sty['text-align']">
       </text-align>
@@ -119,6 +111,7 @@ import StackOrder from './controls/StackOrder'
 import TextAlign from './controls/TextAlign'
 import FontStyle from './controls/FontStyle'
 import MaterialTheme from './controls/MaterialTheme'
+import DimPos from './controls/DimPos'
 
 export default {
   name: 'mdc-settings',
@@ -130,15 +123,18 @@ export default {
     StackOrder,
     TextAlign,
     FontStyle,
-    MaterialTheme
+    MaterialTheme,
+    DimPos
   },
-  props: ['height', 'width', 'top', 'left', 'zIndex', 'text', 'styles', 'attrs'],
+  props: ['height', 'width', 'top', 'left', 'bottom', 'right', 'zIndex', 'text', 'styles', 'attrs'],
   data: function () {
     return {
       h: this.height,
       w: this.width,
       t: this.top,
       l: this.left,
+      b: this.bottom,
+      r: this.right,
       z: this.zIndex,
       txt: this.text,
       sty: cloneDeep(this.styles),
@@ -151,6 +147,8 @@ export default {
     'width' (val) { this.w = val.toString() },
     'top' (val) { this.t = val.toString() },
     'left' (val) { this.l = val.toString() },
+    'bottom' (val) { this.b = val.toString() },
+    'right' (val) { this.r = val.toString() },
     'zIndex' (val) { this.z = val },
     'text' (val) { this.txt = val },
     'styles' (val) { this.sty = cloneDeep(val) },
@@ -176,24 +174,15 @@ export default {
 
 
 <style scoped>
-.menu {
+.menu{
   width: 100%;
   height: 100%;
   margin: 1px;
   margin-bottom: 10px;
   display: grid;
+  grid-template-columns: repeat(1, 1fr);
 }
-  .menu--single-col {
-    grid-template-columns: repeat(1, 1fr);
+  .menu .text-item {
+    margin: 0 20px 10px;
   }
-    .menu--single-col .text-item {
-      margin: 0 20px 10px;
-      display: flex;
-    }
-  .menu--double-col {
-    grid-template-columns: repeat(2, 1fr);
-  }
-    .menu--double-col * {
-      margin: 0 20px;
-    }
 </style>

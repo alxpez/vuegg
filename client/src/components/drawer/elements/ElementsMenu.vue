@@ -87,7 +87,7 @@ export default {
     },
 
     initItem (item) {
-      return { zIndex: 'auto', top: 0, left: 0, ...item }
+      return { zIndex: 'auto', top: 0, left: 0, bottom: 'auto', right: 'auto', ...item }
     },
 
     ...mapActions([registerElement])

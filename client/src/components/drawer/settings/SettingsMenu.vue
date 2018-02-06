@@ -13,23 +13,26 @@
     </page-settings>
 
     <global-settings v-if="(selectionType === 'global')"
-      :zIndex="zIndex" :top="top" :left="left"
+      :zIndex="zIndex" :top="top" :left="left" :bottom="bottom" :right="right"
       @propchange="onPropChange" >
     </global-settings>
 
     <component-settings v-if="(selectionType === 'component' || selectionType === 'multiple')"
-      :zIndex="zIndex" :top="top" :left="left" :height="height" :width="width" :styles="styles"
+      :top="top" :left="left" :bottom="bottom" :right="right"
+      :zIndex="zIndex" :height="height" :width="width" :styles="styles"
       @propchange="onPropChange" >
     </component-settings>
 
     <element-settings v-if="(selectionType === 'element')"
-      :zIndex="zIndex" :top="top" :left="left" :height="height" :width="width"
+      :top="top" :left="left" :bottom="bottom" :right="right"
+      :zIndex="zIndex" :height="height" :width="width"
       :text="text" :styles="styles" :attrs="attrs"
       @propchange="onPropChange">
     </element-settings>
 
     <mdc-settings v-if="(selectionType === 'mdc')"
-      :zIndex="zIndex" :top="top" :left="left" :height="height" :width="width"
+      :top="top" :left="left" :bottom="bottom" :right="right"
+      :zIndex="zIndex" :height="height" :width="width"
       :text="text" :styles="styles" :attrs="attrs"
       @propchange="onPropChange">
     </mdc-settings>
@@ -62,6 +65,8 @@ export default {
       width: null,
       top: null,
       left: null,
+      bottom: null,
+      right: null,
       zIndex: 'auto',
       attrs: {},
       styles: {},
@@ -121,11 +126,7 @@ export default {
       if (changeData.value === '') return
       let newValue = {}
 
-      if (changeData.type === 'height' || changeData.type === 'width') {
-        this[changeData.type] = newValue[changeData.type] = (changeData.value.indexOf('%') !== -1)
-          ? changeData.value
-          : parseInt(changeData.value)
-      } else if (changeData.type === 'top' || changeData.type === 'left') {
+      if (typeof changeData.value === 'string' && changeData.value.indexOf('%') === -1 && changeData.value !== 'auto') {
         this[changeData.type] = newValue[changeData.type] = parseInt(changeData.value)
       } else {
         this[changeData.type] = newValue[changeData.type] = changeData.value
@@ -154,6 +155,8 @@ export default {
           this.width = null
           this.top = null
           this.left = null
+          this.bottom = null
+          this.right = null
           this.zIndex = 'auto'
           this.text = null
           this.attrs = {}
@@ -164,6 +167,8 @@ export default {
           this.width = (typeof val.width !== 'undefined' && val.width !== null) ? val.width.toString() : null
           this.top = (typeof val.top !== 'undefined' && val.top !== null) ? val.top.toString() : null
           this.left = (typeof val.left !== 'undefined' && val.left !== null) ? val.left.toString() : null
+          this.bottom = (typeof val.bottom !== 'undefined' && val.bottom !== null) ? val.bottom.toString() : null
+          this.right = (typeof val.right !== 'undefined' && val.right !== null) ? val.right.toString() : null
           this.zIndex = (typeof val.zIndex !== 'undefined' && val.zIndex !== null) ? val.zIndex : 'auto'
           this.text = (val.text) ? val.text : null
           this.attrs = (val.attrs) ? cloneDeep(val.attrs) : {}

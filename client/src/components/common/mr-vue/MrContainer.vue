@@ -134,46 +134,68 @@ export default {
       const elMinH = parseInt(elCompStyle.minHeight)
       const elMinW = parseInt(elCompStyle.minWidth)
 
-      let newHeight = parseInt(elCompStyle.height)
-      let newWidth = parseInt(elCompStyle.width)
       let newTop = el.offsetTop
       let newLeft = el.offsetLeft
+      let newRight = parseInt(elCompStyle.right)
+      let newBottom = parseInt(elCompStyle.bottom)
+      let newHeight = parseInt(elCompStyle.height)
+      let newWidth = parseInt(elCompStyle.width)
 
       let diffX = offX
       let diffY = offY
 
       if (this.handle.indexOf('t') !== -1) {
-        if (newHeight - offY < elMinH) diffY = newHeight - elMinH
-        else if (newTop + offY < 0) diffY = 0 - newTop
+        if (newHeight - offY < elMinH) diffY = (newHeight - elMinH)
+        else if (newTop + offY < 0) diffY = (0 - newTop)
         newTop += diffY
         newHeight -= diffY
       }
       if (this.handle.indexOf('l') !== -1) {
-        if (newWidth - offX < elMinW) diffX = newWidth - elMinW
-        else if (newLeft + offX < 0) diffX = 0 - newLeft
+        if (newWidth - offX < elMinW) diffX = (newWidth - elMinW)
+        else if (newLeft + offX < 0) diffX = (0 - newLeft)
         newLeft += diffX
         newWidth -= diffX
       }
       if (this.handle.indexOf('b') !== -1) {
-        if (newHeight + offY < elMinH) diffY = elMinH - newHeight
-        else if (newTop + newHeight + offY > parentH) diffY = parentH - newTop - newHeight
+        if (newHeight + offY < elMinH) diffY = (elMinH - newHeight)
+        else if (newTop + newHeight + offY > parentH) diffY = (parentH - newTop - newHeight)
         newHeight += diffY
+        newBottom -= diffY
       }
       if (this.handle.indexOf('r') !== -1) {
-        if (newWidth + offX < elMinW) diffX = elMinW - newWidth
-        else if (newLeft + newWidth + offX > parentW) diffX = parentW - newLeft - newWidth
+        if (newWidth + offX < elMinW) diffX = (elMinW - newWidth)
+        else if (newLeft + newWidth + offX > parentW) diffX = (parentW - newLeft - newWidth)
         newWidth += diffX
+        newRight -= diffX
       }
 
-      el.style.top = newTop + 'px'
-      el.style.left = newLeft + 'px'
-      el.style.height = newHeight + 'px'
-      el.style.width = newWidth + 'px'
+      el.style.height = (el.style.height !== 'auto') ? (newHeight + 'px') : 'auto'
+      el.style.width = (el.style.width !== 'auto') ? newWidth + 'px' : 'auto'
+      el.style.top = (el.style.top !== 'auto') ? newTop + 'px' : 'auto'
+      el.style.left = (el.style.left !== 'auto') ? newLeft + 'px' : 'auto'
+      el.style.bottom = (el.style.bottom !== 'auto') ? newBottom + 'px' : 'auto'
+      el.style.right = (el.style.right !== 'auto') ? newRight + 'px' : 'auto'
     },
 
     moveElementBy (el, offX, offY) {
-      el.style.top = this.fixPosition(el, el.offsetTop + offY, 'top') + 'px'
-      el.style.left = this.fixPosition(el, el.offsetLeft + offX, 'left') + 'px'
+      const elCompStyle = window.getComputedStyle(el)
+
+      // Re-set height and width on move to preserve dimensions (due addition of bottom/right props)
+      el.style.height = el.style.height
+      el.style.width = el.style.width
+
+      el.style.top = (el.style.top !== 'auto')
+        ? this.fixPosition(el, el.offsetTop + offY, 'top') + 'px'
+        : 'auto'
+      el.style.left = (el.style.left !== 'auto')
+        ? this.fixPosition(el, el.offsetLeft + offX, 'left') + 'px'
+        : 'auto'
+      el.style.bottom = (el.style.bottom !== 'auto')
+        ? this.fixPosition(el, parseInt(elCompStyle.bottom) - offY, 'bottom') + 'px'
+        : 'auto'
+      el.style.right = (el.style.right !== 'auto')
+        ? this.fixPosition(el, parseInt(elCompStyle.right) - offX, 'right') + 'px'
+        : 'auto'
     },
 
     fixPosition (el, val, prop) {
@@ -182,10 +204,10 @@ export default {
       const parentCompStyle = window.getComputedStyle(this.getParentMr(el))
       const elCompStyle = window.getComputedStyle(el)
 
-      if ((prop === 'top') && (val + parseInt(elCompStyle.height) > parseInt(parentCompStyle.height))) {
+      if ((prop === 'top' || prop === 'bottom') && (val + parseInt(elCompStyle.height) > parseInt(parentCompStyle.height))) {
         return parseInt(parentCompStyle.height) - parseInt(elCompStyle.height)
       }
-      if ((prop === 'left') && (val + parseInt(elCompStyle.width) > parseInt(parentCompStyle.width))) {
+      if ((prop === 'left' || prop === 'right') && (val + parseInt(elCompStyle.width) > parseInt(parentCompStyle.width))) {
         return parseInt(parentCompStyle.width) - parseInt(elCompStyle.width)
       }
       return val
@@ -220,10 +242,13 @@ export default {
     moveStopData () {
       return {
         moveElData: this.mrElements.map(el => {
+          const elCompStyle = window.getComputedStyle(el)
           return {
             elId: el.childNodes[0].id,
             top: el.offsetTop,
-            left: el.offsetLeft
+            left: el.offsetLeft,
+            bottom: parseInt(elCompStyle.bottom),
+            right: parseInt(elCompStyle.right)
           }
         }),
         relMouseX: this.currentRelPos.x,
@@ -235,12 +260,17 @@ export default {
 
     resizeStopData () {
       return this.mrElements.map(el => {
+        const elCompStyle = window.getComputedStyle(el)
         return {
           elId: el.childNodes[0].id,
           top: el.offsetTop,
           left: el.offsetLeft,
-          height: (el.style.height.indexOf('%') !== -1) ? el.style.height : parseInt(el.style.height),
-          width: (el.style.width.indexOf('%') !== -1) ? el.style.width : parseInt(el.style.width)
+          bottom: parseInt(elCompStyle.bottom),
+          right: parseInt(elCompStyle.right),
+          height: (el.style.height.indexOf('%') !== -1 || el.style.height === 'auto')
+            ? el.style.height : parseInt(el.style.height),
+          width: (el.style.width.indexOf('%') !== -1 || el.style.width === 'auto')
+            ? el.style.width : parseInt(el.style.width)
         }
       })
     },
