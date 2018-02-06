@@ -124,10 +124,11 @@ export default {
       if (changeData.value === '') return
       let newValue = {}
 
-      this[changeData.type] = newValue[changeData.type] =
-        (isNaN(changeData.value) || changeData.value.indexOf('%') !== -1)
-          ? changeData.value
-          : parseInt(changeData.value)
+      if (typeof changeData.value === 'string' && changeData.value.indexOf('%') === -1 && changeData.value !== 'auto') {
+        this[changeData.type] = newValue[changeData.type] = parseInt(changeData.value)
+      } else {
+        this[changeData.type] = newValue[changeData.type] = changeData.value
+      }
 
       this.saveChanges(newValue)
     },
