@@ -1,24 +1,11 @@
 <template>
 <div>
   <menu-toggle menuHeader="General">
-    <div class="menu menu--double-col">
-      <mdc-textfield v-model="h" label="Height (px/%)" dense
-        @input.native="e => emitChanges('height', e.target.value)"/>
-      <mdc-textfield v-model="w" label="Width (px/%)" dense
-         @input.native="e => emitChanges('width', e.target.value)"/>
+    <dim-pos :height="h" :width="w" :top="t" :bottom="b" :left="l" :right="r"
+      @change="({type, value}) => emitChanges(type, value)">
+    </dim-pos>
 
-      <mdc-textfield v-model="t" label="Top (px)" dense
-        @input.native="e => emitChanges('top', e.target.value)"/>
-      <mdc-textfield v-model="l" label="Left (px)" dense
-        @input.native="e => emitChanges('left', e.target.value)"/>
-
-      <mdc-textfield v-model="b" label="Bottom (px)" dense
-        @input.native="e => emitChanges('bottom', e.target.value)"/>
-      <mdc-textfield v-model="r" label="Right (px)" dense
-        @input.native="e => emitChanges('right', e.target.value)"/>
-    </div>
-
-    <div class="menu menu--single-col">
+    <div class="menu">
       <slider label="Opacity"
         icon="system/editor/opacity"
         min="0" max="100" step="1"
@@ -39,12 +26,12 @@
   </menu-toggle>
 
   <menu-toggle menuHeader="Text" :hidden="hideTextSettings">
-    <div class="menu menu--single-col">
+    <div class="menu">
       <text-align @change="newValue => onStyleChanges('text-align', newValue)"
         :textAlign="sty['text-align']">
       </text-align>
 
-      <font-style @change="changeData => onStyleChanges(changeData.prop, changeData.value)"
+      <font-style @change="({prop, value}) => onStyleChanges(prop, value)"
         :fontWeight="sty['font-weight']"
         :fontStyle="sty['font-style']"
         :textDecoration="sty['text-decoration']">
@@ -84,21 +71,21 @@
   </menu-toggle>
 
   <menu-toggle menuHeader="Placeholder" :hidden="(typeof att.placeholder === 'undefined' || att.placeholder === null)">
-    <div class="menu menu--single-col">
+    <div class="menu">
       <mdc-textfield class="text-item" v-model="att.placeholder" label="Placeholder" dense
         @input.native="e => onAttrsChanges('placeholder', e.target.value)"/>
     </div>
   </menu-toggle>
 
   <menu-toggle menuHeader="Image" :hidden="(typeof att.src === 'undefined' || att.src === null)">
-    <div class="menu menu--single-col">
+    <div class="menu">
       <mdc-textfield class="text-item" v-model="att.src" label="Image URL" dense
         @input.native="e => onAttrsChanges('src', e.target.value)"/>
     </div>
   </menu-toggle>
 
   <menu-toggle menuHeader="Border">
-    <div class="menu menu--single-col">
+    <div class="menu">
       <icon-select class="text-item" :value="borderSelected"
         :icon="'system/editor/border' + borderSelected" label="Border"
         @change="newValue => borderSelected = newValue"
@@ -163,10 +150,11 @@ import ColorPicker from './controls/ColorPicker'
 import StackOrder from './controls/StackOrder'
 import TextAlign from './controls/TextAlign'
 import FontStyle from './controls/FontStyle'
+import DimPos from './controls/DimPos'
 
 export default {
   name: 'element-settings',
-  components: { MenuToggle, Slider, IconSelect, ColorPicker, StackOrder, TextAlign, FontStyle },
+  components: { MenuToggle, Slider, IconSelect, ColorPicker, StackOrder, TextAlign, FontStyle, DimPos },
   props: ['height', 'width', 'top', 'left', 'bottom', 'right', 'zIndex', 'text', 'styles', 'attrs'],
   data: function () {
     return {
@@ -222,23 +210,15 @@ export default {
 
 
 <style scoped>
-.menu {
+.menu{
   width: 100%;
   height: 100%;
   margin: 1px;
   margin-bottom: 10px;
   display: grid;
+  grid-template-columns: repeat(1, 1fr);
 }
-  .menu--single-col {
-    grid-template-columns: repeat(1, 1fr);
+  .menu .text-item {
+    margin: 0 20px 10px;
   }
-    .menu--single-col .text-item {
-      margin: 0 20px 10px;
-    }
-  .menu--double-col {
-    grid-template-columns: repeat(2, 1fr);
-  }
-    .menu--double-col * {
-      margin: 0 20px;
-    }
 </style>

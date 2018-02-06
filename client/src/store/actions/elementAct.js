@@ -246,6 +246,8 @@ function _componentInstance (component) {
     name: component.name,
     top: component.top,
     left: component.left,
+    bottom: component.bottom,
+    right: component.right,
     componegg: component.componegg,
     egglement: component.egglement,
     containegg: component.containegg

@@ -13,12 +13,13 @@
     </page-settings>
 
     <global-settings v-if="(selectionType === 'global')"
-      :zIndex="zIndex" :top="top" :left="left"
+      :zIndex="zIndex" :top="top" :left="left" :bottom="bottom" :right="right"
       @propchange="onPropChange" >
     </global-settings>
 
     <component-settings v-if="(selectionType === 'component' || selectionType === 'multiple')"
-      :zIndex="zIndex" :top="top" :left="left" :height="height" :width="width" :styles="styles"
+      :top="top" :left="left" :bottom="bottom" :right="right"
+      :zIndex="zIndex" :height="height" :width="width" :styles="styles"
       @propchange="onPropChange" >
     </component-settings>
 
@@ -30,7 +31,8 @@
     </element-settings>
 
     <mdc-settings v-if="(selectionType === 'mdc')"
-      :zIndex="zIndex" :top="top" :left="left" :height="height" :width="width"
+      :top="top" :left="left" :bottom="bottom" :right="right"
+      :zIndex="zIndex" :height="height" :width="width"
       :text="text" :styles="styles" :attrs="attrs"
       @propchange="onPropChange">
     </mdc-settings>
