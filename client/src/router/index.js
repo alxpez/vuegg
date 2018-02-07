@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Mainegg from '@/components/main'
-import NotFound from '@/components/404'
+import Editor from '@/views/Editor'
+import Preview from '@/views/Preview'
+import NotFound from '@/views/404'
 
 Vue.use(Router)
 
@@ -10,8 +11,12 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'main',
-      component: Mainegg
+      name: 'editor',
+      component: Editor
+    }, {
+      path: '/preview',
+      name: 'preview',
+      component: Preview
     }, {
       path: '/auth',
       redirect: { name: 'main' }

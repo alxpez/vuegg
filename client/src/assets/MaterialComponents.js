@@ -14,10 +14,10 @@ const MockComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.9.0',
+        'version': '^0.9.2',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.9.0/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.9.2/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
@@ -80,10 +80,10 @@ const MockComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.9.0',
+        'version': '^0.9.2',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.9.0/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.9.2/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
@@ -159,10 +159,10 @@ const MockComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.9.0',
+        'version': '^0.9.2',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.9.0/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.9.2/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
@@ -223,10 +223,10 @@ const MockComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.9.0',
+        'version': '^0.9.2',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.9.0/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.9.2/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
@@ -260,10 +260,10 @@ const MockComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.9.0',
+        'version': '^0.9.2',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.9.0/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.9.2/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
@@ -299,10 +299,10 @@ const MockComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.9.0',
+        'version': '^0.9.2',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.9.0/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.9.2/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
@@ -332,10 +332,10 @@ const MockComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.9.0',
+        'version': '^0.9.2',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.9.0/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.9.2/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
@@ -365,10 +365,10 @@ const MockComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.9.0',
+        'version': '^0.9.2',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.9.0/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.9.2/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
@@ -396,10 +396,10 @@ const MockComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.9.0',
+        'version': '^0.9.2',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.9.0/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.9.2/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
@@ -479,10 +479,10 @@ const MockComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.9.0',
+        'version': '^0.9.2',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.9.0/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.9.2/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
@@ -511,10 +511,10 @@ const MockComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.9.0',
+        'version': '^0.9.2',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.9.0/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.9.2/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
