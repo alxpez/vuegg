@@ -125,6 +125,8 @@ export default {
   font-weight: 500;
   padding: 24px 24px 0;
   margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .page-dialog__content {
