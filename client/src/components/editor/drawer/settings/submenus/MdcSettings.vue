@@ -41,7 +41,7 @@
         <slider v-else-if="typeof item === 'number'"
           :label="key"
           class="text-item"
-          min="1" max="100" step="1"
+          min="1" max="250" step="1"
           :value="att[key] || 100"
           @change="currentValue => onAttrsChanges(key, currentValue)">
         </slider>
@@ -184,5 +184,6 @@ export default {
 }
   .menu .text-item {
     margin: 0 20px 10px;
+    display: flex;
   }
 </style>
