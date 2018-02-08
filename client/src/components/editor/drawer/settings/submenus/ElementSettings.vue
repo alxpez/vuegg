@@ -64,23 +64,23 @@
 
       <mdc-textfield class="text-item" v-model="att.value" label="Text" dense
         v-if="(typeof att.value !== 'undefined' && att.value !== null)"
-        @input.native="e => onAttrsChanges('value', e.target.value)"/>
+        @blur="e => onAttrsChanges('value', e.target.value)"/>
       <mdc-textfield class="text-item" v-model="txt" label="Text" dense v-else
-        @input.native="e => emitChanges('text', e.target.value)"/>
+        @blur="e => emitChanges('text', e.target.value)"/>
     </div>
   </menu-toggle>
 
   <menu-toggle menuHeader="Placeholder" :hidden="(typeof att.placeholder === 'undefined' || att.placeholder === null)">
     <div class="menu">
       <mdc-textfield class="text-item" v-model="att.placeholder" label="Placeholder" dense
-        @input.native="e => onAttrsChanges('placeholder', e.target.value)"/>
+        @blur="e => onAttrsChanges('placeholder', e.target.value)"/>
     </div>
   </menu-toggle>
 
   <menu-toggle menuHeader="Image" :hidden="(typeof att.src === 'undefined' || att.src === null)">
     <div class="menu">
       <mdc-textfield class="text-item" v-model="att.src" label="Image URL" dense
-        @input.native="e => onAttrsChanges('src', e.target.value)"/>
+        @blur="e => onAttrsChanges('src', e.target.value)"/>
     </div>
   </menu-toggle>
 

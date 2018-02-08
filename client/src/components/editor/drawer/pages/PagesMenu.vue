@@ -5,7 +5,7 @@
            :class="{active: (page.id === activePage.id)}"
            @click="changePageIfNeeded(page)"
         >
-        <li class="pages-list__item">
+        <li v-tooltip.right="{content: page.name, delay: 0}" class="pages-list__item">
           <span class="pages-list-item__start-detail">
             <svgicon v-if="pageIndex === 0" icon="system/home" width="24" height="24"
               :color="(page.id === activePage.id)?'rgba(0,0,0,.87)':'rgba(0,0,0,.54)'">
@@ -16,7 +16,7 @@
           </span>
 
           <div>
-            <span class="pages-list-item__title" :title="page.name">{{page.name}}</span>
+            <span class="pages-list-item__title">{{page.name}}</span>
             <span class="pages-list-item__subtitle" v-show="(page.id === activePage.id)" :title="page.path">{{page.path}}</span>
           </div>
 

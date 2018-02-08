@@ -35,6 +35,24 @@ const internalAppMutations = {
  */
   [types._toggleIsSyncing]: function (state, isSyncing) {
     state.app.isSyncing = isSyncing
+  },
+
+/**
+ * Changes the value of "canUndo", to the value passed as payload
+ *
+ * @param {boolean} canUndo : Whether or not there are changes to undo
+ */
+  [types._toggleCanUndo]: function (state, canUndo) {
+    state.app.canUndo = canUndo
+  },
+
+/**
+ * Changes the value of "canRedo", to the value passed as payload
+ *
+ * @param {boolean} canRedo : Whether or not there are changes to redo
+ */
+  [types._toggleCanRedo]: function (state, canRedo) {
+    state.app.canRedo = canRedo
   }
 }
 

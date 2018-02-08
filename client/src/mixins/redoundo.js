@@ -1,5 +1,5 @@
 import cloneDeep from 'clone-deep'
-import { checkLastSaved } from '@/store/types'
+import { checkLastSaved, _toggleCanUndo, _toggleCanRedo } from '@/store/types'
 
 const MAX_HISTORY = 250
 
@@ -28,6 +28,7 @@ const redoundo = {
         this.undone = []
 
         // To display if changes had happened to the project
+        this.updateCanRedoUndo()
         this.$store.dispatch(checkLastSaved)
       }
     })
@@ -58,6 +59,7 @@ const redoundo = {
         let undoState = this.done[this.done.length - 1]
         this.$store.replaceState(cloneDeep(undoState))
         this.$root.$emit('rebaseState')
+        this.updateCanRedoUndo()
       }
     },
 
@@ -67,7 +69,13 @@ const redoundo = {
         this.done.push(redoState)
         this.$store.replaceState(cloneDeep(redoState))
         this.$root.$emit('rebaseState')
+        this.updateCanRedoUndo()
       }
+    },
+
+    updateCanRedoUndo () {
+      this.$store.commit(_toggleCanUndo, this.canUndo)
+      this.$store.commit(_toggleCanRedo, this.canRedo)
     }
   }
 }

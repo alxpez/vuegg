@@ -12,6 +12,9 @@ const projectActions = {
  * is the same as the last one saved in GH (also stored in local as base64)
  *
  * As an extra, saves the current b64 project in local as well (as a checkpoint)
+ *
+ * TODO: review all this check/save workflow since it may get real heavy
+ * (alternatives... check after certain time, if there's been changes?)
  */
   [types.checkLastSaved]: async function ({ state, dispatch, commit }) {
     const currentProjectB64 = btoa(JSON.stringify(state.project))

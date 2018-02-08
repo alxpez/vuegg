@@ -1,6 +1,8 @@
 <template>
-  <div class="preview" :style="previewStyle">
-    <prev-stage v-if="selectedPage" :page="selectedPage"></prev-stage>
+  <div class="preview__wrapper" :style="previewStyle">
+    <div class="preview">
+      <prev-stage v-if="selectedPage" :page="selectedPage"></prev-stage>
+    </div>
 
     <div class="action-bar__wrapper">
       <mdc-button v-tooltip="'phone'" class="action-btn" @click="breakpoint='sm'" dense>
@@ -67,7 +69,7 @@ export default {
       return (this.breakpoint === 'sm')
         ? {height: '640px', width: '360px', paddingTop: '32px'}
         : (this.breakpoint === 'md')
-          ? {height: '768px', width: '1024px', paddingTop: '24px'}
+          ? {height: '768px', width: '1024px', paddingTop: '12px'}
           : {height: '100%', width: '100%'}
     },
 
@@ -94,10 +96,19 @@ export default {
 
 
 <style scoped>
-.preview {
+.preview__wrapper {
   margin: auto;
-  overflow: scroll;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.preview {
+  height: 100%;
+  width: 100%;
+  overflow: scroll;
+
+  box-shadow:
+    0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12),
+    0 3px 1px -2px rgba(0, 0, 0, 0.2);
 }
 
 .action-bar__wrapper {

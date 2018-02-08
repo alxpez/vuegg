@@ -6,7 +6,9 @@ function newState (project) {
       isLoading: false,
       isBlockLoading: false,
       hasChanges: false,
-      isSyncing: true,
+      isSyncing: false,
+      canUndo: false,
+      canRedo: false,
       pageDialog: {
         isNew: true,
         isOpen: false

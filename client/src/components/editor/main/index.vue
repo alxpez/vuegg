@@ -15,7 +15,7 @@ export default {
   name: 'mainegg',
   components: { Stage },
   created: function () {
-    this.selectFallbackPage()
+    this.selectFallbackPage(this.selectedPage)
   },
   computed: {
     ...mapState({

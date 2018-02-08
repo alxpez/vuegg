@@ -7,9 +7,11 @@
 <script>
 import { mapActions, mapMutations } from 'vuex'
 import { loadVueggProject } from '@/store/types'
+import redoundo from '@/mixins/redoundo'
 
 export default {
   name: 'app',
+  mixins: [redoundo],
   mounted: function () {
     this.initializeState()
     this.loadVueggProject({origin: 'local'})
