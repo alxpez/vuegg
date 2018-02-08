@@ -4,13 +4,13 @@
       <svgicon icon="system/actions/sync" width="24" height="24" color="rgba(0,0,0,.38)"></svgicon>
     </mdc-button>
 
-    <mdc-button v-tooltip="'Undo'" class="action-btn" :disabled="!canUndo" @click="undo" dense>
+    <mdc-button v-tooltip="'Undo'" class="action-btn" :disabled="!canUndo" @click="$root.$emit('undo')" dense>
       <svgicon icon="system/actions/undo" width="24" height="24"
         :color="canUndo ? '#2b6a73' : 'rgba(0,0,0,.38)'">
       </svgicon>
     </mdc-button>
 
-    <mdc-button v-tooltip="'Redo'" class="action-btn" :disabled="!canRedo" @click="redo" dense>
+    <mdc-button v-tooltip="'Redo'" class="action-btn" :disabled="!canRedo" @click="$root.$emit('redo')" dense>
       <svgicon icon="system/actions/redo" width="24" height="24"
         :color="canRedo ? '#2b6a73' : 'rgba(0,0,0,.38)'">
       </svgicon>
@@ -78,13 +78,11 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import { uploadProjectToGH, downloadProject, downloadVueSources, loadVueggProject } from '@/store/types'
-import redoundo from '@/mixins/redoundo'
 
 import '@/assets/icons/system/actions'
 
 export default {
-  name: 'headegg',
-  mixins: [redoundo],
+  name: 'action-bar',
   data: function () {
     return {
       fileValue: null
@@ -103,6 +101,8 @@ export default {
       isLoading: state => state.app.isLoading,
       isSyncing: state => state.app.isSyncing,
       hasChanges: state => state.app.hasChanges,
+      canUndo: state => state.app.canUndo,
+      canRedo: state => state.app.canRedo,
       isLoggedIn: state => state.oauth.isAuthorized
     })
   },

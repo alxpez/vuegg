@@ -65,6 +65,8 @@ export const _toggleLoadingStatus = '_toggleLoadingStatus'
 export const _toggleBlockLoadingStatus = '_toggleBlockLoadingStatus'
 export const _toggleHasChanges = '_toggleHasChanges'
 export const _toggleIsSyncing = '_toggleIsSyncing'
+export const _toggleCanRedo = '_toggleCanRedo'
+export const _toggleCanUndo = '_toggleCanUndo'
 
 export const _togglePageDialog = '_togglePageDialog'
 export const _changeActivePage = '_changeActivePage'
@@ -140,6 +142,8 @@ const types = {
   _toggleBlockLoadingStatus,
   _toggleHasChanges,
   _toggleIsSyncing,
+  _toggleCanRedo,
+  _toggleCanUndo,
 
   _togglePageDialog,
   _changeActivePage,
