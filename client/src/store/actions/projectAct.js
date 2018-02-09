@@ -45,25 +45,28 @@ const projectActions = {
   },
 
 /**
- * [description]
- * @return {[type]} [description]
+ * Uploads the vuegg project definition to github
+ * and saves one copy in local storage
+ *
+ * @param  {string} repoName : name of the repository where to save the vuegg project
  */
-  [types.uploadProjectToGH]: async function ({ state, dispatch, commit }) {
+  [types.uploadProjectToGH]: async function ({ state, dispatch, commit }, { repoName }) {
     commit(types._toggleLoadingStatus, true)
 
     const token = await localforage.getItem('gh-token')
     const project = state.project
     const owner = state.oauth.authenticatedUser.login
-    const parsedRepoName = project.title.replace(/[^a-zA-Z0-9-_]+/g, '-')
+    // repoNameconst parsedRepoName = project.title.replace(/[^a-zA-Z0-9-_]+/g, '-')
 
     const projectB64 = btoa(JSON.stringify(project))
     localforage.setItem('gh-last-saved', projectB64)
+    localforage.setItem('gh-repo-name', repoName)
 
-    let resp = await api.saveVueggProject(project, owner, parsedRepoName, token)
+    let resp = await api.saveVueggProject(project, owner, repoName, token)
 
     if (resp) {
       await dispatch(types.checkLastSaved)
-      showSnackbar('See your project in GitHub', 'Go', 'https://github.com/' + owner + '/' + parsedRepoName)
+      showSnackbar('See your project in GitHub', 'Go', 'https://github.com/' + owner + '/' + repoName)
     } else {
       showSnackbar('Unable to save, please check your permissions',
         'Review', 'https://github.com/settings/connections/applications/' + process.env.CLIENT_ID)

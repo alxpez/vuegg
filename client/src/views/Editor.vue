@@ -12,6 +12,7 @@
 
       <page-dialog></page-dialog>
       <load-dialog></load-dialog>
+      <upload-dialog></upload-dialog>
       <confirm-dialog></confirm-dialog>
 
       <block-loader></block-loader>
@@ -30,11 +31,12 @@ import Mainegg from '@/components/editor/main'
 import BlockLoader from '@/components/editor/common/BlockLoader'
 import PageDialog from '@/components/editor/dialogs/PageDialog'
 import LoadDialog from '@/components/editor/dialogs/LoadDialog'
+import UploadDialog from '@/components/editor/dialogs/UploadDialog'
 import ConfirmDialog from '@/components/editor/dialogs/ConfirmDialog'
 
 export default {
   name: 'editor',
-  components: { Headegg, Drawegg, Mainegg, BlockLoader, PageDialog, LoadDialog, ConfirmDialog },
+  components: { Headegg, Drawegg, Mainegg, BlockLoader, PageDialog, LoadDialog, UploadDialog, ConfirmDialog },
   data: function () {
     return {
       notScrolled: true
