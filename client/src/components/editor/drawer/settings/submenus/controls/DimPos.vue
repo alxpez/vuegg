@@ -2,34 +2,34 @@
 <div class="content-wrapper">
   <div v-if="hasDim" class="element-set element-set__left" :class="{'no-check': !hasPos}">
     <mdc-textfield v-model="h" label="Height" :disabled="(h === 'auto')" dense/>
-    <input v-if="hasPos" type="checkbox" :checked="!isNaN(h)" @change="onCheckChanges('height')"/>
+    <input v-if="hasPos" type="checkbox" :checked="!isNaN(parseInt(h))" @change="onCheckChanges('height')"/>
   </div>
 
   <div v-if="hasDim" class="element-set element-set__right" :class="{'no-check': !hasPos}">
     <mdc-textfield v-model="w" label="Width" :disabled="(w === 'auto')" dense/>
-    <input v-if="hasPos" type="checkbox" :checked="!isNaN(w)" @change="onCheckChanges('width')"/>
+    <input v-if="hasPos" type="checkbox" :checked="!isNaN(parseInt(w))" @change="onCheckChanges('width')"/>
   </div>
 
 
   <div v-if="hasPos" class="element-set element-set__left">
     <mdc-textfield v-model="t" label="Top" :disabled="(t === 'auto')" dense/>
-    <input type="checkbox" :checked="!isNaN(t)" @change="onCheckChanges('top')"/>
+    <input type="checkbox" :checked="!isNaN(parseInt(t))" @change="onCheckChanges('top')"/>
   </div>
 
   <div v-if="hasPos" class="element-set element-set__right">
     <mdc-textfield v-model="l" label="Left" :disabled="(l === 'auto')" dense/>
-    <input type="checkbox" :checked="!isNaN(l)" @change="onCheckChanges('left')"/>
+    <input type="checkbox" :checked="!isNaN(parseInt(l))" @change="onCheckChanges('left')"/>
   </div>
 
 
   <div v-if="hasPos" class="element-set element-set__left">
     <mdc-textfield v-model="b" label="Bottom" :disabled="(b === 'auto')" dense/>
-    <input type="checkbox" :checked="!isNaN(b)" @change="onCheckChanges('bottom')"/>
+    <input type="checkbox" :checked="!isNaN(parseInt(b))" @change="onCheckChanges('bottom')"/>
   </div>
 
   <div v-if="hasPos" class="element-set element-set__right">
     <mdc-textfield v-model="r" label="Right" :disabled="(r === 'auto')" dense/>
-    <input type="checkbox" :checked="!isNaN(r)" @change="onCheckChanges('right')"/>
+    <input type="checkbox" :checked="!isNaN(parseInt(r))" @change="onCheckChanges('right')"/>
   </div>
 </div>
 </template>
