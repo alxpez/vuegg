@@ -120,11 +120,12 @@ const projectActions = {
       case 'local': project = await localforage.getItem('local-checkpoint'); break
       case 'pc': project = content; break
       case 'github':
-        const token = await localforage.getItem('gh-token')
+        // const token = await localforage.getItem('gh-token')
         const owner = userName || state.oauth.authenticatedUser.login
         const repo = repoName || state.project.title.replace(/[^a-zA-Z0-9-_]+/g, '-')
 
-        let ghFile = await api.getVueggProject(owner, repo, token)
+        // let ghFile = await api.getVueggProject(owner, repo, token)
+        let ghFile = await api.getVueggProject(owner, repo)
 
         ghFile
           ? project = ghFile.data.data.content

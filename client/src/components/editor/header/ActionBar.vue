@@ -40,7 +40,7 @@
           <input type="file" ref="inputOpenLocal" @change="openLocalFile" :value="fileValue" accept=".gg"/>
           Computer
         </mdc-menu-item>
-        <mdc-menu-item :disabled="!isLoggedIn">GitHub</mdc-menu-item>
+        <mdc-menu-item>GitHub</mdc-menu-item>
       </mdc-menu>
     </mdc-menu-anchor>
 
