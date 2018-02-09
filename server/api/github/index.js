@@ -19,10 +19,11 @@ async function saveVueggProject ({project, owner, repo, token}) {
  * [getRepo description]
  * @param  {[type]} owner [description]
  * @param  {[type]} repo  [description]
+ * @param  {[type]} [token] [description]
  * @return {[type]}       [description]
  */
 async function getRepo (owner, repo, token) {
-  octokit.authenticate({type: 'oauth', token})
+  // octokit.authenticate({type: 'oauth', token})
 
   try {
     return await octokit.repos.get({owner, repo})
@@ -49,8 +50,16 @@ async function createRepo (name, token) {
   }
 }
 
+/**
+ * [getContent description]
+ * @param  {[type]} owner [description]
+ * @param  {[type]} repo  [description]
+ * @param  {[type]} path  [description]
+ * @param  {[type]} [token] [description]
+ * @return {[type]}       [description]
+ */
 async function getContent (owner, repo, path, token) {
-  octokit.authenticate({type: 'oauth', token})
+  // octokit.authenticate({type: 'oauth', token})
 
   try {
     return await octokit.repos.getContent({owner, repo, path})

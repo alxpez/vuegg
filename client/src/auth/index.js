@@ -5,7 +5,7 @@ import promisify from 'es6-promisify'
 
 const CLIENT_ID = process.env.CLIENT_ID
 const REDIRECT_URL = process.env.CALLBACK_URL
-const SCOPE = 'read:user repo'
+const SCOPE = 'read:user public_repo'
 
 const auth = {
   authorizeUser,
