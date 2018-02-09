@@ -60,7 +60,7 @@ export default {
         dialogPolyfill.registerDialog(this.$el)
       }
 
-      this.owner = this.loggedUser.login || ''
+      this.owner = this.loggedUser ? this.loggedUser.login : ''
       this.repo = await localforage.getItem('gh-repo-name') || this.projectTitle.replace(/[^a-zA-Z0-9-_]+/g, '-')
       this.$el.showModal()
     },

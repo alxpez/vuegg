@@ -151,7 +151,6 @@ export default {
     },
 
     arrowsHandler ({direction, shiftKey}) {
-      console.log(direction)
       if (this.selectedElements.length > 0) {
         let diff = shiftKey ? 10 : 1
 

@@ -72,7 +72,7 @@ export default {
         dialogPolyfill.registerDialog(this.$el)
       }
 
-      this.owner = this.loggedUser.login || ''
+      this.owner = this.loggedUser ? this.loggedUser.login : ''
       this.$el.showModal()
     },
 
