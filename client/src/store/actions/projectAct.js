@@ -73,8 +73,9 @@ const projectActions = {
   },
 
 /**
- * [description]
- * @return {[type]} [description]
+ * Downloads the current vuegg project definition as a .gg (base64 json) file
+ *
+ * @return {download} : [project-name].gg file containing the vuegg project definition
  */
   [types.downloadProject]: async function ({ state, dispatch, commit }) {
     commit(types._toggleLoadingStatus, true)
@@ -87,8 +88,9 @@ const projectActions = {
   },
 
 /**
- * [description]
- * @return {[type]} [description]
+ * Downloads the current vuegg project definition as a .zip file with the vuejs sources
+ *
+ * @return {download} [project-name].zip file containing the vuejs sources of the vuegg project
  */
   [types.downloadVueSources]: async function ({ state, dispatch, commit }) {
     commit(types._toggleBlockLoadingStatus, true)

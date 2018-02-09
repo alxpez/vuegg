@@ -12,6 +12,14 @@ const auth = {
   getAuthenticatedUser
 }
 
+/**
+ * Displays the login with GitHub screen to the user (as a popup or new tab),
+ * if everything ok, closes the login screen and retrieves an authentication token for the logged user.
+ *
+ * If something goes wrong in the process returns false.
+ *
+ * @return {string|false} : Returns the authentication token or false if something goes wrong
+ */
 async function authorizeUser () {
   const oauthOpen = promisify(open)
 
@@ -50,7 +58,7 @@ async function _getAccessToken (code) {
 /**
  * Retrieves the current authenticated user info
  *
- * @param  {[type]} token
+ * @param {string} token : Authentication token for the logged user
  * @return {object} Authenticated user
  */
 async function getAuthenticatedUser (token) {
