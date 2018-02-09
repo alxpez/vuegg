@@ -75,11 +75,10 @@ const elementActions = {
         let count = getters.getComponentRefByIndex(compIndex).usageCount
 
         count > 1
-            ? commit(types._updateComponentRef, {compIndex, newCount: count - 1})
-            : commit(types._removeComponentRef, compIndex)
+          ? commit(types._updateComponentRef, {compIndex, newCount: count - 1})
+          : commit(types._removeComponentRef, compIndex)
       }
     }
-
     commit(types.deleteEgglement, {parent, eggIndex})
   },
 
@@ -113,10 +112,6 @@ const elementActions = {
         height: (egglement.height !== 'auto') ? payload.height : null,
         width: (egglement.width !== 'auto') ? payload.width : null
       })
-
-      // Remove old selected element and add the updated one
-      commit(types._removeSelectedElement, getters.getSelectedElIndexById(payload.elId))
-      commit(types._addSelectedElement, egglement)
     }
   },
 
@@ -152,10 +147,6 @@ const elementActions = {
         bottom: (egglement.bottom !== 'auto') ? payload.bottom : null,
         right: (egglement.right !== 'auto') ? payload.right : null
       })
-
-        // Remove old selected element and add the updated one
-      commit(types._removeSelectedElement, getters.getSelectedElIndexById(payload.elId))
-      commit(types._addSelectedElement, egglement)
     }
   },
 

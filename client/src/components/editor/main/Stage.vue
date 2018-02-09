@@ -4,6 +4,7 @@
     :style="pageStyles"
     :class="[page.classes, {stage: true}]"
     :activeElements="selectedElements"
+    @arrows="arrowsHandler"
     @moving="movingHandler"
     @movestop="moveStopHandler"
     @resizestop="resizeStopHandler"
@@ -35,7 +36,7 @@ import { getComputedProp, fixElementToParentBounds } from '@/helpers/positionDim
 
 import { mapState, mapActions, mapMutations } from 'vuex'
 import { _clearSelectedElements, _addSelectedElements, registerElement,
-        removeElement, resizeElement, moveElement } from '@/store/types'
+        removeElement, resizeElement, moveElement, rebaseSelectedElements } from '@/store/types'
 
 import MrContainer from '@/components/editor/common/mr-vue/MrContainer'
 import StageEl from './StageEl'
@@ -146,6 +147,47 @@ export default {
 
     resizeStopHandler (resStopData) {
       resStopData.map(resElData => this.resizeElement({...resElData, pageId: this.page.id}))
+      this.rebaseSelectedElements()
+    },
+
+    arrowsHandler ({direction, shiftKey}) {
+      console.log(direction)
+      if (this.selectedElements.length > 0) {
+        let diff = shiftKey ? 10 : 1
+
+        let addedTop = 0
+        let addedBottom = 0
+        let addedLeft = 0
+        let addedRight = 0
+
+        switch (direction) {
+          case 'up': addedTop -= diff; addedBottom += diff; addedLeft = addedRight = null; break
+          case 'down': addedBottom -= diff; addedTop += diff; addedLeft = addedRight = null; break
+          case 'left': addedLeft -= diff; addedRight += diff; addedTop = addedBottom = null; break
+          case 'right': addedRight -= diff; addedLeft += diff; addedTop = addedBottom = null; break
+        }
+
+        this.selectedElements.map(el => {
+          let compTop = getComputedProp('top', el)
+          let compBottom = getComputedProp('bottom', el)
+          let compLeft = getComputedProp('left', el)
+          let compRight = getComputedProp('right', el)
+
+          let top = (addedTop && ((compTop + addedTop) >= 0) && ((compBottom + addedBottom) >= 0))
+            ? (compTop + addedTop) : null
+          let bottom = (addedBottom && ((compBottom + addedBottom) >= 0) && ((compTop + addedTop) >= 0))
+            ? (compBottom + addedBottom) : null
+          let left = (addedLeft && ((compLeft + addedLeft) >= 0) && ((compRight + addedRight) >= 0))
+            ? (compLeft + addedLeft) : null
+          let right = (addedRight && ((compRight + addedRight) >= 0) && ((compLeft + addedLeft) >= 0))
+            ? (compRight + addedRight) : null
+
+          if (top || bottom || left || right) {
+            this.moveElement({ elId: el.id, pageId: this.page.id, top, bottom, left, right })
+          }
+        })
+        this.rebaseSelectedElements()
+      }
     },
 
     movingHandler (absMouseX, absMouseY) {
@@ -165,6 +207,7 @@ export default {
         mouseY: moveStopData.relMouseY
       }))
 
+      this.rebaseSelectedElements()
       this.toggleDroppableCursor(false)
     },
 
@@ -193,7 +236,7 @@ export default {
         : document.documentElement.classList.remove('droppable')
     },
 
-    ...mapActions([registerElement, removeElement, resizeElement, moveElement]),
+    ...mapActions([rebaseSelectedElements, registerElement, removeElement, resizeElement, moveElement]),
     ...mapMutations([_clearSelectedElements, _addSelectedElements])
   }
 }
