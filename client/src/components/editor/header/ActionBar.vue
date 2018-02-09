@@ -40,7 +40,7 @@
           <input type="file" ref="inputOpenLocal" @change="openLocalFile" :value="fileValue" accept=".gg"/>
           Computer
         </mdc-menu-item>
-        <mdc-menu-item :disabled="!isLoggedIn">GitHub</mdc-menu-item>
+        <mdc-menu-item>GitHub</mdc-menu-item>
       </mdc-menu>
     </mdc-menu-anchor>
 
@@ -56,8 +56,8 @@
       </mdc-menu>
     </mdc-menu-anchor>
 
-    <mdc-button v-tooltip="saveBtnTitle" class="action-btn" dense
-      :disabled="!isLoggedIn || !hasChanges || (isLoggedIn && isLoading)" @click="uploadProjectToGH"
+    <mdc-button v-tooltip="saveBtnTitle" class="action-btn" @click="$root.$emit('open-upload-dialog')"
+      :disabled="!isLoggedIn || !hasChanges || (isLoggedIn && isLoading)" dense
     >
       <svgicon icon="system/actions/cloud_off" v-if="!isLoggedIn"
         width="24" height="24" color="rgba(0,0,0,.38)">
@@ -77,7 +77,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import { uploadProjectToGH, downloadProject, downloadVueSources, loadVueggProject } from '@/store/types'
+import { downloadProject, downloadVueSources, loadVueggProject } from '@/store/types'
 
 import '@/assets/icons/system/actions'
 
@@ -146,7 +146,7 @@ export default {
       reader.readAsText(file)
     },
 
-    ...mapActions([uploadProjectToGH, downloadProject, downloadVueSources, loadVueggProject])
+    ...mapActions([downloadProject, downloadVueSources, loadVueggProject])
   }
 }
 </script>

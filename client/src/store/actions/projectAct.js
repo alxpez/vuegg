@@ -45,25 +45,28 @@ const projectActions = {
   },
 
 /**
- * [description]
- * @return {[type]} [description]
+ * Uploads the vuegg project definition to github
+ * and saves one copy in local storage
+ *
+ * @param  {string} repoName : name of the repository where to save the vuegg project
  */
-  [types.uploadProjectToGH]: async function ({ state, dispatch, commit }) {
+  [types.uploadProjectToGH]: async function ({ state, dispatch, commit }, { repoName }) {
     commit(types._toggleLoadingStatus, true)
 
     const token = await localforage.getItem('gh-token')
     const project = state.project
     const owner = state.oauth.authenticatedUser.login
-    const parsedRepoName = project.title.replace(/[^a-zA-Z0-9-_]+/g, '-')
+    // repoNameconst parsedRepoName = project.title.replace(/[^a-zA-Z0-9-_]+/g, '-')
 
     const projectB64 = btoa(JSON.stringify(project))
     localforage.setItem('gh-last-saved', projectB64)
+    localforage.setItem('gh-repo-name', repoName)
 
-    let resp = await api.saveVueggProject(project, owner, parsedRepoName, token)
+    let resp = await api.saveVueggProject(project, owner, repoName, token)
 
     if (resp) {
       await dispatch(types.checkLastSaved)
-      showSnackbar('See your project in GitHub', 'Go', 'https://github.com/' + owner + '/' + parsedRepoName)
+      showSnackbar('See your project in GitHub', 'Go', 'https://github.com/' + owner + '/' + repoName)
     } else {
       showSnackbar('Unable to save, please check your permissions',
         'Review', 'https://github.com/settings/connections/applications/' + process.env.CLIENT_ID)
@@ -73,8 +76,9 @@ const projectActions = {
   },
 
 /**
- * [description]
- * @return {[type]} [description]
+ * Downloads the current vuegg project definition as a .gg (base64 json) file
+ *
+ * @return {download} : [project-name].gg file containing the vuegg project definition
  */
   [types.downloadProject]: async function ({ state, dispatch, commit }) {
     commit(types._toggleLoadingStatus, true)
@@ -87,8 +91,9 @@ const projectActions = {
   },
 
 /**
- * [description]
- * @return {[type]} [description]
+ * Downloads the current vuegg project definition as a .zip file with the vuejs sources
+ *
+ * @return {download} [project-name].zip file containing the vuejs sources of the vuegg project
  */
   [types.downloadVueSources]: async function ({ state, dispatch, commit }) {
     commit(types._toggleBlockLoadingStatus, true)
@@ -118,11 +123,12 @@ const projectActions = {
       case 'local': project = await localforage.getItem('local-checkpoint'); break
       case 'pc': project = content; break
       case 'github':
-        const token = await localforage.getItem('gh-token')
+        // const token = await localforage.getItem('gh-token')
         const owner = userName || state.oauth.authenticatedUser.login
         const repo = repoName || state.project.title.replace(/[^a-zA-Z0-9-_]+/g, '-')
 
-        let ghFile = await api.getVueggProject(owner, repo, token)
+        // let ghFile = await api.getVueggProject(owner, repo, token)
+        let ghFile = await api.getVueggProject(owner, repo)
 
         ghFile
           ? project = ghFile.data.data.content

@@ -1,12 +1,13 @@
 const octokit = require('@octokit/rest')()
 
 /**
- * [saveVueggProject description]
- * @param  {[type]} project [description]
- * @param  {[type]} owner   [description]
- * @param  {[type]} repo    [description]
- * @param  {[type]} token   [description]
- * @return {[type]}         [description]
+ * Saves the current vuegg project definition in the specify repository
+ *
+ * @param  {object} project : Project definition to be saved in the repository (as vue.gg)
+ * @param  {string} owner : Repository owner
+ * @param  {string} repo : Repository where to save the project definition
+ * @param  {string} token : Authentication token
+ * @return {object|false} : returns a JSON of the created file of false is something goes wrong
  */
 async function saveVueggProject ({project, owner, repo, token}) {
   let existingRepo = await getRepo(owner, repo, token)
@@ -19,10 +20,11 @@ async function saveVueggProject ({project, owner, repo, token}) {
  * [getRepo description]
  * @param  {[type]} owner [description]
  * @param  {[type]} repo  [description]
+ * @param  {[type]} [token] [description]
  * @return {[type]}       [description]
  */
 async function getRepo (owner, repo, token) {
-  octokit.authenticate({type: 'oauth', token})
+  // octokit.authenticate({type: 'oauth', token})
 
   try {
     return await octokit.repos.get({owner, repo})
@@ -35,6 +37,7 @@ async function getRepo (owner, repo, token) {
 /**
  * [createRepo description]
  * @param  {[type]} name [description]
+ * @param  {[type]} token [description]
  * @return {[type]}      [description]
  */
 async function createRepo (name, token) {
@@ -49,8 +52,16 @@ async function createRepo (name, token) {
   }
 }
 
+/**
+ * [getContent description]
+ * @param  {[type]} owner [description]
+ * @param  {[type]} repo  [description]
+ * @param  {[type]} path  [description]
+ * @param  {[type]} [token] [description]
+ * @return {[type]}       [description]
+ */
 async function getContent (owner, repo, path, token) {
-  octokit.authenticate({type: 'oauth', token})
+  // octokit.authenticate({type: 'oauth', token})
 
   try {
     return await octokit.repos.getContent({owner, repo, path})

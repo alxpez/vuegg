@@ -15,6 +15,10 @@
     @keydown.meta.90.exact.stop.prevent="$emit('undo')"
     @keydown.ctrl.shift.90.exact.stop.prevent="$emit('redo')"
     @keydown.meta.shift.90.exact.stop.prevent="$emit('redo')"
+    @keydown.up.stop.prevent="e => $emit('arrows', {direction: 'up', shiftKey: e.shiftKey})"
+    @keydown.down.stop.prevent="e => $emit('arrows', {direction: 'down', shiftKey: e.shiftKey})"
+    @keydown.left.stop.prevent="e => $emit('arrows', {direction: 'left', shiftKey: e.shiftKey})"
+    @keydown.right.stop.prevent="e => $emit('arrows', {direction: 'right', shiftKey: e.shiftKey})"
     @drop.prevent="e => $emit('drop', e)"
     @dragover.prevent
   >
