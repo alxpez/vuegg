@@ -31,7 +31,7 @@
 
   <menu-toggle menuHeader="Material props" :hidden="!Object.keys(att).length">
     <div class="menu">
-      <div v-for="(item, key, index) in attrs" :key="key">
+      <div v-for="(item, key, index) in att" :key="key">
         <mdc-checkbox v-if="typeof item === 'boolean'"
           class="text-item"
           :label="key" v-model="att[key]"
@@ -92,7 +92,7 @@
       </icon-select>
 
       <mdc-textfield class="text-item" v-model="txt" label="Text" dense
-        @blur="emitChanges('text', txt)"/>
+        @keyup.native="e => emitChanges('text', e.target.value)"/>
     </div>
   </menu-toggle>
 </div>
