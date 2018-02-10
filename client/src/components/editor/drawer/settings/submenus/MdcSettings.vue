@@ -92,7 +92,7 @@
       </icon-select>
 
       <mdc-textfield class="text-item" v-model="txt" label="Text" dense
-        @blur="e => emitChanges('text', e.target.value)"/>
+        @blur="emitChanges('text', txt)"/>
     </div>
   </menu-toggle>
 </div>
