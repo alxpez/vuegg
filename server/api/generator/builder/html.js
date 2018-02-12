@@ -12,9 +12,11 @@ const S = require('string')
  * @return {string} : HTML tags definitions for the provided element (and its children)
  */
 function _htmlBuilder (el, level) {
+  const className = el.id.substr(el.id.lastIndexOf(".") + 1)
+
   let elDef = ""
   let elTag = el.type
-  let elProps = {'class': S(el.id).replaceAll('.', '-').s + _parseBooleanPropsToString(el.classes)}
+  let elProps = {'class': S(className).replaceAll('.', '-').s + _parseBooleanPropsToString(el.classes)}
 
   if (el.global) {
     elTag = S(el.name).humanize().slugify().s

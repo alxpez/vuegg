@@ -13,9 +13,11 @@ const S = require('string')
 function _cssBuilder (el, isRoot) {
   if (!isRoot && !el.egglement) return ''
 
+  const selector = isRoot ? '#' : '.'
+  const className = el.id.substr(el.id.lastIndexOf(".") + 1)
+
   let styleDef = ''
   let fullStyle = {}
-  let selector = isRoot ? '#' : '.'
 
   if (isRoot) {
     fullStyle = buildRoot(el)
@@ -29,7 +31,8 @@ function _cssBuilder (el, isRoot) {
     }
   }
 
-  styleDef += '\n' + selector + S(el.id).replaceAll('.', '-').s + ' '
+
+  styleDef += '\n' + selector + S(className).replaceAll('.', '-').s + ' '
     + S(JSON.stringify(fullStyle, null, 2)).replaceAll('\n}',';\n}').s + '\n'
 
   return S(styleDef).replaceAll('\\"', '\'').replaceAll('"', '').replaceAll(',\n', ';\n').s
