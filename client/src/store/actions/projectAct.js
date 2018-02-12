@@ -140,6 +140,7 @@ const projectActions = {
     if (project) {
       store.replaceState(newState(JSON.parse(atob(project))))
       commit(types.addProject)
+      if (origin === 'github') localforage.setItem('gh-repo-name', repoName)
 
       await dispatch(types.checkAuth)
     }
