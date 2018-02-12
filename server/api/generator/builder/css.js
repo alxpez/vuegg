@@ -84,12 +84,47 @@ function buildNested (el) {
     nestedCSS = {...nestedCSS, 'z-index': el.zIndex}
   }
 
-  return el.global ? nestedCSS : {...nestedCSS, ...el.styles}
-}
+  /*
+  * Tweak to apply the capability of defining the element dimension using
+  * left/right (instead of width) for elements other than <div> or <span>**
+  *
+  * Depending on the browser this is not necessary but it will apply to be safe
+  *
+  * **(any other text element will take the dimensions properly, but only span is being used in vuegg)
+  */
+  if (el.type !== 'div' || el.type !== 'span') {
+    if (isNaN(el.width) &&
+        (typeof el.right !== 'undefined' && el.right !== null && el.right !== 'auto') &&
+        (typeof el.left !== 'undefined' && el.left !== null && el.left !== 'auto')) {
+      const hHigh = Math.max(parseInt(el.left), parseInt(el.right))
+      let left = isNaN(el.left) ? el.left : (el.left + 'px')
+      let right = isNaN(el.right) ? el.right : (el.right + 'px')
+      nestedCSS = {...nestedCSS, width: 'calc(100% - ' + left + ' - ' + right + ')'}
+      nestedCSS = (hHigh === parseInt(el.left))
+        ? {...nestedCSS, left, right: 'auto'}
+        : {...nestedCSS, right, left: 'auto'}
+    }
+  }
 
-/**
- * Returns the calculated dimension based on the position and size
- */
-function calcDimension (size, position) {
-  return position ? 'calc(' + size + ' - ' + position + 'px)' : size
+  /*
+  * Tweak to apply the capability of defining the element dimension using
+  * top/bottom (instead of height), for <img> elements (there may be others)
+  *
+  * Depending on the browser this is not necessary but it will apply to be safe
+  */
+  if (el.type === 'img') {
+    if (isNaN(el.height) &&
+        (typeof el.top !== 'undefined' && el.top !== null && el.top !== 'auto') &&
+        (typeof el.bottom !== 'undefined' && el.bottom !== null && el.bottom !== 'auto')) {
+      const vHigh = Math.max(parseInt(el.top), parseInt(el.bottom))
+      let top = isNaN(el.top) ? el.top : (el.top + 'px')
+      let bottom = isNaN(el.bottom) ? el.bottom : (el.bottom + 'px')
+      nestedCSS = {...nestedCSS, height: 'calc(100% - ' + top + ' - ' + bottom + ')'}
+      nestedCSS = (vHigh === parseInt(el.top))
+        ? {...nestedCSS, top, bottom: 'auto'}
+        : {...nestedCSS, bottom, top: 'auto'}
+    }
+  }
+
+  return el.global ? nestedCSS : {...nestedCSS, ...el.styles}
 }
