@@ -80,6 +80,8 @@ function buildNested (el) {
   if (typeof el.right !== 'undefined' && el.right !== null && el.right !== 'auto') {
     nestedCSS = {...nestedCSS, right: isNaN(el.right) ? el.right : (el.right + 'px')}
   }
+  if (typeof el.zIndex !== 'undefined' && el.zIndex !== null && el.zIndex !== 'auto') {
+    nestedCSS = {...nestedCSS, 'z-index': el.zIndex}
   }
 
   return el.global ? nestedCSS : {...nestedCSS, ...el.styles}
