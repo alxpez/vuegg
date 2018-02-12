@@ -39,6 +39,7 @@ async function _generator (content, rootDir) {
     spinner.succeed()
   } catch (e) {
     spinner.fail('> Ups! Pages/components generation failed...\n' + e)
+    process.exit(1)
   }
 
   try {
@@ -47,6 +48,7 @@ async function _generator (content, rootDir) {
     spinner.succeed()
   } catch (e) {
     spinner.fail('> Ups! Router generation failed...\n' + e)
+    process.exit(1)
   }
 
   try {
@@ -55,6 +57,7 @@ async function _generator (content, rootDir) {
     spinner.succeed()
   } catch (e) {
     spinner.fail('> Ups! Somethig broke during the project refactor...\n' + e)
+    process.exit(1)
   }
 
   try {
@@ -63,6 +66,7 @@ async function _generator (content, rootDir) {
     spinner.succeed()
   } catch (e) {
     spinner.fail('> Ups! Somethig broke during the zipping up...\n' + e)
+    process.exit(1)
   }
 
   try {
@@ -71,6 +75,7 @@ async function _generator (content, rootDir) {
     spinner.succeed()
   } catch (e) {
     spinner.fail('> Ups! Somethig broke during the cleanup...\n' + e)
+    process.exit(1)
   }
 
   return zippedProject
