@@ -44,7 +44,7 @@ Navigate to `localhost:8080` to serve *vuegg-client* with hot-reload (developmen
 
 > For development *vuegg-server* will only generate vuejs projects (it won't be serving *vuegg-client* resources). Auto-restart capabilities possible thanks to **[nodemon](https://github.com/remy/nodemon)**.
 
-> BE AWARE that the above commands should be run in separate terminal instances.
+> The above commands should be run in separate terminal instances.
 
 ---
 
