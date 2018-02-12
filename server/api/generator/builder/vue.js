@@ -17,7 +17,7 @@ const cssBuilder = require('./css')
  * @param {string} targetDir : Folder to host the generated project for the given content
  */
 async function _vueBuilder (file, componentRefs, targetDir) {
-  const fileName = S(file.name).camelize().titleCase().s
+  const fileName = S(file.name).stripPunctuation().camelize().titleCase().s
   const fileType = file.componegg ? 'components' : 'pages'
 
   const templateFile = path.resolve(targetDir,'templates','vue','default.vue')
@@ -43,7 +43,7 @@ async function _vueBuilder (file, componentRefs, targetDir) {
   }
 
   for (const component of _getAllGlobalComponents(file, [])) {
-    let compName = S(component.name).camelize().titleCase().s
+    let compName = S(component.name).stripPunctuation().camelize().titleCase().s
     let compImport = "\nimport " + compName + " from '@/components/" + compName + "'"
 
     if(!S(imports).contains(compImport)) {

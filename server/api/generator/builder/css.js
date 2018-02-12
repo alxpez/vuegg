@@ -13,9 +13,11 @@ const S = require('string')
 function _cssBuilder (el, isRoot) {
   if (!isRoot && !el.egglement) return ''
 
+  const selector = isRoot ? '#' : '.'
+  const className = el.id.substr(el.id.lastIndexOf(".") + 1)
+
   let styleDef = ''
   let fullStyle = {}
-  let selector = isRoot ? '#' : '.'
 
   if (isRoot) {
     fullStyle = buildRoot(el)
@@ -29,7 +31,8 @@ function _cssBuilder (el, isRoot) {
     }
   }
 
-  styleDef += '\n' + selector + S(el.id).replaceAll('.', '-').s + ' '
+
+  styleDef += '\n' + selector + S(className).replaceAll('.', '-').s + ' '
     + S(JSON.stringify(fullStyle, null, 2)).replaceAll('\n}',';\n}').s + '\n'
 
   return S(styleDef).replaceAll('\\"', '\'').replaceAll('"', '').replaceAll(',\n', ';\n').s
@@ -44,10 +47,10 @@ function buildRoot (el) {
   let rootCSS = el.styles
 
   if (typeof el.width !== 'undefined' && el.width !== null) {
-    rootCSS = {...rootCSS, width: (typeof el.width === 'string') ? el.width : (el.width + 'px')}
+    rootCSS = {...rootCSS, width: isNaN(el.width) ? el.width : (el.width + 'px')}
   }
   if (typeof el.height !== 'undefined' && el.height !== null) {
-    rootCSS = {...rootCSS, height: (typeof el.height === 'string') ? el.height : (el.height + 'px')}
+    rootCSS = {...rootCSS, height: isNaN(el.height) ? el.height : (el.height + 'px')}
   }
 
   return rootCSS
@@ -60,30 +63,68 @@ function buildNested (el) {
   let nestedCSS = el.egglement ? {position: 'absolute'} : {}
 
   if (typeof el.width !== 'undefined' && el.width !== null && el.width !== 'auto') {
-    nestedCSS = {...nestedCSS, width: (typeof el.width === 'string') ? calcDimension(el.width, el.left) : (el.width + 'px')}
+    nestedCSS = {...nestedCSS, width: isNaN(el.width) ? el.width : (el.width + 'px')}
   }
   if (typeof el.height !== 'undefined' && el.height !== null && el.height !== 'auto') {
-    nestedCSS = {...nestedCSS, height: (typeof el.height === 'string') ? calcDimension(el.height, el.top) : (el.height + 'px')}
+    nestedCSS = {...nestedCSS, height: isNaN(el.height) ? el.height : (el.height + 'px')}
   }
   if (typeof el.top !== 'undefined' && el.top !== null && el.top !== 'auto') {
-    nestedCSS = {...nestedCSS, top: el.top + 'px'}
+    nestedCSS = {...nestedCSS, top: isNaN(el.top) ? el.top : (el.top + 'px')}
   }
   if (typeof el.left !== 'undefined' && el.left !== null && el.left !== 'auto') {
-    nestedCSS = {...nestedCSS, left: el.left + 'px'}
+    nestedCSS = {...nestedCSS, left: isNaN(el.left) ? el.left : (el.left + 'px')}
   }
   if (typeof el.bottom !== 'undefined' && el.bottom !== null && el.bottom !== 'auto') {
-    nestedCSS = {...nestedCSS, bottom: el.bottom + 'px'}
+    nestedCSS = {...nestedCSS, bottom: isNaN(el.bottom) ? el.bottom : (el.bottom + 'px')}
   }
   if (typeof el.right !== 'undefined' && el.right !== null && el.right !== 'auto') {
-    nestedCSS = {...nestedCSS, right: el.right + 'px'}
+    nestedCSS = {...nestedCSS, right: isNaN(el.right) ? el.right : (el.right + 'px')}
+  }
+  if (typeof el.zIndex !== 'undefined' && el.zIndex !== null && el.zIndex !== 'auto') {
+    nestedCSS = {...nestedCSS, 'z-index': el.zIndex}
+  }
+
+  /*
+  * Tweak to apply the capability of defining the element dimension using
+  * left/right (instead of width) for elements other than <div> or <span>**
+  *
+  * Depending on the browser this is not necessary but it will apply to be safe
+  *
+  * **(any other text element will take the dimensions properly, but only span is being used in vuegg)
+  */
+  if (el.type !== 'div' || el.type !== 'span') {
+    if (isNaN(el.width) &&
+        (typeof el.right !== 'undefined' && el.right !== null && el.right !== 'auto') &&
+        (typeof el.left !== 'undefined' && el.left !== null && el.left !== 'auto')) {
+      const hHigh = Math.max(parseInt(el.left), parseInt(el.right))
+      let left = isNaN(el.left) ? el.left : (el.left + 'px')
+      let right = isNaN(el.right) ? el.right : (el.right + 'px')
+      nestedCSS = {...nestedCSS, width: 'calc(100% - ' + left + ' - ' + right + ')'}
+      nestedCSS = (hHigh === parseInt(el.left))
+        ? {...nestedCSS, left, right: 'auto'}
+        : {...nestedCSS, right, left: 'auto'}
+    }
+  }
+
+  /*
+  * Tweak to apply the capability of defining the element dimension using
+  * top/bottom (instead of height), for <img> elements (there may be others)
+  *
+  * Depending on the browser this is not necessary but it will apply to be safe
+  */
+  if (el.type === 'img') {
+    if (isNaN(el.height) &&
+        (typeof el.top !== 'undefined' && el.top !== null && el.top !== 'auto') &&
+        (typeof el.bottom !== 'undefined' && el.bottom !== null && el.bottom !== 'auto')) {
+      const vHigh = Math.max(parseInt(el.top), parseInt(el.bottom))
+      let top = isNaN(el.top) ? el.top : (el.top + 'px')
+      let bottom = isNaN(el.bottom) ? el.bottom : (el.bottom + 'px')
+      nestedCSS = {...nestedCSS, height: 'calc(100% - ' + top + ' - ' + bottom + ')'}
+      nestedCSS = (vHigh === parseInt(el.top))
+        ? {...nestedCSS, top, bottom: 'auto'}
+        : {...nestedCSS, bottom, top: 'auto'}
+    }
   }
 
   return el.global ? nestedCSS : {...nestedCSS, ...el.styles}
-}
-
-/**
- * Returns the calculated dimension based on the position and size
- */
-function calcDimension (size, position) {
-  return position ? 'calc(' + size + ' - ' + position + 'px)' : size
 }

@@ -25,7 +25,7 @@ export default {
   name: 'upload-dialog',
   data: function () {
     return {
-      valid: false,
+      valid: true,
       owner: '',
       repo: '',
       repoError: ''

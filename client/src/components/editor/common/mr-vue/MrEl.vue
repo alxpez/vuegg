@@ -64,28 +64,28 @@ export default {
       type: [String, Number],
       default: 0,
       validator: function (val) {
-        return ((typeof val === 'string') ? val === 'auto' : val >= 0)
+        return ((typeof val === 'string') ? (val.indexOf('%') || val === 'auto') : val >= 0)
       }
     },
     bottom: {
       type: [String, Number],
       default: 'auto',
       validator: function (val) {
-        return ((typeof val === 'string') ? val === 'auto' : val >= 0)
+        return ((typeof val === 'string') ? (val.indexOf('%') || val === 'auto') : val >= 0)
       }
     },
     left: {
       type: [String, Number],
       default: 0,
       validator: function (val) {
-        return ((typeof val === 'string') ? val === 'auto' : val >= 0)
+        return ((typeof val === 'string') ? (val.indexOf('%') || val === 'auto') : val >= 0)
       }
     },
     right: {
       type: [String, Number],
       default: 'auto',
       validator: function (val) {
-        return ((typeof val === 'string') ? val === 'auto' : val >= 0)
+        return ((typeof val === 'string') ? (val.indexOf('%') || val === 'auto') : val >= 0)
       }
     },
     zIndex: {
@@ -112,10 +112,10 @@ export default {
         zIndex: this.zIndex,
         minWidth: this.minWidth + 'px',
         minHeight: this.minHeight + 'px',
-        top: (typeof this.top === 'number') ? (this.top + 'px') : 'auto',
-        left: (typeof this.left === 'number') ? (this.left + 'px') : 'auto',
-        bottom: (typeof this.bottom === 'number') ? (this.bottom + 'px') : 'auto',
-        right: (typeof this.right === 'number') ? (this.right + 'px') : 'auto',
+        top: (typeof this.top === 'number') ? (this.top + 'px') : this.top,
+        left: (typeof this.left === 'number') ? (this.left + 'px') : this.left,
+        bottom: (typeof this.bottom === 'number') ? (this.bottom + 'px') : this.bottom,
+        right: (typeof this.right === 'number') ? (this.right + 'px') : this.right,
         width: (typeof this.width === 'number') ? (this.width + 'px') : this.width,
         height: (typeof this.height === 'number') ? (this.height + 'px') : this.height
       }

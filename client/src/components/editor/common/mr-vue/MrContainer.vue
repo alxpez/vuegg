@@ -141,8 +141,8 @@ export default {
       const elMinH = parseInt(elCompStyle.minHeight)
       const elMinW = parseInt(elCompStyle.minWidth)
 
-      let newTop = el.offsetTop
-      let newLeft = el.offsetLeft
+      let newTop = parseInt(elCompStyle.top)
+      let newLeft = parseInt(elCompStyle.left)
       let newRight = parseInt(elCompStyle.right)
       let newBottom = parseInt(elCompStyle.bottom)
       let newHeight = parseInt(elCompStyle.height)
@@ -176,7 +176,7 @@ export default {
         newRight -= diffX
       }
 
-      el.style.height = (el.style.height !== 'auto') ? (newHeight + 'px') : 'auto'
+      el.style.height = (el.style.height !== 'auto') ? newHeight + 'px' : 'auto'
       el.style.width = (el.style.width !== 'auto') ? newWidth + 'px' : 'auto'
       el.style.top = (el.style.top !== 'auto') ? newTop + 'px' : 'auto'
       el.style.left = (el.style.left !== 'auto') ? newLeft + 'px' : 'auto'
@@ -192,10 +192,10 @@ export default {
       el.style.width = el.style.width
 
       el.style.top = (el.style.top !== 'auto')
-        ? this.fixPosition(el, el.offsetTop + offY, 'top') + 'px'
+        ? this.fixPosition(el, parseInt(elCompStyle.top) + offY, 'top') + 'px'
         : 'auto'
       el.style.left = (el.style.left !== 'auto')
-        ? this.fixPosition(el, el.offsetLeft + offX, 'left') + 'px'
+        ? this.fixPosition(el, parseInt(elCompStyle.left) + offX, 'left') + 'px'
         : 'auto'
       el.style.bottom = (el.style.bottom !== 'auto')
         ? this.fixPosition(el, parseInt(elCompStyle.bottom) - offY, 'bottom') + 'px'
@@ -249,13 +249,20 @@ export default {
     moveStopData () {
       return {
         moveElData: this.mrElements.map(el => {
-          const elCompStyle = window.getComputedStyle(el)
           return {
             elId: el.childNodes[0].id,
-            top: el.offsetTop,
-            left: el.offsetLeft,
-            bottom: parseInt(elCompStyle.bottom),
-            right: parseInt(elCompStyle.right)
+            top: (el.style.top.indexOf('%') !== -1 || el.style.top === 'auto')
+              ? el.style.top
+              : parseInt(el.style.top),
+            left: (el.style.left.indexOf('%') !== -1 || el.style.left === 'auto')
+              ? el.style.left
+              : parseInt(el.style.left),
+            bottom: (el.style.bottom.indexOf('%') !== -1 || el.style.bottom === 'auto')
+              ? el.style.bottom
+              : parseInt(el.style.bottom),
+            right: (el.style.right.indexOf('%') !== -1 || el.style.right === 'auto')
+              ? el.style.right
+              : parseInt(el.style.right)
           }
         }),
         relMouseX: this.currentRelPos.x,
@@ -267,17 +274,26 @@ export default {
 
     resizeStopData () {
       return this.mrElements.map(el => {
-        const elCompStyle = window.getComputedStyle(el)
         return {
           elId: el.childNodes[0].id,
-          top: el.offsetTop,
-          left: el.offsetLeft,
-          bottom: parseInt(elCompStyle.bottom),
-          right: parseInt(elCompStyle.right),
+          top: (el.style.top.indexOf('%') !== -1 || el.style.top === 'auto')
+            ? el.style.top
+            : parseInt(el.style.top),
+          left: (el.style.left.indexOf('%') !== -1 || el.style.left === 'auto')
+            ? el.style.left
+            : parseInt(el.style.left),
+          bottom: (el.style.bottom.indexOf('%') !== -1 || el.style.bottom === 'auto')
+            ? el.style.bottom
+            : parseInt(el.style.bottom),
+          right: (el.style.right.indexOf('%') !== -1 || el.style.right === 'auto')
+            ? el.style.right
+            : parseInt(el.style.right),
           height: (el.style.height.indexOf('%') !== -1 || el.style.height === 'auto')
-            ? el.style.height : parseInt(el.style.height),
+            ? el.style.height
+            : parseInt(el.style.height),
           width: (el.style.width.indexOf('%') !== -1 || el.style.width === 'auto')
-            ? el.style.width : parseInt(el.style.width)
+            ? el.style.width
+            : parseInt(el.style.width)
         }
       })
     },

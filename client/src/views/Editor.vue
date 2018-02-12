@@ -28,7 +28,7 @@ import { checkAuth, checkLastSaved, rebaseSelectedElements } from '@/store/types
 import Headegg from '@/components/editor/header'
 import Drawegg from '@/components/editor/drawer'
 import Mainegg from '@/components/editor/main'
-import BlockLoader from '@/components/editor/common/BlockLoader'
+import BlockLoader from '@/components/editor/common/loader/BlockLoader'
 import PageDialog from '@/components/editor/dialogs/PageDialog'
 import LoadDialog from '@/components/editor/dialogs/LoadDialog'
 import UploadDialog from '@/components/editor/dialogs/UploadDialog'
@@ -87,7 +87,6 @@ export default {
 
 #main {
   height: 100%;
-  -ms-flex: 0 1 auto;
   position: relative;
   display: inline-block;
   overflow-y: auto;

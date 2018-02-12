@@ -154,26 +154,18 @@ export default {
     'selectedItem': function (val) {
       if (val !== null) {
         if (Array.isArray(val)) {
-          this.height = null
-          this.width = null
-          this.top = null
-          this.left = null
-          this.bottom = null
-          this.right = null
+          this.text = this.height = this.width = this.top = this.left = this.bottom = this.right = null
+          this.attrs = this.styles = this.classes = {}
           this.zIndex = 'auto'
-          this.text = null
-          this.attrs = {}
-          this.styles = {}
-          this.classes = {}
         } else {
-          this.height = (typeof val.height !== 'undefined' && val.height !== null) ? val.height.toString() : null
-          this.width = (typeof val.width !== 'undefined' && val.width !== null) ? val.width.toString() : null
-          this.top = (typeof val.top !== 'undefined' && val.top !== null) ? val.top.toString() : null
-          this.left = (typeof val.left !== 'undefined' && val.left !== null) ? val.left.toString() : null
-          this.bottom = (typeof val.bottom !== 'undefined' && val.bottom !== null) ? val.bottom.toString() : null
-          this.right = (typeof val.right !== 'undefined' && val.right !== null) ? val.right.toString() : null
-          this.zIndex = (typeof val.zIndex !== 'undefined' && val.zIndex !== null) ? val.zIndex : 'auto'
           this.text = (val.text) ? val.text : null
+          this.height = (typeof val.height !== 'undefined') ? val.height.toString() : null
+          this.width = (typeof val.width !== 'undefined') ? val.width.toString() : null
+          this.top = (typeof val.top !== 'undefined') ? val.top.toString() : null
+          this.left = (typeof val.left !== 'undefined') ? val.left.toString() : null
+          this.bottom = (typeof val.bottom !== 'undefined') ? val.bottom.toString() : null
+          this.right = (typeof val.right !== 'undefined') ? val.right.toString() : null
+          this.zIndex = (typeof val.zIndex !== 'undefined') ? val.zIndex : 'auto'
           this.attrs = (val.attrs) ? cloneDeep(val.attrs) : {}
           this.styles = (val.styles) ? cloneDeep(val.styles) : {}
           this.classes = (val.classes) ? cloneDeep(val.classes) : {}

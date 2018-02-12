@@ -123,8 +123,8 @@ export default {
       this.page.children.forEach(childEl => {
         const child = (childEl.global) ? {...childEl, ...this.getComponentRef(childEl), id: childEl.id} : childEl
 
-        let childTop = (child.top === 'auto') ? getComputedProp('top', child) : child.top
-        let childLeft = (child.left === 'auto') ? getComputedProp('left', child) : child.left
+        let childTop = getComputedProp('top', child)
+        let childLeft = getComputedProp('left', child)
         let childBottom = getComputedProp('height', child, this.page) + childTop
         let childRight = getComputedProp('width', child, this.page) + childLeft
 
