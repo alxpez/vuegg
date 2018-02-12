@@ -24,7 +24,7 @@ async function _routerBuilder (content, targetDir) {
   let declarations = ""
 
   for (const page of content.pages) {
-    const pageName = S(page.name).camelize().titleCase().s
+    const pageName = S(page.name).stripPunctuation().camelize().titleCase().s
 
     imports += "\nimport " + pageName + " from '@/pages/" + pageName + "'"
 
