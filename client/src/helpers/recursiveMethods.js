@@ -4,7 +4,7 @@ import shortid from 'shortid'
  * Assigns a new id to the element preceded by the parentId and a dot '.'
  *
  * @param {object} el : Element to register
- * @param {string} parentId : Id of the parent element
+ * @param {string} [parentId] : Id of the parent element
  *
  * @return {object} : New element (cloned from egglement) with newly assigned ids
  */
@@ -20,6 +20,24 @@ export function setElId (el, parentId) {
     }
   }
   return newElement
+}
+
+/**
+* Creates an array containing all the global/external components inside.
+*
+* @param {object} el : Current reviewing element
+* @return {object} : An array with the global/external components found inside.
+*/
+export function getExtGlobComps (el, compList) {
+  if (!compList) compList = []
+  if (el.global || el.external) compList.push(el)
+
+  if (el.children && el.children.length > 0) {
+    for (let childEl of el.children) {
+      compList = getExtGlobComps(childEl, compList)
+    }
+  }
+  return compList
 }
 
 /**

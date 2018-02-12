@@ -35,6 +35,7 @@ export const clearProject = 'clearProject'
 
 export const savePageAndClose = 'savePageAndClose'
 export const duplicatePage = 'duplicatePage'
+export const removePage = 'removePage'
 
 export const registerElement = 'registerElement'
 export const resizeElement = 'resizeElement'
@@ -112,6 +113,7 @@ const types = {
 
   savePageAndClose,
   duplicatePage,
+  removePage,
 
   registerElement,
   resizeElement,

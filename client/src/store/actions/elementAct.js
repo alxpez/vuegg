@@ -1,4 +1,5 @@
 import types from '@/store/types'
+import componentFactory from '@/factories/componentFactory'
 import { setElId, getChildNode, calcRelativePoint } from '@/helpers/recursiveMethods'
 import { fixElementToParentBounds, getComputedProp } from '@/helpers/positionDimension'
 
@@ -26,9 +27,9 @@ const elementActions = {
 
     if (el.componegg) {
       if (payload.global) {
-        el = _componentInstance(payload.el)
+        el = componentFactory.compInst(payload.el)
         if (!getters.componentExist(el.name)) {
-          let componentRef = _componentReference(payload.el)
+          let componentRef = componentFactory.compRef(payload.el)
           commit(types._saveComponentRef, setElId(componentRef))
         } else {
           let compIndex = getters.getComponentRefIndexByName(el.name)
@@ -38,7 +39,7 @@ const elementActions = {
       } else if (el.external) {
           // In case the componegg is from a external library...
         if (!getters.componentExist(el.name)) {
-          let componentRef = _componentReference(payload.el)
+          let componentRef = componentFactory.compRef(payload.el)
           commit(types._saveComponentRef, setElId(componentRef))
         } else {
           let compIndex = getters.getComponentRefIndexByName(el.name)
@@ -218,54 +219,3 @@ const elementActions = {
 }
 
 export default elementActions
-
-// ----------------------------------//
-// --- INTERNAL HELPER FUNCTIONS --- //
-// ----------------------------------//
-
-/**
- * Returns the component instance from the base component provided
- *
- * @param {object} component : base component to generate the instance
- *
- * @see {@link [types.registerElement]}
- * @return {object} : Component instance
- */
-function _componentInstance (component) {
-  return {
-    global: true,
-    name: component.name,
-    top: component.top,
-    left: component.left,
-    bottom: component.bottom,
-    right: component.right,
-    componegg: component.componegg,
-    egglement: component.egglement,
-    containegg: component.containegg
-  }
-}
-
-/**
- * Returns the component reference from the base component provided
- *
- * @param {object} component : base component to generate the instance
- * @return
- *
- * @see {@link [types.registerElement]}
- * @return {object} : Component reference
- */
-function _componentReference (component) {
-  return {
-    usageCount: 1,
-    name: component.name,
-    height: component.height,
-    width: component.width,
-    type: component.type,
-    text: component.text,
-    attrs: component.attrs,
-    styles: component.styles,
-    classes: component.classes,
-    children: component.children,
-    dependencies: component.dependencies || []
-  }
-}
