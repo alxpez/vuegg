@@ -47,10 +47,10 @@ function buildRoot (el) {
   let rootCSS = el.styles
 
   if (typeof el.width !== 'undefined' && el.width !== null) {
-    rootCSS = {...rootCSS, width: (typeof el.width === 'string') ? el.width : (el.width + 'px')}
+    rootCSS = {...rootCSS, width: isNaN(el.width) ? el.width : (el.width + 'px')}
   }
   if (typeof el.height !== 'undefined' && el.height !== null) {
-    rootCSS = {...rootCSS, height: (typeof el.height === 'string') ? el.height : (el.height + 'px')}
+    rootCSS = {...rootCSS, height: isNaN(el.height) ? el.height : (el.height + 'px')}
   }
 
   return rootCSS
@@ -63,22 +63,23 @@ function buildNested (el) {
   let nestedCSS = el.egglement ? {position: 'absolute'} : {}
 
   if (typeof el.width !== 'undefined' && el.width !== null && el.width !== 'auto') {
-    nestedCSS = {...nestedCSS, width: (typeof el.width === 'string') ? calcDimension(el.width, el.left) : (el.width + 'px')}
+    nestedCSS = {...nestedCSS, width: isNaN(el.width) ? el.width : (el.width + 'px')}
   }
   if (typeof el.height !== 'undefined' && el.height !== null && el.height !== 'auto') {
-    nestedCSS = {...nestedCSS, height: (typeof el.height === 'string') ? calcDimension(el.height, el.top) : (el.height + 'px')}
+    nestedCSS = {...nestedCSS, height: isNaN(el.height) ? el.height : (el.height + 'px')}
   }
   if (typeof el.top !== 'undefined' && el.top !== null && el.top !== 'auto') {
-    nestedCSS = {...nestedCSS, top: el.top + 'px'}
+    nestedCSS = {...nestedCSS, top: isNaN(el.top) ? el.top : (el.top + 'px')}
   }
   if (typeof el.left !== 'undefined' && el.left !== null && el.left !== 'auto') {
-    nestedCSS = {...nestedCSS, left: el.left + 'px'}
+    nestedCSS = {...nestedCSS, left: isNaN(el.left) ? el.left : (el.left + 'px')}
   }
   if (typeof el.bottom !== 'undefined' && el.bottom !== null && el.bottom !== 'auto') {
-    nestedCSS = {...nestedCSS, bottom: el.bottom + 'px'}
+    nestedCSS = {...nestedCSS, bottom: isNaN(el.bottom) ? el.bottom : (el.bottom + 'px')}
   }
   if (typeof el.right !== 'undefined' && el.right !== null && el.right !== 'auto') {
-    nestedCSS = {...nestedCSS, right: el.right + 'px'}
+    nestedCSS = {...nestedCSS, right: isNaN(el.right) ? el.right : (el.right + 'px')}
+  }
   }
 
   return el.global ? nestedCSS : {...nestedCSS, ...el.styles}
