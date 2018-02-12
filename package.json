@@ -1,6 +1,6 @@
 {
   "name": "vuegg",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "description": "vuejs GUI generator",
   "author": "alxpez",
   "scripts": {
