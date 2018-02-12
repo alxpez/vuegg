@@ -1,5 +1,5 @@
 import types from '@/store/types'
-import { setElId, getChildNode, getRelativePoint } from '@/helpers/recursiveMethods'
+import { setElId, getChildNode, calcRelativePoint } from '@/helpers/recursiveMethods'
 import { fixElementToParentBounds, getComputedProp } from '@/helpers/positionDimension'
 
 const elementActions = {
@@ -190,7 +190,7 @@ const elementActions = {
     commit(types.createEgglement, {parent: newParent, egglement: payload.egglement})
 
       // Update relative position and dimensions of the element
-    const relPoint = getRelativePoint(payload.page, payload.egglement.id, payload.mouseX, payload.mouseY)
+    const relPoint = calcRelativePoint(payload.page, payload.egglement.id, payload.mouseX, payload.mouseY)
 
     let left = relPoint.left - (width / 2)
     let top = relPoint.top - (height / 2)

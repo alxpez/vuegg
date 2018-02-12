@@ -42,9 +42,11 @@ export function getChildNode (currentNode, targetId) {
 }
 
 /**
- * Returns the element (identified by targetId) position,
- * relative to its parent (and full family depth) position
- * and the current left/top position.
+ * Returns the element --identified by targetId-- relative position,
+ * based on its parent (and full family depth) position
+ * and the current mouse left/top position.
+ *
+ * This method gives positioning support for elements changing "family".
  *
  * @param {object} currentNode : The element being inspected
  * @param {string} targetId : The id of the element expected
@@ -53,7 +55,7 @@ export function getChildNode (currentNode, targetId) {
  *
  * @return {object} : Relative point obtained from the currentX, currentY
  */
-export function getRelativePoint (currentNode, targetId, currentX, currentY) {
+export function calcRelativePoint (currentNode, targetId, currentX, currentY) {
   if (currentNode.id === targetId) return {left: currentX, top: currentY}
 
   if (currentNode.left && currentNode.top) {
@@ -62,7 +64,7 @@ export function getRelativePoint (currentNode, targetId, currentX, currentY) {
   }
   for (let child of currentNode.children) {
     if (targetId.indexOf(child.id) !== -1) {
-      return getRelativePoint(child, targetId, currentX, currentY)
+      return calcRelativePoint(child, targetId, currentX, currentY)
     }
   }
 }
