@@ -20,10 +20,10 @@ export default {
         zIndex: elementO.zIndex,
         minWidth: elementO.minWidth,
         minHeight: elementO.minHeight,
-        top: (typeof elementO.top === 'number') ? (elementO.top + 'px') : 'auto',
-        left: (typeof elementO.left === 'number') ? (elementO.left + 'px') : 'auto',
-        bottom: (typeof elementO.bottom === 'number') ? (elementO.bottom + 'px') : 'auto',
-        right: (typeof elementO.right === 'number') ? (elementO.right + 'px') : 'auto',
+        top: (typeof elementO.top === 'number') ? (elementO.top + 'px') : elementO.top,
+        left: (typeof elementO.left === 'number') ? (elementO.left + 'px') : elementO.left,
+        bottom: (typeof elementO.bottom === 'number') ? (elementO.bottom + 'px') : elementO.bottom,
+        right: (typeof elementO.right === 'number') ? (elementO.right + 'px') : elementO.right,
         width: (typeof elementO.width === 'number') ? (elementO.width + 'px') : elementO.width,
         height: (typeof elementO.height === 'number') ? (elementO.height + 'px') : elementO.height
       }
