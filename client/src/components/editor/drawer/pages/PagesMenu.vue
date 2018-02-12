@@ -45,7 +45,7 @@
 
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex'
-import { duplicatePage, deletePage, _changeActivePage, _togglePageDialog, _clearSelectedElements } from '@/store/types'
+import { duplicatePage, removePage, _changeActivePage, _togglePageDialog, _clearSelectedElements } from '@/store/types'
 
 import '@/assets/icons/system/home'
 import '@/assets/icons/system/page'
@@ -87,13 +87,13 @@ export default {
         case DELETE:
           let fallbackPage = this.projectPages[(pageIndex > 0) ? 0 : 1] || null
           this.changePageIfNeeded(fallbackPage)
-          this.deletePage(pageIndex)
+          this.removePage({pageIndex})
           break
       }
     },
 
-    ...mapActions([duplicatePage]),
-    ...mapMutations([_clearSelectedElements, _togglePageDialog, _changeActivePage, deletePage])
+    ...mapActions([duplicatePage, removePage]),
+    ...mapMutations([_clearSelectedElements, _togglePageDialog, _changeActivePage])
   }
 }
 </script>
