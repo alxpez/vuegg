@@ -24,7 +24,7 @@
 
 ## Main Features
 
-* Mockup creation / UI design
+* Mockup / UI design
 * Key-combinations support in editor
 * Responsive preview
 * Material componentes ([vue-mdc-adapter](https://github.com/stasson/vue-mdc-adapter))
