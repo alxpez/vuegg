@@ -1,6 +1,6 @@
 {
   "name": "vuegg",
-  "version": "0.13.1",
+  "version": "0.13.2",
   "description": "vuejs GUI generator",
   "author": "alxpez",
   "scripts": {
@@ -41,7 +41,7 @@
   "homepage": "https://gitlab.com/alxpez/vuegg#README",
   "devDependencies": {
     "dotenv": "^4.0.0",
-    "inquirer": "^5.0.1",
+    "inquirer": "^5.1.0",
     "shelljs": "^0.8.1"
   }
 }
