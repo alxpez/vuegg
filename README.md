@@ -22,7 +22,7 @@
 
 </br>
 
-## Main Features:
+## Main Features
 
 * Mockup creation / UI design
 * Key-combinations support in editor
@@ -35,7 +35,7 @@
 
 </br>
 
-## About:
+## About
 
 Vuegg is a work-in-progress project, feel free to contribute however possible.
 
@@ -45,7 +45,7 @@ Not long after it became a pet project, I went on adding new features (mainly th
 
 </br>
 
-## Run vuegg locally:
+## Run vuegg locally
 
 ### Auto-run
 ``` bash
