@@ -33,7 +33,7 @@ async function _prepare (content, rootDir) {
     process.exit(1)
   }
 
-  let repo = 'https://gitlab.com/alxpez/vuegg-scaffold.git'
+  let repo = 'https://github.com/vuegg/vuegg-scaffold.git'
 
   try {
     await Git.Clone(repo, targetDir)
