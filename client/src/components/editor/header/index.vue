@@ -1,8 +1,8 @@
 <template>
   <div class="headegg mdc-theme--background" :class="{'not-scrolled': scroll0}">
-    <button class="home-btn">
+    <a class="home-btn" href="https://github.com/vuegg" target="_blank">
       <svgicon icon="product/vuegg" width="40" height="40" :original="true"></svgicon>
-    </button>
+    </a>
 
     <input class="title-input" v-model="tmpProjectTitle" @blur="onTitleBlur"
       title="Project title" placeholder="Project title"/>
