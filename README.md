@@ -24,6 +24,7 @@
 * Mockup / UI design
 * Key-combinations support in editor
 * Responsive preview
+* Basic HTML5 elements
 * Material componentes ([vue-mdc-adapter](https://github.com/stasson/vue-mdc-adapter))
 * [Vuejs](https://github.com/vuejs/vue) sources generation (download .zip)
 * Connect with GitHub (save/load vuegg projects)
