@@ -38,6 +38,7 @@ export default {
         egglement: elementO.egglement,
         containegg: elementO.containegg,
         componegg: elementO.componegg,
+        wrappegg: elementO.wrappegg,
         ...elementO.attrs
       }
     }
@@ -50,7 +51,7 @@ export default {
         children.push(createElement(StageEl, {
           'props': {
             elem: child,
-            isPlain: elementO.componegg || this.isPlain
+            isPlain: elementO.componegg || elementO.wrappegg || this.isPlain
           }
         }))
       }

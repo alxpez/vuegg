@@ -1,6 +1,6 @@
 <template>
   <div class="menus-wrapper">
-    <menu-toggle menuHeader="HTML5 Elements">
+    <menu-toggle menuHeader="Basic">
       <div class="el-menu">
         <div class="el-menu__el" :key="element.name"
           v-for="element in elements"
@@ -15,7 +15,7 @@
       </div>
     </menu-toggle>
 
-    <menu-toggle menuHeader="Material Components">
+    <menu-toggle menuHeader="Material Design">
       <div class="el-menu">
         <div class="el-menu__el" :key="mdComp.name"
           v-for="mdComp in mdComponents"
@@ -31,7 +31,7 @@
     </menu-toggle>
 
     <!-- TODO: v-for components (community/personal) retrieved from GH? -->
-    <menu-toggle menuHeader="Community Components" :startClosed="true">
+    <!-- <menu-toggle menuHeader="Community Components" :startClosed="true">
       <div class="el-menu">
         <div class="el-menu__el" :key="component.name"
           v-for="component in components"
@@ -40,11 +40,11 @@
           @dragstart="e => dragstartHandler(e, component)"
           @click="e => addItemToStage(e, component)"
         >
-          <svgicon icon="system/elements/community" width="24" height="24" color="rgba(0,0,0,.87)"></svgicon>
+          <svgicon icon="system/elements/component" width="24" height="24" color="rgba(0,0,0,.87)"></svgicon>
           <span>{{component.displayName || component.name}}</span>
         </div>
       </div>
-    </menu-toggle>
+    </menu-toggle> -->
   </div>
 </template>
 
@@ -53,9 +53,9 @@
 import { mapState, mapActions } from 'vuex'
 import { registerElement } from '@/store/types'
 
-import HTML5Elements from '@/assets/HTML5Elements'
-import MaterialComponents from '@/assets/MaterialComponents'
-import MockComponents from '@/assets/MockComponents'
+import basicElements from '@/assets/BasicElements'
+import materialComponents from '@/assets/MaterialComponents'
+// import mockComponents from '@/assets/MockComponents'
 import MenuToggle from '@/components/editor/common/MenuToggle'
 
 import '@/assets/icons/system/elements/'
@@ -65,9 +65,9 @@ export default {
   components: { MenuToggle },
   data: function () {
     return {
-      elements: HTML5Elements,
-      mdComponents: MaterialComponents,
-      components: MockComponents
+      elements: basicElements,
+      mdComponents: materialComponents
+      // components: mockComponents
     }
   },
   computed: {
