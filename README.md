@@ -12,7 +12,7 @@
   <a href="https://github.com/vuejs/vue">
     <img src="https://img.shields.io/badge/vue-%5E2.5-41b883.svg" alt="vue">
   </a>
-  <a href="https://github.com/alxpez/vuegg/blob/master/LICENSE">
+  <a href="https://github.com/vuegg/vuegg/blob/master/LICENSE">
     <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="mit">
   </a>
 </p>
