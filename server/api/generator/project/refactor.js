@@ -63,6 +63,12 @@ async function _refactor (content, targetDir) {
   shell.sed('-i', '{{PACKAGES_USE}}', packagesUse, mainFile)
 
   try {
+    await shell.rm('-rf', path.resolve(targetDir, '.git'))
+  } catch (e) {
+    log.error('\n > Could not remove ' + path.resolve(targetDir, '.git'))
+  }
+
+  try {
     await shell.rm('-rf', path.resolve(targetDir,'templates'))
   } catch (e) {
     log.error('\n > Could not remove ' + path.resolve(targetDir,'templates'))
