@@ -10,10 +10,7 @@
 
 <p align="center">
   <a href="https://github.com/vuejs/vue">
-    <img src="https://img.shields.io/badge/vue-%5E2.5.13-41b883.svg" alt="vue">
-  </a>
-  <a href="https://github.com/stasson/vue-mdc-adapter">
-    <img src="https://img.shields.io/badge/vue--mdc--adapter-0.9.2-02e676.svg" alt="vue-mdc-adapter">
+    <img src="https://img.shields.io/badge/vue-%5E2.5-41b883.svg" alt="vue">
   </a>
   <a href="https://github.com/alxpez/vuegg/blob/master/LICENSE">
     <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="mit">
@@ -37,7 +34,7 @@
 
 ## About
 
-Vuegg is a work-in-progress project, feel free to contribute however possible.
+Vuegg is a work-in-progress concept project, feel free to fork it or contribute however possible.
 
 The project was born as a sandbox for me to get started on the [vue](https://github.com/vuejs/vue) world, in fact its ~~un~~original name was vuexample (*very unique*, I thought at the time).
 
