@@ -53,9 +53,9 @@
 import { mapState, mapActions } from 'vuex'
 import { registerElement } from '@/store/types'
 
-import HTML5Elements from '@/assets/HTML5Elements'
-import MaterialComponents from '@/assets/MaterialComponents'
-import MockComponents from '@/assets/MockComponents'
+import basicElements from '@/assets/BasicElements'
+import materialComponents from '@/assets/MaterialComponents'
+// import mockComponents from '@/assets/MockComponents'
 import MenuToggle from '@/components/editor/common/MenuToggle'
 
 import '@/assets/icons/system/elements/'
@@ -65,9 +65,9 @@ export default {
   components: { MenuToggle },
   data: function () {
     return {
-      elements: HTML5Elements,
-      mdComponents: MaterialComponents,
-      components: MockComponents
+      elements: basicElements,
+      mdComponents: materialComponents
+      // components: mockComponents
     }
   },
   computed: {

@@ -3,15 +3,17 @@
   - PARENT -> componegg, egglement, containegg
   - CHILDREN -> egglement, [componegg], [containegg]
  */
-const MockComponents = [
+const mockComponents = [
   {
-    'name': 'searchBar',
+    'name': 'search',
     'type': 'div',
     'egglement': true,
     'componegg': true,
     'containegg': true,
-    'width': 400,
+    'width': 250,
+    'minWidth': 150,
     'height': 40,
+    'minHeight': 32,
     'attrs': {},
     'styles': {},
     'classes': {},
@@ -19,12 +21,11 @@ const MockComponents = [
       {
         'type': 'input',
         'egglement': true,
-        'width': '65%',
-        'minWidth': 32,
+        'left': 0,
+        'width': '70%',
         'height': '100%',
-        'minHeight': 32,
         'attrs': {
-          'placeholder': 'Type your search...'
+          'placeholder': 'Search...'
         },
         'styles': {
           'padding': 0,
@@ -36,19 +37,19 @@ const MockComponents = [
         'classes': {}
       }, {
         'type': 'button',
-        'text': 'Search',
+        'text': 'search',
         'egglement': true,
         'right': 0,
         'width': '30%',
-        'minWidth': 32,
         'height': '100%',
-        'minHeight': 32,
         'attrs': {},
-        'styles': {},
+        'styles': {
+          'font-family': '"Material Icons"'
+        },
         'classes': {}
       }
     ]
   }
 ]
 
-export default MockComponents
+export default mockComponents

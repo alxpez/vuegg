@@ -3,7 +3,7 @@
   - PARENT -> external, componegg, egglement
   - CHILDREN -> (none)
  */
-const MockComponents = [
+const materialComponents = [
 
   // --- DRAWER --- //
   {
@@ -214,115 +214,6 @@ const MockComponents = [
     ]
   },
 
-  // --- BUTTON --- //
-  {
-    'displayName': 'Button',
-    'iconName': 'mdcButton',
-    'name': 'mdcButtonComp',
-    'type': 'mdc-button',
-    'dependencies': [
-      {
-        'name': 'vue-mdc-adapter',
-        'version': '^0.9.2',
-        'imports': [
-          ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.9.2/dist/vue-mdc-adapter.min.css'
-        ]
-      }
-    ],
-    'external': true,
-    'componegg': true,
-    'egglement': true,
-    'text': 'mdcButton',
-    'height': 36,
-    'width': 120,
-    'minHeight': 32,
-    'minWidth': 64,
-    'attrs': {
-      'baseline': false,
-      'raised': true,
-      'unelevated': false,
-      'stroked': false,
-      'disabled': false,
-      'accent': false
-    },
-    'styles': {},
-    'classes': {},
-    'children': []
-  },
-
-  // --- TEXTFIELD --- //
-  {
-    'displayName': 'Textfield',
-    'iconName': 'mdcTextfield',
-    'name': 'mdcTextfieldComp',
-    'type': 'mdc-textfield',
-    'dependencies': [
-      {
-        'name': 'vue-mdc-adapter',
-        'version': '^0.9.2',
-        'imports': [
-          ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.9.2/dist/vue-mdc-adapter.min.css'
-        ]
-      }
-    ],
-    'external': true,
-    'componegg': true,
-    'egglement': true,
-    'height': 56,
-    'width': 120,
-    'minHeight': 56,
-    'minWidth': 56,
-    'attrs': {
-      'label': 'Label',
-      'value': 'Textfield',
-      'dense': false,
-      'box': false,
-      'outline': false,
-      'fullwidth': false,
-      'multiline': false,
-      'rows': 100,
-      'disabled': false
-    },
-    'styles': {},
-    'classes': {},
-    'children': []
-  },
-
-  // --- RADIO --- //
-  {
-    'displayName': 'Radio',
-    'iconName': 'mdcRadio',
-    'name': 'mdcRadioComp',
-    'type': 'mdc-radio',
-    'dependencies': [
-      {
-        'name': 'vue-mdc-adapter',
-        'version': '^0.9.2',
-        'imports': [
-          ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.9.2/dist/vue-mdc-adapter.min.css'
-        ]
-      }
-    ],
-    'external': true,
-    'componegg': true,
-    'egglement': true,
-    'height': 40,
-    'width': 155,
-    'minHeight': 32,
-    'minWidth': 32,
-    'attrs': {
-      'label': 'MDC Radio',
-      'name': 'default-mdc-group',
-      'disabled': false
-    },
-    'styles': {},
-    'classes': {},
-    'children': []
-  },
-
   // --- CHECKBOX --- //
   {
     'displayName': 'Checkbox',
@@ -356,12 +247,12 @@ const MockComponents = [
     'children': []
   },
 
-  // --- FLOATING ACTION BUTTON --- //
+  // --- CARD --- //
   {
-    'displayName': 'FAB',
-    'iconName': 'mdcButton',
-    'name': 'mdcFABComp',
-    'type': 'mdc-fab',
+    'displayName': 'Card',
+    'iconName': 'mdcCard',
+    'name': 'mdcCardComp',
+    'type': 'mdc-card',
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
@@ -375,16 +266,56 @@ const MockComponents = [
     'external': true,
     'componegg': true,
     'egglement': true,
-    'height': 56,
-    'width': 56,
-    'minHeight': 40,
-    'minWidth': 40,
-    'attrs': {
-      'icon': 'add'
+    'height': 300,
+    'minHeight': 300,
+    'width': 320,
+    'minWidth': 250,
+    'attrs': {},
+    'styles': {
+      'background-color': '#fff'
     },
-    'styles': {},
     'classes': {},
-    'children': []
+    'children': [
+      {
+        'type': 'mdc-card-media',
+        'attrs': {
+          'height': 160,
+          'src': 'https://material-components-web.appspot.com/images/16-9.jpg'
+        },
+        'styles': {},
+        'classes': {},
+        'children': []
+      }, {
+        'type': 'mdc-card-header',
+        'attrs': {
+          'title': 'Title',
+          'subtitle': 'Subtitle'
+        },
+        'styles': {},
+        'classes': {},
+        'children': []
+      }, {
+        'type': 'mdc-card-actions',
+        'attrs': {},
+        'styles': {},
+        'classes': {},
+        'children': [
+          {
+            'type': 'mdc-card-action-button',
+            'text': 'Action 1',
+            'attrs': {},
+            'styles': {},
+            'classes': {}
+          }, {
+            'type': 'mdc-card-action-button',
+            'text': 'Action 2',
+            'attrs': {},
+            'styles': {},
+            'classes': {}
+          }
+        ]
+      }
+    ]
   },
 
   // --- LIST --- //
@@ -446,36 +377,12 @@ const MockComponents = [
     ]
   },
 
-  // --- ICON --- //
-  // This is not really a MDC (not even a component),
-  // but it uses Material Design Icons...
-  // and the elementsMenu looks much better
+  // --- BUTTON --- //
   {
-    'displayName': 'Icon',
-    'iconName': 'icon',
-    'name': 'icon',
-    'type': 'i',
-    'egglement': true,
-    'text': 'insert_emoticon',
-    'width': 32,
-    'height': 32,
-    'attrs': {},
-    'styles': {
-      'font-family': '"Material Icons"',
-      'font-size': 32,
-      'text-align': 'center'
-    },
-    'classes': {
-      'material-icons': true
-    }
-  },
-
-  // --- SWITCH --- //
-  {
-    'displayName': 'Switch',
-    'iconName': 'mdcSwitch',
-    'name': 'mdcSwitchComp',
-    'type': 'mdc-switch',
+    'displayName': 'Button',
+    'iconName': 'mdcButton',
+    'name': 'mdcButtonComp',
+    'type': 'mdc-button',
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
@@ -489,12 +396,81 @@ const MockComponents = [
     'external': true,
     'componegg': true,
     'egglement': true,
-    'height': 46,
-    'width': 130,
+    'text': 'mdcButton',
+    'height': 36,
+    'width': 120,
+    'minHeight': 32,
+    'minWidth': 64,
     'attrs': {
-      'label': 'MDC Switch',
-      'checked': true,
-      'align-end': false,
+      'baseline': false,
+      'raised': true,
+      'unelevated': false,
+      'stroked': false,
+      'disabled': false,
+      'accent': false
+    },
+    'styles': {},
+    'classes': {},
+    'children': []
+  },
+
+  // --- FLOATING ACTION BUTTON --- //
+  {
+    'displayName': 'FAB',
+    'iconName': 'mdcButton',
+    'name': 'mdcFABComp',
+    'type': 'mdc-fab',
+    'dependencies': [
+      {
+        'name': 'vue-mdc-adapter',
+        'version': '^0.9.2',
+        'imports': [
+          ['VueMDCAdapter', 'vue-mdc-adapter'],
+          'https://unpkg.com/vue-mdc-adapter@^0.9.2/dist/vue-mdc-adapter.min.css'
+        ]
+      }
+    ],
+    'external': true,
+    'componegg': true,
+    'egglement': true,
+    'height': 56,
+    'width': 56,
+    'minHeight': 40,
+    'minWidth': 40,
+    'attrs': {
+      'icon': 'add'
+    },
+    'styles': {},
+    'classes': {},
+    'children': []
+  },
+
+  // --- RADIO --- //
+  {
+    'displayName': 'Radio',
+    'iconName': 'mdcRadio',
+    'name': 'mdcRadioComp',
+    'type': 'mdc-radio',
+    'dependencies': [
+      {
+        'name': 'vue-mdc-adapter',
+        'version': '^0.9.2',
+        'imports': [
+          ['VueMDCAdapter', 'vue-mdc-adapter'],
+          'https://unpkg.com/vue-mdc-adapter@^0.9.2/dist/vue-mdc-adapter.min.css'
+        ]
+      }
+    ],
+    'external': true,
+    'componegg': true,
+    'egglement': true,
+    'height': 40,
+    'width': 155,
+    'minHeight': 32,
+    'minWidth': 32,
+    'attrs': {
+      'label': 'MDC Radio',
+      'name': 'default-mdc-group',
       'disabled': false
     },
     'styles': {},
@@ -533,7 +509,78 @@ const MockComponents = [
     'styles': {},
     'classes': {},
     'children': []
+  },
+
+  // --- SWITCH --- //
+  {
+    'displayName': 'Switch',
+    'iconName': 'mdcSwitch',
+    'name': 'mdcSwitchComp',
+    'type': 'mdc-switch',
+    'dependencies': [
+      {
+        'name': 'vue-mdc-adapter',
+        'version': '^0.9.2',
+        'imports': [
+          ['VueMDCAdapter', 'vue-mdc-adapter'],
+          'https://unpkg.com/vue-mdc-adapter@^0.9.2/dist/vue-mdc-adapter.min.css'
+        ]
+      }
+    ],
+    'external': true,
+    'componegg': true,
+    'egglement': true,
+    'height': 46,
+    'width': 130,
+    'attrs': {
+      'label': 'MDC Switch',
+      'checked': true,
+      'align-end': false,
+      'disabled': false
+    },
+    'styles': {},
+    'classes': {},
+    'children': []
+  },
+
+  // --- TEXTFIELD --- //
+  {
+    'displayName': 'Textfield',
+    'iconName': 'mdcTextfield',
+    'name': 'mdcTextfieldComp',
+    'type': 'mdc-textfield',
+    'dependencies': [
+      {
+        'name': 'vue-mdc-adapter',
+        'version': '^0.9.2',
+        'imports': [
+          ['VueMDCAdapter', 'vue-mdc-adapter'],
+          'https://unpkg.com/vue-mdc-adapter@^0.9.2/dist/vue-mdc-adapter.min.css'
+        ]
+      }
+    ],
+    'external': true,
+    'componegg': true,
+    'egglement': true,
+    'height': 56,
+    'width': 120,
+    'minHeight': 56,
+    'minWidth': 56,
+    'attrs': {
+      'label': 'Label',
+      'value': 'Textfield',
+      'dense': false,
+      'box': false,
+      'outline': false,
+      'fullwidth': false,
+      'multiline': false,
+      'rows': 100,
+      'disabled': false
+    },
+    'styles': {},
+    'classes': {},
+    'children': []
   }
 ]
 
-export default MockComponents
+export default materialComponents
