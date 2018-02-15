@@ -33,34 +33,11 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 
 ---
 
-## Editor Mouse/Key combinations
-
-SELECTION
-* **MOUSE DOWN + DRAG + MOUSE UP** -> DRAW SELECTION AREA*
-* **[CTRL | META] + CLICK** -> SELECT OUTER-MOST ITEM, OR PARENT CONTAINER*
-* **[CTRL | META] + SHIFT + CLICK** -> ADD [OUTER-MOST] ITEM TO SELECTION
-
-* **ESC** -> CLEAR SELECTION
-
-(* These options will only select the outer-most items, or direct page children)
-
-UNDO / REDO
-* **[CTRL | META] + z** -> UNDO
-* **[CTRL | META] + SHIFT + z** -> REDO
-
-COPY / CUT / PASTE
-* **[CTRL | META] + c** -> COPY
-* **[CTRL | META] + x** -> CUT
-* **[CTRL | META] + v** -> PASTE
-
-DELETE
-* **[DELETE | BACKSPACE]**
-
 
 ## Development notes
 
 **Basic Elements**
-* Props: **egglement**, [**containegg**]
+* Props: **egglement**, [**wrappegg**, **containegg**]
 
 * *Renders directly on the page.*
 
@@ -69,7 +46,7 @@ DELETE
 **Vuegg components**
 * Wrapper props: **egglement**, **componegg**, **containegg**
 
-* Children props: **egglement**, [**componegg**], [**containegg**]
+* Children props: **egglement**, [**wrappegg**, **componegg**, **containegg**]
 
 * *For render information see in-line and global components*
 

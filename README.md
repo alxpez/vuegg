@@ -22,14 +22,39 @@
 ## Main Features
 
 * Mockup / UI design
-* Key-combinations support in editor
-* Responsive preview
-* Basic HTML5 elements
-* Material componentes ([vue-mdc-adapter](https://github.com/stasson/vue-mdc-adapter))
+* [Mouse and Keyboard combinations](https://github.com/vuegg/vuegg#mousekeyboard-combinations) support in editor
+* Responsive preview (phone, tablet, web)
+* Basic set of HTML5 elements
+* Material design components ([vue-mdc-adapter](https://github.com/stasson/vue-mdc-adapter))
 * [Vuejs](https://github.com/vuejs/vue) sources generation (download .zip)
 * Connect with GitHub (save/load vuegg projects)
 * Local persistence
-* More to come... // WIP
+* // WIP
+
+</br>
+
+### Mouse / Keyboard combinations
+
+##### Selection
+* **Mouse down + Drag + Mouse up**: Draw a selection area*
+* **[Ctrl | Meta] + Click**: Select outer-most item, or parent container*
+* **[Ctrl | Meta] + Shift + Click**: Add [outer-most] item to selection
+
+* **ESC** -> Clear selection
+
+(* These options will only select the outer-most items, or direct page children)
+
+##### Undo / Redo
+* **[Ctrl | Meta] + z**: Undo
+* **[Ctrl | Meta] + Shift + z**: Redo
+
+##### Copy / Cut / paste
+* **[Ctrl | Meta] + c**: Copy
+* **[Ctrl | Meta] + x**: Cut
+* **[Ctrl | Meta] + v**: paste
+
+##### Delete
+* **[Delete | Backspace]**
 
 </br>
 
