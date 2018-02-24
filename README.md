@@ -22,7 +22,7 @@
 ## Main Features
 
 * Mockup / UI design
-* [Mouse and Keyboard combinations](https://github.com/vuegg/vuegg#mousekeyboard-combinations) support in editor
+* [Mouse and Keyboard combinations](https://github.com/vuegg/vuegg#mouse--keyboard-combinations) support in editor
 * Responsive preview (phone, tablet, web)
 * Basic set of HTML5 elements
 * Material design components ([vue-mdc-adapter](https://github.com/stasson/vue-mdc-adapter))
