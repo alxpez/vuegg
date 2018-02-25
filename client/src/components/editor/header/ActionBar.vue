@@ -179,6 +179,7 @@ export default {
 }
 
 .mdc-menu {
+  background-color: #fff;
   transform-origin: right top 0 !important;
   top: 0px !important;
   right: 0px;

@@ -185,6 +185,9 @@ export default {
 .mdc-menu-anchor {
   cursor: pointer;
 }
+.mdc-menu {
+  background-color: #fff;
+}
 
 .new-page-btn {
   position: fixed;
