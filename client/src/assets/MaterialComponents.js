@@ -476,6 +476,8 @@ const materialComponents = [
     'attrs': {
       'label': 'MDC Radio',
       'name': 'default-mdc-group',
+      'checked': false,
+      'align-end': false,
       'disabled': false
     },
     'styles': {},
