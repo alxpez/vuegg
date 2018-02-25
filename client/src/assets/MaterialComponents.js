@@ -349,7 +349,8 @@ const materialComponents = [
       'dense': false,
       'bordered': true,
       'two-line': false,
-      'avatar-list': false
+      'avatar-list': false,
+      'interactive': false
     },
     'styles': {
       'overflow': 'hidden'
