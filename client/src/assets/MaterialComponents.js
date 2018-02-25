@@ -30,6 +30,9 @@ const materialComponents = [
     'width': 240,
     'attrs': {
       'toolbar-spacer': true,
+      'permanent': false,
+      'persistent': false,
+      'temporary': true,
       'toggle-on': 'toggledrawer'
     },
     'styles': {},
