@@ -569,7 +569,6 @@ const materialComponents = [
     'attrs': {
       'label': 'Label',
       'value': 'Textfield',
-      'helptext': 'Help text',
       'dense': false,
       'box': false,
       'outline': false,
