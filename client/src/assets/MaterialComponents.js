@@ -14,10 +14,10 @@ const materialComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.9.2',
+        'version': '^0.11.0',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.9.2/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.11.0/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
@@ -80,10 +80,10 @@ const materialComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.9.2',
+        'version': '^0.11.0',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.9.2/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.11.0/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
@@ -159,10 +159,10 @@ const materialComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.9.2',
+        'version': '^0.11.0',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.9.2/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.11.0/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
@@ -223,10 +223,10 @@ const materialComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.9.2',
+        'version': '^0.11.0',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.9.2/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.11.0/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
@@ -256,10 +256,10 @@ const materialComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.9.2',
+        'version': '^0.11.0',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.9.2/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.11.0/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
@@ -327,10 +327,10 @@ const materialComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.9.2',
+        'version': '^0.11.0',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.9.2/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.11.0/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
@@ -386,10 +386,10 @@ const materialComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.9.2',
+        'version': '^0.11.0',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.9.2/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.11.0/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
@@ -423,10 +423,10 @@ const materialComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.9.2',
+        'version': '^0.11.0',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.9.2/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.11.0/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
@@ -454,10 +454,10 @@ const materialComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.9.2',
+        'version': '^0.11.0',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.9.2/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.11.0/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
@@ -487,10 +487,10 @@ const materialComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.9.2',
+        'version': '^0.11.0',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.9.2/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.11.0/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
@@ -520,10 +520,10 @@ const materialComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.9.2',
+        'version': '^0.11.0',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.9.2/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.11.0/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
@@ -552,10 +552,10 @@ const materialComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.9.2',
+        'version': '^0.11.0',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.9.2/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.11.0/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
