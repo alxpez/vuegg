@@ -243,6 +243,7 @@ const materialComponents = [
     'attrs': {
       'label': 'MDC Checkbox',
       'indeterminate': true,
+      'align-end': false,
       'disabled': false
     },
     'styles': {},
