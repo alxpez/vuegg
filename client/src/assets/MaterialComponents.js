@@ -266,10 +266,10 @@ const materialComponents = [
     'external': true,
     'componegg': true,
     'egglement': true,
-    'height': 300,
-    'minHeight': 300,
-    'width': 320,
-    'minWidth': 250,
+    'height': 310,
+    'minHeight': 230,
+    'width': 300,
+    'minWidth': 150,
     'attrs': {},
     'styles': {
       'background-color': '#fff'
