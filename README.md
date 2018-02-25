@@ -5,6 +5,7 @@
 </p>
 <h1 align="center">vuegg</h1>
 <p align="center"><strong>vue</strong>.js <strong>G</strong>UI <strong>g</strong>enerator</p>
+<p align="center">Create mockups and code in one go!</p>
 
 </br>
 
