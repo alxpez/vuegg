@@ -34,7 +34,7 @@
     "vue": "^2.5.13",
     "vue-color": "^2.4.4",
     "vue-directive-tooltip": "^1.4.2",
-    "vue-mdc-adapter": "^0.11.0",
+    "vue-mdc-adapter": "^0.11.2",
     "vue-router": "^2.8.1",
     "vuex": "^2.5.0"
   },
