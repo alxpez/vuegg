@@ -5,6 +5,7 @@
 </p>
 <h1 align="center">vuegg</h1>
 <p align="center"><strong>vue</strong>.js <strong>G</strong>UI <strong>g</strong>enerator</p>
+<p align="center">Create mockups and code in one go!</p>
 
 </br>
 
@@ -22,7 +23,7 @@
 ## Main Features
 
 * Mockup / UI design
-* [Mouse and Keyboard combinations](https://github.com/vuegg/vuegg#mousekeyboard-combinations) support in editor
+* [Mouse and Keyboard combinations](https://github.com/vuegg/vuegg#mouse--keyboard-combinations) support in editor
 * Responsive preview (phone, tablet, web)
 * Basic set of HTML5 elements
 * Material design components ([vue-mdc-adapter](https://github.com/stasson/vue-mdc-adapter))
@@ -37,24 +38,24 @@
 
 ##### Selection
 * **Mouse down + Drag + Mouse up**: Draw a selection area*
-* **[Ctrl | Meta] + Click**: Select outer-most item, or parent container*
-* **[Ctrl | Meta] + Shift + Click**: Add [outer-most] item to selection
+* **[Ctrl or Meta] + Click**: Select outer-most item, or parent container*
+* **[Ctrl or Meta] + Shift + Click**: Add [outer-most] item to selection
 
-* **ESC** -> Clear selection
+* **Esc**: Clear selection
 
 (* These options will only select the outer-most items, or direct page children)
 
 ##### Undo / Redo
-* **[Ctrl | Meta] + z**: Undo
-* **[Ctrl | Meta] + Shift + z**: Redo
+* **[Ctrl or Meta] + z**: Undo
+* **[Ctrl or Meta] + Shift + z**: Redo
 
 ##### Copy / Cut / paste
-* **[Ctrl | Meta] + c**: Copy
-* **[Ctrl | Meta] + x**: Cut
-* **[Ctrl | Meta] + v**: paste
+* **[Ctrl or Meta] + c**: Copy
+* **[Ctrl or Meta] + x**: Cut
+* **[Ctrl or Meta] + v**: paste
 
 ##### Delete
-* **[Delete | Backspace]**
+* **[Delete or Backspace]**
 
 </br>
 

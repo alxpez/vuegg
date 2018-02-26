@@ -75,6 +75,7 @@ export default {
         this.showSettings = true
         this.showElements = this.showPages = false
         this.activeTabX = 80
+        this.$root.$emit('show-settings')
       }
       if (name === 'pages') {
         this.showPages = true
