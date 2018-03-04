@@ -51,7 +51,7 @@ const basicElements = [
         'children': [
           {
             'type': 'th',
-            'text': ' head 1',
+            'text': 'head 1',
             'attrs': {},
             'styles': {
               'padding': '0 8px'
