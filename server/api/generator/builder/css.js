@@ -11,7 +11,7 @@ const S = require('string')
  * @return {string} : Style definitions for the provided element (and its children)
  */
 function _cssBuilder (el, isRoot) {
-  if (!isRoot && !el.egglement) return ''
+  if ((!isRoot || !el.egglement) && (!el.styles || Object.keys(el.styles).length === 0)) return ''
 
   const selector = isRoot ? '#' : '.'
   const className = el.id.substr(el.id.lastIndexOf(".") + 1)
@@ -60,7 +60,7 @@ function buildRoot (el) {
  * Creates the CSS definition for a nested element
  */
 function buildNested (el) {
-  let nestedCSS = el.egglement ? {position: 'absolute'} : {}
+  let nestedCSS = el.egglement ? {...el.styles, position: 'absolute'} : el.styles
 
   if (typeof el.width !== 'undefined' && el.width !== null && el.width !== 'auto') {
     nestedCSS = {...nestedCSS, width: isNaN(el.width) ? el.width : (el.width + 'px')}
