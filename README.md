@@ -16,6 +16,10 @@
   <a href="https://github.com/vuegg/vuegg/blob/master/LICENSE">
     <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="mit">
   </a>
+  <a href="https://travis-ci.org/vuegg/vuegg/branches">
+    <img src="https://travis-ci.org/vuegg/vuegg.svg?branch=master" alt="travis-ci">
+  </a>
+  
 </p>
 
 </br>
