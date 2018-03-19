@@ -1,5 +1,16 @@
 <template>
   <div id="app" class="mdc-theme--background">
+    <div class="viewport-splash_wrapper">
+      <div class="viewport-splash_content">
+        <svgicon icon="product/vuegg" width="180" height="180" :original="true"></svgicon>
+        <h3>Sorry about that!</h3>
+        <p>
+          It looks like your screen is too small to use vuegg properly,
+          please increase your browser size or visit on a larger device.
+        </p>
+        <p><b>NOTE</b>: As for today, vuegg does not support touch devices.</p>
+      </div>
+    </div>
     <router-view></router-view>
   </div>
 </template>
@@ -8,6 +19,8 @@
 import { mapActions, mapMutations } from 'vuex'
 import { loadVueggProject } from '@/store/types'
 import redoundo from '@/mixins/redoundo'
+
+import '@/assets/icons/product/vuegg'
 
 export default {
   name: 'app',
@@ -30,6 +43,32 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   width: 100%;
   height: 100%;
+}
+
+.viewport-splash_wrapper {
+  display: none;
+}
+
+@media screen and (max-width: 1024px) {
+  .viewport-splash_wrapper {
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    background-color: rgba(0,0,0,0.87);
+  }
+
+  .viewport-splash_content {
+    color: white;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    padding: 0 47px;
+    width: 100%;
+  }
 }
 
 .vue-tooltip.tooltip-vuegg {
