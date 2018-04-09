@@ -5,7 +5,7 @@
 </p>
 <h1 align="center">vuegg</h1>
 <p align="center"><strong>vue</strong>.js <strong>G</strong>UI <strong>g</strong>enerator</p>
-<p align="center">Create mockups and code in one go!</p>
+<p align="center">Mockups and code in one go!</p>
 
 </br>
 
@@ -19,57 +19,51 @@
   <a href="https://travis-ci.org/vuegg/vuegg/branches">
     <img src="https://travis-ci.org/vuegg/vuegg.svg?branch=master" alt="travis-ci">
   </a>
-  
 </p>
+
+</br>
+
+## Concept
+
+Scaffold vuejs projects by dragging-dropping components directly into the visual editor and moving-resizing them to your choice. Vuegg leverages the creation of the pages and routes of your app/website, eases the styling work and helps to achieve a rapid-prototyping workflow (... at least in theory).
+
+The aim of this project is to merge designing and prototyping into one single process. Whenever you're happy with what you see on the screen, just get your code.
 
 </br>
 
 ## Main Features
 
-* Mockup / UI design
-* [Mouse and Keyboard combinations](https://github.com/vuegg/vuegg#mouse--keyboard-combinations) support in editor
+* Mockup / prototype by drag'n'drop components and move/resize them
+* Standard [Mouse and Keyboard combinations](https://github.com/vuegg/vuegg#mouse--keyboard-combinations), supported
 * Responsive preview (phone, tablet, web)
 * Basic set of HTML5 elements
 * Material design components ([vue-mdc-adapter](https://github.com/stasson/vue-mdc-adapter))
 * [Vuejs](https://github.com/vuejs/vue) sources generation (download .zip)
 * Connect with GitHub (save/load vuegg projects)
-* Local persistence
-* // WIP
+* Local persistence to save the work in progress
+* ... more to come with time
 
 </br>
 
-### Mouse / Keyboard combinations
+## Mouse / Keyboard combinations
 
-##### Selection
-* **Mouse down + Drag + Mouse up**: Draw a selection area*
-* **[Ctrl or Meta] + Click**: Select outer-most item, or parent container*
-* **[Ctrl or Meta] + Shift + Click**: Add [outer-most] item to selection
-
+#### Selection
+* **Mouse down + Drag + Mouse up**: Draw a selection area
+* **Ctrl [or Meta] + Click**: Select outer-most item, or parent container
+* **Ctrl [or Meta] + Shift + Click**: Add [outer-most] item to selection
 * **Esc**: Clear selection
 
-(* These options will only select the outer-most items, or direct page children)
+#### Undo / Redo
+* **Ctrl [or Meta] + Z**: Undo
+* **Ctrl [or Meta] + Shift + Z**: Redo
 
-##### Undo / Redo
-* **[Ctrl or Meta] + z**: Undo
-* **[Ctrl or Meta] + Shift + z**: Redo
+#### Copy / Cut / paste
+* **Ctrl [or Meta] + C**: Copy
+* **Ctrl [or Meta] + X**: Cut
+* **Ctrl [or Meta] + V**: paste
 
-##### Copy / Cut / paste
-* **[Ctrl or Meta] + c**: Copy
-* **[Ctrl or Meta] + x**: Cut
-* **[Ctrl or Meta] + v**: paste
-
-##### Delete
-* **[Delete or Backspace]**
-
-</br>
-
-## About
-
-Vuegg is a work-in-progress concept project, feel free to fork it or contribute however possible.
-
-The project was born as a sandbox for me to get started on the [vue](https://github.com/vuejs/vue) world, in fact its ~~un~~original name was vuexample (*very unique*, I thought at the time).
-
-Not long after it became a personal challenge, I went on adding new features (mainly things I feel like learning) and gave it a proper name (and even a *face*). Eventually I considered it to be ready for the open-source community... and here is *vuegg*, my pet project.
+#### Delete
+* **Delete [or Backspace]**
 
 </br>
 
@@ -121,3 +115,13 @@ npm run build
 npm run start
 ```
 Navigate to `localhost:5000` to serve (a production-ready) vuegg.
+
+</br>
+
+## About
+
+Vuegg is a work-in-progress concept project, feel free to fork it or contribute however possible.
+
+The project was born as a sandbox for me to get started on the [vue](https://github.com/vuejs/vue) world, in fact its ~~un~~original name was vuexample (*very unique*, I thought at the time).
+
+Not long after it became a personal challenge, I went on adding new features (mainly things I feel like learning) and gave it a proper name (and even a *face*). Eventually I considered it to be ready for the open-source community... and here is *vuegg*, my pet project.
