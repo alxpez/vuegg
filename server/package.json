@@ -18,20 +18,20 @@
     "archiver": "^2.1.1",
     "koa": "^2.5.0",
     "koa-body": "^2.5.0",
-    "koa-logger": "^3.1.0",
+    "koa-logger": "^3.2.0",
     "koa-router": "^7.4.0",
     "koa-static": "^4.0.2",
     "koa2-history-api-fallback": "0.0.5",
     "nodegit": "^0.20.3",
     "ora": "^1.4.0",
-    "request": "^2.83.0",
+    "request": "^2.85.0",
     "request-promise-native": "^1.0.5",
     "shelljs": "^0.7.8",
     "shortid": "^2.2.8",
     "string": "^3.3.3"
   },
   "devDependencies": {
-    "nodemon": "^1.14.12"
+    "nodemon": "^1.17.3"
   },
   "repository": {
     "type": "git",

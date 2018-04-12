@@ -11,13 +11,13 @@
 
 <p align="center">
   <a href="https://github.com/vuejs/vue">
-    <img src="https://img.shields.io/badge/vue-%5E2.5-41b883.svg" alt="vue">
+    <img src="https://img.shields.io/badge/vue-%5E2.5-41b883.svg?longCache=true" alt="vue">
   </a>
   <a href="https://github.com/vuegg/vuegg/blob/master/LICENSE">
-    <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="mit">
+    <img src="https://img.shields.io/badge/license-MIT-green.svg?longCache=true" alt="mit">
   </a>
   <a href="https://travis-ci.org/vuegg/vuegg/branches">
-    <img src="https://travis-ci.org/vuegg/vuegg.svg?branch=master" alt="travis-ci">
+    <img src="https://img.shields.io/travis/vuegg/vuegg/master.svg" alt="travis-ci">
   </a>
 </p>
 
@@ -42,6 +42,26 @@ The aim of this project is to merge designing and prototyping into one single pr
 * Connect with GitHub (save/load vuegg projects)
 * Local persistence to save the work in progress
 * ... more to come with time
+
+</br>
+
+## Roadmap
+
+Off the top of my head, I foresee the following points to be developed in the next releases. Don't hesitate to open an issue if you have a feature request.
+
+- [ ] Hold shift to maintain aspect ratio on manual resize
+- [ ] Ability to zoom-in / zoom-out in the editor
+- [ ] Allow the insertion of raw CSS rules (expert mode)
+  - [ ] Identify possible risks
+- [ ] Add extra styles controls
+  - [ ] BoxShadow
+  - [ ] Overflow
+  - [ ] TextOverflow
+- [ ] Manage creation/edition of custom components
+  - [ ] Transition to custom component (group/ungroup)
+  - [ ] Implement custom component editor view
+- [ ] Implement tree navigator to visualize page structure
+
 
 </br>
 
