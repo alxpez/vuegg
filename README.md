@@ -11,13 +11,13 @@
 
 <p align="center">
   <a href="https://github.com/vuejs/vue">
-    <img src="https://img.shields.io/badge/vue-%5E2.5-41b883.svg" alt="vue">
+    <img src="https://img.shields.io/badge/vue-%5E2.5-41b883.svg?longCache=true" alt="vue">
   </a>
   <a href="https://github.com/vuegg/vuegg/blob/master/LICENSE">
-    <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="mit">
+    <img src="https://img.shields.io/badge/license-MIT-green.svg?longCache=true" alt="mit">
   </a>
   <a href="https://travis-ci.org/vuegg/vuegg/branches">
-    <img src="https://travis-ci.org/vuegg/vuegg.svg?branch=master" alt="travis-ci">
+    <img src="https://img.shields.io/travis/vuegg/vuegg/master.svg" alt="travis-ci">
   </a>
 </p>
 
