@@ -15,12 +15,17 @@
     "build": "cd client && npm run build",
     "start": "cd server && npm run start",
     "now-build": "npm run install:server",
-    "deploy:test": "npm run build && now -f -p",
-    "deploy:prod": "npm run build && now -f -p && now alias && now scale vuegg.now.sh 1"
+    "deploy": "npm run build && now -f -p"
   },
   "now": {
     "alias": "vuegg",
-    "dotenv": true
+    "dotenv": true,
+    "scale": {
+      "sfo1": {
+        "min": 3,
+        "max": 3
+      }
+    }
   },
   "engines": {
     "node": ">= 8.0.0",
