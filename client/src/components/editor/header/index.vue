@@ -1,6 +1,6 @@
 <template>
   <div class="headegg mdc-theme--background" :class="{'not-scrolled': scroll0}">
-    <a class="home-btn" href="https://github.com/vuegg" target="_blank">
+    <a class="home-btn" href="https://vuegg.github.io/" target="_blank">
       <svgicon icon="product/vuegg" width="40" height="40" :original="true"></svgicon>
     </a>
 
