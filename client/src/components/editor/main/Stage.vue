@@ -218,10 +218,10 @@ export default {
 
       for (let el of elementsOnPoint) {
         if (el.id === commonParentId) return null
-        if ((el.getAttribute('mr-container')) ||
+        if ((el.dataset.mrContainer) ||
           (
-            (el.getAttribute('containegg')) &&
-            (!el.getAttribute('componegg')) &&
+            (el.dataset.containegg) &&
+            (!el.dataset.componegg) &&
             (movingEggs.every(egg => !el.id.includes(egg.id)))
           )
         ) return el

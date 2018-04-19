@@ -1,5 +1,5 @@
 <template>
-  <div mr-el="true"
+  <div data-mr-el="true"
     class="mr-el"
     :style="style"
     @mousedown="e => $emit('activated', e)"
@@ -10,7 +10,7 @@
     <slot></slot>
     <!-- IMPORTANT! KEEP SLOT AS FIRST CHILD -->
 
-    <div mr-handle="true"
+    <div data-mr-handle="true"
       v-if="resizable"
       v-for="handle in handles"
       :key="handle"

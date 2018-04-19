@@ -72,10 +72,10 @@ export default {
       'style': styles,
       'attrs': {
         id: elementO.id,
-        global: elementO.global,
-        egglement: elementO.egglement,
-        containegg: elementO.containegg,
-        componegg: elementO.componegg,
+        'data-global': elementO.global,
+        'data-egglement': elementO.egglement,
+        'data-containegg': elementO.containegg,
+        'data-componegg': elementO.componegg,
         ...elementO.attrs
       }
     }

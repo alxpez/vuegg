@@ -1,5 +1,5 @@
 <template>
-  <div mr-container="true"
+  <div data-mr-container="true"
     class="mr-container"
     tabindex="0"
     @mousedown.capture="mouseDownHandler"
@@ -55,11 +55,11 @@ export default {
       this.initialAbsPos = this.currentAbsPos = this.getMouseAbsPoint(e)
       this.initialRelPos = this.currentRelPos = this.getMouseRelPoint(e)
 
-      if (e.target.getAttribute('mr-container')) {
+      if (e.target.dataset.mrContainer) {
         this.$emit('clearselection')
         this.renderSelectionArea({x: -1, y: -1}, {x: -1, y: -1})
         isMrs = this.selecting = true
-      } else if (e.target.getAttribute('mr-handle')) {
+      } else if (e.target.dataset.mrHandle) {
         isMrs = this.resizing = true
         this.handle = e.target.classList[1]
         // this.$emit('resizestart')
@@ -108,7 +108,7 @@ export default {
 
       if (this.resizing) {
         this.mrElements.map(mrEl => {
-          if (!mrEl.children[0].getAttribute('global')) this.resizeElementBy(mrEl, offX, offY)
+          if (!mrEl.children[0].dataset.global) this.resizeElementBy(mrEl, offX, offY)
         })
         // this.$emit('resizing')
       } else if (this.moving) {
@@ -226,8 +226,8 @@ export default {
 
       while (parentMr === null) {
         if (currentMr === null || currentMr.parentElement === null) break
-        else if (currentMr.getAttribute('mr-container') !== null) parentMr = currentMr
-        else if (currentMr.parentElement.getAttribute('mr-el') !== null) parentMr = currentMr.parentElement
+        else if (currentMr.dataset.mrContainer) parentMr = currentMr
+        else if (currentMr.parentElement.dataset.mrEl) parentMr = currentMr.parentElement
 
         currentMr = currentMr.parentElement
       }
