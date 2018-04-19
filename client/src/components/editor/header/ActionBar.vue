@@ -1,38 +1,38 @@
 <template>
   <div class="action-bar__wrapper">
-    <mdc-button v-if="isSyncing" title="syncing" :disabled="true" class="action-btn syncing" dense>
+    <button v-if="isSyncing" title="syncing" :disabled="true" class="action-btn syncing">
       <svgicon icon="system/actions/sync" width="24" height="24" color="rgba(0,0,0,.38)"></svgicon>
-    </mdc-button>
+    </button>
 
-    <mdc-button v-tooltip="'Undo'" class="action-btn" :disabled="!canUndo" @click="$root.$emit('undo')" dense>
+    <button v-tooltip="'Undo'" class="action-btn" :disabled="!canUndo" @click="$root.$emit('undo')">
       <svgicon icon="system/actions/undo" width="24" height="24"
         :color="canUndo ? '#2b6a73' : 'rgba(0,0,0,.38)'">
       </svgicon>
-    </mdc-button>
+    </button>
 
-    <mdc-button v-tooltip="'Redo'" class="action-btn" :disabled="!canRedo" @click="$root.$emit('redo')" dense>
+    <button v-tooltip="'Redo'" class="action-btn" :disabled="!canRedo" @click="$root.$emit('redo')">
       <svgicon icon="system/actions/redo" width="24" height="24"
         :color="canRedo ? '#2b6a73' : 'rgba(0,0,0,.38)'">
       </svgicon>
-    </mdc-button>
+    </button>
 
-    <mdc-button v-tooltip="'Preview'" class="action-btn" dense>
+    <button v-tooltip="'Preview'" class="action-btn">
       <router-link to="preview">
         <svgicon icon="system/actions/preview" width="24" height="24" color="#2b6a73"></svgicon>
       </router-link>
-    </mdc-button>
+    </button>
 
     <div class="separator"></div>
 
-    <mdc-button v-tooltip="'Clear project'" class="action-btn" dense
+    <button v-tooltip="'Clear project'" class="action-btn"
       :disabled="isLoading" @click="$root.$emit('open-confirm-dialog')">
       <svgicon icon="system/actions/delete" width="24" height="24" color="#2b6a73"></svgicon>
-    </mdc-button>
+    </button>
 
     <mdc-menu-anchor>
-      <mdc-button v-tooltip="'Open...'" class="action-btn" :disabled="isLoading" @click="showLoadFromMenu" dense>
+      <button v-tooltip="'Open...'" class="action-btn" :disabled="isLoading" @click="showLoadFromMenu">
         <svgicon icon="system/actions/folder" width="24" height="24" color="#2b6a73"></svgicon>
-      </mdc-button>
+      </button>
       <mdc-menu ref="loadFromMenu" @select="onSelectLoadFrom">
         <mdc-menu-item disabled>Open project:</mdc-menu-item>
         <mdc-menu-divider></mdc-menu-divider>
@@ -45,9 +45,9 @@
     </mdc-menu-anchor>
 
     <mdc-menu-anchor>
-      <mdc-button v-tooltip="'Download...'" class="action-btn" :disabled="isLoading" @click="showDownloadMenu" dense>
+      <button v-tooltip="'Download...'" class="action-btn" :disabled="isLoading" @click="showDownloadMenu">
         <svgicon icon="system/actions/download" width="24" height="24" color="#2b6a73"></svgicon>
-      </mdc-button>
+      </button>
       <mdc-menu ref="downloadMenu" @select="onSelectDownload">
         <mdc-menu-item disabled>Download:</mdc-menu-item>
         <mdc-menu-divider></mdc-menu-divider>
@@ -56,8 +56,8 @@
       </mdc-menu>
     </mdc-menu-anchor>
 
-    <mdc-button v-tooltip="saveBtnTitle" class="action-btn" @click="$root.$emit('open-upload-dialog')"
-      :disabled="!isLoggedIn || !hasChanges || (isLoggedIn && isLoading)" dense
+    <button v-tooltip="saveBtnTitle" class="action-btn" @click="$root.$emit('open-upload-dialog')"
+      :disabled="!isLoggedIn || !hasChanges || (isLoggedIn && isLoading)"
     >
       <svgicon icon="system/actions/cloud_off" v-if="!isLoggedIn"
         width="24" height="24" color="rgba(0,0,0,.38)">
@@ -68,7 +68,7 @@
       <svgicon icon="system/actions/cloud_done" v-else
         width="24" height="24" color="rgba(0,0,0,.38)">
       </svgicon>
-    </mdc-button>
+    </button>
 
     <div class="separator"></div>
   </div>
@@ -173,6 +173,17 @@ export default {
   padding: 1px;
   margin: 0 6px;
   border-radius: 100%;
+
+  background-color: transparent;
+  border: 0px none;
+  user-select: none;
+  outline: none;
+}
+.action-btn:hover {
+  background-color: rgba(43, 106, 115, 0.038);
+}
+.action-btn:active {
+  background-color: rgba(43, 106, 115, 0.38);
 }
 .action-btn * {
   vertical-align: middle;

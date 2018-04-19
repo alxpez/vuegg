@@ -5,39 +5,39 @@
     </div>
 
     <div class="action-bar__wrapper">
-      <mdc-button v-tooltip="'phone'" class="action-btn" @click="breakpoint='sm'" dense>
+      <button v-tooltip="'phone'" class="action-btn" @click="breakpoint='sm'">
         <svgicon icon="system/dev_sm" width="24" height="24"
           :color="(breakpoint === 'sm') ? '#fff' : 'rgba(255,255,255,.5)'">
         </svgicon>
-      </mdc-button>
+      </button>
 
-      <mdc-button v-tooltip="'tablet'" class="action-btn" @click="breakpoint='md'" dense>
+      <button v-tooltip="'tablet'" class="action-btn" @click="breakpoint='md'">
         <svgicon icon="system/dev_md" width="24" height="24"
           :color="(breakpoint === 'md') ? '#fff' : 'rgba(255,255,255,.5)'">
         </svgicon>
-      </mdc-button>
+      </button>
 
-      <mdc-button v-tooltip="'full screen'" class="action-btn" @click="breakpoint='lg'" dense>
+      <button v-tooltip="'full screen'" class="action-btn" @click="breakpoint='lg'">
         <svgicon icon="system/dev_lg" width="24" height="24"
           :color="(breakpoint === 'lg') ? '#fff' : 'rgba(255,255,255,.5)'">
         </svgicon>
-      </mdc-button>
+      </button>
 
       <div class="separator"></div>
 
       <mdc-menu-anchor>
-        <mdc-button v-tooltip="'Pages'" class="action-btn" @click="showPagesMenu" dense>
+        <button v-tooltip="'Pages'" class="action-btn" @click="showPagesMenu">
           <svgicon icon="system/page" width="24" height="24" color="#fff"></svgicon>
-        </mdc-button>
+        </button>
         <mdc-menu ref="pagesMenu" @select="({index})=>changePageIfNeeded(pages[index])">
           <mdc-menu-item v-for="page in pages" :key="page.id">{{page.name}}</mdc-menu-item>
         </mdc-menu>
       </mdc-menu-anchor>
 
       <router-link :to="{name: 'editor'}">
-        <mdc-button v-tooltip="'Close'" class="action-btn" dense>
+        <button v-tooltip="'Close'" class="action-btn">
           <svgicon icon="system/close" width="24" height="24" color="#fff"></svgicon>
-        </mdc-button>
+        </button>
       </router-link>
     </div>
   </div>
@@ -138,6 +138,17 @@ export default {
   padding: 1px;
   margin: 0 6px;
   border-radius: 100%;
+
+  background-color: transparent;
+  border: 0px none;
+  user-select: none;
+  outline: none;
+}
+.action-btn:hover {
+  background-color: rgba(238, 238, 238, 0.038);
+}
+.action-btn:active {
+  background-color: rgba(238, 238, 238, 0.38);
 }
 .action-btn * {
   vertical-align: middle;
