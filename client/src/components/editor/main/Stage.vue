@@ -41,13 +41,25 @@ import { _clearSelectedElements, _addSelectedElements, registerElement,
 import MrContainer from '@/components/editor/common/mr-vue/MrContainer'
 import StageEl from './StageEl'
 
+const DROP_BORDER = {
+  width: '2px',
+  style: 'solid',
+  color: '#f1867f'
+}
+
 export default {
   name: 'stage',
   components: { StageEl, MrContainer },
   props: ['page'],
   data: function () {
     return {
-      clipboard: []
+      clipboard: [],
+      dropContainer: null,
+      defaultBorder: {
+        width: '',
+        style: '',
+        color: ''
+      }
     }
   },
   computed: {
@@ -190,8 +202,8 @@ export default {
     },
 
     movingHandler (absMouseX, absMouseY) {
-      let containegg = this.getContaineggOnPoint(absMouseX, absMouseY)
-      this.toggleDroppableCursor(containegg)
+      this.dropContainer = this.getContaineggOnPoint(absMouseX, absMouseY)
+      this.toggleDroppableCursor(!!this.dropContainer)
     },
 
     moveStopHandler (moveStopData) {
@@ -208,6 +220,7 @@ export default {
 
       this.rebaseSelectedElements()
       this.toggleDroppableCursor(false)
+      this.dropContainer = null
     },
 
     getContaineggOnPoint (x, y) {
@@ -237,6 +250,24 @@ export default {
 
     ...mapActions([rebaseSelectedElements, registerElement, removeElement, resizeElement, moveElement]),
     ...mapMutations([_clearSelectedElements, _addSelectedElements])
+  },
+  watch: {
+    dropContainer: function (newVal, oldVal) {
+      if (oldVal) {
+        oldVal.style.borderWidth = this.defaultBorder.width
+        oldVal.style.borderStyle = this.defaultBorder.style
+        oldVal.style.borderColor = this.defaultBorder.color
+      }
+
+      if (newVal) {
+        this.defaultBorder.width = newVal.style.borderWidth
+        this.defaultBorder.style = newVal.style.borderStyle
+        this.defaultBorder.color = newVal.style.borderColor
+        newVal.style.borderWidth = DROP_BORDER.width
+        newVal.style.borderStyle = DROP_BORDER.style
+        newVal.style.borderColor = DROP_BORDER.color
+      }
+    }
   }
 }
 </script>
@@ -253,6 +284,7 @@ html.droppable * {
 .stage {
   user-select: none;
   margin: 10px auto 35px !important;
+  border: 2px solid rgba(0, 0, 0, 0);
   /* for paper style */
   box-shadow:
     0 2px 2px 0 rgba(0, 0, 0, 0.14),
