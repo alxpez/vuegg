@@ -11,16 +11,16 @@
 
 <p align="center">
   <a href="https://github.com/vuejs/vue">
-    <img src="https://img.shields.io/badge/vue-%5E2.5-41b883.svg?longCache=true" alt="vue">
+    <img src="https://img.shields.io/badge/vue-%5E2.5-41b883.svg?longCache=true" alt="vuejs">
   </a>
   <a href="https://github.com/vuegg/vuegg/blob/master/LICENSE">
-    <img src="https://img.shields.io/badge/license-MIT-green.svg?longCache=true" alt="mit">
+    <img src="https://img.shields.io/badge/license-MIT-green.svg?longCache=true" alt="MIT">
   </a>
   <a href="https://travis-ci.org/vuegg/vuegg/branches">
-    <img src="https://img.shields.io/travis/vuegg/vuegg/master.svg" alt="travis-ci">
+    <img src="https://api.travis-ci.org/vuegg/vuegg.svg" alt="travis-ci">
   </a>
   <a href="https://www.codacy.com/app/alxpez/vuegg">
-    <img src="https://api.codacy.com/project/badge/Grade/de93a9efffb4481f98c1201916dbe98f" alt="travis-ci">
+    <img src="https://api.codacy.com/project/badge/Grade/de93a9efffb4481f98c1201916dbe98f" alt="codacy">
   </a>
 </p>
 
