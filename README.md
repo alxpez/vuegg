@@ -19,6 +19,9 @@
   <a href="https://travis-ci.org/vuegg/vuegg/branches">
     <img src="https://img.shields.io/travis/vuegg/vuegg/master.svg" alt="travis-ci">
   </a>
+  <a href="https://www.codacy.com/app/alxpez/vuegg">
+    <img src="https://api.codacy.com/project/badge/Grade/de93a9efffb4481f98c1201916dbe98f" alt="travis-ci">
+  </a>
 </p>
 
 </br>
