@@ -24,6 +24,12 @@
   </a>
 </p>
 
+<p align="center">
+  <a href="https://github.com/vuegg/vuegg#donate">
+    <img src="https://img.shields.io/badge/%E2%9D%A4%EF%B8%8F-donate-red.svg?longCache=true" alt="donate">
+  </a>
+</p>
+
 </br>
 
 ## About vuegg
