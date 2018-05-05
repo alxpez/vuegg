@@ -174,6 +174,11 @@ export default {
 }
 </script>
 
+<style>
+.menus-wrapper input {
+  font-size: .813rem !important;
+}
+</style>
 
 <style scoped>
 .menus-wrapper {

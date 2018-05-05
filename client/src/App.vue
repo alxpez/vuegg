@@ -49,6 +49,14 @@ export default {
   display: none;
 }
 
+/* Tweak for mdc-select component to render correctly.
+For some reason autoprefixer is not adding the prefix to the
+appearance rule on the styles included on the element,
+including it as a global style seem to do the job */
+.mdc-select__native-control {
+  appearance: none;
+}
+
 @media screen and (max-width: 1024px) {
   .viewport-splash_wrapper {
     width: 100%;
