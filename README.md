@@ -85,6 +85,7 @@ The aim of this project is to merge designing and prototyping into one single pr
 
 Off the top of my head, I foresee the following features to be developed for the next releases:
 
+- [x] Visual feedback when dragging element over droppable container
 - [ ] Hold shift to maintain aspect ratio on manual resize
 - [ ] Ability to zoom-in / zoom-out in the editor
 - [ ] Allow the insertion of raw CSS rules (expert mode)
