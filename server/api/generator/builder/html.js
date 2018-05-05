@@ -36,7 +36,12 @@ function _htmlBuilder (el, level) {
       }
     }
   }
-  return "\n" + S(' ').times((level)*2).s + S(elDef).wrapHTML(elTag, elProps).replaceAll('="true"', '').s
+
+  let genHtml = "\n" + S(' ').times((level)*2).s + S(elDef).wrapHTML(elTag, elProps).replaceAll('="true"', '').s
+
+  return _isSelfClosing(elTag)
+    ? S(genHtml).replaceAll('></'.concat(elTag).concat('>'), '/>')
+    : genHtml
 }
 
 module.exports = _htmlBuilder
@@ -48,4 +53,11 @@ function _parseBooleanPropsToString (propList) {
     if (propList[prop] === true) parsedString += ' ' + prop
   }
   return parsedString
+}
+
+// Array with the self-closing tags used in vuegg
+const SCT = ['img', 'input']
+
+function _isSelfClosing (tag) {
+  return SCT.includes(tag)
 }
