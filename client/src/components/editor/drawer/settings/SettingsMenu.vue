@@ -1,5 +1,3 @@
-<!-- TODO: This component is getting quite big > divide settingsMenu into submenus components -->
-
 <template>
   <div class="menus-wrapper">
     <div class="selection-title__wrapper" :title="selectionTitle">
