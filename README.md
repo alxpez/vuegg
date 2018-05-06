@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://vuegg.github.io/" target="_blank">
-    <img width="180" src="https://vuegg.now.sh/static/vuegg-fam.svg">
+    <img width="180" src="https://vuegg.github.io/static/vuegg-fam.svg">
   </a>
 </p>
 <h1 align="center">vuegg</h1>
