@@ -81,6 +81,6 @@ export default {
 }
 
 .confirm-dialog__delete-btn {
-  background-color: #ea493f;
+  background-color: #ea493f !important;
 }
 </style>
