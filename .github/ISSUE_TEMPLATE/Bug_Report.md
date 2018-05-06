@@ -1,31 +1,36 @@
-<!--- Provide a general summary of the issue in the Title above -->
-<!-- Ideally start you title with "[Bug]" -->
+---
+name: Bug Report
+about: Report a bug to help vuegg improve
 
-## Description
-<!--- Provide a more detailed introduction to the issue itself, and why you consider it to be a bug -->
+---
 
-## Expected Behavior
-<!--- Tell us what should happen -->
+<!-- Provide a general summary of the issue in the Title above -->
+<!-- Ideally start your title with "[Bug]" -->
 
-## Actual Behavior
-<!--- Tell us what happens instead -->
+**Describe the bug**
+> A clear and concise description of what the bug is.
 
-## Possible Fix
-<!--- Not obligatory, but suggest a fix or reason for the bug -->
+**To Reproduce**
+<!-- Provide a link to a live example, or an unambiguous set of steps to reproduce this bug. Include code to reproduce, if relevant -->
+> Steps to reproduce the behavior:
+1. Go to '...'
+2. Click on '....'
+3. Scroll down to '....'
+4. See error
 
-## Steps to Reproduce
-<!--- Provide a link to a live example, or an unambiguous set of steps to -->
-<!--- reproduce this bug. Include code to reproduce, if relevant -->
-1.
-2.
-3.
-4.
+**Screenshots**
+> If applicable, add screenshots to help explain your problem.
 
-## Context
-<!--- How has this bug affected you? What were you trying to accomplish? -->
+**Expected behavior**
+> A clear and concise description of what you expected to happen.
 
-## Your Environment
-<!--- Include as many relevant details about the environment you experienced the bug in -->
-* Vuegg version used:
-* Browser Name and version:
-* OS and version:
+**Actual Behavior**
+> A clear and concise description of what it's actually happening.
+
+**Your environment**
+> - OS & version [e.g. iOS]
+> - Browser name & version [e.g. chrome, safari]
+> - Vuegg version [e.g. 22]
+
+**Additional context**
+> How has this bug affected you? What were you trying to accomplish?
