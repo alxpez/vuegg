@@ -85,6 +85,8 @@ The aim of this project is to merge designing and prototyping into one single pr
 
 Off the top of my head, I foresee the following features to be developed for the next releases:
 
+- [x] Visual feedback when dragging element over droppable container
+- [ ] Grid/layout overlays positioning guides ([#14](https://github.com/vuegg/vuegg/issues/14))
 - [ ] Hold shift to maintain aspect ratio on manual resize
 - [ ] Ability to zoom-in / zoom-out in the editor
 - [ ] Allow the insertion of raw CSS rules (expert mode)
@@ -151,6 +153,14 @@ Navigate to `localhost:5000` to serve (a production-ready) vuegg.
 
 </br>
 
+### Local setup gotchas
+
+> If you were to find any problem during the local setup of vuegg, here are some known issues/gotchas that may shed some light on how to carry on the process
+
+- [#17](https://github.com/vuegg/vuegg/issues/17) (nodegit / libcurl / libssl)
+
+</br>
+
 ## History & current state
 
 The project was born as a sandbox for me to get started on the [vue](https://github.com/vuejs/vue) world, in fact its ~~un~~original name was vuexample (*very unique*, I thought at the time).
@@ -175,6 +185,6 @@ As for today, this project is developed and maintained with :heart: by me ([@alx
 
 Contribution is the most desirable help for keeping up the project, but for those with no much time in hands that still want contribute...
 
-Wanna <a href="https://www.buymeacoffee.com/alxpez" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/black_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a> ?
+<a href="https://www.patreon.com/bePatron?u=10700791" target="_blank"><img src="https://raw.githubusercontent.com/vuegg/vuegg-assets/master/patreon.png" alt="Become a Patron" style="height:35px;width:auto"/></a> OR <a href="https://www.buymeacoffee.com/alxpez" target="_blank"><img src="https://raw.githubusercontent.com/vuegg/vuegg-assets/master/buymeacoffee.png" alt="Buy Me A Coffee" style="height:35px;width:auto"></a>
 
 Your donation will help me to stay awake during those hours I should be sleeping.

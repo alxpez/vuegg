@@ -95,7 +95,7 @@ export default {
   margin-right: 240px;
 }
 
-/* IN DEVICES SMALLER THAN 1024px -> NO DRAWER (so remove margins) - (TODO: show notice) */
+/* IN DEVICES SMALLER THAN 1024px -> NO DRAWER (so remove margins) */
 @media screen and (max-width: 1024px) {
   #main {
     margin: 0px;

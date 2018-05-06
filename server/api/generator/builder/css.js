@@ -40,6 +40,10 @@ function _cssBuilder (el, isRoot) {
 
 module.exports = _cssBuilder
 
+// ------------------------ //
+// --- HELPER FUNCTIONS --- //
+// ------------------------ //
+
 /**
  * Creates the CSS for the root element
  */
@@ -86,11 +90,9 @@ function buildNested (el) {
 
   /*
   * Tweak to apply the capability of defining the element dimension using
-  * left/right (instead of width) for elements other than <div> or <span>**
+  * left/right (instead of width) for elements other than <div> or <span>
   *
   * Depending on the browser this is not necessary but it will apply to be safe
-  *
-  * **(any other text element will take the dimensions properly, but only span is being used in vuegg)
   */
   if (el.type !== 'div' || el.type !== 'span') {
     if (isNaN(el.width) &&

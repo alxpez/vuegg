@@ -8,7 +8,7 @@
       </p>
     </div>
     <div class="confirm-dialog__actions">
-      <mdc-button @click="onConfirm" unelevated accent>Delete</mdc-button>
+      <mdc-button @click="onConfirm" class="confirm-dialog__delete-btn" unelevated>Delete</mdc-button>
       <mdc-button @click="closeDialog">Cancel</mdc-button>
     </div>
   </dialog>
@@ -78,5 +78,9 @@ export default {
   display: flex;
   flex-direction: row-reverse;
   flex-wrap: wrap;
+}
+
+.confirm-dialog__delete-btn {
+  background-color: #ea493f;
 }
 </style>

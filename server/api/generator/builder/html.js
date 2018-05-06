@@ -16,7 +16,7 @@ function _htmlBuilder (el, level) {
 
   let elDef = ""
   let elTag = el.type
-  let elProps = {'class': S(className).replaceAll('.', '-').s + _parseBooleanPropsToString(el.classes)}
+  let elProps = {'class': S(className).replaceAll('.', '-').s + parseBooleanPropsToString(el.classes)}
 
   if (el.global) {
     elTag = S(el.name).humanize().slugify().s
@@ -36,16 +36,31 @@ function _htmlBuilder (el, level) {
       }
     }
   }
-  return "\n" + S(' ').times((level)*2).s + S(elDef).wrapHTML(elTag, elProps).replaceAll('="true"', '').s
+
+  let genHtml = "\n" + S(' ').times((level)*2).s + S(elDef).wrapHTML(elTag, elProps).replaceAll('="true"', '').s
+
+  return isSelfClosing(elTag)
+    ? S(genHtml).replaceAll('></'.concat(elTag).concat('>'), '/>')
+    : genHtml
 }
 
 module.exports = _htmlBuilder
 
+// ------------------------ //
+// --- HELPER FUNCTIONS --- //
+// ------------------------ //
 
-function _parseBooleanPropsToString (propList) {
+function parseBooleanPropsToString (propList) {
   let parsedString = ''
   for (prop in propList) {
     if (propList[prop] === true) parsedString += ' ' + prop
   }
   return parsedString
+}
+
+// Array with the self-closing tags used in vuegg
+const SCT = ['img', 'input']
+
+function isSelfClosing (tag) {
+  return SCT.includes(tag)
 }

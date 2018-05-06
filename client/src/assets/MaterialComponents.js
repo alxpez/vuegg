@@ -14,10 +14,10 @@ const materialComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.13.2',
+        'version': '^0.15.3',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.13.2/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.15.3/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
@@ -29,6 +29,7 @@ const materialComponents = [
     'height': '100%',
     'width': 240,
     'attrs': {
+      'open': true,
       'toolbar-spacer': true,
       'permanent': false,
       'persistent': true,
@@ -74,19 +75,19 @@ const materialComponents = [
     ]
   },
 
-  // --- TOOLBAR --- //
+  // --- TOP APP BAR --- //
   {
-    'displayName': 'Toolbar',
+    'displayName': 'TopAppBar',
     'iconName': 'mdcToolbar',
-    'name': 'mdcToolbarComp',
-    'type': 'mdc-toolbar',
+    'name': 'mdcTopAppBarComp',
+    'type': 'mdc-top-app-bar',
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.13.2',
+        'version': '^0.15.3',
         'imports': [
-          ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.13.2/dist/vue-mdc-adapter.min.css'
+            ['VueMDCAdapter', 'vue-mdc-adapter'],
+          'https://unpkg.com/vue-mdc-adapter@^0.15.3/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
@@ -97,58 +98,34 @@ const materialComponents = [
     'width': '100%',
     'minHeight': 56,
     'minWidth': 120,
-    'attrs': {},
+    'attrs': {
+      'title': 'My App',
+      'fixed': false,
+      'short': false,
+      'collapsed': false,
+      'dense': false,
+      'prominent': false,
+      'event': 'toggledrawer'
+    },
     'styles': {},
     'classes': {},
     'children': [
       {
-        'type': 'mdc-toolbar-row',
-        'attrs': {},
+        'type': 'mdc-top-app-bar-action',
+        'attrs': {
+          'icon': 'help'
+        },
         'styles': {},
         'classes': {},
-        'children': [
-          {
-            'type': 'mdc-toolbar-section',
-            'attrs': {
-              'align-start': true
-            },
-            'styles': {},
-            'classes': {},
-            'children': [
-              {
-                'type': 'mdc-toolbar-menu-icon',
-                'attrs': {
-                  'event': 'toggledrawer'
-                },
-                'styles': {},
-                'classes': {}
-              }, {
-                'type': 'mdc-toolbar-title',
-                'text': 'Project title',
-                'attrs': {},
-                'styles': {},
-                'classes': {}
-              }
-            ]
-          }, {
-            'type': 'mdc-toolbar-section',
-            'attrs': {
-              'align-end': true
-            },
-            'styles': {},
-            'classes': {},
-            'children': [
-              {
-                'type': 'mdc-toolbar-icon',
-                'attrs': {
-                  'icon': 'help'
-                },
-                'styles': {},
-                'classes': {}
-              }
-            ]
-          }
-        ]
+        'children': []
+      }, {
+        'type': 'mdc-top-app-bar-action',
+        'attrs': {
+          'icon': 'file_download'
+        },
+        'styles': {},
+        'classes': {},
+        'children': []
       }
     ]
   },
@@ -162,10 +139,10 @@ const materialComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.13.2',
+        'version': '^0.15.3',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.13.2/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.15.3/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
@@ -178,37 +155,35 @@ const materialComponents = [
     'minWidth': 120,
     'attrs': {
       'label': 'Select',
+      'value': 'a',
       'disabled': false
     },
     'styles': {},
     'classes': {},
     'children': [
       {
-        'type': 'mdc-option',
+        'type': 'option',
         'text': 'Option A',
         'attrs': {
-          'value': '',
-          'disabled': false
+          'value': 'a'
         },
         'styles': {},
         'classes': {},
         'children': []
       }, {
-        'type': 'mdc-option',
+        'type': 'option',
         'text': 'Option B',
         'attrs': {
-          'value': '',
-          'disabled': false
+          'value': 'b'
         },
         'styles': {},
         'classes': {},
         'children': []
       }, {
-        'type': 'mdc-option',
+        'type': 'option',
         'text': 'Option C',
         'attrs': {
-          'value': '',
-          'disabled': false
+          'value': 'c'
         },
         'styles': {},
         'classes': {},
@@ -226,10 +201,10 @@ const materialComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.13.2',
+        'version': '^0.15.3',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.13.2/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.15.3/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
@@ -242,6 +217,7 @@ const materialComponents = [
     'minWidth': 32,
     'attrs': {
       'label': 'MDC Checkbox',
+      'checked': true,
       'indeterminate': true,
       'align-end': false,
       'disabled': false
@@ -260,10 +236,10 @@ const materialComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.13.2',
+        'version': '^0.15.3',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.13.2/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.15.3/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
@@ -331,10 +307,10 @@ const materialComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.13.2',
+        'version': '^0.15.3',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.13.2/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.15.3/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
@@ -391,10 +367,10 @@ const materialComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.13.2',
+        'version': '^0.15.3',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.13.2/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.15.3/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
@@ -410,9 +386,9 @@ const materialComponents = [
       'baseline': false,
       'raised': true,
       'unelevated': false,
-      'stroked': false,
-      'disabled': false,
-      'accent': false
+      'outlined': false,
+      'dense': false,
+      'disabled': false
     },
     'styles': {},
     'classes': {},
@@ -428,10 +404,10 @@ const materialComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.13.2',
+        'version': '^0.15.3',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.13.2/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.15.3/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
@@ -459,10 +435,10 @@ const materialComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.13.2',
+        'version': '^0.15.3',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.13.2/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.15.3/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
@@ -494,10 +470,10 @@ const materialComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.13.2',
+        'version': '^0.15.3',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.13.2/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.15.3/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
@@ -509,9 +485,12 @@ const materialComponents = [
     'minHeight': 1,
     'minWidth': 100,
     'attrs': {
-      'indeterminate': true,
+      'open': true,
       'accent': false,
-      'reverse': false
+      'reverse': false,
+      'indeterminate': true,
+      'progress': 0.25,
+      'buffer': 0.5
     },
     'styles': {},
     'classes': {},
@@ -527,10 +506,10 @@ const materialComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.13.2',
+        'version': '^0.15.3',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.13.2/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.15.3/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
@@ -559,10 +538,10 @@ const materialComponents = [
     'dependencies': [
       {
         'name': 'vue-mdc-adapter',
-        'version': '^0.13.2',
+        'version': '^0.15.3',
         'imports': [
           ['VueMDCAdapter', 'vue-mdc-adapter'],
-          'https://unpkg.com/vue-mdc-adapter@^0.13.2/dist/vue-mdc-adapter.min.css'
+          'https://unpkg.com/vue-mdc-adapter@^0.15.3/dist/vue-mdc-adapter.min.css'
         ]
       }
     ],
@@ -576,15 +555,16 @@ const materialComponents = [
     'attrs': {
       'label': 'Label',
       'value': 'Textfield',
+      'type': 'text',
       'dense': false,
       'box': false,
       'outline': false,
       'fullwidth': false,
       'multiline': false,
       'rows': 100,
+      'cols': 100,
       'readonly': false,
-      'disabled': false,
-      'type': 'text'
+      'disabled': false
     },
     'styles': {},
     'classes': {},

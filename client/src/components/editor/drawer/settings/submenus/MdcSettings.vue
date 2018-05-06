@@ -41,7 +41,8 @@
         <slider v-else-if="typeof item === 'number'"
           :label="key"
           class="text-item"
-          min="1" max="250" step="1"
+          :min="(att[key] <= 1) ? '0' : '1'"
+          :max="(att[key] <= 1) ? '1' : '250'"
           :value="att[key] || 100"
           @change="currentValue => onAttrsChanges(key, currentValue)">
         </slider>
