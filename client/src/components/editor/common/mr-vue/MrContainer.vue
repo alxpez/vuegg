@@ -31,7 +31,16 @@
 <script>
 export default {
   name: 'mr-container',
-  props: ['activeElements'],
+  props: {
+    activeElements: {
+      type: Array,
+      default: []
+    },
+    zoom: {
+      type: Number,
+      default: 1
+    }
+  },
   data: function () {
     return {
       initialAbsPos: {x: 0, y: 0},
@@ -126,10 +135,10 @@ export default {
       const minY = Math.min(initPoint.y, endPoint.y)
       const maxY = Math.max(initPoint.y, endPoint.y)
 
-      this.$refs.selectionArea.style.left = minX + 'px'
-      this.$refs.selectionArea.style.top = minY + 'px'
-      this.$refs.selectionArea.style.width = maxX - minX + 'px'
-      this.$refs.selectionArea.style.height = maxY - minY + 'px'
+      this.$refs.selectionArea.style.left = Math.round(minX / this.zoom) + 'px'
+      this.$refs.selectionArea.style.top = Math.round(minY / this.zoom) + 'px'
+      this.$refs.selectionArea.style.width = Math.round((maxX - minX) / this.zoom) + 'px'
+      this.$refs.selectionArea.style.height = Math.round((maxY - minY) / this.zoom) + 'px'
     },
 
     resizeElementBy (el, offX, offY) {
@@ -154,26 +163,26 @@ export default {
       if (this.handle.indexOf('t') !== -1) {
         if (newHeight - offY < elMinH) diffY = (newHeight - elMinH)
         else if (newTop + offY < 0) diffY = (0 - newTop)
-        newTop += diffY
-        newHeight -= diffY
+        newTop += Math.round(diffY / this.zoom)
+        newHeight -= Math.round(diffY / this.zoom)
       }
       if (this.handle.indexOf('l') !== -1) {
         if (newWidth - offX < elMinW) diffX = (newWidth - elMinW)
         else if (newLeft + offX < 0) diffX = (0 - newLeft)
-        newLeft += diffX
-        newWidth -= diffX
+        newLeft += Math.round(diffX / this.zoom)
+        newWidth -= Math.round(diffX / this.zoom)
       }
       if (this.handle.indexOf('b') !== -1) {
         if (newHeight + offY < elMinH) diffY = (elMinH - newHeight)
         else if (newTop + newHeight + offY > parentH) diffY = (parentH - newTop - newHeight)
-        newHeight += diffY
-        newBottom -= diffY
+        newHeight += Math.round(diffY / this.zoom)
+        newBottom -= Math.round(diffY / this.zoom)
       }
       if (this.handle.indexOf('r') !== -1) {
         if (newWidth + offX < elMinW) diffX = (elMinW - newWidth)
         else if (newLeft + newWidth + offX > parentW) diffX = (parentW - newLeft - newWidth)
-        newWidth += diffX
-        newRight -= diffX
+        newWidth += Math.round(diffX / this.zoom)
+        newRight -= Math.round(diffX / this.zoom)
       }
 
       el.style.height = (el.style.height !== 'auto') ? newHeight + 'px' : 'auto'
@@ -192,16 +201,16 @@ export default {
       el.style.width = el.style.width
 
       el.style.top = (el.style.top !== 'auto')
-        ? this.fixPosition(el, parseInt(elCompStyle.top) + offY, 'top') + 'px'
+        ? this.fixPosition(el, parseInt(elCompStyle.top) + Math.round(offY / this.zoom), 'top') + 'px'
         : 'auto'
       el.style.left = (el.style.left !== 'auto')
-        ? this.fixPosition(el, parseInt(elCompStyle.left) + offX, 'left') + 'px'
+        ? this.fixPosition(el, parseInt(elCompStyle.left) + Math.round(offX / this.zoom), 'left') + 'px'
         : 'auto'
       el.style.bottom = (el.style.bottom !== 'auto')
-        ? this.fixPosition(el, parseInt(elCompStyle.bottom) - offY, 'bottom') + 'px'
+        ? this.fixPosition(el, parseInt(elCompStyle.bottom) - Math.round(offY / this.zoom), 'bottom') + 'px'
         : 'auto'
       el.style.right = (el.style.right !== 'auto')
-        ? this.fixPosition(el, parseInt(elCompStyle.right) - offX, 'right') + 'px'
+        ? this.fixPosition(el, parseInt(elCompStyle.right) - Math.round(offX / this.zoom), 'right') + 'px'
         : 'auto'
     },
 
@@ -265,8 +274,8 @@ export default {
               : parseInt(el.style.right)
           }
         }),
-        relMouseX: this.currentRelPos.x,
-        relMouseY: this.currentRelPos.y,
+        relMouseX: Math.round(this.currentRelPos.x / this.zoom),
+        relMouseY: Math.round(this.currentRelPos.y / this.zoom),
         absMouseX: this.currentAbsPos.x,
         absMouseY: this.currentAbsPos.y
       }

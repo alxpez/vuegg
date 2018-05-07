@@ -93,7 +93,7 @@ Off the top of my head, I foresee the following features to be developed for the
 - [x] Visual feedback when dragging element over droppable container
 - [ ] Grid/layout overlays positioning guides ([#14](https://github.com/vuegg/vuegg/issues/14))
 - [ ] Hold shift to maintain aspect ratio on manual resize
-- [ ] Ability to zoom-in / zoom-out in the editor ([#24](https://github.com/vuegg/vuegg/issues/24))
+- [x] Ability to zoom-in / zoom-out in the editor ([#24](https://github.com/vuegg/vuegg/issues/24))
 - [ ] Allow the insertion of raw CSS rules (expert mode)
   - [ ] Identify possible risks
 - [ ] Add extra styles controls
