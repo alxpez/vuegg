@@ -61,15 +61,16 @@ The aim of this project is to merge designing and prototyping into one single pr
 
 ## Keyboard Shortcuts
 
-### Selection
+### Select
 * **Mouse down + Drag + Mouse up**: Draw a selection area
 * **Ctrl [or Meta] + Click**: Select outer-most item, or parent container
 * **Ctrl [or Meta] + Shift + Click**: Add [outer-most] item to selection
 * **Esc**: Clear selection
 
-### Undo / Redo
-* **Ctrl [or Meta] + Z**: Undo last action
-* **Ctrl [or Meta] + Shift + Z**: Redo last action
+### Move
+* **Mouse drag & drop**: The standard way
+* **ArrowKeys**: Moves the selected elements 1px
+* **Shift + ArrowKeys**: Moves the selected elements 10px
 
 ### Copy / Cut / paste
 * **Ctrl [or Meta] + C**: Copy selection
@@ -78,6 +79,10 @@ The aim of this project is to merge designing and prototyping into one single pr
 
 ### Delete
 * **Delete [or Backspace]**: Deletes selection
+
+### Undo / Redo
+* **Ctrl [or Meta] + Z**: Undo last action
+* **Ctrl [or Meta] + Shift + Z**: Redo last action
 
 </br>
 
