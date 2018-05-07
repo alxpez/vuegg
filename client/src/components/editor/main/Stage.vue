@@ -1,6 +1,7 @@
 <template>
   <mr-container
     :id="page.id"
+    :zoom="zoom"
     :style="pageStyles"
     :class="[page.classes, {stage: true}]"
     :activeElements="selectedElements"
@@ -50,7 +51,7 @@ const DROP_BORDER = {
 export default {
   name: 'stage',
   components: { StageEl, MrContainer },
-  props: ['page'],
+  props: ['page', 'zoom'],
   data: function () {
     return {
       clipboard: [],
@@ -67,7 +68,8 @@ export default {
       return {
         ...this.page.styles,
         height: (typeof this.page.height === 'string') ? this.page.height : (this.page.height + 'px'),
-        width: (typeof this.page.width === 'string') ? this.page.width : (this.page.width + 'px')
+        width: (typeof this.page.width === 'string') ? this.page.width : (this.page.width + 'px'),
+        transform: 'scale(' + this.zoom + ')'
       }
     },
 
@@ -282,6 +284,7 @@ html.droppable * {
 
 <style scoped>
 .stage {
+  transform-origin: 0 0;
   user-select: none;
   margin: 10px auto 35px !important;
   border: 2px solid rgba(0, 0, 0, 0);
