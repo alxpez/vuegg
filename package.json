@@ -45,12 +45,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@gitlab.com/alxpez/vuegg.git"
+    "url": "git+ssh://git@github.com:vuegg/vuegg.git"
   },
   "bugs": {
-    "url": "https://gitlab.com/alxpez/vuegg/issues"
+    "url": "https://github.com/vuegg/vuegg/issues"
   },
-  "homepage": "https://gitlab.com/alxpez/vuegg#README",
+  "homepage": "https://github.com/vuegg/vuegg#README",
   "devDependencies": {
     "dotenv": "^4.0.0",
     "inquirer": "^5.2.0",
