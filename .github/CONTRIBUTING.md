@@ -7,9 +7,23 @@ I love your input! I want to make contributing to this project as easy and trans
 - Discussing current state code
 - Becoming a maintainer
 
+## Coding Style
+Follow the conventions defined (babel-eslint parser rules) in the project .eslint files, in short:
+
+- 2 spaces for indentation rather than tabs
+- No semi-colon ( ; ) needed to end statements
+
+## Commits format
+Vuegg uses [standard-version](https://github.com/conventional-changelog/standard-version) for automatic versioning and CHANGELOG generation. Please follow [Conventional Commit Specification](https://conventionalcommits.org/#conventional-commits-specification) for you commit messages.
+
+- Commits of type `fix` will trigger bugfix releases (PATCH in [SemVer](https://semver.org/#summary)), think `0.0.1`
+- Commits of type `feat` will trigger feature releases (MINOR inÂ [SemVer](https://semver.org/#summary)), think `0.1.0`
+- Commits with `BREAKING CHANGE` in body or footer will trigger breaking releases (MAJOR in [SemVer](https://semver.org/#summary)), think `1.0.0`
+
+All other commit types are allowed, but they will no trigger a new release.
+
 ## Vuegg :heart: Github
 Vuegg uses github to host its code, so every contribution revolves around the github's way.
-
 
 ### Bug Reporting
 Report a bug, help to improve vuegg by opening a [new issue [bug]](https://github.com/vuegg/vuegg/issues/new?template=BUG_REPORT.md). Follow the *Bug Report* template to help solving it faster.
@@ -26,12 +40,6 @@ Pull requests are the best way to propose changes to the codebase, and in order 
 4. Ensure the test suite passes
 5. Make sure your code has no lint errors
 6. Open a PR! (checkout the [PR template](https://github.com/vuegg/vuegg/blob/master/.github/PULL_REQUEST_TEMPLATE.md))
-
-## Coding Style
-Follow the conventions defined (babel-eslint parser rules) in the project .eslint files, in short:
-
-- 2 spaces for indentation rather than tabs
-- No semi-colon ( ; ) needed to end statements
 
 ## License
 By contributing, you agree that your contributions will be licensed under the same [MIT License](https://github.com/vuegg/vuegg/blob/master/LICENSE) that covers the vuegg.
