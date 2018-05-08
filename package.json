@@ -1,6 +1,6 @@
 {
   "name": "vuegg",
-  "version": "0.18.2",
+  "version": "0.18.1",
   "description": "vuejs GUI generator",
   "author": "alxpez",
   "scripts": {
@@ -15,8 +15,7 @@
     "build": "cd client && npm run build",
     "start": "cd server && npm run start",
     "now-build": "npm run install:server",
-    "deploy": "npm run build && now -f -p",
-    "release": "standard-version"
+    "deploy": "npm run build && now -f -p"
   },
   "now": {
     "alias": "vuegg",
@@ -48,7 +47,6 @@
   "devDependencies": {
     "dotenv": "^4.0.0",
     "inquirer": "^5.2.0",
-    "shelljs": "^0.8.1",
-    "standard-version": "^4.3.0"
+    "shelljs": "^0.8.1"
   }
 }
