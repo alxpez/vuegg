@@ -18,11 +18,10 @@
     "deploy": "npm run build && now -f -p",
     "release": "standard-version"
   },
-    "standard-version": {
-      "skip": {
-        "commit": true,
-        "tag": true
-      }
+  "standard-version": {
+    "skip": {
+      "commit": true,
+      "tag": true
     }
   },
   "now": {
