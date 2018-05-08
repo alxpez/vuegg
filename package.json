@@ -15,7 +15,15 @@
     "build": "cd client && npm run build",
     "start": "cd server && npm run start",
     "now-build": "npm run install:server",
-    "deploy": "npm run build && now -f -p"
+    "deploy": "npm run build && now -f -p",
+    "release": "standard-version"
+  },
+    "standard-version": {
+      "skip": {
+        "commit": true,
+        "tag": true
+      }
+    }
   },
   "now": {
     "alias": "vuegg",
@@ -47,6 +55,7 @@
   "devDependencies": {
     "dotenv": "^4.0.0",
     "inquirer": "^5.2.0",
-    "shelljs": "^0.8.1"
+    "shelljs": "^0.8.1",
+    "standard-version": "^4.3.0"
   }
 }
