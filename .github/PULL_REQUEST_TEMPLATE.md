@@ -5,16 +5,16 @@
 
 **Related Issue**
 > - If suggesting a new feature or change, please discuss it in an issue first.
-- If fixing a bug, there should be an issue describing it with steps to reproduce.
-- Please provide a link to the issue
+> - If fixing a bug, there should be an issue describing it with steps to reproduce.
+> - Please provide a link to the issue
 
 **Motivation and Context**
 > Why is this change required? What problem does it solve?
 
 **How Has This Been Tested?**
 > - Please describe in detail how you tested your changes.
-- Include details of your testing environment, and the tests you ran to see how your change affects other areas of the code, etc.
-- (as for today, vuegg does not have test coverage, so no automation testing is mandatory, but feel free to implement them)
+> - Include details of your testing environment, and the tests you ran to see how your change affects other areas of the code, etc.
+> - (as for today, vuegg does not have test coverage, so no automation testing is mandatory, but feel free to implement them)
 
 **Screenshots (if needed)**
 
