@@ -17,7 +17,7 @@ Follow the conventions defined (babel-eslint parser rules) in the project .eslin
 Vuegg uses [standard-version](https://github.com/conventional-changelog/standard-version) for automatic versioning and CHANGELOG generation. Please follow [Conventional Commit Specification](https://conventionalcommits.org/#conventional-commits-specification) for you commit messages.
 
 - Commits of type `fix` will trigger bugfix releases (PATCH in [SemVer](https://semver.org/#summary)), think `0.0.1`
-- Commits of type `feat` will trigger feature releases (MINOR inÂ [SemVer](https://semver.org/#summary)), think `0.1.0`
+- Commits of type `feat` will trigger feature releases (MINOR in [SemVer](https://semver.org/#summary)), think `0.1.0`
 - Commits with `BREAKING CHANGE` in body or footer will trigger breaking releases (MAJOR in [SemVer](https://semver.org/#summary)), think `1.0.0`
 
 All other commit types are allowed, but they will no trigger a new release.
