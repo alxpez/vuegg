@@ -16,7 +16,7 @@
   "dependencies": {
     "@octokit/rest": "^14.0.9",
     "archiver": "^2.1.1",
-    "koa": "^2.5.0",
+    "koa": "^2.5.1",
     "koa-body": "^2.5.0",
     "koa-logger": "^3.2.0",
     "koa-router": "^7.4.0",
@@ -31,7 +31,7 @@
     "string": "^3.3.3"
   },
   "devDependencies": {
-    "nodemon": "^1.17.3"
+    "nodemon": "^1.17.4"
   },
   "repository": {
     "type": "git",
