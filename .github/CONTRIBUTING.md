@@ -10,17 +10,21 @@ I love your input! I want to make contributing to this project as easy and trans
 ## Coding Style
 Follow the conventions defined (babel-eslint parser rules) in the project .eslint files, in short:
 
-- 2 spaces for indentation rather than tabs
-- No semi-colon ( ; ) needed to end statements
+> - 2 spaces for indentation rather than tabs
+> - No semi-colon ( ; ) needed to end statements
 
 ## Commits format
-Vuegg uses [standard-version](https://github.com/conventional-changelog/standard-version) for automatic versioning and CHANGELOG generation. Please follow [Conventional Commit Specification](https://conventionalcommits.org/#conventional-commits-specification) for you commit messages.
+Vuegg uses [standard-version](https://github.com/conventional-changelog/standard-version) for automatic versioning and CHANGELOG generation.
 
-- Commits of type `fix` will trigger bugfix releases (PATCH in [SemVer](https://semver.org/#summary)), think `0.0.1`
-- Commits of type `feat` will trigger feature releases (MINOR in [SemVer](https://semver.org/#summary)), think `0.1.0`
-- Commits with `BREAKING CHANGE` in body or footer will trigger breaking releases (MAJOR in [SemVer](https://semver.org/#summary)), think `1.0.0`
+To help following these guidelines, please use `npm run commit` instead of the standard `git commit`. This way, you'll be prompted with questions to correctly format your commits (courtesy of [commitlint](https://github.com/marionebl/commitlint)).
 
-All other commit types are allowed, but they will no trigger a new release.
+However, even if you use `git commit`, you'll be shown errors if your commits don't follow [Conventional Commits](https://conventionalcommits.org/) format.
+
+> - Commits of type `fix` will trigger bugfix releases (PATCH in [SemVer](https://semver.org/#summary)), think `0.0.1`
+> - Commits of type `feat` will trigger feature releases (MINOR in [SemVer](https://semver.org/#summary)), think `0.1.0`
+> - Commits with `BREAKING CHANGE` in body or footer will trigger breaking releases (MAJOR in [SemVer](https://semver.org/#summary)), think `1.0.0`
+
+> All other commit types are allowed, but they will no trigger a new release.
 
 ## Vuegg :heart: Github
 Vuegg uses github to host its code, so every contribution revolves around the github's way.

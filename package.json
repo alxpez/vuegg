@@ -27,8 +27,7 @@
   },
   "standard-version": {
     "skip": {
-      "commit": true,
-      "tag": true
+      "commit": true
     }
   },
   "now": {
@@ -36,8 +35,8 @@
     "dotenv": true,
     "scale": {
       "sfo1": {
-        "min": 3,
-        "max": 3
+        "min": 2,
+        "max": 2
       }
     }
   },
