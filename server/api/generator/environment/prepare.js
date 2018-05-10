@@ -1,6 +1,6 @@
 const path = require('path')
 const shell = require('shelljs')
-const Git = require("nodegit");
+const util = require('util')
 
 /**
  * Prepares the environment and clones the scaffold-project for the generation tasks.
@@ -36,7 +36,8 @@ async function _prepare (content, rootDir) {
   let repo = 'https://github.com/vuegg/vuegg-scaffold.git'
 
   try {
-    await Git.Clone(repo, targetDir)
+    const asyncExec = util.promisify(shell.exec)
+    await asyncExec('git clone '.concat(repo).concat(' ').concat(targetDir), {async:true})
   } catch (e) {
     console.error('\n> Ups! Could not complete the scaffolding...\n' + e)
   }

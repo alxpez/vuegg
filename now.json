@@ -1,0 +1,13 @@
+{
+  "name": "vuegg",
+  "alias": "vuegg",
+  "public": true,
+  "type": "docker",
+  "dotenv": true,
+  "scale": {
+    "sfo1": {
+      "min": 2,
+      "max": 2
+    }
+  }
+}

@@ -3,6 +3,7 @@
   "version": "0.7.5",
   "description": "serves vuegg-client sources && generates vuejs projects",
   "author": "alxpez",
+  "license" : "MIT",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -22,7 +23,6 @@
     "koa-router": "^7.4.0",
     "koa-static": "^4.0.2",
     "koa2-history-api-fallback": "0.0.5",
-    "nodegit": "^0.20.3",
     "ora": "^1.4.0",
     "request": "^2.85.0",
     "request-promise-native": "^1.0.5",
