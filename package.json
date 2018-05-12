@@ -1,9 +1,9 @@
 {
   "name": "vuegg",
-  "version": "0.19.0",
+  "version": "0.19.1",
   "description": "vuejs GUI generator",
   "author": "alxpez",
-  "license" : "MIT",
+  "license": "MIT",
   "scripts": {
     "oauth": "node oauth-config.js",
     "vuegg": "npm run install:all && npm run build && npm run start",
@@ -24,11 +24,6 @@
     "extends": [
       "@commitlint/config-conventional"
     ]
-  },
-  "standard-version": {
-    "skip": {
-      "commit": true
-    }
   },
   "engines": {
     "node": ">= 8.0.0",
