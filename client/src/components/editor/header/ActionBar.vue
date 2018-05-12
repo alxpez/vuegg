@@ -16,11 +16,11 @@
       </svgicon>
     </button>
 
-    <button v-tooltip="'Preview'" class="action-btn">
-      <router-link to="preview">
+    <router-link :to="{name: 'preview'}">
+      <button v-tooltip="'Preview'" class="action-btn">
         <svgicon icon="system/actions/preview" width="24" height="24" color="#2b6a73"></svgicon>
-      </router-link>
-    </button>
+      </button>
+    </router-link>
 
     <div class="separator"></div>
 

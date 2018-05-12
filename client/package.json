@@ -3,7 +3,7 @@
   "version": "0.18.0",
   "description": "vuegg UI",
   "author": "alxpez",
-  "license" : "MIT",
+  "license": "MIT",
   "private": false,
   "scripts": {
     "dev": "node build/dev-server.js",

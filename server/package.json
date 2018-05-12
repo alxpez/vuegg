@@ -3,7 +3,7 @@
   "version": "0.7.5",
   "description": "serves vuegg-client sources && generates vuejs projects",
   "author": "alxpez",
-  "license" : "MIT",
+  "license": "MIT",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
