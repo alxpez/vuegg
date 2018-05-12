@@ -33,6 +33,7 @@ async function _vueBuilder (file, componentRefs, targetDir) {
   let styles = ""
   let imports = ""
   let declarations = ""
+  let fileId = file.id.substr(file.id.lastIndexOf(".") + 1)
 
   if (file.text) children += file.text
   styles += cssBuilder(file, true)
@@ -42,13 +43,13 @@ async function _vueBuilder (file, componentRefs, targetDir) {
     styles += cssBuilder(childEl)
   }
 
-  for (const component of _getAllGlobalComponents(file, [])) {
+  for (const component of getAllGlobalComponents(file, [])) {
     let compName = S(component.name).stripPunctuation().camelize().titleCase().s
     let compImport = "\nimport " + compName + " from '@/components/" + compName + "'"
 
     if(!S(imports).contains(compImport)) {
       let compPath = path.resolve(targetDir,'src/components/', compName + '.vue')
-      let componentRef = _getComponentRef(componentRefs, component.name)
+      let componentRef = getComponentRef(componentRefs, component.name)
 
       if(!shell.test('-e', compPath)) {
         _vueBuilder({...component, ...componentRef, id: component.id}, componentRefs, targetDir)
@@ -65,8 +66,8 @@ async function _vueBuilder (file, componentRefs, targetDir) {
   }
 
   shell.sed('-i', '{{PARENT_TAG}}', file.type || 'div', targetFile)
-  shell.sed('-i', '{{VUEGG_ID}}', S(file.id).replaceAll('.', '-').s, targetFile)
-  shell.sed('-i', '{{VUEGG_ATTRS}}', _getFormattedAttrs(file.attrs), targetFile)
+  shell.sed('-i', '{{VUEGG_ID}}', S(fileId).replaceAll('.', '-').s, targetFile)
+  shell.sed('-i', '{{VUEGG_ATTRS}}', getFormattedAttrs(file.attrs), targetFile)
   shell.sed('-i', '{{VUEGG_NAME}}', S(file.name).humanize().slugify().s, targetFile)
   shell.sed('-i', '{{VUEGG_CHILDREN}}', children, targetFile)
   shell.sed('-i', '{{COMPONENTS_IMPORTS}}', imports, targetFile)
@@ -80,28 +81,28 @@ module.exports = _vueBuilder
 // --- HELPER FUNCTIONS --- //
 // ------------------------ //
 
-function _getAllGlobalComponents (file, collection) {
+function getAllGlobalComponents (file, collection) {
   if (file.children && file.children.length > 0) {
     for (let el of file.children) {
       if (el.componegg && el.global && (collection.indexOf(comp => comp.name === el.name) === -1)) {
         collection.push(el)
       }
-      collection = _getAllGlobalComponents (el, collection)
+      collection = getAllGlobalComponents (el, collection)
     }
   }
   return collection
 }
 
-function _getComponentRef (components, componentName) {
+function getComponentRef (components, componentName) {
   return components[components.findIndex(comp => comp.name === componentName)]
 }
 
-function _getFormattedAttrs (attrs) {
+function getFormattedAttrs (attrs) {
   let formattedAttrs = ''
   if (attrs) {
     for (attr in attrs) {
       if ((typeof attrs[attr] !== 'boolean')) {
-        formattedAttrs += ' ' + attr + '=' + attrs[attr]
+        formattedAttrs += ' ' + attr + '="' + attrs[attr] + '"'
       } else if ((typeof attrs[attr] === 'boolean') && (attrs[attr] === true)) {
         formattedAttrs += ' ' + attr
       }

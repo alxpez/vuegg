@@ -53,6 +53,8 @@ export default {
         this.nameError = ''
       } else if (!this.name) {
         this.nameError = 'Choose a name for your page'
+      } else if (!this.name.match(/[a-z]+/g)) {
+        this.nameError = 'At least one letter on the name'
       } else if (this.nameInUse(this.name)) {
         this.nameError = 'There\'s already a page with that name'
       } else {
