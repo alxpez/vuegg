@@ -16,7 +16,7 @@
     "build": "cd client && npm run build",
     "start": "cd server && npm run start",
     "deploy": "now -f && now alias",
-    "release": "standard-version",
+    "release": "standard-version && git push --follow-tags origin master",
     "commit": "commit",
     "commitmsg": "commitlint -e $GIT_PARAMS"
   },
