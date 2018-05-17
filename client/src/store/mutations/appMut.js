@@ -53,6 +53,15 @@ const internalAppMutations = {
  */
   [types._toggleCanRedo]: function (state, canRedo) {
     state.app.canRedo = canRedo
+  },
+
+  /**
+   * Updates the valie of editorZoom property with the value passed in the payload
+   *
+   * @param {number} currentZoom : Number with the current zoom value
+   */
+  [types._updateEditorZoom]: function (state, currentZoom) {
+    state.app.editorZoom = currentZoom
   }
 }
 

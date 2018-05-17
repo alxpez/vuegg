@@ -1,14 +1,14 @@
 <template>
   <div class="mainegg">
     <stage v-if="selectedPage" :page="selectedPage" :zoom="zoom"></stage>
-    <zoom-menu @zoomChange="zoomHandler" class="zoom-menu"></zoom-menu>
+    <zoom-menu @zoomChange="zoomHandler" :zoom="zoom" class="zoom-menu"></zoom-menu>
   </div>
 </template>
 
 
 <script>
 import { mapState, mapGetters, mapMutations } from 'vuex'
-import { _changeActivePage, _rebaseActivePage, getPageIndexById } from '@/store/types'
+import { _changeActivePage, _rebaseActivePage, _updateEditorZoom, getPageIndexById } from '@/store/types'
 
 import ZoomMenu from '@/components/editor/common/ZoomMenu'
 import Stage from './Stage'
@@ -16,18 +16,14 @@ import Stage from './Stage'
 export default {
   name: 'mainegg',
   components: { Stage, ZoomMenu },
-  data: function () {
-    return {
-      zoom: 1
-    }
-  },
   created: function () {
     this.selectFallbackPage(this.selectedPage)
   },
   computed: {
     ...mapState({
       selectedPage: state => state.app.selectedPage,
-      pages: state => state ? state.project.pages : []
+      pages: state => state ? state.project.pages : [],
+      zoom: state => state.app.editorZoom
     }),
     ...mapGetters([getPageIndexById])
   },
@@ -47,10 +43,10 @@ export default {
     },
 
     zoomHandler (zoomValue) {
-      this.zoom = zoomValue
+      this._updateEditorZoom(zoomValue)
     },
 
-    ...mapMutations([_changeActivePage, _rebaseActivePage])
+    ...mapMutations([_changeActivePage, _rebaseActivePage, _updateEditorZoom])
   }
 }
 </script>

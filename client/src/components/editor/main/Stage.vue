@@ -123,6 +123,10 @@ export default {
       let top = e.pageY + mainContainer.scrollTop - mainContainer.offsetTop - this.$el.offsetTop - (height / 2)
       let left = e.pageX + mainContainer.scrollLeft - mainContainer.offsetLeft - this.$el.offsetLeft - (width / 2)
 
+      // Correct drop positions based on the editorZoom
+      top = Math.round(top / this.zoom)
+      left = Math.round(left / this.zoom)
+
       const fixedElement = fixElementToParentBounds({top, left, height, width}, this.page)
       element = {...element, ...fixedElement}
 

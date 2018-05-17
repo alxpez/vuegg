@@ -21,31 +21,19 @@
 import '@/assets/icons/system/editor/zoom_in'
 import '@/assets/icons/system/editor/zoom_out'
 
+const MAX_ZOOM = 2.5
+const MIN_ZOOM = 0.5
+
 export default {
   name: 'zoom-menu',
-  data: function () {
-    return {
-      zoom: 1,
-      max: 2.5,
-      min: 0.5
-    }
-  },
+  props: ['zoom'],
   computed: {
-    canZoomIn () { return this.zoom < this.max },
-    canZoomOut () { return this.zoom > this.min }
+    canZoomIn () { return this.zoom < MAX_ZOOM },
+    canZoomOut () { return this.zoom > MIN_ZOOM }
   },
   methods: {
-    zoomIn () {
-      this.zoom = Math.round((this.zoom + 0.1) * 10) / 10
-      this.emitChanges()
-    },
-
-    zoomOut () {
-      this.zoom = Math.round((this.zoom - 0.1) * 10) / 10
-      this.emitChanges()
-    },
-
-    emitChanges () { this.$emit('zoomChange', this.zoom) }
+    zoomIn () { this.$emit('zoomChange', Math.round((this.zoom + 0.1) * 10) / 10) },
+    zoomOut () { this.$emit('zoomChange', Math.round((this.zoom - 0.1) * 10) / 10) }
   }
 }
 </script>
