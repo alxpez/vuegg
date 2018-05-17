@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.19.2"></a>
+## [0.19.2](https://github.com/vuegg/vuegg/compare/0.19.0...0.19.2) (2018-05-17)
+
+
+### Bug Fixes
+
+* code generation bugs ([#31](https://github.com/vuegg/vuegg/issues/31)) ([32ca317](https://github.com/vuegg/vuegg/commit/32ca317))
+* position of new elements when added on a zoomed editor ([#34](https://github.com/vuegg/vuegg/issues/34)) ([5186e82](https://github.com/vuegg/vuegg/commit/5186e82))
+* preview link on editor header ([#32](https://github.com/vuegg/vuegg/issues/32)) ([2a29bcc](https://github.com/vuegg/vuegg/commit/2a29bcc))
+
+
+
 <a name="0.19.1"></a>
 ## [0.19.1](https://github.com/vuegg/vuegg/compare/0.19.0...v0.19.1) (2018-05-12)
 
