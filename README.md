@@ -186,7 +186,7 @@ Help me make vuegg grow!
 
 Do you like vuegg? :hatching_chick:
 
-As for today, this project is developed and maintained with :heart: by me ([@alxpez](https://github.com/alxpez)), on my spare time, after work hours and during homie weekends. There's still much work to do and ideas waiting to come afloat.
+As for today, this project is developed and maintained with :heart: by [@alxpez](https://github.com/alxpez), on spare time, after work hours and during homie weekends. There's still much work to do and ideas waiting to come afloat.
 
 Contribution is the most desirable help for keeping up the project, but for those with no much time in hands that still want contribute...
 
