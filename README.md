@@ -158,14 +158,6 @@ Navigate to `localhost:5000` to serve (a production-ready) vuegg.
 
 </br>
 
-### Local setup gotchas
-
-> If you were to find any problem during the local setup of vuegg, here are some known issues/gotchas that may shed some light on how to carry on the process
-
-- [#17](https://github.com/vuegg/vuegg/issues/17) (nodegit / libcurl / libssl)
-
-</br>
-
 ## History & current state
 
 The project was born as a sandbox for me to get started on the [vue](https://github.com/vuejs/vue) world, in fact its ~~un~~original name was vuexample (*very unique*, I thought at the time).
