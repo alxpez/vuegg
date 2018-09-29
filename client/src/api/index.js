@@ -11,7 +11,7 @@ import axios from 'axios'
  */
 async function saveVueggProject (project, owner, repo, token) {
   try {
-    return await axios.post('/api/save-vuegg-project', { project, owner, repo, token })
+    return await axios.post('/api/project', { project, owner, repo, token })
   } catch (e) {
     console.error(e)
     return false
@@ -28,7 +28,7 @@ async function saveVueggProject (project, owner, repo, token) {
  */
 async function getVueggProject (owner, repo, token) {
   try {
-    return await axios.get('/api/get-vuegg-project', { params: { owner, repo, token } })
+    return await axios.get('/api/project', { params: { owner, repo, token } })
   } catch (e) {
     console.error(e)
     return false

@@ -19,8 +19,8 @@ const app = new Koa()
 
 // Routes definition
 router.post('/get-access-token', getAccessToken)
-router.post('/save-vuegg-project', saveVueggProject)
-router.get('/get-vuegg-project', getVueggProject)
+router.post('/project', saveVueggProject)
+router.get('/project', getVueggProject)
 router.post('/generate', generate)
 
 // Middleware
