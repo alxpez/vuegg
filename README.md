@@ -158,6 +158,29 @@ Navigate to `localhost:5000` to serve (a production-ready) vuegg.
 
 </br>
 
+### Connect with github
+
+Vuegg makes use of `.env` files to set up some environment variables. The current setup allows you to have 3 files with different configurations: `.env`, `.env.dev` and/or `.env.test`, containing the following variables:
+
+``` yaml
+# Create an OAuth App on github and use your client ID and Secret
+
+CLIENT_ID=y0urcl13nt1d
+CLIENT_SECRET=y0urcl13nts3cr3t
+CALLBACK_URL=http://localhost:8000/auth
+```
+
+> This files should exist only on your local machine, do not add them to the git repository.
+
+Now if you wish to test out the *connect with github* functionality on your local environment, it's necessary to run vuegg-client and vuegg-server through the following command:
+
+``` bash
+npm run oauth
+```
+You should be prompted with 3 options to pick. Run server and client in separate terminal instances.
+
+</br>
+
 ## History & current state
 
 The project was born as a sandbox for me to get started on the [vue](https://github.com/vuejs/vue) world, in fact its ~~un~~original name was vuexample (*very unique*, I thought at the time).
